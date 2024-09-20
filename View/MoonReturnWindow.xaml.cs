@@ -39,7 +39,7 @@ namespace WpfApp1.View
             SkyEvent returnSky = subjectSky.CalculateReturn(returnDate, returnTime, SelectedCity, SkyType.MoonReturn);
             IsLoading = false;
 
-            ChartOpener.OpenSinastry($"{subjectSky.Person}", subjectSky, returnSky, returnSky.SkyType);
+            ChartOpener.OpenComparedChart($"{subjectSky.Person}", subjectSky, returnSky, returnSky.SkyType);
         }
     }
 }

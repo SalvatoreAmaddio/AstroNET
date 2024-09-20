@@ -42,7 +42,7 @@ namespace WpfApp1.View
             SkyEvent returnSky = subjectSky.CalculateReturn(returnDate, returnTime, SelectedCity);
 
             IsLoading = false;
-            ChartOpener.OpenSinastry($"{subjectSky.Person}", subjectSky, returnSky, returnSky.SkyType);
+            ChartOpener.OpenComparedChart($"{subjectSky.Person}", subjectSky, returnSky, returnSky.SkyType);
         }
     }
 }

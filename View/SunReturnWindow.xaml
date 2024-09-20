@@ -17,6 +17,7 @@
     <Window.Resources>
         <converter:RegionConverter x:Key="regionConverter"/>
         <converter:CountryFromRegionConverter x:Key="countryConverter"/>
+        <converter:TogleBoolean x:Key="toggleBoolean"/>
     </Window.Resources>
 
     <Border Padding="5">
@@ -36,7 +37,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Button Content="RUN" Click="OnButtonClick" Height="30"/>
+            <Button Content="RUN" Click="OnButtonClick" Height="30" IsEnabled="{Binding IsLoading, Converter={StaticResource toggleBoolean}}"/>
             <ProgressBar IsIndeterminate="{Binding IsLoading}" Height="5"/>
         </StackPanel>
     </Border>
