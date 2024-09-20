@@ -201,13 +201,15 @@
                                                                 </Grid.Resources>
                                                                 <Grid.ColumnDefinitions>
                                                                     <ColumnDefinition Width="20"/>
-                                                                    <ColumnDefinition Width="100"/>
+                                                                    <ColumnDefinition Width="20"/>
+                                                                    <ColumnDefinition Width="65"/>
                                                                     <ColumnDefinition Width="26"/>
                                                                     <ColumnDefinition Width="35"/>
                                                                     <ColumnDefinition Width="20"/>
-                                                                    <ColumnDefinition Width="100"/>
+                                                                    <ColumnDefinition Width="95"/>
                                                                     <ColumnDefinition Width="20"/>
-                                                                    <ColumnDefinition Width="100"/>
+                                                                    <ColumnDefinition Width="20"/>
+                                                                    <ColumnDefinition Width="65"/>
                                                                     <ColumnDefinition Width="26"/>
                                                                     <ColumnDefinition Width="35"/>
                                                                     <ColumnDefinition Width="40"/>
@@ -215,28 +217,30 @@
                                                                 <Grid.RowDefinitions>
                                                                     <RowDefinition Height="35"/>
                                                                 </Grid.RowDefinitions>
-                                                                
-                                                                <Border>
+
+                                                                <Border x:Name="Start1Img">
                                                                     <Image Source="{Binding PointA.URI, Converter={StaticResource imgageLoaderConverter}}" Width="20" Height="20"/>
                                                                 </Border>
-                                                                <Label Grid.Column="1" Content="{Binding PointA}"/>
-                                                                <Border Grid.Column="2">
+                                                                <Label x:Name="Start1R" Grid.Column="1" Content="{Binding PointA, Converter={StaticResource isRetrogradeConverter}}"/>
+                                                                <Label x:Name="Start1" Grid.Column="2" Content="{Binding PointA}"/>
+                                                                <Border x:Name="Start1SignImg" Grid.Column="3">
                                                                     <Image Source="{Binding PointA.RadixSign.URI, Converter={StaticResource imgageLoaderConverter}}" Width="25" Height="25"/>
                                                                 </Border>
-                                                                <Label Grid.Column="3" Content="{Binding PointA.House}"/>
-                                                                <Border Grid.Column="4">
+                                                                <Label x:Name="Start1House" Grid.Column="4" Content="{Binding PointA.House}"/>
+                                                                <Border x:Name="AspectImg" Grid.Column="5">
                                                                     <Image Source="{Binding URI, Converter={StaticResource imgageLoaderConverter}}" Width="20" Height="20"/>
                                                                 </Border>
-                                                                <Label Grid.Column="5" Content="{Binding}"/>
-                                                                <Border Grid.Column="6">
+                                                                <Label x:Name="AspectName" Grid.Column="6" Content="{Binding}"/>
+                                                                <Border x:Name="Start2Img" Grid.Column="7">
                                                                     <Image Source="{Binding PointB.URI, Converter={StaticResource imgageLoaderConverter}}" Width="20" Height="20"/>
                                                                 </Border>
-                                                                <Label Grid.Column="7" Content="{Binding PointB}"/>
-                                                                <Border Grid.Column="8">
+                                                                <Label x:Name="Start2Retrograde" Grid.Column="8" Content="{Binding PointB, Converter={StaticResource isRetrogradeConverter}}"/>
+                                                                <Label x:Name="Start2" Grid.Column="9" Content="{Binding PointB}"/>
+                                                                <Border x:Name="Start2SignImg" Grid.Column="10">
                                                                     <Image Source="{Binding PointB.RadixSign.URI, Converter={StaticResource imgageLoaderConverter}}" Width="25" Height="25"/>
                                                                 </Border>
-                                                                <Label Grid.Column="9" Content="{Binding PointB.House}"/>
-                                                                <Label Grid.Column="10" Content="{Binding OrbDiffInDegree}"/>
+                                                                <Label x:Name="Start2House" Grid.Column="11" Content="{Binding PointB.House}"/>
+                                                                <Label x:Name="Orbit" Grid.Column="12" Content="{Binding OrbDiffInDegree}"/>
                                                             </Grid>
                                                         </DataTemplate>
                                                     </ListView.ItemTemplate>

@@ -163,7 +163,7 @@ namespace WpfApp1.View
            
             if (person == null) return;
 
-            PersonForm personForm = new(person,true)
+            PersonForm personForm = new(person, person.IsNewRecord())
             {
                 Owner = Helper.GetActiveWindow()
             };

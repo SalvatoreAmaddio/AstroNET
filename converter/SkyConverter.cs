@@ -12,7 +12,15 @@ namespace WpfApp1.converter
     {
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool isRetrograde = (bool)value;
+            bool isRetrograde;
+            if (value is House) return string.Empty;
+            if (value is Star star) 
+            { 
+                isRetrograde = star.IsRetrograde;
+            } else
+            {
+                isRetrograde = (bool)value;
+            }
             return (isRetrograde) ? "R" : string.Empty;
         }
 

@@ -32,12 +32,13 @@ namespace WpfApp1.View
         {
             InitializeComponent();
             this.DataContext = this;
+            Search = SelectedCity.CityName;
         }
 
         protected override async void OnButtonClick(object sender, RoutedEventArgs e)
         {
             IsLoading = true;
-            SelectedCity.Build();
+            SelectedCity?.Build();
 
             SkyEvent subjectSky = ((ChartViewContainer)Owner.Content).Sky;
 

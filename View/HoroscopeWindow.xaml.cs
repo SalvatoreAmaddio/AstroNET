@@ -83,11 +83,12 @@ namespace WpfApp1.View
         {
             InitializeComponent();
             this.DataContext = this;
+            Search = SelectedCity.CityName;
         }
 
         protected override void OnButtonClick(object sender, RoutedEventArgs e)
         {
-            SelectedCity.Build();
+            SelectedCity?.Build();
 
             SkyEvent subjectSky = ((ChartViewContainer)Owner.Content).Sky;
             subjectSky.CalculateHoroscope(InputDate, InputTime, SelectedCity);
