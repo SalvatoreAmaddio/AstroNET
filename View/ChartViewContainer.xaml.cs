@@ -254,8 +254,7 @@ namespace WpfApp1.View
                 return;
             }
 
-            PositionCalculator c = new(Sky);
-            c.MoonReturn(DateTime.Today, Sky.City);
+            new MoonReturnWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
         }
     }
 }

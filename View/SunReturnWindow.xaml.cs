@@ -6,18 +6,8 @@ namespace WpfApp1.View
     public partial class SunReturnWindow : CommonHoroscopeWindow
     {
 
-        private bool _isLoading = false;
         private int _inputYear = DateTime.Today.Year;
         
-        public bool IsLoading 
-        {
-            get => _isLoading;
-            set 
-            { 
-                _isLoading = value;
-                OnPropertyChanged(nameof(IsLoading));
-            }
-        }
         public int InputYear 
         {
             get => _inputYear;

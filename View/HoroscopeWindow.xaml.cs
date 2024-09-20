@@ -11,6 +11,17 @@ namespace WpfApp1.View
         public CityListController CityListController { get; } = new();
         private string _search = string.Empty;
         private City? _selectedCity = new();
+        private bool _isLoading = false;
+
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set
+            {
+                _isLoading = value;
+                OnPropertyChanged(nameof(IsLoading));
+            }
+        }
 
         public City? SelectedCity
         {
