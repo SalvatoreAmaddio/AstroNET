@@ -25,7 +25,7 @@
 
                         <ScrollViewer>
                             <StackPanel>
-                                <Border Width="700" HorizontalAlignment="Left" Height="80" Padding="5">
+                                <Border Width="700" Background="White" HorizontalAlignment="Left" Height="80" Padding="5">
                                     <Grid>
                                         <Grid.Resources>
                                             <Style TargetType="Label">

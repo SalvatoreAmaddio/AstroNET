@@ -14,7 +14,7 @@ namespace WpfApp1.View
             this.SetController(new PersonController());
         }
 
-        public PersonForm(Person person, bool isTodaySky = false, bool isNewSky = false) : this()
+        public PersonForm(Person? person, bool isTodaySky = false, bool isNewSky = false) : this()
         {
             this.GetController<PersonController>()!.IsNewSky = isNewSky;
 
@@ -26,7 +26,7 @@ namespace WpfApp1.View
             {
                 this.GetController<PersonController>()!.GoAt(person);
             }
-            this.GetController<PersonController>()!.CityListController._search = person.City.CityName;
+            this.GetController<PersonController>()!.CityListController._search = person?.City?.CityName;
         }
 
         private void OnLabelClikced(object sender, System.Windows.Input.MouseButtonEventArgs e)
