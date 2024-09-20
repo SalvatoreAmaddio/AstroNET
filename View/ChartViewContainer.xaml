@@ -1,0 +1,87 @@
+﻿<Grid x:Class="WpfApp1.View.ChartViewContainer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp1.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+     
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="Row1" Height="18"/>
+            <RowDefinition x:Name="Row2" Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Menu VerticalAlignment="Center">
+            <MenuItem Header="_Charts">
+                <MenuItem Header="_New" Click="AddNew" InputGestureText="Ctrl+N">
+                    <MenuItem.Icon>
+                        <Image Source="{StaticResource plus}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Archive" Click="OpenList" InputGestureText="Ctrl+A">
+                    <MenuItem.Icon>
+                        <Image Source="{StaticResource folder}"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Database">
+                <MenuItem Header="Signs">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/assets/sign/scorpio.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Stars">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/assets/planets/mars.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Houses"/>
+                <MenuItem Header="Aspects">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/assets/aspects/opposition.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Others"/>
+                <Separator/>
+                <MenuItem Header="_Atlas">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/assets/img/earth.png"/>
+                    </MenuItem.Icon>
+                    <MenuItem Header="_Location Downloader" Click="LocationDownloaderClicked" InputGestureText="Ctrl+L, Ctrl+D">
+                        <MenuItem.Icon>
+                            <Image Source="pack://application:,,,/assets/img/download.png"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Library"/>
+            <MenuItem Header="_Returns">
+                <MenuItem Header="_Sun" Click="SunReturnClick" InputGestureText="Ctrl+R">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/assets/planets/sun.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="_Moon" Click="OpenMoonReturn" InputGestureText="Ctrl+L">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/assets/planets/moon.png"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Horoscope" Click="OnHoroscopeClicked"/>
+            <MenuItem Header="Sinastria" Click="OpenSinastry"/>
+            <MenuItem Header="Settings"/>
+        </Menu>
+        <ToolBarTray Grid.Row="1">
+            <ToolBar ToolBarTray.IsLocked="True">
+                <Button Click="EditClicked" Content="{StaticResource editing}" ToolTip="Edit" Padding="6,1,6,20"/>
+                <Button Click="SaveClicked" Padding="6,1,6,20" ToolTip="Save">
+                    <Image Source="{StaticResource save}" Width="20"/>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+        <local:ChartView Grid.Row="2" x:Name="NatalChartCanvas"/>
+    </Grid>
+</Grid>

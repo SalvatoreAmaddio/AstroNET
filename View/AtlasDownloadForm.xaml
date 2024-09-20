@@ -1,0 +1,88 @@
+﻿<Window x:Class="WpfApp1.View.AtlasDownloadForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.View"
+        mc:Ignorable="d"
+        xmlns:controller="clr-namespace:WpfApp1.controller"
+        xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
+        d:DataContext="{d:DesignInstance Type=controller:AtlasDownloaderListController, IsDesignTimeCreatable=False}"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Icon="pack://application:,,,/assets/img/download.png"
+        Title="Atlas Downloader" Height="450" Width="820">
+
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        
+        <Grid Background="{StaticResource DefaultWhite}">
+            <StackPanel VerticalAlignment="Center" Margin="5,0,5,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <fr:Text Placeholder="Search by city name and press enter..." Text="{Binding Search}" KeyDown="OnEnterRessed"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="70"/>
+                <ColumnDefinition Width="70"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="City"/>
+            <Label Grid.Column="1" Content="Region"/>
+            <Label Grid.Column="2" Content="Country"/>
+            <Label Grid.Column="3" Content="Latitude"/>
+            <Label Grid.Column="4" Content="Longitude"/>
+            <Label Grid.Column="5" Content="Time Zone"/>
+        </Grid>
+
+        <ListView Grid.Row="2" ItemsSource="{Binding Locations}" SelectedItem="{Binding SelectedLocation}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="70"/>
+                            <ColumnDefinition Width="70"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="{Binding CityName}"/>
+                        <Label Grid.Column="1" Content="{Binding RegionName}"/>
+                        <Label Grid.Column="2" Content="{Binding CountryName}"/>
+                        <Label Grid.Column="3" Content="{Binding Latitude}" ContentStringFormat="N2"/>
+                        <Label Grid.Column="4" Content="{Binding Longitude}" ContentStringFormat="N2"/>
+                        <Label Grid.Column="5" Content="{Binding TimeZoneId}"/>
+                        <Button Grid.Column="6" HorizontalAlignment="Stretch" Command="{Binding DataContext.DownloadCMD, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" CommandParameter="{Binding}" Padding="0" Width="30" Background="Transparent" BorderThickness="0">
+                            <Image Source="pack://application:,,,/assets/img/download.png" Height="30"/>
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <ProgressBar Grid.Row="3" IsIndeterminate="{Binding IsLoading}"/>
+    </Grid>
+</Window>

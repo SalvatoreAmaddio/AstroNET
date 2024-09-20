@@ -1,0 +1,110 @@
+﻿<Window x:Class="WpfApp1.View.PersonForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.View"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
+        xmlns:controller="clr-namespace:WpfApp1.controller"
+        xmlns:converter="clr-namespace:WpfApp1.converter"
+        d:DataContext="{d:DesignInstance Type=controller:PersonController, IsDesignTimeCreatable=False}"
+        Icon="pack://application:,,,/assets/img/astrology.png"
+        Title="Sky" Height="550" SizeToContent="Width">
+
+    <Window.Resources>
+        <converter:UnknownTimeConverter x:Key="unknownConverter"/>
+        <converter:RegionConverter x:Key="regionConverter"/>
+        <converter:CountryFromRegionConverter x:Key="countryConverter"/>
+    </Window.Resources>
+    
+    <fr:Form RecordTrackerRow="0" RecordStatusColumn="0" Padding="10">
+        <StackPanel>
+            <Border BorderBrush="Black" BorderThickness=".5" CornerRadius="5" Padding="5">
+                <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70"/>
+                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="160"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="33"/>
+                    <RowDefinition Height="33"/>
+                    <RowDefinition Height="33"/>
+                    <RowDefinition Height="55"/>
+                </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" Grid.Column="0" Content="First Name"/>
+                    <fr:Text Grid.Row="0" Grid.Column="1" Text="{Binding CurrentRecord.FirstName}" VerticalAlignment="Center"/>
+                    <Label Grid.Row="1" Grid.Column="0" Content="Last Name"/>
+                    <fr:Text Grid.Row="1" Grid.Column="1" Text="{Binding CurrentRecord.LastName}" VerticalAlignment="Center"/>
+                    <Label Grid.Row="2" Grid.Column="0" Content="Gender"/>
+                    <fr:Combo Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Genders}" SelectedItem="{Binding CurrentRecord.Gender}" VerticalAlignment="Center"/>
+
+                    <Label Grid.Row="0" Grid.Column="3" Content="Date"/>
+                    <fr:TextBoxDate Grid.Row="0" Grid.Column="4" Date="{Binding CurrentRecord.DOB}" Width="110" HorizontalAlignment="Left"/>
+                    <Label Grid.Row="1" Grid.Column="3" Content="Time"/>
+                    <fr:TextBoxTime Grid.Row="1" Grid.Column="4" Text="{Binding CurrentRecord.TOB, Converter={StaticResource TimeBox}}" IsEnabled="{Binding CurrentRecord.UnknownTime, Converter={StaticResource unknownConverter}}" Width="110" HorizontalAlignment="Left"/>
+                    <StackPanel Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2" Orientation="Horizontal">
+                        <CheckBox IsChecked="{Binding CurrentRecord.UnknownTime}" Content="Unknown Time" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                        <CheckBox IsChecked="{Binding CurrentRecord.Deceased}" Content="Deceased" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="10,0,0,0"/>
+                    </StackPanel>
+                    
+                    <Label Grid.Row="3" Grid.Column="0" Content="Notes"/>
+                    <fr:Text Grid.Row="3" Margin="0,5,0,0" Grid.Column="1" Grid.ColumnSpan="5" Text="{Binding CurrentRecord.Notes}" AcceptsReturn="True" VerticalAlignment="Stretch" VerticalContentAlignment="Top"/>
+                </Grid>
+            </Border>
+            
+            <Grid Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width=".8*"/>
+                    <ColumnDefinition Width=".2*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0" BorderBrush="Black" BorderThickness=".5" VerticalAlignment="Stretch" Padding="5" CornerRadius="5">
+                    <StackPanel>
+                        <fr:Text Placeholder="Search place..." Text="{Binding CityListController.Search}"/>
+                        <fr:Lista Grid.Column="0" Height="235" VerticalAlignment="Stretch" ItemsSource="{Binding CityListController.RecordSource}" SelectedItem="{Binding CurrentRecord.City}">
+                            <fr:Lista.Header>
+                                <Grid fr:Definition.ColumnDefinitions="150,150,100">
+                                    <Label Grid.Column="1" Content="City"/>
+                                    <Label Grid.Column="2" Content="Region/State"/>
+                                    <Label Grid.Column="3" Content="Country"/>
+                                </Grid>
+                            </fr:Lista.Header>
+                            <fr:Lista.ItemTemplate>
+                                <DataTemplate>
+                                    <fr:FormRow>
+                                        <Grid fr:Definition.RowDefinitions="30" fr:Definition.ColumnDefinitions="150,150,100">
+                                            <Label Content="{Binding CityName}"/>
+                                            <Label Grid.Column="1" Content="{Binding Region, Converter={StaticResource regionConverter}}"/>
+                                            <Label Grid.Column="2" Content="{Binding Region, Converter={StaticResource countryConverter}}"/>
+                                        </Grid>
+                                    </fr:FormRow>
+                                </DataTemplate>
+                            </fr:Lista.ItemTemplate>
+                        </fr:Lista>
+                    </StackPanel>                    
+                </Border>
+
+                <Border Grid.Column="1" Padding="10">
+                    <StackPanel>
+                        <fr:SaveButton Height="40" Margin="0,0,0,10"/>
+                        <Button Grid.Row="1" Height="100" Command="{Binding CalculateSkyCMD}" Background="Transparent" BorderThickness=".3" ToolTip="Calculate" Padding="5">
+                            <Image Source="pack://application:,,,/assets/img/astrology.png"/>
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Label Content="Location not found? Donwload it!" Cursor="Hand" Padding="5" Foreground="Blue" MouseUp="OnLabelClikced"/>
+        </StackPanel>
+    </fr:Form>
+</Window>

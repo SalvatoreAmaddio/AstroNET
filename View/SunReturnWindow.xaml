@@ -1,0 +1,43 @@
+﻿<local:CommonHoroscopeWindow x:Class="WpfApp1.View.SunReturnWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.View"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
+        ResizeMode="NoResize"
+        SizeToContent="Height"
+        Width="500"
+        Icon="pack://application:,,,/assets/planets/sun.png"
+        xmlns:converter="clr-namespace:WpfApp1.converter"
+        Title="Sun Return">
+
+    <Window.Resources>
+        <converter:RegionConverter x:Key="regionConverter"/>
+        <converter:CountryFromRegionConverter x:Key="countryConverter"/>
+    </Window.Resources>
+
+    <Border Padding="5">
+        <StackPanel>
+            <fr:TextBoxTime Placeholder="Year" Text="{Binding InputYear}"/>
+            <fr:Text Placeholder="Search location..." Text="{Binding Search}"/>
+            <ListView ItemsSource="{Binding CityListController.RecordSource}" SelectedItem="{Binding SelectedCity}" Height="150">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <fr:FormRow>
+                            <Grid fr:Definition.RowDefinitions="30" fr:Definition.ColumnDefinitions="150,150,100">
+                                <Label Content="{Binding CityName}"/>
+                                <Label Grid.Column="1" Content="{Binding Region, Converter={StaticResource regionConverter}}"/>
+                                <Label Grid.Column="2" Content="{Binding Region, Converter={StaticResource countryConverter}}"/>
+                            </Grid>
+                        </fr:FormRow>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Content="RUN" Click="OnButtonClick" Height="30"/>
+            <ProgressBar IsIndeterminate="{Binding IsLoading}" Height="5"/>
+        </StackPanel>
+    </Border>
+</local:CommonHoroscopeWindow>
