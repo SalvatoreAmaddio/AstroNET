@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows.Data;
 using WpfApp1.model;
 using System;
+using FrontEnd.Model;
 
 namespace WpfApp1.converter
 {
@@ -19,7 +20,24 @@ namespace WpfApp1.converter
             throw new NotImplementedException();
         }
     }
+    abstract public class GetRecordByID<M> : IValueConverter where M : IAbstractModel, new()
+    {
+        private static IEnumerable<M>? Records = DatabaseManager.Find<M>()?.MasterSource.Cast<M>();
 
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return Records.FirstOrDefault(s=>(Int64?)s.GetPrimaryKey().GetValue() == (Int64)value);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class GetElement : GetRecordByID<Element> { }
+    public class GetTriplicity : GetRecordByID<Triplicity> { }
+    public class GetGender : GetRecordByID<Gender> { }
     public class PowerConverters : IValueConverter
     {
         private static IEnumerable<Sign>? Signs = DatabaseManager.Find<Sign>()?.MasterSource.Cast<Sign>();

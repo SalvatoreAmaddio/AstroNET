@@ -1,0 +1,47 @@
+﻿<Window x:Class="WpfApp1.View.SignWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.View"
+        mc:Ignorable="d"
+        xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
+        xmlns:controller="clr-namespace:WpfApp1.controller"
+        xmlns:converter="clr-namespace:WpfApp1.converter"
+        d:DataContext="{d:DesignInstance Type=controller:SignController, IsDesignTimeCreatable=False}"
+        WindowStartupLocation="CenterScreen"
+        Icon="{Binding CurrentRecord.URI}"
+        ResizeMode="NoResize"
+        Title="Sign" Height="510" Width="790">
+
+    <Window.Resources>
+        <converter:GetTriplicity x:Key="getTriplicity"/>
+        <converter:GetElement x:Key="getElement"/>
+        <converter:GetGender x:Key="getGender"/>
+    </Window.Resources>
+    
+    <fr:Form>
+        <Grid fr:Definition.ColumnDefinitions="70,100,50,480">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Name"/>
+            <fr:Text Grid.Row="0" Grid.Column="1" Text="{Binding CurrentRecord.SignName}"/>
+            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                <Label Content="{Binding CurrentRecord.GradeExtension}"/>
+                <Label Content="{Binding CurrentRecord.TimeExtension}"/>
+                <Label Content="{Binding CurrentRecord.Element.ElementId, Converter={StaticResource getElement}}" ContentStringFormat="Element: {0}"/>
+                <Label Content="{Binding CurrentRecord.Triplicity.TriplicityId, Converter={StaticResource getTriplicity}}" ContentStringFormat="Triplicity: {0}"/>
+                <Label Content="{Binding CurrentRecord.Gender.GenderId, Converter={StaticResource getGender}}" ContentStringFormat="Gender: {0}"/>
+                <fr:SaveButton Height="30"/>
+            </StackPanel>
+
+            <Label Grid.Row="0" Grid.Column="3" Content="Description:"/>
+            <Border Grid.Row="1" Grid.Column="3" Grid.RowSpan="8" Height="400" VerticalAlignment="Top">
+                <fr:Text AcceptsReturn="True" TextWrapping="Wrap" VerticalContentAlignment="Top" Text="{Binding CurrentRecord.Description}"/>
+            </Border>
+        </Grid>
+    </fr:Form>
+</Window>

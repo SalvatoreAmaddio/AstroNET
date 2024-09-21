@@ -3,11 +3,24 @@ using Backend.Model;
 using FrontEnd.Controller;
 using FrontEnd.Events;
 using WpfApp1.model;
+using WpfApp1.View;
 
 namespace WpfApp1.controller
 {
     public class SignListController : AbstractFormListController<Sign>
     {
+        public SignListController() 
+        { 
+            AllowNewRecord = false;
+            AfterUpdate += OnAfterUpdate;
+        }
+
+        private async void OnAfterUpdate(object? sender, AfterUpdateArgs e)
+        {
+            if (!e.Is(nameof(Search))) return;
+            await OnSearchPropertyRequeryAsync(sender);
+        }
+
         public override AbstractClause InstantiateSearchQry()
         {
             return new Sign().Select().All().From().Where().Like("LOWER(SignName)", "@name");
@@ -24,6 +37,8 @@ namespace WpfApp1.controller
         }
 
         protected override void Open(Sign model)
-        { }
+        {
+            new SignWindow(model).ShowDialog();
+        }
     }
 }

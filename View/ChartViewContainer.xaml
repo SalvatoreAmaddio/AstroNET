@@ -7,7 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     
-     
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition x:Name="Row1" Height="18"/>
@@ -28,7 +27,7 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Database">
-                <MenuItem Header="_Signs" InputGestureText="Ctrl+S">
+                <MenuItem Header="_Signs" Click="OpenSignList">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/assets/sign/scorpio.png"/>
                     </MenuItem.Icon>
@@ -44,7 +43,6 @@
                         <Image Source="pack://application:,,,/assets/aspects/opposition.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Others"/>
                 <Separator/>
                 <MenuItem Header="_Atlas">
                     <MenuItem.Icon>
@@ -57,7 +55,25 @@
                     </MenuItem>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Library"/>
+            <MenuItem Header="Library">
+                <MenuItem Header="Natal Chart">
+                    <MenuItem Header="Aspects"/>
+                    <MenuItem Header="Stars in Houses"/>
+                    <MenuItem Header="Stars in Signs"/>
+                    <MenuItem Header="Dispositori"/>
+                </MenuItem>
+                <MenuItem Header="Transit">
+                    <MenuItem Header="Aspects"/>
+                    <MenuItem Header="Stars in Houses"/>
+                </MenuItem>
+                <MenuItem Header="Returns">
+                    <MenuItem Header="Stars in Houses"/>
+                </MenuItem>
+                <MenuItem Header="Sinastry">
+                    <MenuItem Header="Aspects"/>
+                    <MenuItem Header="Stars in Houses"/>
+                </MenuItem>
+            </MenuItem>
             <MenuItem Header="_Returns">
                 <MenuItem Header="_Sun" Click="SunReturnClick" InputGestureText="Ctrl+R">
                     <MenuItem.Icon>

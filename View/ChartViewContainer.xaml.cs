@@ -286,5 +286,10 @@ namespace WpfApp1.View
         {
             new SetDefaultCityWindow().ShowDialog();
         }
+
+        private void OpenSignList(object sender, RoutedEventArgs e)
+        {
+            new SignListWindow().ShowDialog();
+        }
     }
 }

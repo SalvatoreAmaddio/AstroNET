@@ -25,12 +25,12 @@ namespace WpfApp1.model
         [Field]
         public string SignName { get => _signName; set => UpdateProperty(ref value, ref _description); }
         [Field]
-        public string Description { get => _description; private set => UpdateProperty(ref value, ref _description); }
+        public string Description { get => _description; set => UpdateProperty(ref value, ref _description); }
         [FK]
         public Element Element { get => _element; private set => UpdateProperty(ref value, ref _element); }
         [FK]
         public Triplicity Triplicity {  get => _triplicity; private set => UpdateProperty(ref value, ref _triplicity); }
-        [Field]
+        [FK]
         public Gender Gender { get => _gender; private set => UpdateProperty(ref value, ref _gender); }
         [Field]
         public int Start { get => _start; private set => UpdateProperty(ref value, ref _start); }
@@ -42,7 +42,8 @@ namespace WpfApp1.model
         public DateTime EndDay { get => _endDay; private set => UpdateProperty(ref value, ref _endDay); }
         [Field]
         public string URI { get => _uri; set => UpdateProperty(ref value, ref _uri);}
-
+        public string TimeExtension => $"({StartDay.Day} {StartDay.ToString("MMMM")} - {EndDay.Day} {EndDay.ToString("MMMM")})";
+        public string GradeExtension => $"({Start}° - {End}°)";
         public Sign() { }
 
         public Sign(Int64 id) 
