@@ -52,6 +52,7 @@ namespace WpfApp1.model
         public Person() 
         {
             AfterUpdate += OnAfterUpdate;
+            _gender = new(1);
         }
 
         public Person(DateTime date, TimeSpan tob, City city) : this()

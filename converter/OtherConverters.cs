@@ -35,7 +35,7 @@ namespace WpfApp1.converter
             foreach (var result in results)
             {
                 Sign? sign = Signs?.FirstOrDefault(s => s.Equals(result.Sign));
-                sb.Append(sign?.SignName);
+                sb.Append((sign==null) ? "?" : sign?.SignName);
                 sb.Append('\n');
             }
 

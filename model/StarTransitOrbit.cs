@@ -7,18 +7,18 @@ namespace WpfApp1.model
     [Table(nameof(StarTransitOrbit))]
     public class StarTransitOrbit : AbstractModel<StarTransitOrbit>
     {
-        private Int64 _starTransitId;
+        private Int64 _starTransitOrbitId;
         private Star _star = null!;
         private Aspect _aspect = null!;
         private double _tollerance;
 
         [PK]
-        public Int64 StarTransitId { get => _starTransitId; set => UpdateProperty(ref value, ref _starTransitId); }
+        public Int64 StarTransitOrbitId { get => _starTransitOrbitId; set => UpdateProperty(ref value, ref _starTransitOrbitId); }
 
-        [Field]
+        [FK]
         public Star Star { get => _star; set => UpdateProperty(ref value, ref _star); }
 
-        [Field]
+        [FK]
         public Aspect Aspect { get => _aspect; set => UpdateProperty(ref value, ref _aspect); }
 
         [Field]
@@ -26,7 +26,7 @@ namespace WpfApp1.model
         public StarTransitOrbit() { }
         public StarTransitOrbit(DbDataReader reader) 
         {
-            _starTransitId = reader.GetInt64(0);
+            _starTransitOrbitId = reader.GetInt64(0);
             _star = new Star(reader.GetInt64(1));
             _aspect = new Aspect(reader.GetInt64(2));
             _tollerance = reader.GetDouble(3);

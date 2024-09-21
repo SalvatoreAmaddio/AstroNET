@@ -28,18 +28,18 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Database">
-                <MenuItem Header="Signs">
+                <MenuItem Header="_Signs" InputGestureText="Ctrl+S">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/assets/sign/scorpio.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Stars" Click="OpenStarsClicked">
+                <MenuItem Header="_Stars" Click="OpenStarsClicked" InputGestureText="Ctrl+P">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/assets/planets/mars.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Houses" Click="OpenHouseClicked"/>
-                <MenuItem Header="_Aspects" Click="OpenAspectClicked">
+                <MenuItem Header="_Houses" Click="OpenHouseClicked" InputGestureText="Ctrl+H"/>
+                <MenuItem Header="_Aspects" Click="OpenAspectClicked" InputGestureText="Ctrl+A">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/assets/aspects/opposition.png"/>
                     </MenuItem.Icon>
@@ -50,7 +50,7 @@
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/assets/img/earth.png"/>
                     </MenuItem.Icon>
-                    <MenuItem Header="_Location Downloader" Click="LocationDownloaderClicked" InputGestureText="Ctrl+L, Ctrl+D">
+                    <MenuItem Header="_Location Downloader" Click="LocationDownloaderClicked" InputGestureText="Ctrl+D">
                         <MenuItem.Icon>
                             <Image Source="pack://application:,,,/assets/img/download.png"/>
                         </MenuItem.Icon>
@@ -64,14 +64,14 @@
                         <Image Source="pack://application:,,,/assets/planets/sun.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Moon" Click="OpenMoonReturn" InputGestureText="Ctrl+L">
+                <MenuItem Header="_Moon" Click="OpenMoonReturn" InputGestureText="Ctrl+M">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/assets/planets/moon.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Horoscope" Click="OnHoroscopeClicked"/>
-            <MenuItem Header="Sinastria" Click="OpenSinastry"/>
+            <MenuItem Header="_Sinastria" Click="OpenSinastry" InputGestureText="Ctrl+C"/>
             <MenuItem Header="Settings"/>
         </Menu>
         <ToolBarTray Grid.Row="1">

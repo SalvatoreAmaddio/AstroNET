@@ -25,8 +25,10 @@ namespace WpfApp1.controller
 
             SkyEvent sky = new(CurrentRecord!, this);
 
-            if (Sky1 != null)
-            ChartOpener.OpenComparedChart($"Sinastry: {Sky1.Person} AND {CurrentRecord}", Sky1, sky, SkyType.Sky);            
+            if (Sky1 != null) 
+            {
+                ChartOpener.OpenComparedChart($"{Sky1.Person} AND {CurrentRecord}", Sky1, sky, SkyType.Sinastry);
+            }
             else ChartOpener.OpenChart($"{CurrentRecord}", sky, sky.SkyType.ToString());
         }
 

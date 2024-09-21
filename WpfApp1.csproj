@@ -102,9 +102,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="AstroNETSettings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AstroNETSettings.settings</DependentUpon>
+    </Compile>
     <Compile Update="View\Horoscopes\MoonReturnWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="AstroNETSettings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>AstroNETSettings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -10,6 +10,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         d:DataContext="{d:DesignInstance Type=controller:AspectController, IsDesignTimeCreatable=False}"
         WindowStartupLocation="CenterScreen"
+        Icon="{Binding CurrentRecord.URI}"
         ResizeMode="NoResize"
         Title="Aspect" Height="450" Width="589">
 

@@ -97,13 +97,16 @@ namespace WpfApp1.View
             Search = SelectedCity.CityName;
         }
 
-        protected override void OnButtonClick(object sender, RoutedEventArgs e)
+        protected override async void OnButtonClick(object sender, RoutedEventArgs e)
         {
+            IsLoading = true;
             SelectedCity?.Build();
 
             SkyEvent subjectSky = ((ChartViewContainer)Owner.Content).Sky;
-            subjectSky.CalculateHoroscope(InputDate, InputTime, SelectedCity);
 
+            await Task.Run(() => subjectSky.CalculateHoroscope(InputDate, InputTime, SelectedCity));
+            
+            IsLoading = false;
             ChartOpener.OpenChart(subjectSky.Person.ToString(), subjectSky, subjectSky.Horoscope.SkyType.ToString());
         }
     }

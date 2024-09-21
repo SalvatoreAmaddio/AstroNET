@@ -20,6 +20,15 @@ namespace WpfApp1.View
             new KeyGesture(Key.A, ModifierKeys.Control)
         });
 
+        public static RoutedUICommand OpenSinastryCMD = new(
+        "Open Sinastry",
+        nameof(OpenSinastryCMD),
+        typeof(Window),
+        new()
+        {
+            new KeyGesture(Key.C, ModifierKeys.Control),
+        });
+
         public static RoutedUICommand OpenSunReturnCMD = new(
         "Open Sun Return",
         nameof(OpenSunReturnCMD),
@@ -35,12 +44,12 @@ namespace WpfApp1.View
         typeof(Window),
         new()
         {
-           new KeyGesture(Key.L, ModifierKeys.Control),
+           new KeyGesture(Key.M, ModifierKeys.Control),
         });
 
         public static RoutedUICommand OpenHoroscopeCMD = new(
        "Open Horoscope",
-       nameof(OpenHoroscopeCMD),
+        nameof(OpenHoroscopeCMD),
         typeof(Window),
         new ()
         {
@@ -118,6 +127,7 @@ namespace WpfApp1.View
             activeWin?.CommandBindings.Add(new(ApplicationCommands.Save, SaveClicked));
             activeWin?.CommandBindings.Add(new(OpenSunReturnCMD, SunReturnClick));
             activeWin?.CommandBindings.Add(new(OpenMoonReturnCMD, OpenMoonReturn));
+            activeWin?.CommandBindings.Add(new(OpenSinastryCMD, OpenSinastry));
         }
 
         private void WinOnClosing(object? sender, CancelEventArgs e)
@@ -206,13 +216,13 @@ namespace WpfApp1.View
 
             if (win.Title.ToLower().Contains("return"))
             {
-                Failure.Allert("Cannot calculate a Return on a Return", "Action Denied");
+                Failure.Allert("Cannot calculate a Sinastry on a Return", "Action Denied");
                 return;
             }
 
             if (win.Title.ToLower().Contains("horoscope"))
             {
-                Failure.Allert("Cannot calculate a Return on a Horoscope", "Action Denied");
+                Failure.Allert("Cannot calculate a Sinastry on a Horoscope", "Action Denied");
                 return;
             }
 

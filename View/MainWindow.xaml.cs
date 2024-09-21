@@ -10,8 +10,8 @@ namespace WpfApp1.View
         {
             InitializeComponent();
             this.DataContext = this;
-
-            City city = DatabaseManager.Find<City>()!.MasterSource.Cast<City>().First(s => s.CityName.ToLower().Equals("roma"));
+            string defaultCity = AstroNETSettings.Default.DefaultCity.ToLower();
+            City city = DatabaseManager.Find<City>()!.MasterSource.Cast<City>().First(s => s.CityName.ToLower().Equals(defaultCity));
             city.Build();
 
             Person newBorn = new(DateTime.Today, DateTime.Now.TimeOfDay, city);

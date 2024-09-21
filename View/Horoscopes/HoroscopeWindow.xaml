@@ -36,6 +36,7 @@
                 </ListView.ItemTemplate>                
             </ListView>
             <Button Content="RUN" Click="OnButtonClick" Height="30"/>
+            <ProgressBar IsIndeterminate="{Binding IsLoading}" Height="5"/>
         </StackPanel>
     </Border>
 </local:CommonHoroscopeWindow>

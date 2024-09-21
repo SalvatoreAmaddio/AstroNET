@@ -13,6 +13,7 @@ namespace WpfApp1.model
         SunReturn = 2,
         MoonReturn = 3,
         Horoscope = 4,
+        Sinastry = 5,
     }
 
     public class FeaturesCount

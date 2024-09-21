@@ -82,7 +82,7 @@ namespace WpfApp1.View
             return grid;
         }
         
-        public static void OpenComparedChart(string title, SkyEvent sky1, SkyEvent sky2, SkyType skyType)
+        public static void OpenComparedChart(string? title, SkyEvent sky1, SkyEvent sky2, SkyType skyType)
         {
             Window? currentWindow = Helper.GetActiveWindow();
             currentWindow?.Close();
