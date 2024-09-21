@@ -65,9 +65,9 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Label Grid.Column="0" Content="DOMICILE↑" FontWeight="Bold" Foreground="LawnGreen"/>
-                    <Label Grid.Column="1" Content="EXALTATION↑" FontWeight="Bold" Foreground="Blue"/>
-                    <Label Grid.Column="2" Content="FALL↓" FontWeight="Bold" Foreground="Red"/>
-                    <Label Grid.Column="3" Content="DETRIMENT↓" FontWeight="Bold"/>
+                    <Label Grid.Column="1" Content="DETRIMENT↓" FontWeight="Bold" Foreground="Red"/>
+                    <Label Grid.Column="2" Content="EXALTATION↑" FontWeight="Bold" Foreground="Blue"/>
+                    <Label Grid.Column="3" Content="FALL↓" FontWeight="Bold"/>
 
                     <Label Grid.Row="1" Grid.Column="0" Content="{Binding CurrentRecord, Converter={StaticResource powers}, ConverterParameter=1}"/>
                     <Label Grid.Row="1" Grid.Column="1" Content="{Binding CurrentRecord, Converter={StaticResource powers}, ConverterParameter=2}"/>
