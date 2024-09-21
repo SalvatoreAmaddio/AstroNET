@@ -44,6 +44,7 @@ namespace WpfApp1.model
 
         [Field]
         public string Description { get => _description; set => UpdateProperty(ref value, ref _description); }
+
         [FK]
         public TransitType? TransitType { get => _transitType; set => UpdateProperty(ref value, ref _transitType);}
     

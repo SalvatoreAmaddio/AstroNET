@@ -75,6 +75,11 @@ namespace WpfApp1.controller
 
         protected override void Open(LibraryAspect model)
         {
+            if (model.IsNewRecord()) 
+            {
+                model.TransitType = TransitType;
+                model.Clean();
+            }
             new LibraryAspectWindow(model).ShowDialog();
         }
     }
