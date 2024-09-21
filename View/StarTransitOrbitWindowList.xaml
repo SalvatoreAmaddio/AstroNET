@@ -1,0 +1,41 @@
+﻿<Window x:Class="WpfApp1.View.StarTransitOrbitWindowList"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.View"
+        xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
+        xmlns:controller="clr-namespace:WpfApp1.controller"
+        xmlns:converter="clr-namespace:WpfApp1.converter"
+        d:DataContext="{d:DesignInstance Type=controller:StarTransitOrbitListController, IsDesignTimeCreatable=False}"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        mc:Ignorable="d"
+        Title="Star Transit Orbit" Height="450" Width="300">
+
+    <Window.Resources>
+        <converter:GetStar x:Key="GetStar"/>
+    </Window.Resources>
+    
+    <fr:FormList>
+        <fr:Lista ItemsSource="{Binding RecordSource}" SelectedItem="{Binding CurrentRecord}">
+            <fr:Lista.Header>
+                <Grid fr:Definition.ColumnDefinitions="80,80">
+                    <Label Grid.Column="1" Content="STAR"/>
+                    <Label Grid.Column="2" Content="ORBIT"/>
+                </Grid>
+            </fr:Lista.Header>
+            <fr:Lista.ItemTemplate>
+                <DataTemplate>
+                    <fr:FormRow>
+                        <Grid fr:Definition.RowDefinitions="30" fr:Definition.ColumnDefinitions="80,80,50">
+                            <Label Content="{Binding Star.PointId, Converter={StaticResource GetStar}}"/>
+                            <fr:Text Grid.Column="1" Text="{Binding Tollerance, StringFormat=N2}"/>
+                            <fr:SaveButton Grid.Column="2" IsWithinList="True"/>
+                        </Grid>
+                    </fr:FormRow>
+                </DataTemplate>
+            </fr:Lista.ItemTemplate>
+        </fr:Lista>
+    </fr:FormList>
+</Window>

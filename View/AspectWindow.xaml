@@ -1,0 +1,59 @@
+﻿<Window x:Class="WpfApp1.View.AspectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.View"
+        mc:Ignorable="d"
+        xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
+        xmlns:controller="clr-namespace:WpfApp1.controller"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        d:DataContext="{d:DesignInstance Type=controller:AspectController, IsDesignTimeCreatable=False}"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Title="Aspect" Height="450" Width="589">
+
+    <fr:Form Padding="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Row="0" Grid.Column="0" Content="Name"/>
+            <fr:Text Grid.Row="0" Grid.Column="1" Text="{Binding CurrentRecord.AspectName}"/>
+
+            <Label Grid.Row="1" Grid.Column="0" Content="Orbit"/>
+            <fr:Text Grid.Row="1" Grid.Column="1" Text="{Binding CurrentRecord.Orbit}"/>
+
+            <CheckBox Grid.Row="2" Grid.Column="0" IsChecked="{Binding CurrentRecord.IsMajor}" Content="Is Major"/>
+
+            <Label Grid.Row="3" Grid.Column="0" Content="Natal Tollerance"/>
+            <fr:Text Grid.Row="3" Grid.Column="1" Text="{Binding CurrentRecord.NatalTollerance}"/>
+
+            <CheckBox Grid.Row="0" Grid.Column="3" IsChecked="{Binding CurrentRecord.IsDashed}" Content="Is Dashed"/>
+
+            <Label Grid.Row="1" Grid.Column="3" Content="Color HEX"/>
+            <xctk:ColorPicker Grid.Row="1" Grid.Column="4" SelectedColor="{Binding CurrentRecord.Color}" />
+            
+            <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Content="Edit Transit orbits" FontStyle="Italic" Foreground="Blue" Cursor="Hand" MouseDown="OnMouseDoubleClick"/>
+            
+            <Label Grid.Row="5" Grid.Column="0" Content="Description:"/>
+            <fr:Text Grid.Row="6" Grid.ColumnSpan="4" AcceptsReturn="True" TextWrapping="Wrap" VerticalContentAlignment="Top" Text="{Binding CurrentRecord.Description}"/>
+           
+            <fr:SaveButton Grid.Row="6" Grid.Column="4" VerticalAlignment="Top" Height="30" Margin="5,0,0,0"/>
+        </Grid>
+    </fr:Form>
+</Window>

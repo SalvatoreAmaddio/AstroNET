@@ -39,7 +39,7 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="_Houses" Click="OpenHouseClicked"/>
-                <MenuItem Header="Aspects">
+                <MenuItem Header="_Aspects" Click="OpenAspectClicked">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/assets/aspects/opposition.png"/>
                     </MenuItem.Icon>

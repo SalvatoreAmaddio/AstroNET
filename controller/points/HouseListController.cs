@@ -1,4 +1,5 @@
 ﻿using WpfApp1.model;
+using WpfApp1.View;
 
 namespace WpfApp1.controller
 {
@@ -6,7 +7,7 @@ namespace WpfApp1.controller
     {
         protected override void Open(House model)
         {
-            throw new NotImplementedException();
+            new HouseWindow(model).ShowDialog();
         }
     }
 }

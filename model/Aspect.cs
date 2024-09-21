@@ -24,8 +24,12 @@ namespace WpfApp1.model
 
         [Field]
         public string AspectName { get => _aspectName; set => UpdateProperty(ref value, ref _aspectName); }
+
         [Field]
         public string Description { get => _description; set => UpdateProperty(ref value, ref _description); }
+
+        [Field]
+        public string Color { get => _colorHex; set => UpdateProperty(ref value, ref _colorHex); }
 
         [Field]
         public double Orbit { get => _orbit; set => UpdateProperty(ref value, ref _orbit); }
@@ -49,9 +53,13 @@ namespace WpfApp1.model
         public IPoint PointB { get; set; } = null!;
         public Brush Brush { get; protected set; } = Brushes.Black;
 
-        public Aspect() { }
-        public Aspect(Int64 id) => _aspectId = id;
-        public Aspect(DbDataReader reader) 
+        public Aspect() 
+        {
+            AfterUpdate += OnAfterUpdate;
+        }
+
+        public Aspect(Int64 id) : this() => _aspectId = id;
+        public Aspect(DbDataReader reader) : this()
         {
             _aspectId = reader.GetInt64(0);
             _aspectName = reader.GetString(1);
@@ -62,6 +70,14 @@ namespace WpfApp1.model
             _colorHex = reader.GetString(6);
             _natalTollerance = reader.GetDouble(7);
             _isDashed = reader.GetBoolean(8);
+        }
+
+        private void OnAfterUpdate(object? sender, FrontEnd.Events.AfterUpdateArgs e)
+        {
+            if (e.Is(nameof(Color))) 
+            {
+                BuildBrush();
+            }
         }
 
         private string TryFetchHouse(IPoint point) 

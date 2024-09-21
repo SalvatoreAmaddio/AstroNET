@@ -266,5 +266,10 @@ namespace WpfApp1.View
         {
             new PointListWindow(false).ShowDialog();
         }
+
+        private void OpenAspectClicked(object sender, RoutedEventArgs e)
+        {
+            new AspectListWindow().ShowDialog();
+        }
     }
 }
