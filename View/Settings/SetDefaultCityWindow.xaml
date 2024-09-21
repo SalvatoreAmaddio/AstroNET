@@ -5,8 +5,48 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
-        Title="Set Default City" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
+        xmlns:controller="clr-namespace:WpfApp1.controller"
+        xmlns:converter="clr-namespace:WpfApp1.converter"
+        d:DataContext="{d:DesignInstance Type=controller:CityListController, IsDesignTimeCreatable=False}"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Title="Set Default City" Height="450" Width="510">
+
+    <Window.Resources>
+        <converter:RegionConverter x:Key="regionConverter"/>
+        <converter:CountryFromRegionConverter x:Key="countryConverter"/>
+    </Window.Resources>
+    
+    <fr:FormList HeaderRow="60">
+        <fr:FormList.Header>
+            <Grid Background="{StaticResource DefaultWhite}">
+                <StackPanel VerticalAlignment="Center" Margin="5,0,5,0">
+                    <fr:Text Placeholder="Search..." Text="{Binding Search}"/>
+                    <Label Content="Location not found? Download it!" Foreground="Blue" MouseDown="OnLabelClicked"/>
+                </StackPanel>
+            </Grid>
+        </fr:FormList.Header>
+        <fr:Lista ItemsSource="{Binding RecordSource}" SelectedItem="{Binding SelectedCity}">
+            <fr:Lista.Header>
+                <Grid fr:Definition.ColumnDefinitions="150,150,100">
+                    <Label Grid.Column="1" Content="Name"/>
+                    <Label Grid.Column="2" Content="Region"/>
+                    <Label Grid.Column="3" Content="Country"/>
+                </Grid>
+            </fr:Lista.Header>
+            <fr:Lista.ItemTemplate>
+                <DataTemplate>
+                    <fr:FormRow>
+                        <Grid fr:Definition.RowDefinitions="30" fr:Definition.ColumnDefinitions="150,150,100,50">
+                            <Label Content="{Binding CityName}"/>
+                            <Label Grid.Column="1" Content="{Binding Region, Converter={StaticResource regionConverter}}"/>
+                            <Label Grid.Column="2" Content="{Binding Region, Converter={StaticResource countryConverter}}"/>
+                            <Button Grid.Column="3" Content="SET" fr:Extension.IsWithinList="True" Command="{Binding SetDefaultCityCMD}"/>
+                        </Grid>
+                    </fr:FormRow>
+                </DataTemplate>
+            </fr:Lista.ItemTemplate>
+        </fr:Lista>
+    </fr:FormList>
 </Window>

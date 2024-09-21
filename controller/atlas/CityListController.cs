@@ -3,14 +3,28 @@ using FrontEnd.Controller;
 using FrontEnd.Events;
 using WpfApp1.model;
 using Backend.ExtensionMethods;
+using System.Windows.Input;
+using FrontEnd.Dialogs;
+using System.Windows;
 
 namespace WpfApp1.controller
 {
     public class CityListController : AbstractFormListController<City>
     {
+        public ICommand SetDefaultCityCMD { get; }
         public CityListController() 
         {
             AfterUpdate += OnAfterUpdate;
+            AllowNewRecord = false;
+            SetDefaultCityCMD = new CMD(SetDefaultCity);
+        }
+
+        private void SetDefaultCity()
+        {
+            AstroNETSettings.Default.DefaultCity = CurrentRecord?.CityName;
+            AstroNETSettings.Default.Save();
+            SuccessDialog.Display("New default city successfully saved");
+            ((Window?)UI)?.Close();
         }
 
         private async void OnAfterUpdate(object? sender, AfterUpdateArgs e)

@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View"
         xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
+        xmlns:converter="clr-namespace:WpfApp1.converter"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         Title="Horoscope" SizeToContent="WidthAndHeight"
-        xmlns:converter="clr-namespace:WpfApp1.converter"
         >
 
     <Window.Resources>

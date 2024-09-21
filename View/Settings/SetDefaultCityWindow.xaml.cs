@@ -1,27 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FrontEnd.ExtensionMethods;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using WpfApp1.controller;
 
 namespace WpfApp1.View
 {
-    /// <summary>
-    /// Interaction logic for SetDefaultCityWindow.xaml
-    /// </summary>
     public partial class SetDefaultCityWindow : Window
     {
         public SetDefaultCityWindow()
         {
             InitializeComponent();
+            this.SetController(new CityListController());
+            this.GetController<CityListController>().Search = AstroNETSettings.Default.DefaultCity;
+        }
+
+        private void OnLabelClicked(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            new AtlasDownloadForm().ShowDialog();
         }
     }
 }

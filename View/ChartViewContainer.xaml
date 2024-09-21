@@ -72,7 +72,9 @@
             </MenuItem>
             <MenuItem Header="_Horoscope" Click="OnHoroscopeClicked"/>
             <MenuItem Header="_Sinastria" Click="OpenSinastry" InputGestureText="Ctrl+C"/>
-            <MenuItem Header="Settings"/>
+            <MenuItem Header="_Settings">
+                <MenuItem Header="_Default Location" Click="OpenDefaultLocationSettings"/>
+            </MenuItem>
         </Menu>
         <ToolBarTray Grid.Row="1">
             <ToolBar ToolBarTray.IsLocked="True">

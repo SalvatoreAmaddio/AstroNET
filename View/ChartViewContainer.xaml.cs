@@ -281,5 +281,10 @@ namespace WpfApp1.View
         {
             new AspectListWindow().ShowDialog();
         }
+
+        private void OpenDefaultLocationSettings(object sender, RoutedEventArgs e)
+        {
+            new SetDefaultCityWindow().ShowDialog();
+        }
     }
 }
