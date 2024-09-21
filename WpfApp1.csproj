@@ -102,7 +102,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="View\MoonReturnWindow.xaml.cs">
+    <Compile Update="View\Horoscopes\MoonReturnWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

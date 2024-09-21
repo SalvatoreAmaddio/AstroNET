@@ -1,0 +1,41 @@
+﻿<Window x:Class="WpfApp1.View.PointListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1.View"
+        mc:Ignorable="d"
+        xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
+        xmlns:controller="clr-namespace:WpfApp1.controller"
+        d:DataContext="{d:DesignInstance Type=controller:StarListController, IsDesignTimeCreatable=False}"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Title="Stars" Height="450" Width="800">
+    
+    <fr:FormList>
+        <fr:FormList.Header>
+            <Grid Background="{StaticResource DefaultWhite}">
+                <StackPanel VerticalAlignment="Center" Margin="5,0,5,0">
+                    <fr:Text Placeholder="Search..." Text="{Binding Search}"/>
+                </StackPanel>
+            </Grid>
+        </fr:FormList.Header>
+        <fr:Lista ItemsSource="{Binding RecordSource}" SelectedItem="{Binding CurrentRecord}">
+            <fr:Lista.Header>
+                <Grid fr:Definition.ColumnDefinitions="100">
+                    <Label Grid.Column="1" Content="NAME"/>
+                </Grid>
+            </fr:Lista.Header>
+            <fr:Lista.ItemTemplate>
+                <DataTemplate>
+                    <fr:FormRow>
+                        <Grid fr:Definition.RowDefinitions="30" fr:Definition.ColumnDefinitions="100,50">
+                            <Label Content="{Binding PointName}"/>
+                            <fr:OpenButton IsWithinList="True" Grid.Column="1"/>
+                        </Grid>
+                    </fr:FormRow>
+                </DataTemplate>
+            </fr:Lista.ItemTemplate>        
+        </fr:Lista>
+    </fr:FormList>
+</Window>

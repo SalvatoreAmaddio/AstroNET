@@ -256,5 +256,15 @@ namespace WpfApp1.View
 
             new MoonReturnWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
         }
+
+        private void OpenStarsClicked(object sender, RoutedEventArgs e)
+        {
+            new PointListWindow(true).ShowDialog();
+        }
+
+        private void OpenHouseClicked(object sender, RoutedEventArgs e)
+        {
+            new PointListWindow(false).ShowDialog();
+        }
     }
 }

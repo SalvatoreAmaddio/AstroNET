@@ -18,6 +18,8 @@ namespace WpfApp1
             DatabaseManager.Add(new SQLiteDatabase<Gender>());
             DatabaseManager.Add(new SQLiteDatabase<Triplicity>());
             DatabaseManager.Add(new SQLiteDatabase<Element>());
+            DatabaseManager.Add(new SQLiteDatabase<Power>());
+            DatabaseManager.Add(new SQLiteDatabase<StarPower>());
             DatabaseManager.Add(new SQLiteDatabase<Person>());
             DatabaseManager.Add(new SQLiteDatabase<Star>());
             DatabaseManager.Add(new SQLiteDatabase<House>());

@@ -27,18 +27,18 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Database">
+            <MenuItem Header="_Database">
                 <MenuItem Header="Signs">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/assets/sign/scorpio.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Stars">
+                <MenuItem Header="_Stars" Click="OpenStarsClicked">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/assets/planets/mars.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Houses"/>
+                <MenuItem Header="_Houses" Click="OpenHouseClicked"/>
                 <MenuItem Header="Aspects">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/assets/aspects/opposition.png"/>

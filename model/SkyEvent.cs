@@ -125,7 +125,7 @@ namespace WpfApp1.model
         public void Calculate(DateTime date, TimeSpan time, City city) =>
         Calculate(date.Year, date.Month, date.Day, time.Hours, time.Minutes, city);
 
-        private bool CheckDST(DateTime dateTime, string timeZoneId)
+        private static bool CheckDST(DateTime dateTime, string timeZoneId)
         {
             // Convert DateTime to NodaTime LocalDateTime
             LocalDateTime localDateTime = new (dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute);

@@ -32,7 +32,7 @@ namespace WpfApp1.model
                 case 4:
                 case 7:
                 case 10:
-                    IsAngular = true;
+                    _isAngular = true;
                     break;
             }
         }

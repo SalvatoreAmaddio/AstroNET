@@ -106,5 +106,7 @@ namespace WpfApp1.model
 
             throw new Exception();
         }
+
+        public override bool IsNewRecord() => (long?)GetPrimaryKey()?.GetValue() == -1;
     }
 }
