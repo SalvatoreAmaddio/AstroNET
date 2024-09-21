@@ -291,5 +291,15 @@ namespace WpfApp1.View
         {
             new SignListWindow().ShowDialog();
         }
+
+        private void OnRadixAspectsClicked(object sender, RoutedEventArgs e)
+        {
+            new LibraryAspectsWindowList(new TransitType(1)).ShowDialog();    
+        }
+
+        private void OnTransitAspectsClicked(object sender, RoutedEventArgs e)
+        {
+            new LibraryAspectsWindowList(new TransitType(2)).ShowDialog();
+        }
     }
 }

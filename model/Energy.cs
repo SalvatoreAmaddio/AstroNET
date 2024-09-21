@@ -12,12 +12,14 @@ namespace WpfApp1.model
 
         [PK]
         public Int64 EnergyId { get => _energyId; set => UpdateProperty(ref value, ref _energyId); }
+
         [Field]
         public string EnergyName { get => _energyName; set => UpdateProperty(ref value, ref _energyName); }
 
         public Energy() { }
 
         public Energy(Int64 id) => _energyId = id;
+
         public Energy(DbDataReader reader) 
         {
             _energyId = reader.GetInt64(0);

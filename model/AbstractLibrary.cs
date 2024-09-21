@@ -1,7 +1,6 @@
 ﻿using Backend.Model;
 using FrontEnd.Model;
 using System.Data.Common;
-using Backend.ExtensionMethods;
 
 namespace WpfApp1.model
 {
@@ -30,7 +29,6 @@ namespace WpfApp1.model
         }
     }
 
-    [Table("Library")]
     public abstract class AbstractLibrary<M> : AbstractModel<M> where M : IAbstractModel, new()
     {
         private Int64 _libraryID;
@@ -42,14 +40,14 @@ namespace WpfApp1.model
         public Int64 LibraryID { get => _libraryID; set => UpdateProperty(ref value, ref _libraryID); }
         
         [FK]
-        public Star StarID { get => _starID; set => UpdateProperty(ref value, ref _starID); }
+        public Star Star { get => _starID; set => UpdateProperty(ref value, ref _starID); }
 
         [Field]
         public string Description { get => _description; set => UpdateProperty(ref value, ref _description); }
         [FK]
         public TransitType? TransitType { get => _transitType; set => UpdateProperty(ref value, ref _transitType);}
     
-        public AbstractLibrary() 
+        public AbstractLibrary() : base()
         {
         }
 
@@ -66,12 +64,12 @@ namespace WpfApp1.model
     public class LibraryAspect : AbstractLibrary<LibraryAspect> 
     {
         protected Star _star2 = null!;
-        private Int64 _energyId;
+        private Energy _energy = null!;
 
-        [Field]
-        public Int64 EnergyId { get => _energyId; set => UpdateProperty(ref value, ref _energyId); }
+        [FK]
+        public Energy Energy { get => _energy; set => UpdateProperty(ref value, ref _energy); }
 
-        [FK("StarID2")]
+        [FK("StarID")]
         public Star Star2 { get => _star2; set => UpdateProperty(ref value, ref _star2); }
 
         public LibraryAspect()
@@ -80,7 +78,7 @@ namespace WpfApp1.model
 
         public LibraryAspect(DbDataReader reader) : base(reader) 
         {
-            _energyId = reader.GetInt64(4);
+            _energy = new(reader.GetInt64(4));
             _star2 = new Star(reader.GetInt64(5));
         }
     }
@@ -102,4 +100,24 @@ namespace WpfApp1.model
             _house = new House(reader.GetInt64(4));
         }
     }
+
+    [Table(nameof(LibrarySigns))]
+    public class LibrarySigns : AbstractLibrary<LibrarySigns>
+    {
+        protected Sign _sign = null!;
+
+        [FK]
+        public Sign Sign { get => _sign; set => UpdateProperty(ref value, ref _sign); }
+
+        public LibrarySigns() : base()
+        {
+            _transitType = new(1);
+        }
+
+        public LibrarySigns(DbDataReader reader) : base(reader)
+        {
+            _sign = new Sign(reader.GetInt64(4));
+        }
+    }
+
 }
