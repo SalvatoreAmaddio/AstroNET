@@ -1,4 +1,6 @@
-﻿namespace WpfApp1.model
+﻿using Backend.Model;
+
+namespace WpfApp1.model
 {
     public interface IPoint
     {

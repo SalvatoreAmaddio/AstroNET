@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
         xmlns:controller="clr-namespace:WpfApp1.controller"
+        xmlns:converter="clr-namespace:WpfApp1.converter"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         d:DataContext="{d:DesignInstance Type=controller:AspectController, IsDesignTimeCreatable=False}"
         WindowStartupLocation="CenterScreen"
@@ -14,9 +15,14 @@
         ResizeMode="NoResize"
         Title="Aspect" Height="450" Width="589">
 
+    <Window.Resources>
+        <converter:EnergyConverter x:Key="energy"/>
+    </Window.Resources>
+    
     <fr:Form Padding="10">
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
@@ -48,13 +54,15 @@
 
             <Label Grid.Row="1" Grid.Column="3" Content="Color HEX"/>
             <xctk:ColorPicker Grid.Row="1" Grid.Column="4" SelectedColor="{Binding CurrentRecord.Color}" />
+
+            <Label Grid.Row="4" Grid.ColumnSpan="2" Content="{Binding CurrentRecord.Energy.EnergyId, Converter={StaticResource energy}}" ContentStringFormat="Energy: {0}"/>
+
+            <Label Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Content="Edit Transit orbits" FontStyle="Italic" Foreground="Blue" Cursor="Hand" MouseDown="OnMouseDoubleClick"/>
             
-            <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Content="Edit Transit orbits" FontStyle="Italic" Foreground="Blue" Cursor="Hand" MouseDown="OnMouseDoubleClick"/>
-            
-            <Label Grid.Row="5" Grid.Column="0" Content="Description:"/>
-            <fr:Text Grid.Row="6" Grid.ColumnSpan="4" AcceptsReturn="True" TextWrapping="Wrap" VerticalContentAlignment="Top" Text="{Binding CurrentRecord.Description}"/>
+            <Label Grid.Row="6" Grid.Column="0" Content="Description:"/>
+            <fr:Text Grid.Row="7" Grid.ColumnSpan="4" AcceptsReturn="True" TextWrapping="Wrap" VerticalContentAlignment="Top" Text="{Binding CurrentRecord.Description}"/>
            
-            <fr:SaveButton Grid.Row="6" Grid.Column="4" VerticalAlignment="Top" Height="30" Margin="5,0,0,0"/>
+            <fr:SaveButton Grid.Row="7" Grid.Column="4" VerticalAlignment="Top" Height="30" Margin="5,0,0,0"/>
         </Grid>
     </fr:Form>
 </Window>

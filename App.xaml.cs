@@ -32,6 +32,10 @@ namespace WpfApp1
             DatabaseManager.Add(new SQLiteDatabase<City>());
 
             DatabaseManager.Add(new SQLiteDatabase<StarTransitOrbit>());
+            DatabaseManager.Add(new SQLiteDatabase<TransitType>());
+            DatabaseManager.Add(new SQLiteDatabase<Energy>());
+
+            DatabaseManager.Add(new SQLiteDatabase<LibraryAspect>());
             this.DisposeOnExit(); // ensure Databases are disposed on Application' shutdown.
         }
     }

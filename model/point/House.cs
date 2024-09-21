@@ -14,7 +14,7 @@ namespace WpfApp1.model
         public House() { }
         public House(Int64 id) : base(id)
         {
-            _rullerSign = DatabaseManager.Find<Sign>()?.MasterSource.Cast<Sign>().First(s => s.SignId == id)!;
+            _rullerSign = new Sign(id);
             SetAngulars();
         }
 
@@ -41,6 +41,7 @@ namespace WpfApp1.model
         {
             EclipticLongitude = eclipticLongitude;
             RadixSign = new(GetZodiacSign(EclipticLongitude, out _, out _, out _));
+            RadixSign = DatabaseManager.Find<Sign>()?.MasterSource.Cast<Sign>().First(s => s.SignId == RadixSign.SignId)!;
         }
     }
 }

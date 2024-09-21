@@ -65,4 +65,9 @@ namespace WpfApp1.converter
             throw new NotImplementedException();
         }
     }
+
+    public class EnergyConverter : GetRecordByID<Energy>
+    {
+
+    }
 }

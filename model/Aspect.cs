@@ -18,6 +18,7 @@ namespace WpfApp1.model
         private double _diff = 0;
         private string _colorHex = string.Empty;
         private string _uri = string.Empty;
+        private Energy _energy = null!;
 
         [PK]
         public Int64 AspectId { get => _aspectId; set => UpdateProperty(ref value, ref _aspectId); }
@@ -46,6 +47,9 @@ namespace WpfApp1.model
         [Field]
         public string URI { get => _uri; set => UpdateProperty(ref value, ref _uri); }
 
+        [FK]
+        public Energy Energy { get => _energy; private set => UpdateProperty(ref value, ref _energy); }
+
         public double OrbDiff { get; protected set; }
         public string OrbDiffInDegree { get; protected set; } = string.Empty;
         public string Info => $"{PointA}{TryFetchHouse(PointA)}{this} {PointB}{TryFetchHouse(PointB)} ({OrbDiffInDegree})";
@@ -70,6 +74,7 @@ namespace WpfApp1.model
             _colorHex = reader.GetString(6);
             _natalTollerance = reader.GetDouble(7);
             _isDashed = reader.GetBoolean(8);
+            _energy = new(reader.GetInt32(9));
         }
 
         private void OnAfterUpdate(object? sender, FrontEnd.Events.AfterUpdateArgs e)
@@ -102,17 +107,18 @@ namespace WpfApp1.model
         {
             return new()
             {
-                AspectId = this.AspectId,
-                AspectName = this.AspectName,
-                Description = this.Description,
-                Orbit = this.Orbit,
-                IsMajor = this.IsMajor,
-                IsDashed = this.IsDashed,
+                _aspectId = this.AspectId,
+                _aspectName = this.AspectName,
+                _description = this.Description,
+                _orbit = this.Orbit,
+                _isMajor = this.IsMajor,
+                _isDashed = this.IsDashed,
                 _colorHex = this._colorHex,
                 PointA = this.PointA,
                 PointB = this.PointB,
-                NatalTollerance = this.NatalTollerance,
-                URI = this.URI,
+                _natalTollerance = this.NatalTollerance,
+                _uri = this.URI,
+                _energy = this.Energy,
                 _diff = diff
             };
         }
