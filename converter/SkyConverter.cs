@@ -262,18 +262,4 @@ namespace WpfApp1.converter
         }
     }
 
-    public class GetStar : IValueConverter
-    {
-        private IEnumerable<Star>? Stars = DatabaseManager.Find<Star>()?.MasterSource.Cast<Star>();
-        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            Int64 starId = (long)value;
-            return Stars?.FirstOrDefault(s=>s.PointId==starId);
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
 }

@@ -301,5 +301,15 @@ namespace WpfApp1.View
         {
             new LibraryAspectsWindowList(new TransitType(2)).ShowDialog();
         }
+
+        private void OnRadixHousesClicked(object sender, RoutedEventArgs e)
+        {
+            new LibraryHousesWindowList(new TransitType(1)).ShowDialog();
+        }
+
+        private void OnTransitHousesClicked(object sender, RoutedEventArgs e)
+        {
+            new LibraryHousesWindowList(new TransitType(2)).ShowDialog();
+        }
     }
 }

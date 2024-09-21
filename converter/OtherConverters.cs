@@ -70,4 +70,13 @@ namespace WpfApp1.converter
     {
 
     }
+
+    public class GetStar : GetRecordByID<Star>
+    {
+    }
+
+    public class GetHouse : GetRecordByID<House>
+    {
+    }
+
 }

@@ -61,4 +61,13 @@ namespace WpfApp1.controller
         }
     }
 
+    public class LibraryHousesController : AbstractLibraryController<LibraryHouses> 
+    {
+        public RecordSource<House> Houses { get; private set; } = new(DatabaseManager.Find<House>()!);
+
+        public LibraryHousesController(LibraryHouses aspect) : base(aspect)
+        {
+        }
+    }
+
 }

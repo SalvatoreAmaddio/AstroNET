@@ -58,13 +58,13 @@
             <MenuItem Header="Library">
                 <MenuItem Header="Natal Chart">
                     <MenuItem Header="Aspects" Click="OnRadixAspectsClicked"/>
-                    <MenuItem Header="Stars in Houses"/>
+                    <MenuItem Header="Stars in Houses" Click="OnRadixHousesClicked"/>
                     <MenuItem Header="Stars in Signs"/>
                     <MenuItem Header="Dispositori"/>
                 </MenuItem>
                 <MenuItem Header="Transit">
                     <MenuItem Header="Aspects" Click="OnTransitAspectsClicked"/>
-                    <MenuItem Header="Stars in Houses"/>
+                    <MenuItem Header="Stars in Houses" Click="OnTransitHousesClicked"/>
                 </MenuItem>
                 <MenuItem Header="Returns">
                     <MenuItem Header="Stars in Houses"/>

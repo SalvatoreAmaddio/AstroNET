@@ -89,7 +89,7 @@ namespace WpfApp1.model
     {
         protected House _house = null!;
 
-        [FK]
+        [FK("HouseId")]
         public House House { get => _house; set => UpdateProperty(ref value, ref _house); }
 
         public LibraryHouses()

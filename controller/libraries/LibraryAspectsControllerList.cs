@@ -83,4 +83,31 @@ namespace WpfApp1.controller
             new LibraryAspectWindow(model).ShowDialog();
         }
     }
+
+    public class LibraryHousesControllerList : AbstractLibraryControllerList<LibraryHouses> 
+    {
+        public SourceOption HouseOptions { get; private set; }
+        public LibraryHousesControllerList(TransitType transitType) : base(transitType)
+        {
+            HouseOptions = new SourceOption(new RecordSource<House>(DatabaseManager.Find<House>()!), "PointName", OrderBy.ASC, "PointId");
+        }
+
+        public override void OnOptionFilterClicked(FilterEventArgs e)
+        {
+            ReloadSearchQry();
+            StarOptions.Conditions<WhereClause>(SearchQry, "PointId");
+            HouseOptions.Conditions<WhereClause>(SearchQry, "HouseId");
+            OnAfterUpdate(e, new(null, null, nameof(Search)));
+        }
+
+        protected override void Open(LibraryHouses model)
+        {
+            if (model.IsNewRecord())
+            {
+                model.TransitType = TransitType;
+                model.Clean();
+            }
+            new LibraryHouseWindow(model).ShowDialog();
+        }
+    }
 }
