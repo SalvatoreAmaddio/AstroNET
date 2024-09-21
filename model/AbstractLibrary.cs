@@ -61,8 +61,8 @@ namespace WpfApp1.model
         }
     }
 
-    [Table(nameof(LibraryAspect))]
-    public class LibraryAspect : AbstractLibrary<LibraryAspect> 
+    [Table(nameof(LibraryAspects))]
+    public class LibraryAspects : AbstractLibrary<LibraryAspects>
     {
         protected Star _star2 = null!;
         private Energy _energy = null!;
@@ -73,11 +73,11 @@ namespace WpfApp1.model
         [FK("StarID")]
         public Star Star2 { get => _star2; set => UpdateProperty(ref value, ref _star2); }
 
-        public LibraryAspect()
+        public LibraryAspects()
         {
         }
 
-        public LibraryAspect(DbDataReader reader) : base(reader) 
+        public LibraryAspects(DbDataReader reader) : base(reader) 
         {
             _energy = new(reader.GetInt64(4));
             _star2 = new Star(reader.GetInt64(5));

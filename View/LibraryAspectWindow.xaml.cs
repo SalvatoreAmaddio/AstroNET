@@ -24,7 +24,7 @@ namespace WpfApp1.View
             InitializeComponent();
         }
 
-        public LibraryAspectWindow(LibraryAspect record) : this()
+        public LibraryAspectWindow(LibraryAspects record) : this()
         {
             long transitId = record.TransitType.TransitTypeId;
 

@@ -51,12 +51,12 @@ namespace WpfApp1.controller
         }
     }
 
-    public class LibraryAspectsController : AbstractLibraryController<LibraryAspect>
+    public class LibraryAspectsController : AbstractLibraryController<LibraryAspects>
     {
         public RecordSource<Energy> Energies { get; private set; } = new(DatabaseManager.Find<Energy>()!);
         public RecordSource<Star> Stars2 { get; private set; } = new(DatabaseManager.Find<Star>()!);
 
-        public LibraryAspectsController(LibraryAspect aspect) : base(aspect)
+        public LibraryAspectsController(LibraryAspects aspect) : base(aspect)
         {
         }
     }

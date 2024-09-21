@@ -53,7 +53,7 @@ namespace WpfApp1.controller
         }
     }
 
-    public class LibraryAspectsControllerList : AbstractLibraryControllerList<LibraryAspect>
+    public class LibraryAspectsControllerList : AbstractLibraryControllerList<LibraryAspects>
     {
         public SourceOption StarOptions2 { get; private set; }
         public SourceOption EnergyOptions { get; private set; }
@@ -73,7 +73,7 @@ namespace WpfApp1.controller
             OnAfterUpdate(e, new(null, null, nameof(Search)));
         }
 
-        protected override void Open(LibraryAspect model)
+        protected override void Open(LibraryAspects model)
         {
             if (model.IsNewRecord()) 
             {
