@@ -14,18 +14,8 @@ namespace WpfApp1.View
 
         public LibraryHousesWindowList(TransitType transit) : this()
         {
-            long transitID = transit.TransitTypeId;
-
-            switch (transitID) 
-            {
-                case 1:
-                    Title = "Radix Houses";
-                    break;
-                case 2:
-                    Title = "Transits in Houses";
-                    break;
-            }
             this.SetController(new LibraryHousesControllerList(transit));
+            this.GetController<LibraryHousesControllerList>()?.SetTitle();
         }
     }
 }

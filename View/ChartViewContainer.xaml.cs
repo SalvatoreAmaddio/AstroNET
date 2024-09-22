@@ -311,5 +311,20 @@ namespace WpfApp1.View
         {
             new LibraryHousesWindowList(new TransitType(2)).ShowDialog();
         }
+
+        private void OnReturnHousesClicked(object sender, RoutedEventArgs e)
+        {
+            new LibraryHousesWindowList(new TransitType(4)).ShowDialog();
+        }
+
+        private void OnSinastryHousesClicked(object sender, RoutedEventArgs e)
+        {
+            new LibraryHousesWindowList(new TransitType(3)).ShowDialog();
+        }
+
+        private void OnSinastryAspectsClicked(object sender, RoutedEventArgs e)
+        {
+            new LibraryAspectsWindowList(new TransitType(3)).ShowDialog();
+        }
     }
 }

@@ -67,11 +67,11 @@
                     <MenuItem Header="Stars in Houses" Click="OnTransitHousesClicked"/>
                 </MenuItem>
                 <MenuItem Header="Returns">
-                    <MenuItem Header="Stars in Houses"/>
+                    <MenuItem Header="Stars in Houses" Click="OnReturnHousesClicked"/>
                 </MenuItem>
                 <MenuItem Header="Sinastry">
-                    <MenuItem Header="Aspects"/>
-                    <MenuItem Header="Stars in Houses"/>
+                    <MenuItem Header="Aspects" Click="OnSinastryAspectsClicked"/>
+                    <MenuItem Header="Stars in Houses" Click="OnSinastryHousesClicked"/>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Returns">

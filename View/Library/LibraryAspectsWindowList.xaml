@@ -9,7 +9,9 @@
         xmlns:converter="clr-namespace:WpfApp1.converter"
         xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
         xmlns:controller="clr-namespace:WpfApp1.controller"
-        Title="LibraryAspectsWindow" Height="450" Width="800">
+        Title="LibraryAspectsWindow" 
+        ResizeMode="NoResize"
+        Height="450" Width="450">
 
     <Window.Resources>
         <converter:GetStar x:Key="getStar"/>

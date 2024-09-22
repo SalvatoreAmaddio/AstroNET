@@ -14,19 +14,8 @@ namespace WpfApp1.View
 
         public LibraryAspectWindow(LibraryAspects record) : this()
         {
-            long transitId = record.TransitType.TransitTypeId;
-
-            switch (transitId) 
-            {
-                case 1:
-                    Title = "Radix Aspect";
-                    break;
-                case 2:
-                    Title = "Transit Aspect";
-                    break;
-            }
-
             this.SetController(new LibraryAspectsController(record));
+            this.GetController<LibraryAspectsController>()?.SetTitle();
         }
     }
 }

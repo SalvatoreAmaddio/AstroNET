@@ -14,19 +14,8 @@ namespace WpfApp1.View
 
         public LibraryHouseWindow(LibraryHouses record) : this()
         {
-            long transitId = record.TransitType.TransitTypeId;
-
-            switch (transitId) 
-            {
-                case 1:
-                    Title = "Radix House";
-                    break;
-                case 2:
-                    Title = "Transit House";
-                    break;
-            }
-
             this.SetController(new LibraryHousesController(record));
+            this.GetController<LibraryHousesController>()?.SetTitle();
         }
     }
 }

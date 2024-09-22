@@ -5,6 +5,7 @@ using FrontEnd.Controller;
 using FrontEnd.Events;
 using FrontEnd.FilterSource;
 using FrontEnd.Source;
+using System.Windows;
 using WpfApp1.model;
 using WpfApp1.View;
 
@@ -21,15 +22,11 @@ namespace WpfApp1.controller
             WindowLoaded += OnWindowLoaded;
         }
 
-        private async void OnWindowLoaded(object? sender, System.Windows.RoutedEventArgs e)
-        {
-            await OnSearchPropertyRequeryAsync(this);
-        }
+        private async void OnWindowLoaded(object? sender, System.Windows.RoutedEventArgs e) =>
+        await OnSearchPropertyRequeryAsync(this);
 
-        public AbstractLibraryControllerList(TransitType transitType) : this()
-        {
-            TransitType = transitType;
-        }
+        public AbstractLibraryControllerList(TransitType transitType) : this() =>
+        TransitType = transitType;
 
         public async override Task<IEnumerable<M>> SearchRecordAsync()
         {
@@ -51,6 +48,8 @@ namespace WpfApp1.controller
                 .Where()
                     .EqualsTo("TransitTypeId", "@transitId");
         }
+
+        public abstract void SetTitle();
     }
 
     public class LibraryAspectsControllerList : AbstractLibraryControllerList<LibraryAspects>
@@ -82,6 +81,24 @@ namespace WpfApp1.controller
             }
             new LibraryAspectWindow(model).ShowDialog();
         }
+
+        public override void SetTitle()
+        {
+            long transitID = TransitType.TransitTypeId;
+
+            switch (transitID)
+            {
+                case 1:
+                    ((Window?)UI).Title = "Radix Aspects";
+                    break;
+                case 2:
+                    ((Window?)UI).Title = "Transits Aspects";
+                    break;
+                case 3:
+                    ((Window?)UI).Title = "Sinastry Aspects";
+                    break;
+            }
+        }
     }
 
     public class LibraryHousesControllerList : AbstractLibraryControllerList<LibraryHouses> 
@@ -108,6 +125,27 @@ namespace WpfApp1.controller
                 model.Clean();
             }
             new LibraryHouseWindow(model).ShowDialog();
+        }
+
+        public override void SetTitle()
+        {
+            long transitID = TransitType.TransitTypeId;
+
+            switch (transitID)
+            {
+                case 1:
+                    ((Window?)UI).Title = "Radix Houses";
+                    break;
+                case 2:
+                    ((Window?)UI).Title = "Transits in Houses";
+                    break;
+                case 3:
+                    ((Window?)UI).Title = "Sinastry Houses";
+                    break;
+                case 4:
+                    ((Window?)UI).Title = "Return Houses";
+                    break;
+            }
         }
     }
 }

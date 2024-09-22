@@ -4,6 +4,7 @@ using FrontEnd.Controller;
 using FrontEnd.Source;
 using WpfApp1.model;
 using Backend.ExtensionMethods;
+using System.Windows;
 
 namespace WpfApp1.controller
 {
@@ -49,6 +50,8 @@ namespace WpfApp1.controller
             RecordSource.ReplaceRecords(results);
             GoAt(_aspect);
         }
+
+        public abstract void SetTitle();
     }
 
     public class LibraryAspectsController : AbstractLibraryController<LibraryAspects>
@@ -59,6 +62,24 @@ namespace WpfApp1.controller
         public LibraryAspectsController(LibraryAspects aspect) : base(aspect)
         {
         }
+
+        public override void SetTitle()
+        {
+            long transitId = TransitType.TransitTypeId;
+
+            switch (transitId)
+            {
+                case 1:
+                    ((Window?)UI).Title = "Radix Aspect";
+                    break;
+                case 2:
+                    ((Window?)UI).Title = "Transit Aspect";
+                    break;
+                case 3:
+                    ((Window?)UI).Title = "Sinastry Aspects";
+                    break;
+            }
+        }
     }
 
     public class LibraryHousesController : AbstractLibraryController<LibraryHouses> 
@@ -67,6 +88,27 @@ namespace WpfApp1.controller
 
         public LibraryHousesController(LibraryHouses aspect) : base(aspect)
         {
+        }
+
+        public override void SetTitle()
+        {
+            long transitId = TransitType.TransitTypeId;
+
+            switch (transitId)
+            {
+                case 1:
+                    ((Window?)UI).Title = "Radix Houses";
+                    break;
+                case 2:
+                    ((Window?)UI).Title = "Transits in Houses";
+                    break;
+                case 3:
+                    ((Window?)UI).Title = "Sinastry Houses";
+                    break;
+                case 4:
+                    ((Window?)UI).Title = "Return Houses";
+                    break;
+            }
         }
     }
 
