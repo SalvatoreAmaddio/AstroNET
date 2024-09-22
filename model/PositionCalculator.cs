@@ -59,6 +59,24 @@ namespace WpfApp1.model
         public PositionCalculator(SkyEvent skyEvent) =>
         _skyEvent = skyEvent;
 
+        public IEnumerable<Aspect> TransitsCalculator(DateTime startDate, City city, int starId, int steps)
+        {
+            DateTime endDate = startDate.AddMonths(steps);
+            DateTimeAdjuster startDateAdj = new(startDate);
+            SkyEvent currentSky;
+            Star star;
+            List<Aspect> aspects = [];
+
+            while (true) 
+            {
+                currentSky = new(startDateAdj.OutputDate, startDateAdj.OutputTime, city);
+                star = GetStarPosition(ref currentSky, starId);                
+                aspects.AddRange(_skyEvent.CalculateAspects(star, startDateAdj.OutputDate));
+                startDateAdj.AddDays(1);
+                if (startDateAdj.OutputDate > endDate) return aspects;
+            }
+        }
+
         public (DateTime date, TimeSpan time) MoonReturn(DateTime returnDate, City city) 
         {
             SkyEvent returnSky;

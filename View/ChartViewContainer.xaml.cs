@@ -276,7 +276,7 @@ namespace WpfApp1.View
 
         private void OpenTransitCalcualtor(object sender, RoutedEventArgs e)
         {
-            new TransitCalculatorWindow().ShowDialog();
+            new TransitCalculatorWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
         }
     }
 }

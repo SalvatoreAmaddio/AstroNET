@@ -19,7 +19,7 @@ namespace WpfApp1.model
         private string _colorHex = string.Empty;
         private string _uri = string.Empty;
         private Energy _energy = null!;
-
+        
         [PK]
         public Int64 AspectId { get => _aspectId; set => UpdateProperty(ref value, ref _aspectId); }
 
@@ -56,6 +56,7 @@ namespace WpfApp1.model
         public IPoint PointA { get; set; } = null!;
         public IPoint PointB { get; set; } = null!;
         public Brush Brush { get; protected set; } = Brushes.Black;
+        public DateTime DateOf { get; set; }
 
         public Aspect() 
         {
@@ -119,6 +120,7 @@ namespace WpfApp1.model
                 _natalTollerance = this.NatalTollerance,
                 _uri = this.URI,
                 _energy = this.Energy,
+                DateOf = this.DateOf,
                 _diff = diff
             };
         }

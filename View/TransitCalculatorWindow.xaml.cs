@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using FrontEnd.Dialogs;
+using System.ComponentModel;
+using FrontEnd.ExtensionMethods;
 using System.Windows;
 using WpfApp1.controller;
 using WpfApp1.model;
@@ -10,11 +12,10 @@ namespace WpfApp1.View
         public event PropertyChangedEventHandler? PropertyChanged;
         private int _steps = 1;
         private string _searchLocation = string.Empty;
-        private Star? _selectedStar;
+        private Star _selectedStar = null!;
         private City? _selectedCity;
         private bool _isLoading = false;
         private DateTime _selectedDate = DateTime.Today;
-
         public bool IsLoading
         {
             get => _isLoading;
@@ -25,7 +26,7 @@ namespace WpfApp1.View
             }
         }
 
-        public Star? SelectedStar 
+        public Star SelectedStar 
         {
             get => _selectedStar;
             set 
@@ -82,6 +83,8 @@ namespace WpfApp1.View
         {
             InitializeComponent();
             this.DataContext = this;
+            SelectedCity = CityListController.RecordSource.FirstOrDefault();
+            SelectedStar = StarListController.RecordSource.First();
         }
 
         private void FilterList()
@@ -93,9 +96,33 @@ namespace WpfApp1.View
 
         private void OnPropertyChanged(string propName) => PropertyChanged?.Invoke(this,new(propName));
 
-        private void OnRunClicked(object sender, RoutedEventArgs e)
+        private async void OnRunClicked(object sender, RoutedEventArgs e)
         {
+            if (SelectedCity == null) 
+            {
+                Failure.Allert("Select a city");
+                return;
+            }
 
+            if (Steps <= 0)
+            {
+                Failure.Allert("Steps must be 1 or greater");
+                return;
+            }
+
+            IsLoading = true;
+
+            SkyEvent subjectSky = ((ChartViewContainer)Owner.Content).Sky;
+            PositionCalculator calculator = new(subjectSky);
+
+            IEnumerable<Aspect> results = await Task.Run(() => 
+            {
+              return calculator.TransitsCalculator(SelectedDate, SelectedCity, (int)SelectedStar.PointId, Steps);
+            });
+            
+            IsLoading = false;
+
+            this.GoToWindow(new TransitsList(results));
         }
 
         private void OnLabelClicked(object sender, System.Windows.Input.MouseButtonEventArgs e)
