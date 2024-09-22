@@ -326,5 +326,10 @@ namespace WpfApp1.View
         {
             new LibraryAspectsWindowList(new TransitType(3)).ShowDialog();
         }
+
+        private void OnStarInSignClicked(object sender, RoutedEventArgs e)
+        {
+            new LibrarySignsWindowList().ShowDialog();
+        }
     }
 }

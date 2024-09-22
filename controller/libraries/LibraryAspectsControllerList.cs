@@ -148,4 +148,53 @@ namespace WpfApp1.controller
             }
         }
     }
+
+    public class LibrarySignsControllerList : AbstractLibraryControllerList<LibrarySigns>
+    {
+        public SourceOption SignOptions { get; private set; }
+        public LibrarySignsControllerList(TransitType transitType) : base(transitType)
+        {
+            SignOptions = new SourceOption(new RecordSource<Sign>(DatabaseManager.Find<Sign>()!), "SignName", OrderBy.ASC, "SignId");
+        }
+
+        public override void OnOptionFilterClicked(FilterEventArgs e)
+        {
+            ReloadSearchQry();
+            StarOptions.Conditions<WhereClause>(SearchQry, "PointId");
+            SignOptions.Conditions<WhereClause>(SearchQry, "SignId");
+            OnAfterUpdate(e, new(null, null, nameof(Search)));
+        }
+
+        protected override void Open(LibrarySigns model)
+        {
+            if (model.IsNewRecord())
+            {
+                model.TransitType = TransitType;
+                model.Clean();
+            }
+            new LibrarySignWindow(model).ShowDialog();
+        }
+
+        public override void SetTitle()
+        {
+            long transitID = TransitType.TransitTypeId;
+
+            switch (transitID)
+            {
+                case 1:
+                    ((Window?)UI).Title = "Star in Sign";
+                    break;
+                case 2:
+                    ((Window?)UI).Title = "Transits in Houses";
+                    break;
+                case 3:
+                    ((Window?)UI).Title = "Sinastry Houses";
+                    break;
+                case 4:
+                    ((Window?)UI).Title = "Return Houses";
+                    break;
+            }
+        }
+    }
+
 }

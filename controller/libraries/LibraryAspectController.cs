@@ -112,4 +112,33 @@ namespace WpfApp1.controller
         }
     }
 
+    public class LibrarySignsController : AbstractLibraryController<LibrarySigns>
+    {
+        public RecordSource<Sign> Signs { get; private set; } = new(DatabaseManager.Find<Sign>()!);
+
+        public LibrarySignsController(LibrarySigns aspect) : base(aspect)
+        {
+        }
+
+        public override void SetTitle()
+        {
+            long transitId = TransitType.TransitTypeId;
+
+            switch (transitId)
+            {
+                case 1:
+                    ((Window?)UI).Title = "Star in Sign";
+                    break;
+                case 2:
+                    ((Window?)UI).Title = "Transits in Houses";
+                    break;
+                case 3:
+                    ((Window?)UI).Title = "Sinastry Houses";
+                    break;
+                case 4:
+                    ((Window?)UI).Title = "Return Houses";
+                    break;
+            }
+        }
+    }
 }

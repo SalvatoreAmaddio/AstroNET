@@ -79,4 +79,7 @@ namespace WpfApp1.converter
     {
     }
 
+    public class GetSign : GetRecordByID<Sign>
+    {
+    }
 }

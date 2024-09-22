@@ -59,7 +59,7 @@
                 <MenuItem Header="Natal Chart">
                     <MenuItem Header="Aspects" Click="OnRadixAspectsClicked"/>
                     <MenuItem Header="Stars in Houses" Click="OnRadixHousesClicked"/>
-                    <MenuItem Header="Stars in Signs"/>
+                    <MenuItem Header="Stars in Signs" Click="OnStarInSignClicked"/>
                     <MenuItem Header="Dispositori"/>
                 </MenuItem>
                 <MenuItem Header="Transit">
