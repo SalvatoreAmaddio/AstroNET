@@ -20,7 +20,7 @@
                         <Image Source="{StaticResource plus}"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Archive" Click="OpenList" InputGestureText="Ctrl+A">
+                <MenuItem Header="_Archive" Click="OpenArchive" InputGestureText="Ctrl+A">
                     <MenuItem.Icon>
                         <Image Source="{StaticResource folder}"/>
                     </MenuItem.Icon>
@@ -32,13 +32,13 @@
                         <Image Source="pack://application:,,,/assets/sign/scorpio.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Stars" Click="OpenStarsClicked" InputGestureText="Ctrl+P">
+                <MenuItem Header="_Stars" Click="OpenStars" InputGestureText="Ctrl+P">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/assets/planets/mars.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="_Houses" Click="OpenHouseClicked" InputGestureText="Ctrl+H"/>
-                <MenuItem Header="_Aspects" Click="OpenAspectClicked" InputGestureText="Ctrl+A">
+                <MenuItem Header="_Houses" Click="OpenHouses"/>
+                <MenuItem Header="_Aspects" Click="OpenAspectClicked">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/assets/aspects/opposition.png"/>
                     </MenuItem.Icon>
@@ -48,34 +48,34 @@
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/assets/img/earth.png"/>
                     </MenuItem.Icon>
-                    <MenuItem Header="_Location Downloader" Click="LocationDownloaderClicked" InputGestureText="Ctrl+D">
+                    <MenuItem Header="_Location Downloader" Click="OpenLocationDownloader" InputGestureText="Ctrl+D">
                         <MenuItem.Icon>
                             <Image Source="pack://application:,,,/assets/img/download.png"/>
                         </MenuItem.Icon>
                     </MenuItem>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="Library">
-                <MenuItem Header="Natal Chart">
-                    <MenuItem Header="Aspects" Click="OnRadixAspectsClicked"/>
-                    <MenuItem Header="Stars in Houses" Click="OnRadixHousesClicked"/>
-                    <MenuItem Header="Stars in Signs" Click="OnStarInSignClicked"/>
-                    <MenuItem Header="Dispositori"/>
+            <MenuItem Header="_Library">
+                <MenuItem Header="_Natal Chart">
+                    <MenuItem Header="_Aspects" Click="OnRadixAspectsClicked"/>
+                    <MenuItem Header="_Stars in Houses" Click="OnRadixHousesClicked"/>
+                    <MenuItem Header="_Stars in Signs" Click="OnStarInSignClicked"/>
+                    <MenuItem Header="_Dispositori"/>
                 </MenuItem>
-                <MenuItem Header="Transit">
-                    <MenuItem Header="Aspects" Click="OnTransitAspectsClicked"/>
-                    <MenuItem Header="Stars in Houses" Click="OnTransitHousesClicked"/>
+                <MenuItem Header="_Transits">
+                    <MenuItem Header="_Aspects" Click="OnTransitAspectsClicked"/>
+                    <MenuItem Header="_Stars in Houses" Click="OnTransitHousesClicked"/>
                 </MenuItem>
-                <MenuItem Header="Returns">
-                    <MenuItem Header="Stars in Houses" Click="OnReturnHousesClicked"/>
+                <MenuItem Header="_Returns">
+                    <MenuItem Header="_Stars in Houses" Click="OnReturnHousesClicked"/>
                 </MenuItem>
-                <MenuItem Header="Sinastry">
-                    <MenuItem Header="Aspects" Click="OnSinastryAspectsClicked"/>
-                    <MenuItem Header="Stars in Houses" Click="OnSinastryHousesClicked"/>
+                <MenuItem Header="_Sinastry">
+                    <MenuItem Header="_Aspects" Click="OnSinastryAspectsClicked"/>
+                    <MenuItem Header="_Stars in Houses" Click="OnSinastryHousesClicked"/>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="_Returns">
-                <MenuItem Header="_Sun" Click="SunReturnClick" InputGestureText="Ctrl+R">
+                <MenuItem Header="_Sun" Click="OpenSunReturn" InputGestureText="Ctrl+R">
                     <MenuItem.Icon>
                         <Image Source="pack://application:,,,/assets/planets/sun.png"/>
                     </MenuItem.Icon>
@@ -86,15 +86,16 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="_Horoscope" Click="OnHoroscopeClicked"/>
+            <MenuItem Header="_Horoscope" Click="OpenHoroscope"/>
             <MenuItem Header="_Sinastria" Click="OpenSinastry" InputGestureText="Ctrl+C"/>
+            <MenuItem Header="Transits" Click="OpenTransitCalcualtor" />
             <MenuItem Header="_Settings">
                 <MenuItem Header="_Default Location" Click="OpenDefaultLocationSettings"/>
             </MenuItem>
         </Menu>
         <ToolBarTray Grid.Row="1">
             <ToolBar ToolBarTray.IsLocked="True">
-                <Button Click="EditClicked" Content="{StaticResource editing}" ToolTip="Edit" Padding="6,1,6,20"/>
+                <Button Click="OpenEdit" Content="{StaticResource editing}" ToolTip="Edit" Padding="6,1,6,20"/>
                 <Button Click="SaveClicked" Padding="6,1,6,20" ToolTip="Save">
                     <Image Source="{StaticResource save}" Width="20"/>
                 </Button>

@@ -11,6 +11,9 @@ namespace WpfApp1.View
 {
     public partial class ChartViewContainer : Grid
     {
+        public static RoutedUICommand OpenStarsCMD = CreateUICMD(
+        "Open Stars", nameof(OpenStarsCMD), Key.P);
+
         public static RoutedUICommand OpenArchiveCMD = CreateUICMD(
         "Open Archive", nameof(OpenArchiveCMD), Key.A);
 
@@ -83,14 +86,15 @@ namespace WpfApp1.View
         {
             Window? activeWin = Helper.GetActiveWindow();
             activeWin?.CommandBindings.Add(new(ApplicationCommands.New, AddNew));
-            activeWin?.CommandBindings.Add(new(OpenArchiveCMD, OpenList));
-            activeWin?.CommandBindings.Add(new(OpenHoroscopeCMD, OnHoroscopeClicked));
-            activeWin?.CommandBindings.Add(new(OpenLocationDownloaderCMD, LocationDownloaderClicked));
-            activeWin?.CommandBindings.Add(new(OpenEditCMD, EditClicked));
+            activeWin?.CommandBindings.Add(new(OpenArchiveCMD, OpenArchive));
+            activeWin?.CommandBindings.Add(new(OpenHoroscopeCMD, OpenHoroscope));
+            activeWin?.CommandBindings.Add(new(OpenLocationDownloaderCMD, OpenLocationDownloader));
+            activeWin?.CommandBindings.Add(new(OpenEditCMD, OpenEdit));
             activeWin?.CommandBindings.Add(new(ApplicationCommands.Save, SaveClicked));
-            activeWin?.CommandBindings.Add(new(OpenSunReturnCMD, SunReturnClick));
+            activeWin?.CommandBindings.Add(new(OpenSunReturnCMD, OpenSunReturn));
             activeWin?.CommandBindings.Add(new(OpenMoonReturnCMD, OpenMoonReturn));
             activeWin?.CommandBindings.Add(new(OpenSinastryCMD, OpenSinastry));
+            activeWin?.CommandBindings.Add(new(OpenStarsCMD, OpenStars));
         }
 
         private void WinOnClosing(object? sender, CancelEventArgs e)
@@ -125,12 +129,12 @@ namespace WpfApp1.View
             }
         }
         
-        private void OpenList(object sender, RoutedEventArgs e) => new PersonListForm().ShowDialog();
+        private void OpenArchive(object sender, RoutedEventArgs e) => new PersonListForm().ShowDialog();
 
         private void AddNew(object sender, RoutedEventArgs e) =>
         new PersonForm(new Person(), false, true) { Owner = Helper.GetActiveWindow() }.ShowDialog();
 
-        private void EditClicked(object sender, RoutedEventArgs e)
+        private void OpenEdit(object sender, RoutedEventArgs e)
         {
             Person? person = Sky.Person;
            
@@ -156,10 +160,10 @@ namespace WpfApp1.View
             }
         }
 
-        private void LocationDownloaderClicked(object sender, RoutedEventArgs e) =>
+        private void OpenLocationDownloader(object sender, RoutedEventArgs e) =>
         new AtlasDownloadForm().ShowDialog();
         
-        private void OnHoroscopeClicked(object sender, RoutedEventArgs e)
+        private void OpenHoroscope(object sender, RoutedEventArgs e)
         {
             Window? win = Helper.GetActiveWindow();
 
@@ -190,7 +194,7 @@ namespace WpfApp1.View
             new PersonListForm() { Owner = Helper.GetActiveWindow() }.ShowDialog();
         }
 
-        private void SunReturnClick(object sender, RoutedEventArgs e)
+        private void OpenSunReturn(object sender, RoutedEventArgs e)
         {
             Window? win = Helper.GetActiveWindow();
 
@@ -228,10 +232,10 @@ namespace WpfApp1.View
             new MoonReturnWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
         }
 
-        private void OpenStarsClicked(object sender, RoutedEventArgs e) =>
+        private void OpenStars(object sender, RoutedEventArgs e) =>
         new PointListWindow(true).ShowDialog();
 
-        private void OpenHouseClicked(object sender, RoutedEventArgs e) =>
+        private void OpenHouses(object sender, RoutedEventArgs e) =>
         new PointListWindow(false).ShowDialog();
 
         private void OpenAspectClicked(object sender, RoutedEventArgs e) =>
@@ -269,5 +273,10 @@ namespace WpfApp1.View
 
         private static void OpenLibraryHouses(int id)=> new LibraryHousesWindowList(new TransitType(id)).ShowDialog();
         private static void OpenLibraryAspects(int id) => new LibraryAspectsWindowList(new TransitType(id)).ShowDialog();
+
+        private void OpenTransitCalcualtor(object sender, RoutedEventArgs e)
+        {
+            new TransitCalculatorWindow().ShowDialog();
+        }
     }
 }
