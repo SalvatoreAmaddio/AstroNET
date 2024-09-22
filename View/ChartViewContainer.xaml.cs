@@ -11,70 +11,33 @@ namespace WpfApp1.View
 {
     public partial class ChartViewContainer : Grid
     {
-        public static RoutedUICommand OpenArchiveCMD = new (
-        "Open Archive",
-        nameof(OpenArchiveCMD),
-        typeof(Window),
-        new ()
-        {
-            new KeyGesture(Key.A, ModifierKeys.Control)
-        });
+        public static RoutedUICommand OpenArchiveCMD = CreateUICMD(
+        "Open Archive", nameof(OpenArchiveCMD), Key.A);
 
-        public static RoutedUICommand OpenSinastryCMD = new(
-        "Open Sinastry",
-        nameof(OpenSinastryCMD),
-        typeof(Window),
-        new()
-        {
-            new KeyGesture(Key.C, ModifierKeys.Control),
-        });
+        public static RoutedUICommand OpenSinastryCMD = CreateUICMD(
+        "Open Sinastry", nameof(OpenSinastryCMD), Key.C);
 
-        public static RoutedUICommand OpenSunReturnCMD = new(
-        "Open Sun Return",
-        nameof(OpenSunReturnCMD),
-        typeof(Window),
-        new()
-        {
-            new KeyGesture(Key.R, ModifierKeys.Control),
-        });
+        public static RoutedUICommand OpenSunReturnCMD = CreateUICMD(
+        "Open Sun Return", nameof(OpenSunReturnCMD), Key.R);
 
-        public static RoutedUICommand OpenMoonReturnCMD = new(
-        "Open Moon Return",
-        nameof(OpenMoonReturnCMD),
-        typeof(Window),
-        new()
-        {
-           new KeyGesture(Key.M, ModifierKeys.Control),
-        });
+        public static RoutedUICommand OpenMoonReturnCMD = CreateUICMD(
+        "Open Moon Return", nameof(OpenMoonReturnCMD), Key.M);
 
-        public static RoutedUICommand OpenHoroscopeCMD = new(
-       "Open Horoscope",
-        nameof(OpenHoroscopeCMD),
-        typeof(Window),
-        new ()
-        {
-           new KeyGesture(Key.H, ModifierKeys.Control)
-        });
+        public static RoutedUICommand OpenHoroscopeCMD = CreateUICMD(
+       "Open Horoscope", nameof(OpenHoroscopeCMD), Key.H);
+
+        public static RoutedUICommand OpenEditCMD = CreateUICMD(
+       "Open Edit Form", nameof(OpenEditCMD), Key.E);
+
+        public static RoutedUICommand OpenLocationDownloaderCMD = CreateUICMD(
+        "Open Location Downloader Form", nameof(OpenLocationDownloaderCMD), Key.D);
+
+        private static RoutedUICommand CreateUICMD(string text, string name, Key key) => 
+        new(text, name, typeof(Window), [new KeyGesture(key, ModifierKeys.Control)]);
         
-        public static RoutedUICommand OpenEditCMD = new(
-       "Open Edit Form",
-        nameof(OpenEditCMD),
-        typeof(Window),
-        new()
-        {
-           new KeyGesture(Key.E, ModifierKeys.Control)
-        });
-
-        public static RoutedUICommand OpenLocationDownloaderCMD = new(
-        "Open Location Downloader Form",
-        nameof(OpenLocationDownloaderCMD),
-        typeof(Window),
-        new()
-        {
-            new KeyGesture(Key.D, ModifierKeys.Control)
-        });
-
+        private bool _sinastryView = false;
         private SkyEvent _sky = null!;
+
         public SkyEvent Sky
         {
             get => _sky;
@@ -85,7 +48,6 @@ namespace WpfApp1.View
             }
         }
 
-        private bool _sinastryView = false;
         public ChartViewContainer()
         {
             InitializeComponent();
@@ -104,6 +66,7 @@ namespace WpfApp1.View
                 SetWindowBindings();
                 return;
             }
+
             Row1.Height = new(0);
             Row2.Height = new(0);
         }
@@ -187,22 +150,20 @@ namespace WpfApp1.View
             controller?.SetCurrentRecord(Sky.Person);
             bool? result = controller?.PerformUpdate();
 
-            if (result.HasValue && result.Value) 
+            if (result.HasValue && result.Value)
             {
                 SuccessDialog.Display();
             }
         }
 
-        private void LocationDownloaderClicked(object sender, RoutedEventArgs e)
-        {
-            new AtlasDownloadForm().ShowDialog();
-        }
-
+        private void LocationDownloaderClicked(object sender, RoutedEventArgs e) =>
+        new AtlasDownloadForm().ShowDialog();
+        
         private void OnHoroscopeClicked(object sender, RoutedEventArgs e)
         {
             Window? win = Helper.GetActiveWindow();
 
-            if (win.Title.ToLower().Contains("horoscope"))
+            if (win!.Title.ToLower().Contains("horoscope"))
             {
                 Failure.Allert("Cannot calculate a Horoscope on a Horoscope","Action Denied");
                 return;
@@ -214,7 +175,7 @@ namespace WpfApp1.View
         {
             Window? win = Helper.GetActiveWindow();
 
-            if (win.Title.ToLower().Contains("return"))
+            if (win!.Title.ToLower().Contains("return"))
             {
                 Failure.Allert("Cannot calculate a Sinastry on a Return", "Action Denied");
                 return;
@@ -233,7 +194,7 @@ namespace WpfApp1.View
         {
             Window? win = Helper.GetActiveWindow();
 
-            if (win.Title.ToLower().Contains("return"))
+            if (win!.Title.ToLower().Contains("return"))
             {
                 Failure.Allert("Cannot calculate a Return on a Return", "Action Denied");
                 return;
@@ -252,7 +213,7 @@ namespace WpfApp1.View
         {
             Window? win = Helper.GetActiveWindow();
 
-            if (win.Title.ToLower().Contains("return"))
+            if (win!.Title.ToLower().Contains("return"))
             {
                 Failure.Allert("Cannot calculate a Return on a Return", "Action Denied");
                 return;
@@ -267,69 +228,46 @@ namespace WpfApp1.View
             new MoonReturnWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
         }
 
-        private void OpenStarsClicked(object sender, RoutedEventArgs e)
-        {
-            new PointListWindow(true).ShowDialog();
-        }
+        private void OpenStarsClicked(object sender, RoutedEventArgs e) =>
+        new PointListWindow(true).ShowDialog();
 
-        private void OpenHouseClicked(object sender, RoutedEventArgs e)
-        {
-            new PointListWindow(false).ShowDialog();
-        }
+        private void OpenHouseClicked(object sender, RoutedEventArgs e) =>
+        new PointListWindow(false).ShowDialog();
 
-        private void OpenAspectClicked(object sender, RoutedEventArgs e)
-        {
-            new AspectListWindow().ShowDialog();
-        }
+        private void OpenAspectClicked(object sender, RoutedEventArgs e) =>
+        new AspectListWindow().ShowDialog();
 
-        private void OpenDefaultLocationSettings(object sender, RoutedEventArgs e)
-        {
-            new SetDefaultCityWindow().ShowDialog();
-        }
+        private void OpenDefaultLocationSettings(object sender, RoutedEventArgs e) =>
+        new SetDefaultCityWindow().ShowDialog();
 
-        private void OpenSignList(object sender, RoutedEventArgs e)
-        {
-            new SignListWindow().ShowDialog();
-        }
+        private void OpenSignList(object sender, RoutedEventArgs e) =>
+        new SignListWindow().ShowDialog();
 
-        private void OnRadixAspectsClicked(object sender, RoutedEventArgs e)
-        {
-            new LibraryAspectsWindowList(new TransitType(1)).ShowDialog();    
-        }
+        private void OnRadixAspectsClicked(object sender, RoutedEventArgs e) =>
+        OpenLibraryAspects(1);    
 
-        private void OnTransitAspectsClicked(object sender, RoutedEventArgs e)
-        {
-            new LibraryAspectsWindowList(new TransitType(2)).ShowDialog();
-        }
+        private void OnTransitAspectsClicked(object sender, RoutedEventArgs e) =>
+        OpenLibraryAspects(2);
 
-        private void OnRadixHousesClicked(object sender, RoutedEventArgs e)
-        {
-            new LibraryHousesWindowList(new TransitType(1)).ShowDialog();
-        }
+        private void OnSinastryAspectsClicked(object sender, RoutedEventArgs e) =>
+        OpenLibraryAspects(3);
 
-        private void OnTransitHousesClicked(object sender, RoutedEventArgs e)
-        {
-            new LibraryHousesWindowList(new TransitType(2)).ShowDialog();
-        }
+        private void OnRadixHousesClicked(object sender, RoutedEventArgs e) =>
+        OpenLibraryHouses(1);
 
-        private void OnReturnHousesClicked(object sender, RoutedEventArgs e)
-        {
-            new LibraryHousesWindowList(new TransitType(4)).ShowDialog();
-        }
+        private void OnTransitHousesClicked(object sender, RoutedEventArgs e) =>
+        OpenLibraryHouses(2);
 
-        private void OnSinastryHousesClicked(object sender, RoutedEventArgs e)
-        {
-            new LibraryHousesWindowList(new TransitType(3)).ShowDialog();
-        }
+        private void OnReturnHousesClicked(object sender, RoutedEventArgs e) =>
+        OpenLibraryHouses(4);
 
-        private void OnSinastryAspectsClicked(object sender, RoutedEventArgs e)
-        {
-            new LibraryAspectsWindowList(new TransitType(3)).ShowDialog();
-        }
+        private void OnSinastryHousesClicked(object sender, RoutedEventArgs e) =>
+        OpenLibraryHouses(3);
 
-        private void OnStarInSignClicked(object sender, RoutedEventArgs e)
-        {
-            new LibrarySignsWindowList().ShowDialog();
-        }
+        private void OnStarInSignClicked(object sender, RoutedEventArgs e) =>
+        new LibrarySignsWindowList().ShowDialog();
+
+        private static void OpenLibraryHouses(int id)=> new LibraryHousesWindowList(new TransitType(id)).ShowDialog();
+        private static void OpenLibraryAspects(int id) => new LibraryAspectsWindowList(new TransitType(id)).ShowDialog();
     }
 }
