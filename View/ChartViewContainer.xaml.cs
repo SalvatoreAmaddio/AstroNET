@@ -35,6 +35,9 @@ namespace WpfApp1.View
         public static RoutedUICommand OpenLocationDownloaderCMD = CreateUICMD(
         "Open Location Downloader Form", nameof(OpenLocationDownloaderCMD), Key.D);
 
+        public static RoutedUICommand OpenTransitCMD = CreateUICMD(
+        "Open Transit Form", nameof(OpenTransitCMD), Key.T);
+        
         private static RoutedUICommand CreateUICMD(string text, string name, Key key) => 
         new(text, name, typeof(Window), [new KeyGesture(key, ModifierKeys.Control)]);
         
@@ -95,6 +98,7 @@ namespace WpfApp1.View
             activeWin?.CommandBindings.Add(new(OpenMoonReturnCMD, OpenMoonReturn));
             activeWin?.CommandBindings.Add(new(OpenSinastryCMD, OpenSinastry));
             activeWin?.CommandBindings.Add(new(OpenStarsCMD, OpenStars));
+            activeWin?.CommandBindings.Add(new(OpenTransitCMD, OpenTransitCalcualtor));
         }
 
         private void WinOnClosing(object? sender, CancelEventArgs e)

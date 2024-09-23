@@ -34,7 +34,7 @@ namespace WpfApp1.View
             SkyEvent subjectSky = ((ChartViewContainer)Owner.Content).Sky;
             PositionCalculator c = new(subjectSky);
 
-            (DateTime returnDate, TimeSpan returnTime) = await Task.Run(()=>c.MoonReturn(DateTime.Today, SelectedCity));
+            (DateTime returnDate, TimeSpan returnTime) = await Task.Run(()=>c.MoonReturn(InputDate, SelectedCity));
 
             SkyEvent returnSky = subjectSky.CalculateReturn(returnDate, returnTime, SelectedCity, SkyType.MoonReturn);
             IsLoading = false;

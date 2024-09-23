@@ -77,6 +77,54 @@ namespace WpfApp1.model
             }
         }
 
+        public async Task<List<Aspect>> TransitsCalculatorAsync(DateTime startDate, City city, int starId, int steps)
+        {
+            List<Task<List<Aspect>>> tasks = [];
+            List<Aspect> aspects = [];
+
+            foreach (DateTime date in DateList(startDate, steps))
+            {
+                Task<List<Aspect>> task = Task.Run(() => CalculateMonthlyTransitAsync(date, starId, city));
+                tasks.Add(task);
+            }
+
+            foreach (List<Aspect>? monthlyAspect in await Task.WhenAll(tasks))
+            {
+                aspects.AddRange(monthlyAspect);
+            }
+
+            return aspects;
+        }
+
+        private static IEnumerable<DateTime> DateList(DateTime startDate, int steps) 
+        {
+            int months = 0;
+            do
+            {
+                yield return startDate;
+                months++;
+                startDate = startDate.AddMonths(1);
+            } while (months < steps);
+        }
+
+        private Task<List<Aspect>> CalculateMonthlyTransitAsync(DateTime startDate, int starId, City city) 
+        {
+            DateTimeAdjuster startDateAdj = new(startDate);
+            DateTime endDate = startDate.AddMonths(1);
+            SkyEvent currentSky;
+            Star star;
+            List<Aspect> aspects = [];
+
+            while (true)
+            {
+                currentSky = new(startDateAdj.OutputDate, startDateAdj.OutputTime, city);
+                star = GetStarPosition(ref currentSky, starId);
+                aspects.AddRange(_skyEvent.CalculateAspects(star, startDateAdj.OutputDate));
+                startDateAdj.AddDays(1);
+                if (startDateAdj.OutputDate > endDate) return Task.FromResult(aspects);
+            }
+        }
+
         public (DateTime date, TimeSpan time) MoonReturn(DateTime returnDate, City city) 
         {
             SkyEvent returnSky;
@@ -297,7 +345,7 @@ namespace WpfApp1.model
             if (tollerance == -1)
                 tollerance = aspect.NatalTollerance;
 
-            if (IsWithinRange(distance, aspect.Orbit, tollerance))
+            if (IsWithinRange(Math.Abs(distance), aspect.Orbit, tollerance))
             {
                 return aspect.Clone(distance);
             }
@@ -310,14 +358,29 @@ namespace WpfApp1.model
             return value >= (target - tolerance) && value <= (target + tolerance);
         }
 
+        //public static double CalculateDistance(double point1, double point2)
+        //{
+        //    double directDistance = Math.Abs(point1 - point2);
+
+        //    // Calculate wrap-around distance
+        //    double wrapAroundDistance = 360.0 - directDistance;
+
+        //    return Math.Min(directDistance, wrapAroundDistance);
+        //}
+
         public static double CalculateDistance(double point1, double point2)
         {
-            double directDistance = Math.Abs(point1 - point2);
+            point1 = point1 % 360;
+            point2 = point2 % 360;
 
-            // Calculate wrap-around distance
-            double wrapAroundDistance = 360.0 - directDistance;
+            // Calculate clockwise and counterclockwise distances
+            double clockwiseDistance = (point2 - point1 + 360) % 360;
+            double counterclockwiseDistance = (point1 - point2 + 360) % 360;
 
-            return Math.Min(directDistance, wrapAroundDistance);
+            // Determine the shortest distance (positive for clockwise, negative for counterclockwise)
+            double shortestDistance = clockwiseDistance <= counterclockwiseDistance ? clockwiseDistance : -counterclockwiseDistance;
+
+            return shortestDistance;
         }
     }
 

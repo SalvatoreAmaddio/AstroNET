@@ -4,7 +4,6 @@ using MvvmHelpers;
 using NodaTime;
 using SwissEphNet;
 using System.ComponentModel;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WpfApp1.model
 {
@@ -264,7 +263,7 @@ namespace WpfApp1.model
             }
         }
 
-        public SkyEvent CalculateReturn(DateTime returnDate, TimeSpan returnTime, City selectedCity, SkyType skyType = SkyType.SunReturn) 
+        public SkyEvent CalculateReturn(DateTime returnDate, TimeSpan returnTime, City selectedCity, SkyType skyType = SkyType.SunReturn)
         {
             SkyEvent returnSky = new(returnDate, returnTime, selectedCity) 
             {
@@ -272,7 +271,7 @@ namespace WpfApp1.model
                 Person = Person,
             };
 
-            returnSky.RadixAspects.ReplaceRange(returnSky.RadixAspects.Where(s=>s.Orbit == 0 && s.PointB is IHouse).ToList());
+            returnSky.RadixAspects.ReplaceRange(returnSky.RadixAspects.Where(s=>s.Orbit == 0 && s.PointB is IHouse && (s.OrbDiff >=-2.5 && s.OrbDiff <= 2.5)).ToList());
 
             House returnAsc = returnSky.Houses.First();
 
@@ -346,43 +345,43 @@ namespace WpfApp1.model
             if (Person != null && !Person.UnknownTime)
                 star.PlaceInHouse(this);
 
-                foreach (IPoint point in this.Aspectables)
+            foreach (IPoint point in this.Aspectables)
+            {
+                double distance = PositionCalculator.CalculateDistance(star.EclipticLongitude, point.EclipticLongitude);
+                foreach (Aspect aspect in Aspects)
                 {
-                    double distance = PositionCalculator.CalculateDistance(star.EclipticLongitude, point.EclipticLongitude);
-                    foreach (Aspect aspect in Aspects)
+                    double? tollerance = transitAspects.FirstOrDefault(s => s.Aspect.Equals(aspect) && s.Star.Equals(star))?.Tollerance;
+                    if (tollerance == null) continue;
+
+                    if (point is IHouse house && !house.IsAngular && aspect.Orbit != 0)
+                        continue;
+
+                    Aspect? asp = PositionCalculator.IsValidAspect(aspect, distance, tollerance.Value);
+
+                    if (asp != null)
                     {
-                        double? tollerance = transitAspects.FirstOrDefault(s => s.Aspect.Equals(aspect) && s.Star.Equals(star))?.Tollerance;
-                        if (tollerance == null) continue;
-
-                        if (point is IHouse house && !house.IsAngular && aspect.Orbit != 0)
-                            continue;
-
-                        Aspect? asp = PositionCalculator.IsValidAspect(aspect, distance, tollerance.Value);
-
-                        if (asp != null)
-                        {
-                            if (point is IHouse house2 && !house2.IsAngular)
+                        if (point is IHouse house2 && !house2.IsAngular)
                             {
                                 if (distance > 2.5 || distance < -2.5)
                                     continue;
                             }
 
-                            asp.DateOf = date;
-                            star.Build();
-                            star.House?.Build();
-                            asp.PointA = star;
+                        asp.DateOf = date;
+                        star.Build();
+                        star.House?.Build();
+                        asp.PointA = star;
 
-                            if (point is IStar _star)
-                                _star.House?.Build();
+                        if (point is IStar _star)
+                            _star.House?.Build();
 
-                            asp.PointB = point;
-                            asp.PointB.Build();
+                        asp.PointB = point;
+                        asp.PointB.Build();
 
-                            asp.CalculateOrbDiff();
-                            yield return asp;
-                        }
+                        asp.CalculateOrbDiff();
+                        yield return asp;
                     }
                 }
+            }
         }
 
         public void ClearHoroscope() => Horoscope = null;

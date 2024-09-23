@@ -53,7 +53,7 @@ namespace WpfApp1.model
         public double OrbDiff { get; protected set; }
         public string OrbDiffInDegree { get; protected set; } = string.Empty;
         public string Info => $"{PointA}{TryFetchHouse(PointA)}{this} {PointB}{TryFetchHouse(PointB)} ({OrbDiffInDegree})";
-        public string FullInfo => $"{PointA}{TryFetchHouse(PointA)}{IsRetrograde(PointA)}{this} {PointB}{TryFetchHouse(PointB)} ({OrbDiffInDegree}) on {DateOf.ToString("dd/MM/yyyy")}";
+        public string FullInfo => $"{PointA}{TryFetchHouse(PointA)}{IsRetrograde(PointA)}{this} {PointB}{TryFetchHouse(PointB)} ({OrbDiffInDegree}) on {DateOf.ToString("dd/MM/yyyy")} 1:{Math.Round(PointA.EclipticLongitude,2)} 2:{Math.Round(PointB.EclipticLongitude, 2)} - {Orbit} - diff:{_diff}";
         public IPoint PointA { get; set; } = null!;
         public IPoint PointB { get; set; } = null!;
         public Brush Brush { get; protected set; } = Brushes.Black;
@@ -104,10 +104,16 @@ namespace WpfApp1.model
 
         public void CalculateOrbDiff()
         {
-            OrbDiff = Math.Round(_diff - Orbit,2);
+            OrbDiff = Math.Round(Math.Abs(_diff) - Orbit, 2);
+            if (_diff < 0) OrbDiff = -OrbDiff;
+
             int degrees = (int)OrbDiff;
             int minutes = Math.Abs((int)((OrbDiff - degrees) * 60));
+            
             OrbDiffInDegree = $"{degrees}°{minutes}'";
+
+            if (degrees == 0 && OrbDiff < 0) OrbDiffInDegree = $"-{degrees}°{minutes}'";
+            else OrbDiffInDegree = $"{degrees}°{minutes}'";            
         }
 
         public Aspect Clone(double diff) 

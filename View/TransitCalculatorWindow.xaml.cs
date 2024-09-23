@@ -117,9 +117,9 @@ namespace WpfApp1.View
 
             IEnumerable<Aspect> results = await Task.Run(() => 
             {
-              return calculator.TransitsCalculator(SelectedDate, SelectedCity, (int)SelectedStar.PointId, Steps);
+                return calculator.TransitsCalculatorAsync(SelectedDate, SelectedCity, (int)SelectedStar.PointId, Steps);
             });
-            
+
             IsLoading = false;
 
             this.GoToWindow(new TransitsList(results) { Title = $"{SelectedStar} Transits" });

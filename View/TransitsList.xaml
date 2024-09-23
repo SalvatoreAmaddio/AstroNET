@@ -5,15 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
-        ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        Title="TransitsList" Height="450" Width="450">
+        WindowState="Maximized"
+        Title="TransitsList">
+    
     <Grid>
-        <TreeView ItemsSource="{Binding Groups}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ToolBarTray>
+            <ToolBar ToolBarTray.IsLocked="True">
+                <RadioButton Content="Group by Star" IsChecked="{Binding StarGrouping}"/>
+                <RadioButton Content="Group by Date" IsChecked="{Binding DateGrouping}"/>
+            </ToolBar>
+        </ToolBarTray>
+
+        <TreeView Grid.Row="1" ItemsSource="{Binding Groups, Mode=TwoWay}" Visibility="Visible">
             <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Aspects}">
+                <HierarchicalDataTemplate ItemsSource="{Binding Aspects, Mode=TwoWay}">
                     <!-- This TextBlock binds the header (e.g., PointA) -->
-                    <TextBlock Text="{Binding PointA.PointName}"/>
+                    <TextBlock Text="{Binding Header}"/>
+
+                    <!-- Template for the child items (Aspects) -->
+                    <HierarchicalDataTemplate.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding FullInfo}"/>
+                        </DataTemplate>
+                    </HierarchicalDataTemplate.ItemTemplate>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+
+        <TreeView Grid.Row="1" ItemsSource="{Binding Groups, Mode=TwoWay}" Visibility="Hidden">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Aspects, Mode=TwoWay}">
+                    <!-- This TextBlock binds the header (e.g., PointA) -->
+                    <TextBlock Text="{Binding Star}"/>
 
                     <!-- Template for the child items (Aspects) -->
                     <HierarchicalDataTemplate.ItemTemplate>

@@ -306,7 +306,7 @@ namespace WpfApp1.View
                     foreach (IStar star in prev_stars)
                     {
                         if (stars[i].PointId == star.PointId) continue;
-                        double distance = PositionCalculator.CalculateDistance(stars[i].EclipticLongitude, star.EclipticLongitude);
+                        double distance = Math.Abs(PositionCalculator.CalculateDistance(stars[i].EclipticLongitude, star.EclipticLongitude));
 //                        IAspect? conj = PositionCalculator.IsConjunction(distance, 10);
                         if (!isHoroscope) 
                         {
