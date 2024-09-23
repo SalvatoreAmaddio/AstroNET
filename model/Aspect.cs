@@ -79,12 +79,27 @@ namespace WpfApp1.model
             _energy = new(reader.GetInt32(9));
         }
 
+        public bool IsSame(Aspect aspect) 
+        {
+            return this.AspectId == aspect.AspectId
+                && this.PointA.PointName.Equals(aspect.PointA.PointName)
+                && this.PointAR() == aspect.PointAR()
+                && this.PointB.PointName == aspect.PointB.PointName
+                && this.DateOf == aspect.DateOf
+                ;
+        }
+
         private void OnAfterUpdate(object? sender, FrontEnd.Events.AfterUpdateArgs e)
         {
             if (e.Is(nameof(Color))) 
             {
                 BuildBrush();
             }
+        }
+        public bool PointAR() 
+        {
+            if (PointA is Star star) return star.IsRetrograde;
+            return false;
         }
 
         private static string IsRetrograde(IPoint point)

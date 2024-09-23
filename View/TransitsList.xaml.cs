@@ -62,7 +62,8 @@ namespace WpfApp1.View
                            .Select(s => new TransitGroup()
                            {
                                Header = s.Key,
-                               Aspects = s.ToList()
+                               //Aspects = s.ToList()
+                               Aspects = Filter(s.ToList())
                            }).ToList());
         }
 
@@ -88,48 +89,53 @@ namespace WpfApp1.View
                            }).ToList());
         }
 
-        private bool x(Aspect prev, Aspect current) 
-        {
-            bool prevR = prev.PointA is Star star1 && star1.IsRetrograde;
-            bool currentR = current.PointA is Star star2 && star2.IsRetrograde;
-            var a = prev.FullInfo;
-            var b = current.FullInfo;
-
-            if (prevR != currentR) return true;
-
-            if (prev.OrbDiff > current.OrbDiff) 
-            {
-                var diff = prev.OrbDiff - current.OrbDiff;
-                return diff <= 0;
-            }
-
-            return false;
-        }
-
         private List<Aspect> Filter(List<Aspect> aspects) 
         {
             List<Aspect> filteredAspects = [];
+            List<Aspect> Copy = new(aspects);
+            int jump = 0;
 
-            int i = 0;
-            do
+            for (int i = 0; i <= aspects.Count; i++) 
             {
-                if (i == 0) 
-                {
-                    filteredAspects.Add(aspects[i]);
-                    i++;
-                    continue;
-                }
-
-                var prev = filteredAspects[filteredAspects.Count-1];
-                var current = aspects[i];
-
-                //if (x(prev, current))
-                    filteredAspects.Add(current);
-    
-                i++;
+                var a = aspects[i].FullInfo;
+                var x = Copy.TakeWhile(s=>s.AspectId == aspects[i].AspectId && s.PointAR() == aspects[i].PointAR()).ToList();
+                jump += x.Count;
+                var toAdd = filter(x);
+                filteredAspects.AddRange(toAdd);
+                Copy.RemoveRange(0, x.Count);
+                if (Copy.Count == 0) break;
+                i = jump-1;
             }
-            while (i < aspects.Count);
+
             return filteredAspects;
+        }
+
+        private List<Aspect> filter(List<Aspect> chunk) 
+        {
+            List<Aspect> r = [];
+            Aspect? a;
+            Aspect? b;
+            Aspect? c;
+            Aspect? d;
+
+            a = chunk.FirstOrDefault();
+            if (a != null)
+                r.Add(a);
+
+            b = chunk.Where(s=>s.OrbDiff>0).LastOrDefault();
+            if (b != null && !r.Any(s=>s.IsSame(b)))
+                r.Add(b);
+            
+            d = chunk.Where(s => s.OrbDiff < 0).FirstOrDefault();
+            
+            if (d != null && !r.Any(s => s.IsSame(d)))
+                r.Add(d);
+
+            c = chunk.LastOrDefault();    
+            if (c!=null && !r.Any(s => s.IsSame(c)))
+                r.Add(c);
+
+            return r;
         }
 
         public void OnPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new(propName));
