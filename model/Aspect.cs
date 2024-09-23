@@ -53,7 +53,7 @@ namespace WpfApp1.model
         public double OrbDiff { get; protected set; }
         public string OrbDiffInDegree { get; protected set; } = string.Empty;
         public string Info => $"{PointA}{TryFetchHouse(PointA)}{this} {PointB}{TryFetchHouse(PointB)} ({OrbDiffInDegree})";
-        public string FullInfo => $"{PointA}{TryFetchHouse(PointA)}{IsRetrograde(PointA)}{this} {PointB}{TryFetchHouse(PointB)} ({OrbDiffInDegree}) on {DateOf.ToString("dd/MM/yyyy")} 1:{Math.Round(PointA.EclipticLongitude,2)} 2:{Math.Round(PointB.EclipticLongitude, 2)} - {Orbit} - diff:{_diff}";
+        public string FullInfo => $"{PointA}{TryFetchHouse(PointA)}{IsRetrograde(PointA)}{this} {PointB}{TryFetchHouse(PointB)} ({OrbDiffInDegree}) on {DateOf.ToString("dd/MM/yyyy")}";
         public IPoint PointA { get; set; } = null!;
         public IPoint PointB { get; set; } = null!;
         public Brush Brush { get; protected set; } = Brushes.Black;
@@ -79,9 +79,9 @@ namespace WpfApp1.model
             _energy = new(reader.GetInt32(9));
         }
 
-        public bool IsSame(Aspect aspect) 
+        public bool IsSame(Aspect? aspect)
         {
-            return this.AspectId == aspect.AspectId
+            return aspect != null && this.AspectId == aspect.AspectId
                 && this.PointA.PointName.Equals(aspect.PointA.PointName)
                 && this.PointAR() == aspect.PointAR()
                 && this.PointB.PointName == aspect.PointB.PointName

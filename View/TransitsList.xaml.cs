@@ -93,24 +93,21 @@ namespace WpfApp1.View
         {
             List<Aspect> filteredAspects = [];
             List<Aspect> Copy = new(aspects);
-            int jump = 0;
 
             for (int i = 0; i <= aspects.Count; i++) 
             {
-                var a = aspects[i].FullInfo;
-                var x = Copy.TakeWhile(s=>s.AspectId == aspects[i].AspectId && s.PointAR() == aspects[i].PointAR()).ToList();
-                jump += x.Count;
-                var toAdd = filter(x);
+                var subChunkToFilter = Copy.TakeWhile(s=>s.AspectId == aspects[i].AspectId && s.PointAR() == aspects[i].PointAR()).ToList();
+                i = subChunkToFilter.Count -1;
+                var toAdd = Pick(subChunkToFilter);
                 filteredAspects.AddRange(toAdd);
-                Copy.RemoveRange(0, x.Count);
+                Copy.RemoveRange(0, subChunkToFilter.Count);
                 if (Copy.Count == 0) break;
-                i = jump-1;
             }
 
             return filteredAspects;
         }
 
-        private List<Aspect> filter(List<Aspect> chunk) 
+        private static List<Aspect> Pick(List<Aspect> chunk) 
         {
             List<Aspect> r = [];
             Aspect? a;
@@ -123,17 +120,16 @@ namespace WpfApp1.View
                 r.Add(a);
 
             b = chunk.Where(s=>s.OrbDiff>0).LastOrDefault();
-            if (b != null && !r.Any(s=>s.IsSame(b)))
+            if (b!= null && !r.Any(s=>s.IsSame(b)))
                 r.Add(b);
             
-            d = chunk.Where(s => s.OrbDiff < 0).FirstOrDefault();
-            
+            c = chunk.Where(s => s.OrbDiff < 0).FirstOrDefault();            
+            if (c != null && !r.Any(s => s.IsSame(c)))
+                r.Add(c);
+
+            d = chunk.LastOrDefault();    
             if (d != null && !r.Any(s => s.IsSame(d)))
                 r.Add(d);
-
-            c = chunk.LastOrDefault();    
-            if (c!=null && !r.Any(s => s.IsSame(c)))
-                r.Add(c);
 
             return r;
         }
