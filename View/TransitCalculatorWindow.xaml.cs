@@ -122,7 +122,7 @@ namespace WpfApp1.View
             
             IsLoading = false;
 
-            this.GoToWindow(new TransitsList(results));
+            this.GoToWindow(new TransitsList(results) { Title = $"{SelectedStar} Transits" });
         }
 
         private void OnLabelClicked(object sender, System.Windows.Input.MouseButtonEventArgs e)

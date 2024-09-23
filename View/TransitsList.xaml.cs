@@ -18,7 +18,7 @@ namespace WpfApp1.View
 {
     public partial class TransitsList : Window
     {
-        public ObservableCollection<Group> Groups { get; set; }
+        public ObservableCollection<Group> Groups { get; set; } = null!;
         
         public TransitsList()
         {
@@ -34,8 +34,8 @@ namespace WpfApp1.View
 
     public class Group 
     { 
-        public IPoint PointA { get; set; }
-        public IEnumerable<Aspect> Aspects { get; set; }
+        public IPoint PointA { get; set; } = null!;
+        public IEnumerable<Aspect> Aspects { get; set; } = null!;
     }
 
     public class R : List<Aspect> 

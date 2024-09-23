@@ -5,21 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View"
         mc:Ignorable="d"
-        Title="TransitsList" Height="450" Width="800">
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Title="TransitsList" Height="450" Width="450">
     <Grid>
-        <TreeView>
+        <TreeView ItemsSource="{Binding Groups}">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Aspects}">
-                    <TextBlock Text="{Binding Info}" />
-                    <!-- This is the header -->
+                    <!-- This TextBlock binds the header (e.g., PointA) -->
+                    <TextBlock Text="{Binding PointA.PointName}"/>
+
+                    <!-- Template for the child items (Aspects) -->
+                    <HierarchicalDataTemplate.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding FullInfo}"/>
+                        </DataTemplate>
+                    </HierarchicalDataTemplate.ItemTemplate>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
-            <TreeView.Resources>
-                <DataTemplate DataType="{x:Type local:Group}">
-                    <TextBlock Text="{Binding PointA.PointName}" />
-                    <!-- This displays Info for each Aspect -->
-                </DataTemplate>
-            </TreeView.Resources>
         </TreeView>
     </Grid>
 </Window>
