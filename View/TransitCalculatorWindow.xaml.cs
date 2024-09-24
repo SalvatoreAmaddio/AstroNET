@@ -4,7 +4,6 @@ using FrontEnd.ExtensionMethods;
 using System.Windows;
 using WpfApp1.controller;
 using WpfApp1.model;
-using System.Text.RegularExpressions;
 
 namespace WpfApp1.View
 {
@@ -80,12 +79,26 @@ namespace WpfApp1.View
 
         public StarListController StarListController { get; } = new();
         public CityListController CityListController { get; } = new();
+        public SkyEvent SubjectSky => ((ChartViewContainer)Owner.Content).Sky;
+
         public TransitCalculatorWindow()
         {
             InitializeComponent();
             this.DataContext = this;
-            SelectedCity = CityListController.RecordSource.FirstOrDefault();
+            Loaded += OnLoaded;
+            Closed += OnClosed;
             SelectedStar = StarListController.RecordSource.First();
+        }
+
+        private void OnClosed(object? sender, EventArgs e)
+        {
+            Loaded -= OnLoaded;
+            Closed -= OnClosed;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            SearchLocation = SubjectSky.City.CityName;
         }
 
         private void FilterList()
