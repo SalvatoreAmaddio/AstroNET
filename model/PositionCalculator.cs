@@ -4,7 +4,6 @@ namespace WpfApp1.model
 {
     public class DateTimeAdjuster
     {
-        private const long one_millisecond = 1;
         private const long one_second = 10000000;
         private const long one_hour = 36000000000;
         private const long one_day = 864000000000;
@@ -45,8 +44,6 @@ namespace WpfApp1.model
         public void AddDays(int days = 1) => Ticks += days * one_day;
         public void RemoveDays(int days = 1) => Ticks -= days * one_day;
         public void AddSeconds(int seconds = 1) => Ticks += seconds * one_second;
-        public void AddMilliseconds(int milliseconds = 1) => Ticks += milliseconds * one_millisecond;
-        public void RemoveMilliseconds(int milliseconds = 1) => Ticks -= milliseconds * one_millisecond;
         public void RemoveSeconds(int seconds = 1) => Ticks -= seconds * one_second;
         public override string ToString() => OutputDate.ToString("yyyy-MM-dd HH:mm:ss");
 

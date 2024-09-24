@@ -1,14 +1,32 @@
 ﻿
 namespace WpfApp1.model
 {
-    public class SubTransitKeyGroup(int id, Aspect aspect) 
+    public class TransitGroupKey(int id, string name) 
+    {
+        public int Id { get; set; } = id;
+        public string Name { get; set; } = name;
+
+        public override bool Equals(object? obj)
+        {
+            return obj is TransitGroupKey key &&
+                   Id == key.Id &&
+                   Name == key.Name;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Name);
+        }
+    }
+
+    public class SubTransitGroupKey(int id, Aspect aspect) 
     {
         public int Id { get; set; } = id;
         public Aspect Aspect { get; set; } = aspect;
 
         public override bool Equals(object? obj)
         {
-            return obj is SubTransitKeyGroup key &&
+            return obj is SubTransitGroupKey key &&
                    Id == key.Id;
         }
 
@@ -20,13 +38,14 @@ namespace WpfApp1.model
 
     public class TransitSubGroup 
     {
-        public SubTransitKeyGroup KeyGroup { get; set; } = null!;
+        public SubTransitGroupKey KeyGroup { get; set; } = null!;
         public string SubHeader => $"{KeyGroup.Aspect.AspectName} {KeyGroup.Aspect.IsRetrograde()}From {SubAspects.FirstOrDefault()?.DateOf.ToString("dd/MM/yyyy")} to {SubAspects.LastOrDefault()?.DateOf.ToString("dd/MM/yyyy")}";
         public IEnumerable<Aspect?> SubAspects { get; set; } = null!;
     }
 
     public class TransitGroup
     {
+        public int Star1Id { get; set; }
         public string Header { get; set; } = string.Empty;
         public IEnumerable<TransitSubGroup?> SubTransits { get; set; } = null!;
     }
@@ -50,10 +69,6 @@ namespace WpfApp1.model
                 if (Copy.Count == 0) 
                 {
                     break;
-                } else 
-                {
-                    //if (toAdd.Count > 0)
-                        //filteredAspects.Add(null);
                 }
             }
 

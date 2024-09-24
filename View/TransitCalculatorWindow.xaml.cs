@@ -121,18 +121,19 @@ namespace WpfApp1.View
             );
 
             List<TransitGroup> g = new(
-                results.GroupBy(s => s.PointB.PointName)
+                results.GroupBy(s => new TransitGroupKey((int)s.PointB.PointId, s.PointB.PointName))
                .Select(s => new TransitGroup()
                {
-                   Header = s.Key,
+                   Header = s.Key.Name,
+                   Star1Id = s.Key.Id,
                    SubTransits = TransitOrganiser.Filter(s.ToList())
-                                                .GroupBy(s => new SubTransitKeyGroup(s.TransitBundle, s))
+                                                .GroupBy(s => new SubTransitGroupKey(s.TransitBundle, s))
                                                 .Select(s => new TransitSubGroup() { KeyGroup = s.Key, SubAspects = s.ToList() })
                }).ToList());
 
             IsLoading = false;
-
-            this.GoToWindow(new TransitsList(g) { Title = $"{SelectedStar} Transits" });
+            
+            this.GoToWindow(new TransitsList(g.OrderBy(s => s.Star1Id).ToList()) { Title = $"{SelectedStar} Transits" });
         }
 
         private void OnLabelClicked(object sender, System.Windows.Input.MouseButtonEventArgs e)
