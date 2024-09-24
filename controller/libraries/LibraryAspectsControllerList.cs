@@ -195,6 +195,32 @@ namespace WpfApp1.controller
                     break;
             }
         }
+
+        public override AbstractClause InstantiateSearchQry()
+        {
+            return new LibrarySigns().
+                Select().All()
+                .From()
+                .Where()
+                    .EqualsTo("TransitTypeId", "@transitId");
+        }
     }
 
+    public class LibrarySignsHousesControllerList : LibrarySignsControllerList
+    {
+        public SourceOption HouseOptions { get; private set; }
+        public LibrarySignsHousesControllerList(TransitType transitType) : base(transitType)
+        {
+            HouseOptions = new SourceOption(new RecordSource<House>(DatabaseManager.Find<House>()!), "PointName", OrderBy.ASC, "PointId");
+        }
+
+        public override void OnOptionFilterClicked(FilterEventArgs e)
+        {
+            ReloadSearchQry();
+            HouseOptions.Conditions<WhereClause>(SearchQry, "PointId");
+            SignOptions.Conditions<WhereClause>(SearchQry, "SignId");
+            OnAfterUpdate(e, new(null, null, nameof(Search)));
+        }
+
+    }
 }

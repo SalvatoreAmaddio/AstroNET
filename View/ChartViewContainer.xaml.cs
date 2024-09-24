@@ -275,6 +275,11 @@ namespace WpfApp1.View
         private void OnStarInSignClicked(object sender, RoutedEventArgs e) =>
         new LibrarySignsWindowList().ShowDialog();
 
+        private void OnHouseInSignClicked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private static void OpenLibraryHouses(int id)=> new LibraryHousesWindowList(new TransitType(id)).ShowDialog();
         private static void OpenLibraryAspects(int id) => new LibraryAspectsWindowList(new TransitType(id)).ShowDialog();
 

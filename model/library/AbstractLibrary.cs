@@ -106,6 +106,7 @@ namespace WpfApp1.model
     public class LibrarySigns : AbstractLibrary<LibrarySigns>
     {
         protected Sign _sign = null!;
+        private bool _isHouse;
 
         [FK]
         public Sign Sign { get => _sign; set => UpdateProperty(ref value, ref _sign); }

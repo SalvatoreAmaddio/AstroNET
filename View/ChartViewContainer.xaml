@@ -60,6 +60,7 @@
                     <MenuItem Header="_Aspects" Click="OnRadixAspectsClicked"/>
                     <MenuItem Header="_Stars in Houses" Click="OnRadixHousesClicked"/>
                     <MenuItem Header="_Stars in Signs" Click="OnStarInSignClicked"/>
+                    <MenuItem Header="_Houses in Signs" Click="OnHouseInSignClicked"/>
                     <MenuItem Header="_Dispositori"/>
                 </MenuItem>
                 <MenuItem Header="_Transits">
