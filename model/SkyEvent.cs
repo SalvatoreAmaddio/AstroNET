@@ -144,6 +144,7 @@ namespace WpfApp1.model
         public void Calculate(int year, int month, int day, int hour, int minutes, City city)
         {
             City = city;
+            City.Build();
             LocalHour = hour + minutes / 60.0;
             LocalTime = new(hour, minutes, 0);
             LocalDateTime = new DateTime(year, month, day, (int)LocalHour, (int)((LocalHour - (int)LocalHour) * 60), 0);

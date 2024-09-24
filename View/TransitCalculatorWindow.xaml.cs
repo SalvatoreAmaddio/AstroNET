@@ -4,6 +4,7 @@ using FrontEnd.ExtensionMethods;
 using System.Windows;
 using WpfApp1.controller;
 using WpfApp1.model;
+using System.Text.RegularExpressions;
 
 namespace WpfApp1.View
 {
@@ -115,14 +116,21 @@ namespace WpfApp1.View
             SkyEvent subjectSky = ((ChartViewContainer)Owner.Content).Sky;
             PositionCalculator calculator = new(subjectSky);
 
-            IEnumerable<Aspect> results = await Task.Run(() => 
-            {
-                return calculator.TransitsCalculatorAsync(SelectedDate, SelectedCity, (int)SelectedStar.PointId, Steps);
-            });
+            IEnumerable<Aspect> results = await Task.Run(() =>
+                calculator.TransitsCalculatorAsync(SelectedDate, SelectedCity, (int)SelectedStar.PointId, Steps)
+            );
+
+            List<TransitGroup> g = new(
+                results.GroupBy(s => s.PointB.PointName)
+               .Select(s => new TransitGroup()
+               {
+                   Header = s.Key,
+                   Aspects = Class1.Filter(s.ToList())
+               }).ToList());
 
             IsLoading = false;
 
-            this.GoToWindow(new TransitsList(results) { Title = $"{SelectedStar} Transits" });
+            this.GoToWindow(new TransitsList(g) { Title = $"{SelectedStar} Transits" });
         }
 
         private void OnLabelClicked(object sender, System.Windows.Input.MouseButtonEventArgs e)
