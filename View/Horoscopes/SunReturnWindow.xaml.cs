@@ -18,11 +18,10 @@ namespace WpfApp1.View
             }
         }
 
-        public SunReturnWindow()
+        public SunReturnWindow() : base()
         {
             InitializeComponent();
             this.DataContext = this;
-            Search = SelectedCity.CityName;
         }
 
         protected override async void OnButtonClick(object sender, RoutedEventArgs e)

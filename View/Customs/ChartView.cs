@@ -63,6 +63,24 @@ namespace WpfApp1.View
             set => SetValue(StarsProperty, value);
         }
 
+        public static readonly DependencyProperty SelectedAspectProperty =
+            DependencyProperty.Register(
+                nameof(SelectedAspect),
+                typeof(Aspect),
+                typeof(ChartView),
+                new PropertyMetadata(OnSelectedAspectChanged));
+
+        private static void OnSelectedAspectChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            LibrarySearch.SearchAspect(((ChartView)d).Sky.SkyType, (Aspect)e.NewValue);
+        }
+
+        public Aspect? SelectedAspect
+        {
+            get => (Aspect?)GetValue(SelectedAspectProperty);
+            set => SetValue(SelectedAspectProperty, value);
+        }
+
         public static readonly DependencyProperty AspectsProperty =
             DependencyProperty.Register(
                 nameof(Aspects),

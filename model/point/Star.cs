@@ -83,6 +83,7 @@ namespace WpfApp1.model
             IStar star = (IStar)_fetchDbPoint!;
             _uri = star.URI;
             _transitOrbit = star.TransitOrbit;
+            House?.Build();
         }
 
         public override House PlaceInHouse(SkyEvent sky)

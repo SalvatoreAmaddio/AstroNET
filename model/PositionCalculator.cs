@@ -71,7 +71,7 @@ namespace WpfApp1.model
             {
                 currentSky = new(startDateAdj.OutputDate, startDateAdj.OutputTime, city);
                 star = GetStarPosition(ref currentSky, starId);                
-                aspects.AddRange(_skyEvent.CalculateAspects(star, startDateAdj.OutputDate));
+                aspects.AddRange(_skyEvent.CalculateStarAspects(star, startDateAdj.OutputDate));
                 startDateAdj.AddDays(1);
                 if (startDateAdj.OutputDate > endDate) return aspects;
             }
@@ -119,7 +119,7 @@ namespace WpfApp1.model
             {
                 currentSky = new(startDateAdj.OutputDate, startDateAdj.OutputTime, city);
                 star = GetStarPosition(ref currentSky, starId);
-                aspects.AddRange(_skyEvent.CalculateAspects(star, startDateAdj.OutputDate));
+                aspects.AddRange(_skyEvent.CalculateStarAspects(star, startDateAdj.OutputDate));
                 startDateAdj.AddDays(1);
                 if (startDateAdj.OutputDate > endDate) return Task.FromResult(aspects);
             }
@@ -226,20 +226,17 @@ namespace WpfApp1.model
             
             DateTimeAdjuster adjuster = new(new(year, _skyEvent.Month, _skyEvent.Day));
 
-            Star sunRadix = CalculatePlanet(0);
+            Star sunRadix = _skyEvent.Stars[0];
 
             while (true)
             {
                 returnSky = new(adjuster.OutputDate, adjuster.OutputTime, city);
                 sunReturn = GetStarPosition(ref returnSky);
 
-                if (sunReturn.Position.Degrees >= sunRadix.Position.Degrees)
+                if (sunReturn.Position.Degrees > sunRadix.Position.Degrees)
                 {
-                    if (sunReturn.Position.Minutes > sunRadix.Position.Minutes)
-                    {
-                        adjuster.AddDays(-1);
-                        continue;
-                    }
+                    adjuster.AddDays(-1);
+                    continue;
                 }
 
                 if (sunReturn.Position.Degrees < sunRadix.Position.Degrees)
@@ -247,17 +244,58 @@ namespace WpfApp1.model
                     adjuster.AddMinutes(60);
                     continue;
                 }
-                else if (sunReturn.Position.Minutes < sunRadix.Position.Minutes)
+
+                var x = sunReturn.Position.Seconds;
+                var a = sunRadix.Position.Seconds;
+
+                if (sunReturn.Position.Minutes < sunRadix.Position.Minutes && sunReturn.Position.Degrees == sunRadix.Position.Degrees)
                 {
-                    adjuster.AddMinutes((int)sunRadix.Position.Minutes);
+                    adjuster.AddMinutes(CalculateMinutes(x));
+                    continue;
+                }
+
+                if (sunReturn.Position.Minutes > sunRadix.Position.Minutes && sunReturn.Position.Degrees == sunRadix.Position.Degrees)
+                {
+                    adjuster.AddMinutes(-CalculateMinutes(x));
+                    continue;
+                }
+
+                if (sunReturn.Position.Seconds < sunRadix.Position.Seconds && sunReturn.Position.Minutes == sunRadix.Position.Minutes && sunReturn.Position.Degrees == sunRadix.Position.Degrees)
+                {
+                    adjuster.AddSeconds(CalculateSeconds(sunReturn.Position.Seconds, sunRadix.Position.Seconds));
                     continue;
                 }
 
                 if (PositionFound(sunRadix, sunReturn, adjuster)) 
-                    return (adjuster.OutputDate, adjuster.OutputTime);
-                
-                adjuster.AddMinutes(1);
+                    return (adjuster.OutputDate, adjuster.OutputTime);                
             }
+        }
+
+        private static int CalculateSeconds(double seconds, double target)
+        {
+            int sec = 0;
+
+            while (seconds < target)
+            {
+                seconds++;
+                sec+=59;
+            }
+
+            return sec;
+        }
+
+        private static int CalculateMinutes(double seconds) 
+        {
+            double target = 60;
+            int min = 0;
+
+            while (seconds < target) 
+            {
+                seconds += 3;
+                min++;
+            }
+
+            return min;
         }
 
         private static Star GetStarPosition(ref SkyEvent returnSky, int star = 0) 

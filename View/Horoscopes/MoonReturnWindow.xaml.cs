@@ -3,26 +3,12 @@ using WpfApp1.model;
 
 namespace WpfApp1.View
 {
-    public partial class MoonReturnWindow : CommonHoroscopeWindow
+    public partial class MoonReturnWindow : CommonHoroscopeDateWindow
     {
-
-        private DateTime _inputDate = DateTime.Today;
-
-        public DateTime InputDate
-        {
-            get => _inputDate;
-            set
-            {
-                _inputDate = value;
-                OnPropertyChanged(nameof(InputDate));
-            }
-        }
-
         public MoonReturnWindow() : base() 
         {
             InitializeComponent();
             this.DataContext = this;
-            Search = SelectedCity.CityName;
         }
 
         protected override async void OnButtonClick(object sender, RoutedEventArgs e)

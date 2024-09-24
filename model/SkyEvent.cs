@@ -191,7 +191,7 @@ namespace WpfApp1.model
             if (ShowHouses)
                 Aspectables.AddRange(Houses);
 
-            CalculateRadixAspects();
+            CalculateBirthAspects();
         }
 
         private void AddRadixAspect(Aspect? aspect, IPoint pointA, IPoint pointB)
@@ -199,10 +199,9 @@ namespace WpfApp1.model
             if (aspect != null)
             {
                 aspect.PointA = pointA;
-
-                if (pointB is IStar _star)
-                    _star.House?.Build();
-
+      
+                pointB.Build();
+                
                 aspect.PointB = pointB;
 
                 aspect.CalculateOrbDiff();
@@ -210,52 +209,35 @@ namespace WpfApp1.model
             }
         }
 
-        private void AddRadixAspect(Aspect? aspect, IStar pointA, IPoint pointB) 
-        { 
-            if (aspect != null) 
-            {
-                pointA.Build();
-                pointA.House?.Build();
-                aspect.PointA = pointA;
-
-                if (pointB is IStar _star) 
-                    _star.House?.Build();
-
-                aspect.PointB = pointB;
-                aspect.PointB.Build();
-
-                aspect.CalculateOrbDiff();
-                RadixAspects.Add(aspect);
-            }
-        }
-
-        private void CalculateRadixAspects()
+        private void CalculateBirthAspects()
         {
             List<IPoint> aspectables = new(this.Aspectables);
             RadixAspects.Clear();
 
             foreach (IStar star in Stars)
             {
-                foreach (IPoint point in aspectables)
+                foreach (IPoint pointReceiver in aspectables)
                 {
-                    if (star.PointName.Equals(point.PointName)) continue;
-                    double distance = PositionCalculator.CalculateDistance(star.EclipticLongitude, point.EclipticLongitude);
+                    if (star.PointName.Equals(pointReceiver.PointName)) continue;
+
+                    double distance = PositionCalculator.CalculateDistance(star.EclipticLongitude, pointReceiver.EclipticLongitude);
+                
                     foreach (Aspect aspect in Aspects)
                     {
-                        if (point is IHouse house && !house.IsAngular && aspect.Orbit != 0)
+                        if (pointReceiver is IHouse house && !house.IsAngular && aspect.Orbit != 0)
                             continue;
 
-                        Aspect? asp = PositionCalculator.IsValidAspect(aspect, distance);
+                        Aspect? calculatedAspect = PositionCalculator.IsValidAspect(aspect, distance);
 
-                        if (asp != null)
+                        if (calculatedAspect != null)
                         {
-                            if (point is IHouse house2 && !house2.IsAngular && asp.Orbit == 0)
+                            if (pointReceiver is IHouse house2 && !house2.IsAngular && calculatedAspect.Orbit == 0)
                             {
                                 if (distance > 2.5 || distance < -2.5)
                                     continue;
                             }
-                            asp.DateOf = LocalDateTime;
-                            AddRadixAspect(asp, star, point);
+                            calculatedAspect.DateOf = LocalDateTime;
+                            AddRadixAspect(calculatedAspect, star, pointReceiver);
                         }
                     }
                 }
@@ -292,8 +274,8 @@ namespace WpfApp1.model
             
             return returnSky;
         }
-        
-        public void CalculateHoroscope(DateTime date, TimeSpan time, City city) 
+
+        public void CalculateHoroscope(DateTime date, TimeSpan time, City city)
         {
             IEnumerable<StarTransitOrbit> transitAspects = DatabaseManager.Find<StarTransitOrbit>()!.MasterSource.Cast<StarTransitOrbit>();
 
@@ -310,76 +292,76 @@ namespace WpfApp1.model
                 if (Person!=null && !Person.UnknownTime)
                     star.PlaceInHouse(this);
                    
-                foreach (IPoint point in this.Aspectables)
+                foreach (IPoint pointReceiver in this.Aspectables)
                 {
-                    double distance = PositionCalculator.CalculateDistance(star.EclipticLongitude, point.EclipticLongitude);
+                    double distance = PositionCalculator.CalculateDistance(star.EclipticLongitude, pointReceiver.EclipticLongitude);
+
                     foreach (Aspect aspect in Aspects)
                     {
                         double? tollerance = transitAspects.FirstOrDefault(s => s.Aspect.Equals(aspect) && s.Star.Equals(star))?.Tollerance;
+
                         if (tollerance == null) continue;
                         
-                        if (point is IHouse house && !house.IsAngular && aspect.Orbit != 0)
+                        if (pointReceiver is IHouse house && !house.IsAngular && aspect.Orbit != 0)
                             continue;
 
-                        Aspect? asp = PositionCalculator.IsValidAspect(aspect, distance, tollerance.Value);
+                        Aspect? calculatedAspect = PositionCalculator.IsValidAspect(aspect, distance, tollerance.Value);
 
-                        if (asp != null) 
+                        if (calculatedAspect != null) 
                         {
-                            if (point is IHouse house2 && !house2.IsAngular)
+                            if (pointReceiver is IHouse house2 && !house2.IsAngular)
                             {
                                 if (distance > 2.5 || distance < -2.5)
                                     continue;
                             }
 
-                            asp.DateOf = date;
-                            Horoscope.AddRadixAspect(asp, star, point);
+                            calculatedAspect.DateOf = date;
+                            Horoscope.AddRadixAspect(calculatedAspect, star, pointReceiver);
                         }
                     }
                 }
             }
         }
 
-        public IEnumerable<Aspect> CalculateAspects(Star star, DateTime date)
+        public IEnumerable<Aspect> CalculateStarAspects(Star star, DateTime date)
         {
             IEnumerable<StarTransitOrbit> transitAspects = DatabaseManager.Find<StarTransitOrbit>()!.MasterSource.Cast<StarTransitOrbit>();
 
             if (Person != null && !Person.UnknownTime)
                 star.PlaceInHouse(this);
 
-            foreach (IPoint point in this.Aspectables)
+            foreach (IPoint pointReceiver in this.Aspectables)
             {
-                double distance = PositionCalculator.CalculateDistance(star.EclipticLongitude, point.EclipticLongitude);
+                double distance = PositionCalculator.CalculateDistance(star.EclipticLongitude, pointReceiver.EclipticLongitude);
+
                 foreach (Aspect aspect in Aspects)
                 {
                     double? tollerance = transitAspects.FirstOrDefault(s => s.Aspect.Equals(aspect) && s.Star.Equals(star))?.Tollerance;
                     if (tollerance == null) continue;
 
-                    if (point is IHouse house && !house.IsAngular && aspect.Orbit != 0)
+                    if (pointReceiver is IHouse house && !house.IsAngular && aspect.Orbit != 0)
                         continue;
 
-                    Aspect? asp = PositionCalculator.IsValidAspect(aspect, distance, tollerance.Value);
+                    Aspect? calculatedAspect = PositionCalculator.IsValidAspect(aspect, distance, tollerance.Value);
 
-                    if (asp != null)
+                    if (calculatedAspect != null)
                     {
-                        if (point is IHouse house2 && !house2.IsAngular)
-                            {
-                                if (distance > 2.5 || distance < -2.5)
-                                    continue;
-                            }
+                        if (pointReceiver is IHouse house2 && !house2.IsAngular)
+                        {
+                            if (distance > 2.5 || distance < -2.5)
+                                continue;
+                        }
 
-                        asp.DateOf = date;
+                        calculatedAspect.DateOf = date;
+
                         star.Build();
-                        star.House?.Build();
-                        asp.PointA = star;
+                        calculatedAspect.PointA = star;
 
-                        if (point is IStar _star)
-                            _star.House?.Build();
+                        pointReceiver.Build();
+                        calculatedAspect.PointB = pointReceiver;
 
-                        asp.PointB = point;
-                        asp.PointB.Build();
-
-                        asp.CalculateOrbDiff();
-                        yield return asp;
+                        calculatedAspect.CalculateOrbDiff();
+                        yield return calculatedAspect;
                     }
                 }
             }
