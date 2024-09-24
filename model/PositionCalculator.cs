@@ -4,6 +4,7 @@ namespace WpfApp1.model
 {
     public class DateTimeAdjuster
     {
+        private const long one_millisecond = 1;
         private const long one_second = 10000000;
         private const long one_hour = 36000000000;
         private const long one_day = 864000000000;
@@ -44,6 +45,8 @@ namespace WpfApp1.model
         public void AddDays(int days = 1) => Ticks += days * one_day;
         public void RemoveDays(int days = 1) => Ticks -= days * one_day;
         public void AddSeconds(int seconds = 1) => Ticks += seconds * one_second;
+        public void AddMilliseconds(int milliseconds = 1) => Ticks += milliseconds * one_millisecond;
+        public void RemoveMilliseconds(int milliseconds = 1) => Ticks -= milliseconds * one_millisecond;
         public void RemoveSeconds(int seconds = 1) => Ticks -= seconds * one_second;
         public override string ToString() => OutputDate.ToString("yyyy-MM-dd HH:mm:ss");
 
@@ -125,100 +128,78 @@ namespace WpfApp1.model
             }
         }
 
-        public (DateTime date, TimeSpan time) MoonReturn(DateTime returnDate, City city) 
+        private static int CalculateMoonDegrees(double minutes)
+        {
+            double target = 60;
+            int min = 0;
+
+            while (minutes < target)
+            {
+                minutes++;
+                min+=3;
+            }
+
+            return min;
+        }
+
+        public (DateTime date, TimeSpan time) MoonReturn(DateTime returnDate, City city)
         {
             SkyEvent returnSky;
             Star moonReturn;
-            Star moonRadix = CalculatePlanet(1);
+            Star moonRadix = _skyEvent.Stars[1];
 
             DateTimeAdjuster adjuster = new(returnDate);
 
-            while (true) 
+            while (true)
             {
 
                 returnSky = new(adjuster.OutputDate, adjuster.OutputTime, city);
                 moonReturn = GetStarPosition(ref returnSky, 1);
 
-                while (moonRadix.RadixSign.SignId != moonReturn.RadixSign.SignId ) 
+                if (moonReturn.RadixSign.SignId != moonRadix.RadixSign.SignId)
                 {
-                    adjuster.AddDays(1);
-                    returnSky = new(adjuster.OutputDate, adjuster.OutputTime, city);
-                    moonReturn = GetStarPosition(ref returnSky, 1);
-                }
-
-                while(moonReturn.Position.Degrees > 0) 
-                {
-                    if (moonReturn.Position.Degrees <= moonRadix.Position.Degrees) break;
-                    adjuster.RemoveHours(1);
-                    returnSky = new(adjuster.OutputDate, adjuster.OutputTime, city);
-                    moonReturn = GetStarPosition(ref returnSky, 1);
-                }
-
-                while (moonReturn.Position.Minutes > 0)
-                {
-                    if (moonReturn.Position.Minutes <= moonRadix.Position.Minutes) break;
-
-                    adjuster.RemoveMinutes(1);
-                    returnSky = new(adjuster.OutputDate, adjuster.OutputTime, city);
-                    moonReturn = GetStarPosition(ref returnSky, 1);
-                    if (moonReturn.Position.Degrees > moonRadix.Position.Degrees)
+                    if (Math.Abs(moonReturn.RadixSign.SignId - moonRadix.RadixSign.SignId) > 1) 
                     {
-                        adjuster.AddMinutes(1);
-                        break;
+                        adjuster.AddDays(2);
                     }
+                    else 
+                    {
+                        adjuster.AddDays(1);
+                    }
+                    continue;
                 }
 
-                while (moonReturn.Position.Seconds > 0)
+                var x = moonReturn.Position.Minutes;
+                
+                if (moonReturn.Position.Degrees < moonRadix.Position.Degrees) 
                 {
-                    if (moonReturn.Position.Seconds <= moonRadix.Position.Seconds) break;
-                    adjuster.RemoveSeconds(1);
-                    returnSky = new(adjuster.OutputDate, adjuster.OutputTime, city);
-                    moonReturn = GetStarPosition(ref returnSky, 1);
-                    if (moonReturn.Position.Degrees > moonRadix.Position.Degrees || moonReturn.Position.Minutes > moonRadix.Position.Minutes) 
-                        break;
+                    adjuster.AddMinutes(CalculateMoonDegrees(x));
+                    continue;
                 }
 
-                if (PositionFound(moonRadix, moonReturn, adjuster))
-                    return (adjuster.OutputDate, adjuster.OutputTime);
-
-                adjuster.AddSeconds(1);
-
-                if (PositionFound(moonRadix, moonReturn, adjuster))
-                    return (adjuster.OutputDate, adjuster.OutputTime);
-
-                while (true) 
+                if (moonReturn.Position.Degrees > moonRadix.Position.Degrees)
                 {
-                    returnSky = new(adjuster.OutputDate, adjuster.OutputTime, city);
-                    moonReturn = GetStarPosition(ref returnSky, 1);
-                    
-                    if(PositionFound(moonRadix, moonReturn, adjuster))
-                        return (adjuster.OutputDate, adjuster.OutputTime);
+                    adjuster.RemoveMinutes(CalculateMoonDegrees(x));
+                    continue;
+                }
 
+                if (moonReturn.Position.Minutes > moonRadix.Position.Minutes)
+                {
+                    adjuster.RemoveMinutes(1);
+                    continue;
+                }
+
+                if (moonReturn.Position.Minutes < moonRadix.Position.Minutes)
+                {
                     adjuster.AddMinutes(1);
+                    continue;
                 }
+
+                return (adjuster.OutputDate, adjuster.OutputTime);
+
             }
         }
-
-        private bool PositionFound(Star starRadix, Star starReturn, DateTimeAdjuster adjuster) 
-        {
-            double radixDegree = starRadix.Position.ConvertToDecimal();
-            double returnDegree = starReturn.Position.ConvertToDecimal();
-
-            if (starRadix.Position.ToString().Equals(starReturn.Position.ToString()) && starRadix.RadixSign.SignId == starReturn.RadixSign.SignId)
-                return true;
-
-            if (returnDegree == radixDegree)
-                return true;
-
-            if (returnDegree > radixDegree)
-            {
-                adjuster.RemoveMinutes(-1);
-                return true;
-            }
-
-            return false;
-        }
-
+       
         public (DateTime date, TimeSpan time) CalculateSunReturn(int year, City city)
         {
             SkyEvent returnSky;
@@ -235,7 +216,7 @@ namespace WpfApp1.model
 
                 if (sunReturn.Position.Degrees > sunRadix.Position.Degrees)
                 {
-                    adjuster.AddDays(-1);
+                    adjuster.RemoveMinutes(60);
                     continue;
                 }
 
@@ -245,46 +226,65 @@ namespace WpfApp1.model
                     continue;
                 }
 
-                var x = sunReturn.Position.Seconds;
-                var a = sunRadix.Position.Seconds;
-
                 if (sunReturn.Position.Minutes < sunRadix.Position.Minutes && sunReturn.Position.Degrees == sunRadix.Position.Degrees)
                 {
-                    adjuster.AddMinutes(CalculateMinutes(x));
+                    adjuster.AddMinutes(CalculateSunMinutes(sunReturn.Position.Minutes));
                     continue;
                 }
 
                 if (sunReturn.Position.Minutes > sunRadix.Position.Minutes && sunReturn.Position.Degrees == sunRadix.Position.Degrees)
                 {
-                    adjuster.AddMinutes(-CalculateMinutes(x));
+                    adjuster.RemoveMinutes(CalculateSunMinutes(sunReturn.Position.Minutes));
                     continue;
                 }
-
+                
                 if (sunReturn.Position.Seconds < sunRadix.Position.Seconds && sunReturn.Position.Minutes == sunRadix.Position.Minutes && sunReturn.Position.Degrees == sunRadix.Position.Degrees)
                 {
-                    adjuster.AddSeconds(CalculateSeconds(sunReturn.Position.Seconds, sunRadix.Position.Seconds));
+                    adjuster.AddSeconds(CalculateSecondsMatch(sunReturn.Position.Seconds, sunRadix.Position.Seconds));
                     continue;
                 }
 
-                if (PositionFound(sunRadix, sunReturn, adjuster)) 
-                    return (adjuster.OutputDate, adjuster.OutputTime);                
+                double diff = sunRadix.Position.Seconds - sunReturn.Position.Seconds;
+                if (diff >= -2 && diff <= 4) return (adjuster.OutputDate, adjuster.OutputTime);
+
+                if (sunReturn.Position.Seconds > sunRadix.Position.Seconds && sunReturn.Position.Minutes == sunRadix.Position.Minutes && sunReturn.Position.Degrees == sunRadix.Position.Degrees)
+                {
+                    adjuster.RemoveSeconds(CalculateSeconds(sunReturn.Position.Seconds));
+                    continue;
+                }
+
+                return (adjuster.OutputDate, adjuster.OutputTime);                
             }
         }
 
-        private static int CalculateSeconds(double seconds, double target)
+        private static int CalculateSeconds(double seconds)
+        {
+            double target = 60;
+            int sec = 0;
+
+            while (seconds < target)
+            {
+                seconds++;
+                sec+=10;
+            }
+
+            return sec;
+        }
+
+        private static int CalculateSecondsMatch(double seconds, double target)
         {
             int sec = 0;
 
             while (seconds < target)
             {
                 seconds++;
-                sec+=59;
+                sec+=10;
             }
 
             return sec;
         }
 
-        private static int CalculateMinutes(double seconds) 
+        private static int CalculateSunMinutes(double seconds) 
         {
             double target = 60;
             int min = 0;
