@@ -125,7 +125,9 @@ namespace WpfApp1.View
                .Select(s => new TransitGroup()
                {
                    Header = s.Key,
-                   Aspects = Class1.Filter(s.ToList())
+                   SubTransits = TransitOrganiser.Filter(s.ToList())
+                                                .GroupBy(s => new SubTransitKeyGroup(s.TransitBundle, s))
+                                                .Select(s => new TransitSubGroup() { KeyGroup = s.Key, SubAspects = s.ToList() })
                }).ToList());
 
             IsLoading = false;

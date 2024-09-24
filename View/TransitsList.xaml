@@ -7,50 +7,56 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
+        xmlns:converter ="clr-namespace:WpfApp1.converter"    
         Title="TransitsList">
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <ToolBarTray>
-            <ToolBar ToolBarTray.IsLocked="True">
-                <RadioButton Content="Group by Star" IsChecked="{Binding StarGrouping}"/>
-                <RadioButton Content="Group by Date" IsChecked="{Binding DateGrouping}"/>
-            </ToolBar>
-        </ToolBarTray>
 
-        <TreeView Grid.Row="1" ItemsSource="{Binding Groups, Mode=TwoWay}" Visibility="Visible">
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Aspects, Mode=TwoWay}">
-                    <!-- This TextBlock binds the header (e.g., PointA) -->
-                    <TextBlock Text="{Binding Header}"/>
+    <Window.Resources>
+        <converter:ImageLoaderConverter x:Key="imgageLoaderConverter"/>
+    </Window.Resources>
 
-                    <!-- Template for the child items (Aspects) -->
-                    <HierarchicalDataTemplate.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding FullInfo}"/>
-                        </DataTemplate>
-                    </HierarchicalDataTemplate.ItemTemplate>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
+    <Border Padding="5" Background="{StaticResource DefaultGrey}">
+        <Grid Background="{StaticResource DefaultGrey}">
+            <TreeView Background="{StaticResource DefaultGrey}" Grid.Row="1" ItemsSource="{Binding Groups, Mode=TwoWay}" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding SubTransits, Mode=TwoWay}">
+                        <!-- This TextBlock binds the header (e.g., PointA) -->
+                        <TextBlock Text="{Binding Header}" FontWeight="Bold"/>
 
-        <TreeView Grid.Row="1" ItemsSource="{Binding Groups, Mode=TwoWay}" Visibility="Hidden">
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Aspects, Mode=TwoWay}">
-                    <!-- This TextBlock binds the header (e.g., PointA) -->
-                    <TextBlock Text="{Binding Star}"/>
+                        <!-- Template for the child items (Aspects) -->
+                        <HierarchicalDataTemplate.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding SubAspects, Mode=TwoWay}">
+                                <!-- This TextBlock binds the header of SubAspects -->
+                                <Border Padding="5">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="20"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border x:Name="Start1Img">
+                                            <Image Source="{Binding KeyGroup.Aspect.URI, Converter={StaticResource imgageLoaderConverter}}" Width="20" Height="20"/>
+                                        </Border>
+                                        <TextBlock Margin="5,0,0,0" Grid.Column="1" Text="{Binding SubHeader}"/>
+                                    </Grid>
+                                </Border>
 
-                    <!-- Template for the child items (Aspects) -->
-                    <HierarchicalDataTemplate.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding FullInfo}"/>
-                        </DataTemplate>
-                    </HierarchicalDataTemplate.ItemTemplate>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
-    </Grid>
+                                <!-- Template for the third-level child items (SubAspects) -->
+                                <HierarchicalDataTemplate.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="Black" BorderThickness="0,0,0,1" Padding="3" HorizontalAlignment="Stretch">
+                                            <Grid HorizontalAlignment="Stretch">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="{Binding FullInfo}" HorizontalAlignment="Stretch"/>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </HierarchicalDataTemplate.ItemTemplate>
+                            </HierarchicalDataTemplate>
+                        </HierarchicalDataTemplate.ItemTemplate>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </Grid>
+    </Border>
 </Window>

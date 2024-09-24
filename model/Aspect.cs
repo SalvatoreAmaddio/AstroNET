@@ -53,12 +53,12 @@ namespace WpfApp1.model
         public double OrbDiff { get; protected set; }
         public string OrbDiffInDegree { get; protected set; } = string.Empty;
         public string Info => $"{PointA}{TryFetchHouse(PointA)}{this} {PointB}{TryFetchHouse(PointB)} ({OrbDiffInDegree})";
-        public string FullInfo => $"{PointA}{TryFetchHouse(PointA)}{IsRetrograde(PointA)}{this} {PointB}{TryFetchHouse(PointB)} ({OrbDiffInDegree}) on {DateOf.ToString("dd/MM/yyyy")}";
+        public string FullInfo => $"{PointA}{IsRetrograde()}{TryFetchHouse(PointA)}{this} {PointB}{TryFetchHouse(PointB)} ({OrbDiffInDegree}) on {DateOf.ToString("dd/MM/yyyy")}";
         public IPoint PointA { get; set; } = null!;
         public IPoint PointB { get; set; } = null!;
         public Brush Brush { get; protected set; } = Brushes.Black;
         public DateTime DateOf { get; set; }
-
+        public int TransitBundle { get; set; }
         public Aspect() 
         {
             AfterUpdate += OnAfterUpdate;
@@ -102,11 +102,11 @@ namespace WpfApp1.model
             return false;
         }
 
-        private static string IsRetrograde(IPoint point)
+        public string IsRetrograde()
         {
-            if (point is Star star && star.IsRetrograde) return $" R ";
-            return "";
+            return PointAR() ? " R " : string.Empty; 
         }
+
         private static string TryFetchHouse(IPoint point) 
         {
             if (point is Star star && star.House != null) return $" in {star.House} ";
