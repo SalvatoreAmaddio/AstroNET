@@ -86,6 +86,15 @@ namespace WpfApp1.model
             Sign? _sign = DatabaseManager.Find<Sign>()?.MasterSource.Cast<Sign>().First(s => s.Equals(this));
             if (_sign == null) return;
             _signName = _sign.SignName;
+            _uri = _sign.URI;
+            _description = _sign._description;
+            _element = _sign._element;
+            _triplicity = _sign._triplicity;
+            _gender = _sign._gender;
+            _start = _sign._start;
+            _end = _sign._end;
+            _startDay = _sign._startDay;
+            _endDay = _sign._endDay;
         }
 
         public override string ToString()

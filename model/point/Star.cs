@@ -30,7 +30,6 @@ namespace WpfApp1.model
 
         public bool IsRetrograde { get => _isRetrograde; private set => UpdateProperty(ref value, ref _isRetrograde); }
         public IHouse House { get => _radixHouse; private set => UpdateProperty(ref value, ref _radixHouse); }
-       
         public Star() { }
         public Star(DbDataReader reader) : base(reader)
         {

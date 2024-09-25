@@ -233,8 +233,10 @@ namespace WpfApp1.model
                         {
                             if (pointReceiver is IHouse house2 && !house2.IsAngular && calculatedAspect.Orbit == 0)
                             {
-                                if (distance > 2.5 || distance < -2.5)
+                                if (distance > 2.5 || distance < -2.5) 
+                                {
                                     continue;
+                                }
                             }
                             calculatedAspect.DateOf = LocalDateTime;
                             AddRadixAspect(calculatedAspect, star, pointReceiver);

@@ -61,7 +61,7 @@
                                         <Border Margin="0,50,0,0" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center">
                                             <StackPanel>
                                                 <Label Content="Zodiaco" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                                <ListView ItemsSource="{TemplateBinding Stars}">
+                                                <ListView ItemsSource="{TemplateBinding Stars}" SelectedItem="{Binding SelectedStar, RelativeSource={RelativeSource TemplatedParent}}">
                                                     <ListView.ItemTemplate>
                                                         <DataTemplate>
                                                             <Grid>

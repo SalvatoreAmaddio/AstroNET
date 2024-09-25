@@ -7,6 +7,7 @@ namespace WpfApp1.View
 {
     public class ChartView : Control
     {
+        #region Genders
         public static readonly DependencyProperty GendersProperty =
         DependencyProperty.Register(nameof(Genders), typeof(List<FeaturesCount>),
         typeof(ChartView), new PropertyMetadata(null));
@@ -16,7 +17,9 @@ namespace WpfApp1.View
             get => (List<FeaturesCount>)GetValue(GendersProperty);
             set => SetValue(GendersProperty, value);
         }
+        #endregion
 
+        #region HousesCount
         public static readonly DependencyProperty HousesCountProperty =
         DependencyProperty.Register(nameof(HousesCount), typeof(IEnumerable<FeaturesCount>),
         typeof(ChartView), new PropertyMetadata(null));
@@ -26,7 +29,9 @@ namespace WpfApp1.View
             get => (IEnumerable<FeaturesCount>)GetValue(HousesCountProperty);
             set => SetValue(HousesCountProperty, value);
         }
+        #endregion
 
+        #region Triplicities
         public static readonly DependencyProperty TriplicitiesProperty =
         DependencyProperty.Register(nameof(Triplicities), typeof(List<FeaturesCount>),
         typeof(ChartView), new PropertyMetadata(null));
@@ -36,7 +41,9 @@ namespace WpfApp1.View
             get => (List<FeaturesCount>)GetValue(TriplicitiesProperty);
             set => SetValue(TriplicitiesProperty, value);
         }
+        #endregion
 
+        #region Elements
         public static readonly DependencyProperty ElementsProperty =
         DependencyProperty.Register(nameof(Elements), typeof(List<FeaturesCount>),
         typeof(ChartView), new PropertyMetadata(null));
@@ -46,7 +53,9 @@ namespace WpfApp1.View
             get => (List<FeaturesCount>)GetValue(ElementsProperty);
             set => SetValue(ElementsProperty, value);
         }
+        #endregion
 
+        #region Sky
         public static readonly DependencyProperty SkyProperty =
         DependencyProperty.Register(nameof(Sky), typeof(SkyEvent),
         typeof(ChartView), new PropertyMetadata(OnSkyChanged) { DefaultValue = null});
@@ -56,13 +65,9 @@ namespace WpfApp1.View
             get => (SkyEvent)GetValue(SkyProperty);
             set => SetValue(SkyProperty, value);
         }
+        #endregion
 
-        public ObservableRangeCollection<Star> Stars
-        {
-            get => (ObservableRangeCollection<Star>)GetValue(StarsProperty);
-            set => SetValue(StarsProperty, value);
-        }
-
+        #region SelectedAspect
         public static readonly DependencyProperty SelectedAspectProperty =
             DependencyProperty.Register(
                 nameof(SelectedAspect),
@@ -72,8 +77,7 @@ namespace WpfApp1.View
 
         private static void OnSelectedAspectChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var inter = LibrarySearch.SearchAspect((Aspect)e.NewValue);
-            Interpretation interpretation = new(inter);
+            Interpretation interpretation = new(LibrarySearch.SearchAspect((Aspect)e.NewValue));
             interpretation.Show();
         }
 
@@ -82,6 +86,35 @@ namespace WpfApp1.View
             get => (Aspect?)GetValue(SelectedAspectProperty);
             set => SetValue(SelectedAspectProperty, value);
         }
+        #endregion
+
+        #region SelectedStar
+        public static readonly DependencyProperty SelectedStarProperty =
+            DependencyProperty.Register(
+                nameof(SelectedStar),
+                typeof(Star),
+                typeof(ChartView),
+                new PropertyMetadata(OnSelectedStarChanged));
+
+        private static void OnSelectedStarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            Interpretation interpretation = new(LibrarySearch.SearchStar((Star)e.NewValue));
+            interpretation.Show();
+        }
+
+        public Star? SelectedStar
+        {
+            get => (Star?)GetValue(SelectedStarProperty);
+            set => SetValue(SelectedStarProperty, value);
+        }
+        #endregion
+
+        #region Aspects
+        public ObservableRangeCollection<Aspect> Aspects
+        {
+            get => (ObservableRangeCollection<Aspect>)GetValue(AspectsProperty);
+            set => SetValue(AspectsProperty, value);
+        }
 
         public static readonly DependencyProperty AspectsProperty =
             DependencyProperty.Register(
@@ -89,11 +122,13 @@ namespace WpfApp1.View
                 typeof(ObservableRangeCollection<Aspect>),
                 typeof(ChartView),
                 new PropertyMetadata(null));
+        #endregion
 
-        public ObservableRangeCollection<Aspect> Aspects
+        #region Stars
+        public ObservableRangeCollection<Star> Stars
         {
-            get => (ObservableRangeCollection<Aspect>)GetValue(AspectsProperty);
-            set => SetValue(AspectsProperty, value);
+            get => (ObservableRangeCollection<Star>)GetValue(StarsProperty);
+            set => SetValue(StarsProperty, value);
         }
 
         public static readonly DependencyProperty StarsProperty =
@@ -102,6 +137,7 @@ namespace WpfApp1.View
                 typeof(ObservableRangeCollection<Star>),
                 typeof(ChartView),
                 new PropertyMetadata(new ObservableRangeCollection<Star>()));
+        #endregion
 
         private static void OnSkyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

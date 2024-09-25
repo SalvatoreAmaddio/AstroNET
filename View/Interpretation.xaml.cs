@@ -15,9 +15,19 @@ namespace WpfApp1.View
 
         public Interpretation(List<ILibrary?> library) : this()
         {
-            Write(library);    
+            Write(library);
         }
-        
+
+        private void WriteStarInSign(ref Paragraph paragraph, LibrarySigns library)
+        {
+            paragraph.Inlines.Add(Img(library.Star.URI, library.Star.ToString()));
+            paragraph.Inlines.Add(" in ");
+            paragraph.Inlines.Add(Img(library.Sign.URI, library.Sign.ToString()));
+            paragraph.Inlines.Add(new LineBreak());
+            paragraph.Inlines.Add(new LineBreak());
+            paragraph.Inlines.Add(library.Description);
+        }
+
         private void WriteAspectBetweenStars(ref Paragraph paragraph, LibraryAspects library) 
         {
             paragraph.Inlines.Add(Img(library.Star.URI, library.Star.ToString()));
@@ -30,6 +40,7 @@ namespace WpfApp1.View
             paragraph.Inlines.Add(new LineBreak());
             paragraph.Inlines.Add(library.Energy.EnergyId == 1 ? "Positive" : "Negative");
             paragraph.Inlines.Add(":");
+            paragraph.Inlines.Add(new LineBreak());
             paragraph.Inlines.Add(new LineBreak());
             paragraph.Inlines.Add(library.Description);
         }
@@ -76,9 +87,17 @@ namespace WpfApp1.View
             foreach (ILibrary? lib in library) 
             {
                 lib?.Build();
+
                 if (lib is LibraryAspects libAsp) 
                 {
                     WriteAspectBetweenStars(ref paragraph, libAsp);
+                    paragraph.Inlines.Add(new LineBreak());
+                    paragraph.Inlines.Add(new LineBreak());
+                }
+
+                if (lib is LibrarySigns libSigns)
+                {
+                    WriteStarInSign(ref paragraph, libSigns);
                     paragraph.Inlines.Add(new LineBreak());
                     paragraph.Inlines.Add(new LineBreak());
                 }
@@ -89,6 +108,7 @@ namespace WpfApp1.View
                     paragraph.Inlines.Add(new LineBreak());
                     paragraph.Inlines.Add(new LineBreak());
                 }
+
             }
             
             flowDoc.Blocks.Add(paragraph);

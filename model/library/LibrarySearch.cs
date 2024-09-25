@@ -1,10 +1,4 @@
 ﻿using Backend.Database;
-using Backend.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WpfApp1.model
 {
@@ -12,12 +6,28 @@ namespace WpfApp1.model
     {
         private static IEnumerable<T>? GetLibrary<T>(TransitType transitType) where T : AbstractLibrary<T>, new() => 
         DatabaseManager.Find<T>()?.MasterSource.Cast<T>().Where(s => s.TransitType!.Equals(transitType)).ToList();
-        
+
+        private static IEnumerable<T>? GetLibrary<T>(Star star) where T : AbstractLibrary<T>, new() =>
+        DatabaseManager.Find<T>()?.MasterSource.Cast<T>().Where(s => s.Star!.Equals(star)).ToList();
+
+        private static long SlidHouse(double orbDiff, IHouse house) 
+        {
+            if (orbDiff < 0) return (house.PointId == 1) ? 12 : house.PointId - 1;
+            return (house.PointId == 12) ? 1 : house.PointId + 1;
+        }
+
+        public static List<ILibrary?> SearchStar(Star star) 
+        {
+            List<ILibrary?> lib = [];
+            lib.Add(GetLibrary<LibrarySigns>(star)?.FirstOrDefault(s => s.Sign.Equals(star.RadixSign)));
+            StarInHouse(ref lib, new() { TransitType = new(1)}, star);
+            return lib;
+        }
+
         public static List<ILibrary?> SearchAspect(Aspect aspect)
         {
-            List<ILibrary?> Lib = [];
+            List<ILibrary?> lib = [];
 
-            IEnumerable<LibraryHouses>? houseLibrary = GetLibrary<LibraryHouses>(aspect.TransitType);
             IEnumerable<LibraryAspects>? aspectsLibrary = GetLibrary<LibraryAspects>(aspect.TransitType)?.Where(s => FindAspect(s, aspect)).ToList();
 
             if (aspectsLibrary != null) 
@@ -25,52 +35,61 @@ namespace WpfApp1.model
                 foreach (var item in aspectsLibrary)
                 {
                     item.Aspect = aspect;
-                    Lib.Add(item);
+                    lib.Add(item);
                 }
             }
 
-            Lib.Add(houseLibrary?.FirstOrDefault(s => FindHouse(s, (Star)aspect.PointA, ((Star)aspect.PointA).House)));
+            Star star1 = (Star)aspect.PointA;
+            StarInHouse(ref lib, aspect, star1);
 
-            try
+            if (aspect.PointB is House house) 
             {
-                Lib.Add(houseLibrary?.FirstOrDefault(s => FindHouse(s, (Star)aspect.PointB, ((Star)aspect.PointB).House)));
+                StarAspectHouse(ref lib, aspect, star1, house);
+                StarCuspidHouse(ref lib, aspect, star1);
             }
-            catch
+            else 
             {
-                if (aspect.Orbit == 0) 
-                {
-                    LibraryHouses? prev = (LibraryHouses?)Lib[Lib.Count - 1];
-                    prev = new LibraryHouses() { Aspect = aspect, Star = prev.Star, House = prev.House, Description = prev.Description };
-                    Lib[Lib.Count - 1] = prev;
-
-                    if (aspect.OrbDiff >= -2.5 && aspect.OrbDiff <= 2.5) 
-                    {
-                        House? house;
-                        long id;
-
-                        if (aspect.OrbDiff < 0)
-                        {
-                            id = (prev.House.PointId == 1) ? 12 : prev.House.PointId-1;
-                        }
-                        else 
-                        {
-                           id = (prev.House.PointId == 12) ? 1 : prev.House.PointId + 1;
-                        }
-
-                        house = new(id);
-                        LibraryHouses? a = houseLibrary?.FirstOrDefault(s => FindHouse(s, (Star)aspect.PointA, house));
-                        Lib.Add(a);
-                    }
-                }
-                else 
-                {
-                    LibraryHouses? a = houseLibrary?.FirstOrDefault(s => FindHouse(s, (Star)aspect.PointA, (House)aspect.PointB));
-                    if (a != null)
-                        Lib.Add(new LibraryHouses() { Aspect = aspect, Star = a.Star, House = a.House, Description = a.Description });
-                }
+                Star star2 = (Star)aspect.PointB;
+                StarInHouse(ref lib, aspect, star2);
             }
 
-            return Lib;
+            return lib;
+        }
+        
+        public static void StarCuspidHouse(ref List<ILibrary?> Lib, Aspect aspect, Star star) 
+        {
+            IEnumerable<LibraryHouses>? houseLibrary = GetLibrary<LibraryHouses>(aspect.TransitType);
+
+            if (aspect.Orbit == 0)
+            {
+                LibraryHouses? prev = (LibraryHouses?)Lib[Lib.Count - 1];
+                prev = new LibraryHouses { Aspect = aspect, Star = prev.Star, House = prev.House, Description = prev.Description };
+                Lib[Lib.Count - 1] = prev;
+
+                if (aspect.OrbDiff >= -2.5 && aspect.OrbDiff <= 2.5)
+                {
+                    House cuspHouse = new(SlidHouse(aspect.OrbDiff, prev.House));
+                    Lib.Add(houseLibrary?.FirstOrDefault(s => FindHouse(s, star, cuspHouse)));
+                }
+            }
+        }
+
+        private static void StarAspectHouse(ref List<ILibrary?> Lib, Aspect aspect, Star star, IHouse house) 
+        {
+            if (aspect.Orbit == 0)
+            {
+                    return;
+            }
+            IEnumerable<LibraryHouses>? houseLibrary = GetLibrary<LibraryHouses>(aspect.TransitType);
+            LibraryHouses? cuspidHouse = houseLibrary?.FirstOrDefault(s => FindHouse(s, star, house));
+            if (cuspidHouse == null) return;
+            Lib.Add(new LibraryHouses() { Aspect = aspect, Star = cuspidHouse.Star, House = cuspidHouse.House, Description = cuspidHouse.Description});
+        }
+
+        private static void StarInHouse(ref List<ILibrary?> Lib, Aspect aspect, Star star) 
+        {
+            IEnumerable<LibraryHouses>? houseLibrary = GetLibrary<LibraryHouses>(aspect.TransitType);
+            Lib.Add(houseLibrary?.FirstOrDefault(s => FindHouse(s, star, star.House)));
         }
 
         public static bool FindHouse(LibraryHouses library, Star? star, IHouse? house)
