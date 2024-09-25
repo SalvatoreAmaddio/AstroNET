@@ -72,7 +72,9 @@ namespace WpfApp1.View
 
         private static void OnSelectedAspectChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            LibrarySearch.SearchAspect(((ChartView)d).Sky.SkyType, (Aspect)e.NewValue);
+            var inter = LibrarySearch.SearchAspect((Aspect)e.NewValue);
+            Interpretation interpretation = new(inter);
+            interpretation.Show();
         }
 
         public Aspect? SelectedAspect

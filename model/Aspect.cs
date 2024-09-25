@@ -59,6 +59,7 @@ namespace WpfApp1.model
         public Brush Brush { get; protected set; } = Brushes.Black;
         public DateTime DateOf { get; set; }
         public int TransitBundle { get; set; }
+        public TransitType TransitType { get; set; } = new(1);
         public Aspect() 
         {
             AfterUpdate += OnAfterUpdate;

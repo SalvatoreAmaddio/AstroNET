@@ -315,6 +315,7 @@ namespace WpfApp1.model
                                     continue;
                             }
 
+                            calculatedAspect.TransitType = new(2);
                             calculatedAspect.DateOf = date;
                             Horoscope.AddRadixAspect(calculatedAspect, star, pointReceiver);
                         }
@@ -351,6 +352,8 @@ namespace WpfApp1.model
                             if (distance > 2.5 || distance < -2.5)
                                 continue;
                         }
+
+                        calculatedAspect.TransitType = new(2);
 
                         calculatedAspect.DateOf = date;
 

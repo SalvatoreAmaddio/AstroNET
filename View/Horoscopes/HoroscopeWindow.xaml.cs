@@ -23,12 +23,12 @@ namespace WpfApp1.View
             this.DataContext = this;
         }
 
-        protected override async void OnButtonClick(object sender, RoutedEventArgs e)
+        protected override void OnButtonClick(object sender, RoutedEventArgs e)
         {
             IsLoading = true;
             SelectedCity?.Build();
 
-            await Task.Run(() => SubjectSky.CalculateHoroscope(InputDate, InputTime, SelectedCity));
+            SubjectSky.CalculateHoroscope(InputDate, InputTime, SelectedCity);
             
             IsLoading = false;
 
