@@ -19,9 +19,10 @@ namespace WpfApp1.model
             return (house.PointId == 12) ? 1 : house.PointId + 1;
         }
 
-        public static List<IHouseLibrary?> SearchHouse(House house) 
+        public static List<IHouseLibrary?> SearchHouseSign(House house) 
         {
             List<IHouseLibrary?> lib = [];
+            long id = house.PointId;
             lib.Add(GetHouseSignLibrary(house)?.FirstOrDefault(s => s.Sign.Equals(house.RadixSign)));
             return lib;
         }

@@ -5,6 +5,20 @@
     xmlns:converter ="clr-namespace:WpfApp1.converter"
     >
 
+    <Style TargetType="Border" x:Key="TableBorderStyle">
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderThickness" Value=".1"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+    </Style>
+
+    <Style TargetType="Label" x:Key="TableHeaderStyle">
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Background" Value="White"/>
+    </Style>
+    
     <converter:ImageLoaderConverter x:Key="imgageLoaderConverter"/>
     <converter:RetrogradeConverter x:Key="isRetrogradeConverter"/>
     <converter:GetPersonFromSky x:Key="personSky"/>
@@ -25,8 +39,8 @@
 
                         <ScrollViewer>
                             <StackPanel>
-                                <Border Width="700" Background="White" HorizontalAlignment="Left" Height="80" Padding="5">
-                                    <Grid>
+                                <Border x:Name="SkyInfoBorder" Background="White" HorizontalAlignment="Stretch" Height="80" Padding="5">
+                                    <Grid HorizontalAlignment="Left">
                                         <Grid.Resources>
                                             <Style TargetType="Label">
                                                 <Setter Property="VerticalAlignment" Value="Center"/>
@@ -56,17 +70,18 @@
                                 
                                 <Border Padding="30" BorderThickness=".1" BorderBrush="Black">
                                     <StackPanel>
-                                        <local:ZodiacChart Sky="{TemplateBinding Sky}" Height="500" Margin="0,20,0,10"/>
+                                        <local:ZodiacChart Sky="{TemplateBinding Sky}" Height="500" Margin="0,30,0,10"/>
 
-                                        <Grid HorizontalAlignment="Center" Margin="0,50,0,0">
+                                        <Grid HorizontalAlignment="Center" Margin="0,60,0,0">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="350"/>
                                                 <ColumnDefinition Width="10"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <Border x:Name="ZodiacTable" Grid.Column="0" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center">
+
+                                            <Border x:Name="ZodiacTableBorder" Grid.Column="0" Style="{StaticResource TableBorderStyle}">
                                                 <StackPanel>
-                                                    <Label Content="Zodiaco" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                                    <Label Content="Zodiaco" Style="{StaticResource TableHeaderStyle}"/>
                                                     <ListView ItemsSource="{TemplateBinding Stars}" SelectedItem="{Binding SelectedStar, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <ListView.ItemTemplate>
                                                             <DataTemplate>
@@ -106,10 +121,10 @@
                                                     </ListView>
                                                 </StackPanel>
                                             </Border>
-                                            
-                                            <Border x:Name="HouseTable" Grid.Column="2" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center">
+
+                                            <Border x:Name="HouseTableBorder" Grid.Column="2" Style="{StaticResource TableBorderStyle}">
                                                 <StackPanel>
-                                                    <Label Content="Houses" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                                    <Label Content="Houses" Style="{StaticResource TableHeaderStyle}"/>
                                                     <ListView ItemsSource="{TemplateBinding Houses}" SelectedItem="{Binding SelectedHouse, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <ListView.ItemTemplate>
                                                             <DataTemplate>
@@ -141,10 +156,9 @@
                                                     </ListView>
                                                 </StackPanel>
                                             </Border>
-
                                         </Grid>
                                         
-                                        <Grid HorizontalAlignment="Center" Margin="0,30,0,0">
+                                        <Grid HorizontalAlignment="Center" Margin="0,10,0,0">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="20"/>
@@ -153,11 +167,13 @@
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*"/>
                                                 <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
                                             </Grid.RowDefinitions>
-                                            <Border Grid.Column="0" Grid.RowSpan="2" HorizontalAlignment="Center" BorderBrush="Black" BorderThickness="1">
+
+                                            <Border Grid.Column="0" Grid.RowSpan="2" Style="{StaticResource TableBorderStyle}">
                                                 <StackPanel>
-                                                    <Label Content="Occupied Houses" HorizontalAlignment="Center"/>
-                                                    <ListView ItemsSource="{TemplateBinding HousesCount}">
+                                                    <Label Content="Occupied Houses" Style="{StaticResource TableHeaderStyle}"/>
+                                                    <ListView ItemsSource="{TemplateBinding OccupiedHouses}">
                                                         <ListView.ItemTemplate>
                                                             <DataTemplate>
                                                                 <Grid>
@@ -174,9 +190,9 @@
                                                 </StackPanel>
                                             </Border>
 
-                                            <Border Grid.Column="2" HorizontalAlignment="Center" BorderBrush="Black" BorderThickness="1">
+                                            <Border Grid.Column="2" Style="{StaticResource TableBorderStyle}">
                                                 <StackPanel>
-                                                    <Label Content="Triplicities" HorizontalAlignment="Center"/>
+                                                    <Label Content="Triplicities" Style="{StaticResource TableHeaderStyle}"/>
                                                     <ListView ItemsSource="{TemplateBinding Triplicities}">
                                                         <ListView.ItemTemplate>
                                                             <DataTemplate>
@@ -194,9 +210,9 @@
                                                 </StackPanel>
                                             </Border>
 
-                                            <Border Grid.Column="2" Grid.Row="1" Margin="0,10,0,0" HorizontalAlignment="Center" BorderBrush="Black" BorderThickness="1">
+                                            <Border Grid.Column="2" Grid.Row="1" Margin="0,10,0,0" Style="{StaticResource TableBorderStyle}">
                                                 <StackPanel>
-                                                    <Label Content="Genders" HorizontalAlignment="Center"/>
+                                                    <Label Content="Genders" Style="{StaticResource TableHeaderStyle}"/>
                                                     <ListView ItemsSource="{TemplateBinding Genders}">
                                                         <ListView.ItemTemplate>
                                                             <DataTemplate>
@@ -213,31 +229,52 @@
                                                     </ListView>
                                                 </StackPanel>
                                             </Border>
-                                        </Grid>
-                                        
-                                        <Border Margin="0,30,0,0" HorizontalAlignment="Center" BorderBrush="Black" BorderThickness="1">
-                                            <StackPanel>
-                                                <Label Content="Elements" HorizontalAlignment="Center"/>
-                                                <ListView ItemsSource="{TemplateBinding Elements}">
-                                                    <ListView.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <Grid>
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="100"/>
-                                                                    <ColumnDefinition Width="30"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <Label Content="{Binding Name}"/>
-                                                                <Label Grid.Column="1" Content="{Binding Count}"/>
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                    </ListView.ItemTemplate>
-                                                </ListView>
-                                            </StackPanel>
-                                        </Border>
 
-                                        <Border x:Name="aspectBorder" Margin="0,30,0,0" Grid.Row="1" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Center">
+                                            <Border Grid.Row="2" Grid.Column="0" Margin="0,10,0,0" Style="{StaticResource TableBorderStyle}">
+                                                <StackPanel>
+                                                    <Label Content="Stelliums" Style="{StaticResource TableHeaderStyle}"/>
+                                                    <ListView ItemsSource="{TemplateBinding Stelliums}">
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="100"/>
+                                                                        <ColumnDefinition Width="30"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Label Content="{Binding Name}"/>
+                                                                    <Label Grid.Column="1" Content="{Binding Count}"/>
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+                                                </StackPanel>
+                                            </Border>
+
+                                            <Border Grid.Row="2" Grid.Column="2" Margin="0,10,0,0" Style="{StaticResource TableBorderStyle}">
+                                                <StackPanel>
+                                                    <Label Content="Elements" Style="{StaticResource TableHeaderStyle}"/>
+                                                    <ListView ItemsSource="{TemplateBinding Elements}">
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Grid>
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="100"/>
+                                                                        <ColumnDefinition Width="30"/>
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Label Content="{Binding Name}"/>
+                                                                    <Label Grid.Column="1" Content="{Binding Count}"/>
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+                                                </StackPanel>
+                                            </Border>
+
+                                        </Grid>
+
+                                        <Border x:Name="aspectBorder" Margin="0,10,0,0" Grid.Row="1" Style="{StaticResource TableBorderStyle}">
                                             <StackPanel>
-                                                <Label Content="Aspects" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                                <Label Content="Aspects" Style="{StaticResource TableHeaderStyle}"/>
                                                 <ListView ItemsSource="{TemplateBinding Aspects}" SelectedItem="{Binding SelectedAspect, RelativeSource={RelativeSource TemplatedParent}}">
                                                     <ListView.ItemTemplate>
                                                         <DataTemplate>

@@ -16,12 +16,12 @@ namespace WpfApp1.model
         Sinastry = 5,
     }
 
-    public class FeaturesCount
+    public class ElementGroupKey
     {
         public string Name { get; private set; }
         public int Count { get; private set; }
 
-        public FeaturesCount(string name, int count)
+        public ElementGroupKey(string name, int count)
         {
             Name = name;
             Count = count;
@@ -60,26 +60,17 @@ namespace WpfApp1.model
         public int AirSigns => Stars.Count(s => s.RadixSign.Element.ElementId == 3);
         public int EarhSigns => Stars.Count(s => s.RadixSign.Element.ElementId == 4);
         public int MaleSigns => Stars.Count(s => s.RadixSign.Gender.GenderId == 1);
-        public IEnumerable<FeaturesCount>? HousesCount 
-        { 
-            get 
-            {
-                try 
-                { 
-                    return Stars.GroupBy(s => s.House).Select(s => new FeaturesCount(s.Key?.PointName ?? "N/A", s.Count())).OrderByDescending(s => s.Count);
-                }
-                catch 
-                { 
-                    return null;
-                }
-            }
-        }
+        public IEnumerable<ElementGroupKey>? OccupiedHouses =>
+        (Houses.Count == 0) ? [] : Stars.GroupBy(s => s.House)
+                                        .Select(s => new ElementGroupKey(s.Key.PointName, s.Count()))
+                                        .OrderByDescending(s => s.Count).ToList();
 
+        public IEnumerable<ElementGroupKey>? Stelliums => OccupiedHouses?.Where(s=>s.Count >= 3).ToList();
         public int FemaleSigns => Stars.Count(s => s.RadixSign.Gender.GenderId == 2);
         public int CardinalSigns => Stars.Count(s => s.RadixSign.Triplicity.TriplicityId == 3);
         public int FixedSigns => Stars.Count(s => s.RadixSign.Triplicity.TriplicityId == 1);
         public int MobileSigns => Stars.Count(s => s.RadixSign.Triplicity.TriplicityId == 2);
-        public ObservableRangeCollection<House> Houses { get; } = [];
+        public ObservableRangeCollection<House> Houses { get; private set; } = [];
         public List<IPoint> Aspectables { get; } = [];
         public SkyEvent? Horoscope { get; private set; }
         public ObservableRangeCollection<Aspect> RadixAspects { get; } = [];
@@ -180,16 +171,18 @@ namespace WpfApp1.model
                 Stars[i].Build();
             }
 
-            for (int i = 1; i <= 12; i++) 
-            {
-                Houses.Add(positionCalculator.GetHouse(i));
-                Houses[i-1].Build();
-            }
-
             Aspectables.AddRange(Stars);
 
-            if (ShowHouses)
+            if (ShowHouses) 
+            {
+                for (int i = 1; i <= 12; i++)
+                {
+                    Houses.Add(positionCalculator.GetHouse(i));
+                    Houses[i - 1].Build();
+                }
+
                 Aspectables.AddRange(Houses);
+            }
 
             CalculateBirthAspects();
         }
@@ -267,11 +260,12 @@ namespace WpfApp1.model
             foreach(House radixHouse in Houses) 
             {
                 double dist = PositionCalculator.CalculateDistance(returnAsc.EclipticLongitude, radixHouse.EclipticLongitude);
-                Aspect? asp = PositionCalculator.IsValidAspect(conj, dist, 2.5);
-                if (asp == null) continue;
+                Aspect? calculatedAspect = PositionCalculator.IsValidAspect(conj, dist, 2.5);
+                if (calculatedAspect == null) continue;
                 radixHouse.PointName = $"Radix {radixHouse.PointName}";
-                asp.DateOf = returnDate;
-                returnSky.AddRadixAspect(asp, returnAsc, radixHouse);
+                calculatedAspect.TransitType = new(3);
+                calculatedAspect.DateOf = returnDate;
+                returnSky.AddRadixAspect(calculatedAspect, returnAsc, radixHouse);
             }
             
             return returnSky;
@@ -285,6 +279,7 @@ namespace WpfApp1.model
             {
                 SkyType = SkyType.Horoscope,
                 Person = Person,
+                Houses = Houses
             };
 
             Horoscope.RadixAspects.Clear();

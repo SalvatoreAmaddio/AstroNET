@@ -80,8 +80,18 @@ namespace WpfApp1.View
         {
             base.OnRender(drawingContext);
             _canvas.Children.Clear();
+            
             if (Sky == null) return;
-            Rotation = Sky.Houses[0].EclipticLongitude;
+
+            try 
+            {
+                Rotation = Sky.Houses[0].EclipticLongitude;
+            }
+            catch 
+            { 
+            
+            }
+
             drawingContext.DrawEllipse(Brushes.White, Factory.PencilCase.BlackPen2, Center, _outerRadius, _outerRadius);
 
             SplitCircle(drawingContext);

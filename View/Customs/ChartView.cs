@@ -10,48 +10,60 @@ namespace WpfApp1.View
     {
         #region Genders
         public static readonly DependencyProperty GendersProperty =
-        DependencyProperty.Register(nameof(Genders), typeof(List<FeaturesCount>),
+        DependencyProperty.Register(nameof(Genders), typeof(List<ElementGroupKey>),
         typeof(ChartView), new PropertyMetadata(null));
 
-        public List<FeaturesCount> Genders
+        public List<ElementGroupKey> Genders
         {
-            get => (List<FeaturesCount>)GetValue(GendersProperty);
+            get => (List<ElementGroupKey>)GetValue(GendersProperty);
             set => SetValue(GendersProperty, value);
         }
         #endregion
 
-        #region HousesCount
-        public static readonly DependencyProperty HousesCountProperty =
-        DependencyProperty.Register(nameof(HousesCount), typeof(IEnumerable<FeaturesCount>),
+        #region OccupiedHouses
+        public static readonly DependencyProperty OccupiedHousesProperty =
+        DependencyProperty.Register(nameof(OccupiedHouses), typeof(IEnumerable<ElementGroupKey>),
         typeof(ChartView), new PropertyMetadata(null));
 
-        public IEnumerable<FeaturesCount> HousesCount
+        public IEnumerable<ElementGroupKey>? OccupiedHouses
         {
-            get => (IEnumerable<FeaturesCount>)GetValue(HousesCountProperty);
-            set => SetValue(HousesCountProperty, value);
+            get => (IEnumerable<ElementGroupKey>?)GetValue(OccupiedHousesProperty);
+            set => SetValue(OccupiedHousesProperty, value);
+        }
+        #endregion
+
+        #region Stelliums
+        public static readonly DependencyProperty StelliumsProperty =
+        DependencyProperty.Register(nameof(Stelliums), typeof(IEnumerable<ElementGroupKey>),
+        typeof(ChartView), new PropertyMetadata(null));
+
+        public IEnumerable<ElementGroupKey>? Stelliums
+        {
+            get => (IEnumerable<ElementGroupKey>?)GetValue(StelliumsProperty);
+            set => SetValue(StelliumsProperty, value);
         }
         #endregion
 
         #region Triplicities
         public static readonly DependencyProperty TriplicitiesProperty =
-        DependencyProperty.Register(nameof(Triplicities), typeof(List<FeaturesCount>),
+        DependencyProperty.Register(nameof(Triplicities), typeof(List<ElementGroupKey>),
         typeof(ChartView), new PropertyMetadata(null));
 
-        public List<FeaturesCount> Triplicities
+        public List<ElementGroupKey> Triplicities
         {
-            get => (List<FeaturesCount>)GetValue(TriplicitiesProperty);
+            get => (List<ElementGroupKey>)GetValue(TriplicitiesProperty);
             set => SetValue(TriplicitiesProperty, value);
         }
         #endregion
 
         #region Elements
         public static readonly DependencyProperty ElementsProperty =
-        DependencyProperty.Register(nameof(Elements), typeof(List<FeaturesCount>),
+        DependencyProperty.Register(nameof(Elements), typeof(List<ElementGroupKey>),
         typeof(ChartView), new PropertyMetadata(null));
 
-        public List<FeaturesCount> Elements
+        public List<ElementGroupKey> Elements
         {
-            get => (List<FeaturesCount>)GetValue(ElementsProperty);
+            get => (List<ElementGroupKey>)GetValue(ElementsProperty);
             set => SetValue(ElementsProperty, value);
         }
         #endregion
@@ -95,20 +107,7 @@ namespace WpfApp1.View
                 nameof(SelectedStar),
                 typeof(Star),
                 typeof(ChartView),
-                new PropertyMetadata(OnSelectedStarChanged));
-
-        private static void OnSelectedStarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            Interpretation interpretation;
-
-            if (e.NewValue is Star)
-                interpretation = new(LibrarySearch.SearchStar((Star)e.NewValue));
-            else
-                interpretation = new(LibrarySearch.SearchHouse((House)e.NewValue));
-
-            interpretation.Show();
-        }
-
+                new PropertyMetadata(OnSelectedPointChanged));
         public Star? SelectedStar
         {
             get => (Star?)GetValue(SelectedStarProperty);
@@ -122,7 +121,7 @@ namespace WpfApp1.View
                 nameof(SelectedHouse),
                 typeof(House),
                 typeof(ChartView),
-                new PropertyMetadata(OnSelectedStarChanged));
+                new PropertyMetadata(OnSelectedPointChanged));
 
         public House? SelectedHouse
         {
@@ -176,6 +175,17 @@ namespace WpfApp1.View
                 new PropertyMetadata(new ObservableRangeCollection<House>()));
         #endregion
 
+        private static void OnSelectedPointChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            Interpretation interpretation;
+
+            if (e.NewValue is Star)
+                interpretation = new(LibrarySearch.SearchStar((Star)e.NewValue));
+            else
+                interpretation = new(LibrarySearch.SearchHouseSign((House)e.NewValue));
+
+            interpretation.Show();
+        }
         private static void OnSkyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ChartView? control = d as ChartView;
@@ -203,10 +213,11 @@ namespace WpfApp1.View
             Elements = [];
             Genders = [];
 
-            HousesCount = toUse.HousesCount;
+            OccupiedHouses = toUse.OccupiedHouses;
+            Stelliums = toUse.Stelliums;
 
             Triplicities.Add(new("Fixed Signs", toUse.FixedSigns));
-            Triplicities.Add(new("Cardinal Signs", toUse.FixedSigns));
+            Triplicities.Add(new("Cardinal Signs", toUse.CardinalSigns));
             Triplicities.Add(new("Mobile Signs", toUse.MobileSigns));
 
             Elements.Add(new("Water", toUse.WaterSigns));
