@@ -54,12 +54,12 @@ namespace WpfApp1.controller
         public abstract void SetTitle();
     }
 
-    public class LibraryAspectsController : AbstractLibraryController<LibraryAspects>
+    public class LibraryAspectsController : AbstractLibraryController<LibraryStarAspects>
     {
         public RecordSource<Energy> Energies { get; private set; } = new(DatabaseManager.Find<Energy>()!);
         public RecordSource<Star> Stars2 { get; private set; } = new(DatabaseManager.Find<Star>()!);
 
-        public LibraryAspectsController(LibraryAspects aspect) : base(aspect)
+        public LibraryAspectsController(LibraryStarAspects aspect) : base(aspect)
         {
         }
 
@@ -82,11 +82,11 @@ namespace WpfApp1.controller
         }
     }
 
-    public class LibraryHousesController : AbstractLibraryController<LibraryHouses> 
+    public class LibraryHousesController : AbstractLibraryController<LibraryStarHouses> 
     {
         public RecordSource<House> Houses { get; private set; } = new(DatabaseManager.Find<House>()!);
 
-        public LibraryHousesController(LibraryHouses aspect) : base(aspect)
+        public LibraryHousesController(LibraryStarHouses aspect) : base(aspect)
         {
         }
 
@@ -112,11 +112,11 @@ namespace WpfApp1.controller
         }
     }
 
-    public class LibrarySignsController : AbstractLibraryController<LibrarySigns>
+    public class LibrarySignsController : AbstractLibraryController<LibraryStarSigns>
     {
         public RecordSource<Sign> Signs { get; private set; } = new(DatabaseManager.Find<Sign>()!);
 
-        public LibrarySignsController(LibrarySigns aspect) : base(aspect)
+        public LibrarySignsController(LibraryStarSigns aspect) : base(aspect)
         {
         }
 

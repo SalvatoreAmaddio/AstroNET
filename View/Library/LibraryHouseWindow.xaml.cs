@@ -12,7 +12,7 @@ namespace WpfApp1.View
             InitializeComponent();
         }
 
-        public LibraryHouseWindow(LibraryHouses record) : this()
+        public LibraryHouseWindow(LibraryStarHouses record) : this()
         {
             this.SetController(new LibraryHousesController(record));
             this.GetController<LibraryHousesController>()?.SetTitle();

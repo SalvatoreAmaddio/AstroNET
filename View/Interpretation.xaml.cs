@@ -18,7 +18,7 @@ namespace WpfApp1.View
             Write(library);
         }
 
-        private void WriteStarInSign(ref Paragraph paragraph, LibrarySigns library)
+        private void WriteStarInSign(ref Paragraph paragraph, LibraryStarSigns library)
         {
             paragraph.Inlines.Add(Img(library.Star.URI, library.Star.ToString()));
             paragraph.Inlines.Add(" in ");
@@ -28,7 +28,7 @@ namespace WpfApp1.View
             paragraph.Inlines.Add(library.Description);
         }
 
-        private void WriteAspectBetweenStars(ref Paragraph paragraph, LibraryAspects library) 
+        private void WriteAspectBetweenStars(ref Paragraph paragraph, LibraryStarAspects library) 
         {
             paragraph.Inlines.Add(Img(library.Star.URI, library.Star.ToString()));
             paragraph.Inlines.Add(" ");
@@ -45,7 +45,7 @@ namespace WpfApp1.View
             paragraph.Inlines.Add(library.Description);
         }
 
-        private void WriteStarInHouse(ref Paragraph paragraph, LibraryHouses library)
+        private void WriteStarInHouse(ref Paragraph paragraph, LibraryStarHouses library)
         {
             paragraph.Inlines.Add(Img(library.Star.URI, library.Star.ToString()));
 
@@ -88,21 +88,21 @@ namespace WpfApp1.View
             {
                 lib?.Build();
 
-                if (lib is LibraryAspects libAsp) 
+                if (lib is LibraryStarAspects libAsp) 
                 {
                     WriteAspectBetweenStars(ref paragraph, libAsp);
                     paragraph.Inlines.Add(new LineBreak());
                     paragraph.Inlines.Add(new LineBreak());
                 }
 
-                if (lib is LibrarySigns libSigns)
+                if (lib is LibraryStarSigns libSigns)
                 {
                     WriteStarInSign(ref paragraph, libSigns);
                     paragraph.Inlines.Add(new LineBreak());
                     paragraph.Inlines.Add(new LineBreak());
                 }
 
-                if (lib is LibraryHouses libHouse) 
+                if (lib is LibraryStarHouses libHouse) 
                 {
                     WriteStarInHouse(ref paragraph, libHouse);
                     paragraph.Inlines.Add(new LineBreak());

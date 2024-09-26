@@ -12,7 +12,7 @@ namespace WpfApp1.View
             InitializeComponent();
         }
 
-        public LibrarySignWindow(LibrarySigns record) : this() 
+        public LibrarySignWindow(LibraryStarSigns record) : this() 
         {
             this.SetController(new LibrarySignsController(record));
             this.GetController<LibrarySignsController>()?.SetTitle();

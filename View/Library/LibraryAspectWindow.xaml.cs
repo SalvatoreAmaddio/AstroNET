@@ -12,7 +12,7 @@ namespace WpfApp1.View
             InitializeComponent();
         }
 
-        public LibraryAspectWindow(LibraryAspects record) : this()
+        public LibraryAspectWindow(LibraryStarAspects record) : this()
         {
             this.SetController(new LibraryAspectsController(record));
             this.GetController<LibraryAspectsController>()?.SetTitle();

@@ -52,7 +52,7 @@ namespace WpfApp1.controller
         public abstract void SetTitle();
     }
 
-    public class LibraryAspectsControllerList : AbstractLibraryControllerList<LibraryAspects>
+    public class LibraryAspectsControllerList : AbstractLibraryControllerList<LibraryStarAspects>
     {
         public SourceOption StarOptions2 { get; private set; }
         public SourceOption EnergyOptions { get; private set; }
@@ -72,7 +72,7 @@ namespace WpfApp1.controller
             OnAfterUpdate(e, new(null, null, nameof(Search)));
         }
 
-        protected override void Open(LibraryAspects model)
+        protected override void Open(LibraryStarAspects model)
         {
             if (model.IsNewRecord()) 
             {
@@ -101,7 +101,7 @@ namespace WpfApp1.controller
         }
     }
 
-    public class LibraryHousesControllerList : AbstractLibraryControllerList<LibraryHouses> 
+    public class LibraryHousesControllerList : AbstractLibraryControllerList<LibraryStarHouses> 
     {
         public SourceOption HouseOptions { get; private set; }
         public LibraryHousesControllerList(TransitType transitType) : base(transitType)
@@ -117,7 +117,7 @@ namespace WpfApp1.controller
             OnAfterUpdate(e, new(null, null, nameof(Search)));
         }
 
-        protected override void Open(LibraryHouses model)
+        protected override void Open(LibraryStarHouses model)
         {
             if (model.IsNewRecord())
             {
@@ -149,7 +149,7 @@ namespace WpfApp1.controller
         }
     }
 
-    public class LibrarySignsControllerList : AbstractLibraryControllerList<LibrarySigns>
+    public class LibrarySignsControllerList : AbstractLibraryControllerList<LibraryStarSigns>
     {
         public SourceOption SignOptions { get; private set; }
         public LibrarySignsControllerList(TransitType transitType) : base(transitType)
@@ -165,7 +165,7 @@ namespace WpfApp1.controller
             OnAfterUpdate(e, new(null, null, nameof(Search)));
         }
 
-        protected override void Open(LibrarySigns model)
+        protected override void Open(LibraryStarSigns model)
         {
             if (model.IsNewRecord())
             {
@@ -198,7 +198,7 @@ namespace WpfApp1.controller
 
         public override AbstractClause InstantiateSearchQry()
         {
-            return new LibrarySigns().
+            return new LibraryStarSigns().
                 Select().All()
                 .From()
                 .Where()

@@ -98,8 +98,8 @@ namespace WpfApp1.model
         public override void Build() => Star.Build();
     }
 
-    [Table(nameof(LibraryAspects))]
-    public class LibraryAspects : AbstractStarLibrary<LibraryAspects>
+    [Table(nameof(LibraryStarAspects))]
+    public class LibraryStarAspects : AbstractStarLibrary<LibraryStarAspects>
     {
         protected Star _star2 = null!;
         private Energy _energy = null!;
@@ -110,11 +110,11 @@ namespace WpfApp1.model
         [FK("StarID")]
         public Star Star2 { get => _star2; set => UpdateProperty(ref value, ref _star2); }
 
-        public LibraryAspects()
+        public LibraryStarAspects()
         {
         }
 
-        public LibraryAspects(DbDataReader reader) : base(reader) 
+        public LibraryStarAspects(DbDataReader reader) : base(reader) 
         {
             _energy = new(reader.GetInt64(4));
             _star2 = new Star(reader.GetInt64(5));
@@ -127,19 +127,19 @@ namespace WpfApp1.model
         }
     }
 
-    [Table(nameof(LibraryHouses))]
-    public class LibraryHouses : AbstractStarLibrary<LibraryHouses>
+    [Table(nameof(LibraryStarHouses))]
+    public class LibraryStarHouses : AbstractStarLibrary<LibraryStarHouses>
     {
         protected House _house = null!;
 
         [FK("HouseId")]
         public House House { get => _house; set => UpdateProperty(ref value, ref _house); }
 
-        public LibraryHouses()
+        public LibraryStarHouses()
         {
         }
 
-        public LibraryHouses(DbDataReader reader) : base(reader)
+        public LibraryStarHouses(DbDataReader reader) : base(reader)
         {
             _house = new House(reader.GetInt64(4));
         }
@@ -151,20 +151,20 @@ namespace WpfApp1.model
         }
     }
     
-    [Table(nameof(LibrarySigns))]
-    public class LibrarySigns : AbstractStarLibrary<LibrarySigns>
+    [Table(nameof(LibraryStarSigns))]
+    public class LibraryStarSigns : AbstractStarLibrary<LibraryStarSigns>
     {
         protected Sign _sign = null!;
 
         [FK]
         public Sign Sign { get => _sign; set => UpdateProperty(ref value, ref _sign); }
 
-        public LibrarySigns() : base()
+        public LibraryStarSigns() : base()
         {
             _transitType = new(1);
         }
 
-        public LibrarySigns(DbDataReader reader) : base(reader)
+        public LibraryStarSigns(DbDataReader reader) : base(reader)
         {
             _sign = new Sign(reader.GetInt64(4));
         }
@@ -176,5 +176,34 @@ namespace WpfApp1.model
         }
     }
 
+    [Table(nameof(LibraryHouseSigns))]
+    public class LibraryHouseSigns : AbstractPointLibrary<LibraryHouseSigns>, IHouseLibrary 
+    {
+        private House _house = null!;
+        protected Sign _sign = null!;
+
+        [FK]
+        public Sign Sign { get => _sign; set => UpdateProperty(ref value, ref _sign); }
+
+        [FK]
+        public House House { get => _house; set => UpdateProperty(ref value, ref _house); }
+
+        public LibraryHouseSigns() : base()
+        {
+            _transitType = new(1);
+        }
+
+        public LibraryHouseSigns(DbDataReader reader)
+        {
+            _house = new House(reader.GetInt64(1));
+            _sign = new Sign(reader.GetInt64(4));
+        }
+
+        public override void Build() 
+        {
+            House.Build();
+            Sign.Build();
+        }
+    }
 
 }
