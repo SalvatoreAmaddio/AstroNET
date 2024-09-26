@@ -12,7 +12,7 @@
         WindowStartupLocation="CenterScreen"
         Icon="{Binding CurrentRecord.URI}"
         ResizeMode="NoResize"
-        Title="Sign" Height="510" Width="790">
+        Title="Sign" Height="530" Width="790">
 
     <Window.Resources>
         <converter:GetTriplicity x:Key="getTriplicity"/>
@@ -20,7 +20,7 @@
         <converter:GetGender x:Key="getGender"/>
     </Window.Resources>
     
-    <fr:Form>
+    <fr:Form Padding="10">
         <Grid fr:Definition.ColumnDefinitions="70,100,50,480">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
@@ -29,14 +29,18 @@
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Content="Name"/>
             <fr:Text Grid.Row="0" Grid.Column="1" Text="{Binding CurrentRecord.SignName}"/>
-            <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-                <Label Content="{Binding CurrentRecord.GradeExtension}"/>
-                <Label Content="{Binding CurrentRecord.TimeExtension}"/>
-                <Label Content="{Binding CurrentRecord.Element.ElementId, Converter={StaticResource getElement}}" ContentStringFormat="Element: {0}"/>
-                <Label Content="{Binding CurrentRecord.Triplicity.TriplicityId, Converter={StaticResource getTriplicity}}" ContentStringFormat="Triplicity: {0}"/>
-                <Label Content="{Binding CurrentRecord.Gender.GenderId, Converter={StaticResource getGender}}" ContentStringFormat="Gender: {0}"/>
-                <fr:SaveButton Height="30"/>
-            </StackPanel>
+
+            <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Padding="5" VerticalAlignment="Top" Margin="0,10,0,0" Background="#fcfcfa">
+                <StackPanel>
+                    <Label Content="{Binding CurrentRecord.GradeExtension}"/>
+                    <Label Content="{Binding CurrentRecord.TimeExtension}"/>
+                    <Label Content="{Binding CurrentRecord.Element.ElementId, Converter={StaticResource getElement}}" ContentStringFormat="Element: {0}"/>
+                    <Label Content="{Binding CurrentRecord.Triplicity.TriplicityId, Converter={StaticResource getTriplicity}}" ContentStringFormat="Triplicity: {0}"/>
+                    <Label Content="{Binding CurrentRecord.Gender.GenderId, Converter={StaticResource getGender}}" ContentStringFormat="Gender: {0}"/>
+                </StackPanel>
+            </Border>
+            
+            <fr:SaveButton Height="30" Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Bottom"/>
 
             <Label Grid.Row="0" Grid.Column="3" Content="Description:"/>
             <Border Grid.Row="1" Grid.Column="3" Grid.RowSpan="8" Height="400" VerticalAlignment="Top">

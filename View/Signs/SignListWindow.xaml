@@ -10,7 +10,7 @@
         d:DataContext="{d:DesignInstance Type=controller:SignListController, IsDesignTimeCreatable=False}"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        Title="Signs" Height="530" Width="500">
+        Title="Signs" Height="530" Width="300">
 
     <fr:FormList>
         <fr:FormList.Header>

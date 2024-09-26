@@ -39,7 +39,7 @@
 
                         <ScrollViewer>
                             <StackPanel>
-                                <Border x:Name="SkyInfoBorder" Background="White" HorizontalAlignment="Stretch" Height="80" Padding="5">
+                                <Border x:Name="SkyInfoBorder" Background="#fcfcfa" HorizontalAlignment="Stretch" Height="80" Padding="5">
                                     <Grid HorizontalAlignment="Left">
                                         <Grid.Resources>
                                             <Style TargetType="Label">

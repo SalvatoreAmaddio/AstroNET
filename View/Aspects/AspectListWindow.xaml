@@ -10,7 +10,7 @@
         d:DataContext="{d:DesignInstance Type=controller:AspectListController, IsDesignTimeCreatable=False}"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
-        Title="Aspects" Height="450" Width="800">
+        Title="Aspects" Height="450" Width="290">
 
     <fr:FormList>
         <fr:FormList.Header>
