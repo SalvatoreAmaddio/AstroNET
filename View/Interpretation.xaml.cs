@@ -13,7 +13,7 @@ namespace WpfApp1.View
             InitializeComponent();
         }
 
-        public Interpretation(List<ILibrary?> library) : this()
+        public Interpretation(List<IStarLibrary?> library) : this()
         {
             Write(library);
         }
@@ -79,12 +79,12 @@ namespace WpfApp1.View
             return new InlineUIContainer(image);
         }
 
-        private void Write(List<ILibrary?> library) 
+        private void Write(List<IStarLibrary?> library) 
         {
             FlowDocument flowDoc = new FlowDocument();
             Paragraph paragraph = new Paragraph();
 
-            foreach (ILibrary? lib in library) 
+            foreach (IStarLibrary? lib in library) 
             {
                 lib?.Build();
 

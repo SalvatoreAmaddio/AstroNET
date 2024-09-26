@@ -4,10 +4,10 @@ namespace WpfApp1.model
 {
     public class LibrarySearch
     {
-        private static IEnumerable<T>? GetLibrary<T>(TransitType transitType) where T : AbstractLibrary<T>, new() => 
+        private static IEnumerable<T>? GetLibrary<T>(TransitType transitType) where T : AbstractStarLibrary<T>, new() => 
         DatabaseManager.Find<T>()?.MasterSource.Cast<T>().Where(s => s.TransitType!.Equals(transitType)).ToList();
 
-        private static IEnumerable<T>? GetLibrary<T>(Star star) where T : AbstractLibrary<T>, new() =>
+        private static IEnumerable<T>? GetLibrary<T>(Star star) where T : AbstractStarLibrary<T>, new() =>
         DatabaseManager.Find<T>()?.MasterSource.Cast<T>().Where(s => s.Star!.Equals(star)).ToList();
 
         private static long SlidHouse(double orbDiff, IHouse house) 
@@ -16,17 +16,17 @@ namespace WpfApp1.model
             return (house.PointId == 12) ? 1 : house.PointId + 1;
         }
 
-        public static List<ILibrary?> SearchStar(Star star) 
+        public static List<IStarLibrary?> SearchStar(Star star) 
         {
-            List<ILibrary?> lib = [];
+            List<IStarLibrary?> lib = [];
             lib.Add(GetLibrary<LibrarySigns>(star)?.FirstOrDefault(s => s.Sign.Equals(star.RadixSign)));
             StarInHouse(ref lib, new() { TransitType = new(1)}, star);
             return lib;
         }
 
-        public static List<ILibrary?> SearchAspect(Aspect aspect)
+        public static List<IStarLibrary?> SearchAspect(Aspect aspect)
         {
-            List<ILibrary?> lib = [];
+            List<IStarLibrary?> lib = [];
 
             IEnumerable<LibraryAspects>? aspectsLibrary = GetLibrary<LibraryAspects>(aspect.TransitType)?.Where(s => FindAspect(s, aspect)).ToList();
 
@@ -56,7 +56,7 @@ namespace WpfApp1.model
             return lib;
         }
         
-        public static void StarCuspidHouse(ref List<ILibrary?> Lib, Aspect aspect, Star star) 
+        public static void StarCuspidHouse(ref List<IStarLibrary?> Lib, Aspect aspect, Star star) 
         {
             IEnumerable<LibraryHouses>? houseLibrary = GetLibrary<LibraryHouses>(aspect.TransitType);
 
@@ -74,7 +74,7 @@ namespace WpfApp1.model
             }
         }
 
-        private static void StarAspectHouse(ref List<ILibrary?> Lib, Aspect aspect, Star star, IHouse house) 
+        private static void StarAspectHouse(ref List<IStarLibrary?> Lib, Aspect aspect, Star star, IHouse house) 
         {
             if (aspect.Orbit == 0)
             {
@@ -86,7 +86,7 @@ namespace WpfApp1.model
             Lib.Add(new LibraryHouses() { Aspect = aspect, Star = cuspidHouse.Star, House = cuspidHouse.House, Description = cuspidHouse.Description});
         }
 
-        private static void StarInHouse(ref List<ILibrary?> Lib, Aspect aspect, Star star) 
+        private static void StarInHouse(ref List<IStarLibrary?> Lib, Aspect aspect, Star star) 
         {
             IEnumerable<LibraryHouses>? houseLibrary = GetLibrary<LibraryHouses>(aspect.TransitType);
             Lib.Add(houseLibrary?.FirstOrDefault(s => FindHouse(s, star, star.House)));

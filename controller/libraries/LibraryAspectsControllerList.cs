@@ -11,7 +11,7 @@ using WpfApp1.View;
 
 namespace WpfApp1.controller
 {
-    public abstract class AbstractLibraryControllerList<M> : AbstractFormListController<M> where M : AbstractLibrary<M>, new()
+    public abstract class AbstractLibraryControllerList<M> : AbstractFormListController<M> where M : AbstractStarLibrary<M>, new()
     {
         protected TransitType TransitType { get; set; } = null!;
         public SourceOption StarOptions { get; private set; }

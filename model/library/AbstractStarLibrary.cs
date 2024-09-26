@@ -29,53 +29,77 @@ namespace WpfApp1.model
         }
     }
 
-    public interface ILibrary 
+    public interface IAbstractPointLibrary 
     {
         Int64 LibraryID { get; }
-        Star Star { get; }
         string Description { get; }
         TransitType? TransitType { get; }
         Aspect? Aspect { get; set; }
         void Build();
     }
 
-    public abstract class AbstractLibrary<M> : AbstractModel<M>, ILibrary where M : IAbstractModel, new()
+    public interface IStarLibrary : IAbstractPointLibrary
+    {
+        Star Star { get; }
+    }
+
+    public interface IHouseLibrary : IAbstractPointLibrary
+    {
+        House House { get; }
+    }
+
+    public abstract class AbstractPointLibrary<M> : AbstractModel<M>, IAbstractPointLibrary where M : IAbstractModel, new()
     {
         private Int64 _libraryID;
-        private Star _star = null!;
         private string _description = string.Empty;
         protected TransitType? _transitType;
 
         [PK]
         public Int64 LibraryID { get => _libraryID; set => UpdateProperty(ref value, ref _libraryID); }
-        
-        [FK]
-        public Star Star { get => _star; set => UpdateProperty(ref value, ref _star); }
 
         [Field]
         public string Description { get => _description; set => UpdateProperty(ref value, ref _description); }
 
         [FK]
-        public TransitType? TransitType { get => _transitType; set => UpdateProperty(ref value, ref _transitType);}
-    
+        public TransitType? TransitType { get => _transitType; set => UpdateProperty(ref value, ref _transitType); }
+
         public Aspect? Aspect { get; set; }
-        public AbstractLibrary() : base()
+        public AbstractPointLibrary() : base()
         {
         }
 
-        public AbstractLibrary(DbDataReader reader) : this()
+        public AbstractPointLibrary(DbDataReader reader) : this()
         {
             _libraryID = reader.GetInt64(0);
-            _star = new Star(reader.GetInt64(1));
             _description = reader.GetString(2);
             _transitType = new(reader.GetInt64(3));
         }
 
-        public virtual void Build() => Star.Build();
+        public abstract void Build();
+    }
+
+    public abstract class AbstractStarLibrary<M> : AbstractPointLibrary<M>, IStarLibrary where M : IAbstractModel, new()
+    {
+        private Star _star = null!;
+
+        
+        [FK]
+        public Star Star { get => _star; set => UpdateProperty(ref value, ref _star); }
+    
+        public AbstractStarLibrary() : base()
+        {
+        }
+
+        public AbstractStarLibrary(DbDataReader reader) : base(reader)
+        {
+            _star = new Star(reader.GetInt64(1));
+        }
+
+        public override void Build() => Star.Build();
     }
 
     [Table(nameof(LibraryAspects))]
-    public class LibraryAspects : AbstractLibrary<LibraryAspects>
+    public class LibraryAspects : AbstractStarLibrary<LibraryAspects>
     {
         protected Star _star2 = null!;
         private Energy _energy = null!;
@@ -104,7 +128,7 @@ namespace WpfApp1.model
     }
 
     [Table(nameof(LibraryHouses))]
-    public class LibraryHouses : AbstractLibrary<LibraryHouses>
+    public class LibraryHouses : AbstractStarLibrary<LibraryHouses>
     {
         protected House _house = null!;
 
@@ -128,7 +152,7 @@ namespace WpfApp1.model
     }
     
     [Table(nameof(LibrarySigns))]
-    public class LibrarySigns : AbstractLibrary<LibrarySigns>
+    public class LibrarySigns : AbstractStarLibrary<LibrarySigns>
     {
         protected Sign _sign = null!;
 
@@ -151,4 +175,6 @@ namespace WpfApp1.model
             Sign.Build();
         }
     }
+
+
 }

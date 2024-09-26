@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace WpfApp1.controller
 {
-    public abstract class AbstractLibraryController<M> : AbstractFormController<M> where M : AbstractLibrary<M>, new()
+    public abstract class AbstractLibraryController<M> : AbstractFormController<M> where M : AbstractStarLibrary<M>, new()
     {
         private M? _aspect;
         protected TransitType? TransitType { get; set; }
