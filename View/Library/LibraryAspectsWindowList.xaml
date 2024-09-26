@@ -11,7 +11,7 @@
         xmlns:controller="clr-namespace:WpfApp1.controller"
         Title="LibraryAspectsWindow" 
         ResizeMode="NoResize"
-        Height="450" Width="450">
+        Height="450" Width="460">
 
     <Window.Resources>
         <converter:GetStar x:Key="getStar"/>

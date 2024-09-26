@@ -29,7 +29,7 @@
         </fr:FormList.Header>
         <fr:Lista ItemsSource="{Binding RecordSource}" SelectedItem="{Binding CurrentRecord}">
             <fr:Lista.Header>
-                <Grid fr:Definition.ColumnDefinitions="100,100,60,70,60,100,200,100">
+                <Grid fr:Definition.ColumnDefinitions="100,100,60,75,60,100,200,100">
                     <Label Grid.Column="1" Content="First Name"/>
                     <Label Grid.Column="2" Content="Last Name"/>
                     <Label Grid.Column="3" Content="Gender"/>
@@ -43,7 +43,7 @@
             <fr:Lista.ItemTemplate>
                 <DataTemplate>
                     <fr:FormRow>
-                        <Grid fr:Definition.ColumnDefinitions="100,100,60,70,60,100,200,50,50" fr:Definition.RowDefinitions="30">
+                        <Grid fr:Definition.ColumnDefinitions="100,100,60,75,60,100,200,50,50" fr:Definition.RowDefinitions="30">
                             <Grid.Resources>
                                 <Style TargetType="Label">
                                     <Setter Property="HorizontalContentAlignment" Value="Center"/>

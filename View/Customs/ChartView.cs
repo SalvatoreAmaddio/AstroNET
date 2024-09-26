@@ -1,6 +1,7 @@
 ﻿using MvvmHelpers;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using WpfApp1.model;
 
 namespace WpfApp1.View
@@ -109,6 +110,21 @@ namespace WpfApp1.View
         }
         #endregion
 
+        #region SelectedHouse
+        public static readonly DependencyProperty SelectedHouseProperty =
+            DependencyProperty.Register(
+                nameof(SelectedHouse),
+                typeof(House),
+                typeof(ChartView),
+                new PropertyMetadata(OnSelectedStarChanged));
+
+        public House? SelectedHouse
+        {
+            get => (House?)GetValue(SelectedHouseProperty);
+            set => SetValue(SelectedHouseProperty, value);
+        }
+        #endregion
+
         #region Aspects
         public ObservableRangeCollection<Aspect> Aspects
         {
@@ -139,6 +155,21 @@ namespace WpfApp1.View
                 new PropertyMetadata(new ObservableRangeCollection<Star>()));
         #endregion
 
+        #region Houses
+        public ObservableRangeCollection<House> Houses
+        {
+            get => (ObservableRangeCollection<House>)GetValue(HousesProperty);
+            set => SetValue(HousesProperty, value);
+        }
+
+        public static readonly DependencyProperty HousesProperty =
+            DependencyProperty.Register(
+                nameof(Houses),
+                typeof(ObservableRangeCollection<House>),
+                typeof(ChartView),
+                new PropertyMetadata(new ObservableRangeCollection<House>()));
+        #endregion
+
         private static void OnSkyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ChartView? control = d as ChartView;
@@ -160,6 +191,7 @@ namespace WpfApp1.View
 
             Aspects = toUse.RadixAspects;
             Stars = toUse.Stars;
+            Houses = toUse.Houses;
 
             Triplicities = [];
             Elements = [];
