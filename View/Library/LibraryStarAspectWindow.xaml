@@ -1,4 +1,4 @@
-﻿<Window x:Class="WpfApp1.View.LibrarySignWindow"
+﻿<Window x:Class="WpfApp1.View.LibraryStarAspectWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,13 +9,14 @@
         xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
         xmlns:controller="clr-namespace:WpfApp1.controller"
         ResizeMode="NoResize"
-        Title="LibrarySignWindow" Height="460" Width="400">
+        Title="LibraryAspectWindow" Height="460" Width="400">
 
     <fr:Form Padding="10">
-        <Grid fr:Definition.RowDefinitions="34,300,30" fr:Definition.ColumnDefinitions="150,150" HorizontalAlignment="Center">
+        <Grid fr:Definition.RowDefinitions="34,300,30" fr:Definition.ColumnDefinitions="100,100,100" HorizontalAlignment="Center">
             <fr:Combo Grid.Column="0" ItemsSource="{Binding Stars}" SelectedItem="{Binding CurrentRecord.Star}" Placeholder="Star..."/>
-            <fr:Combo Grid.Column="2" ItemsSource="{Binding Signs}" SelectedItem="{Binding CurrentRecord.Sign}" Placeholder="Sign..."/>
-
+            <fr:Combo Grid.Column="1" ItemsSource="{Binding Energies}" SelectedItem="{Binding CurrentRecord.Energy}" Placeholder="Aspect..."/>
+            <fr:Combo Grid.Column="2" ItemsSource="{Binding Stars2}" SelectedItem="{Binding CurrentRecord.Star2}" Placeholder="Star..."/>
+            
             <fr:Text Grid.Row="1" Margin="0,10,0,0" Grid.ColumnSpan="3" Placeholder="Description..." Text="{Binding CurrentRecord.Description}" VerticalContentAlignment="Top" AcceptsReturn="True" TextWrapping="Wrap"/>
 
             <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Center">

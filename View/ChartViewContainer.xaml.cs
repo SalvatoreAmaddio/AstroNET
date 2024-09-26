@@ -273,19 +273,15 @@ namespace WpfApp1.View
         OpenLibraryHouses(3);
 
         private void OnStarInSignClicked(object sender, RoutedEventArgs e) =>
-        new LibrarySignsWindowList().ShowDialog();
+        new LibraryStarSignsWindowList().ShowDialog();
 
-        private void OnHouseInSignClicked(object sender, RoutedEventArgs e)
-        {
+        private void OnHouseInSignClicked(object sender, RoutedEventArgs e) =>
+        new LibraryHouseSignsWindowList().ShowDialog();
 
-        }
+        private static void OpenLibraryHouses(int id)=> new LibraryStarHousesWindowList(new TransitType(id)).ShowDialog();
+        private static void OpenLibraryAspects(int id) => new LibraryStarAspectsWindowList(new TransitType(id)).ShowDialog();
 
-        private static void OpenLibraryHouses(int id)=> new LibraryHousesWindowList(new TransitType(id)).ShowDialog();
-        private static void OpenLibraryAspects(int id) => new LibraryAspectsWindowList(new TransitType(id)).ShowDialog();
-
-        private void OpenTransitCalcualtor(object sender, RoutedEventArgs e)
-        {
-            new TransitCalculatorWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
-        }
+        private void OpenTransitCalcualtor(object sender, RoutedEventArgs e) =>
+        new TransitCalculatorWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
     }
 }

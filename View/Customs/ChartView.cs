@@ -99,7 +99,13 @@ namespace WpfApp1.View
 
         private static void OnSelectedStarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Interpretation interpretation = new(LibrarySearch.SearchStar((Star)e.NewValue));
+            Interpretation interpretation;
+
+            if (e.NewValue is Star)
+                interpretation = new(LibrarySearch.SearchStar((Star)e.NewValue));
+            else
+                interpretation = new(LibrarySearch.SearchHouse((House)e.NewValue));
+
             interpretation.Show();
         }
 

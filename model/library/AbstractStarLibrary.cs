@@ -76,6 +76,9 @@ namespace WpfApp1.model
         }
 
         public abstract void Build();
+
+        public override string ToString() => $"{LibraryID} {TransitType}";
+
     }
 
     public abstract class AbstractStarLibrary<M> : AbstractPointLibrary<M>, IStarLibrary where M : IAbstractModel, new()
@@ -96,6 +99,8 @@ namespace WpfApp1.model
         }
 
         public override void Build() => Star.Build();
+        public override string ToString() => $"{LibraryID} Star:{Star.PointId} {TransitType}";
+
     }
 
     [Table(nameof(LibraryStarAspects))]
@@ -193,7 +198,7 @@ namespace WpfApp1.model
             _transitType = new(1);
         }
 
-        public LibraryHouseSigns(DbDataReader reader)
+        public LibraryHouseSigns(DbDataReader reader) : base(reader)
         {
             _house = new House(reader.GetInt64(1));
             _sign = new Sign(reader.GetInt64(4));
@@ -204,6 +209,8 @@ namespace WpfApp1.model
             House.Build();
             Sign.Build();
         }
+
+        public override string ToString() => $"{LibraryID} House:{House.PointId} Sign:{Sign.SignId} {TransitType}";
     }
 
 }

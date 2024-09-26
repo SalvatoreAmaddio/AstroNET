@@ -10,10 +10,20 @@ namespace WpfApp1.model
         private static IEnumerable<T>? GetLibrary<T>(Star star) where T : AbstractStarLibrary<T>, new() =>
         DatabaseManager.Find<T>()?.MasterSource.Cast<T>().Where(s => s.Star!.Equals(star)).ToList();
 
+        private static IEnumerable<LibraryHouseSigns>? GetHouseSignLibrary(House house) =>
+        DatabaseManager.Find<LibraryHouseSigns>()?.MasterSource.Cast<LibraryHouseSigns>().Where(s => s.House!.Equals(house)).ToList();
+
         private static long SlidHouse(double orbDiff, IHouse house) 
         {
             if (orbDiff < 0) return (house.PointId == 1) ? 12 : house.PointId - 1;
             return (house.PointId == 12) ? 1 : house.PointId + 1;
+        }
+
+        public static List<IHouseLibrary?> SearchHouse(House house) 
+        {
+            List<IHouseLibrary?> lib = [];
+            lib.Add(GetHouseSignLibrary(house)?.FirstOrDefault(s => s.Sign.Equals(house.RadixSign)));
+            return lib;
         }
 
         public static List<IStarLibrary?> SearchStar(Star star) 

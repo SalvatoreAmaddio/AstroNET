@@ -1,4 +1,4 @@
-﻿<Window x:Class="WpfApp1.View.LibraryHousesWindowList"
+﻿<Window x:Class="WpfApp1.View.LibraryHouseSignsWindowList"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,21 +9,21 @@
         xmlns:converter="clr-namespace:WpfApp1.converter"
         xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
         xmlns:controller="clr-namespace:WpfApp1.controller"
-        Title="LibraryAspectsWindow" 
+        Title="LibraryHouseSignsWindowList" 
         ResizeMode="NoResize"
-        Height="450" Width="360">
+        Height="450" Width="380">
 
     <Window.Resources>
-        <converter:GetStar x:Key="getStar"/>
         <converter:GetHouse x:Key="getHouse"/>
+        <converter:GetSign x:Key="getSign"/>
     </Window.Resources>
-    
+
     <fr:FormList HeaderRow="0">
         <fr:Lista ItemsSource="{Binding RecordSource}" SelectedItem="{Binding CurrentRecord}">
             <fr:Lista.Header>
                 <Grid fr:Definition.ColumnDefinitions="100,100,100">
-                    <fr:HeaderFilter Grid.Column="1" Text="STAR" IsWithinList="True" ItemsSource="{Binding StarOptions}"/>
-                    <fr:HeaderFilter Grid.Column="2" Text="HOUSE" IsWithinList="True" ItemsSource="{Binding HouseOptions}"/>
+                    <fr:HeaderFilter Grid.Column="1" Text="HOUSE" IsWithinList="True" ItemsSource="{Binding HouseOptions}"/>
+                    <fr:HeaderFilter Grid.Column="2" Text="SIGN" IsWithinList="True" ItemsSource="{Binding SignOptions}"/>
                     <Label Grid.Column="3" Content="COMMANDS"/>
                 </Grid>
             </fr:Lista.Header>
@@ -31,8 +31,8 @@
                 <DataTemplate>
                     <fr:FormRow>
                         <Grid fr:Definition.RowDefinitions="30" fr:Definition.ColumnDefinitions="100,100,50,50">
-                            <Label Grid.Column="0" Content="{Binding Star.PointId, Converter={StaticResource getStar}}"/>
-                            <Label Grid.Column="1" Content="{Binding House.PointId, Converter={StaticResource getHouse}}"/>
+                            <Label Grid.Column="0" Content="{Binding House.PointId, Converter={StaticResource getHouse}}"/>
+                            <Label Grid.Column="1" Content="{Binding Sign.SignId, Converter={StaticResource getSign}}"/>
                             <fr:DeleteButton Grid.Column="2" IsWithinList="True"/>
                             <fr:OpenButton Grid.Column="3" IsWithinList="True"/>
                         </Grid>

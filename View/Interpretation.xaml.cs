@@ -13,9 +13,18 @@ namespace WpfApp1.View
             InitializeComponent();
         }
 
-        public Interpretation(List<IStarLibrary?> library) : this()
+        public Interpretation(IEnumerable<IAbstractPointLibrary?> library) : this()
         {
             Write(library);
+        }
+
+        private void WriteHouseInSign(ref Paragraph paragraph, LibraryHouseSigns library)
+        {
+            paragraph.Inlines.Add($"{library.House.PointName} in ");
+            paragraph.Inlines.Add(Img(library.Sign.URI, library.Sign.ToString()));
+            paragraph.Inlines.Add(new LineBreak());
+            paragraph.Inlines.Add(new LineBreak());
+            paragraph.Inlines.Add(library.Description);
         }
 
         private void WriteStarInSign(ref Paragraph paragraph, LibraryStarSigns library)
@@ -79,12 +88,12 @@ namespace WpfApp1.View
             return new InlineUIContainer(image);
         }
 
-        private void Write(List<IStarLibrary?> library) 
+        private void Write(IEnumerable<IAbstractPointLibrary?> library) 
         {
             FlowDocument flowDoc = new FlowDocument();
             Paragraph paragraph = new Paragraph();
 
-            foreach (IStarLibrary? lib in library) 
+            foreach (IAbstractPointLibrary? lib in library) 
             {
                 lib?.Build();
 
@@ -105,6 +114,13 @@ namespace WpfApp1.View
                 if (lib is LibraryStarHouses libHouse) 
                 {
                     WriteStarInHouse(ref paragraph, libHouse);
+                    paragraph.Inlines.Add(new LineBreak());
+                    paragraph.Inlines.Add(new LineBreak());
+                }
+
+                if (lib is LibraryHouseSigns libHouseSign)
+                {
+                    WriteHouseInSign(ref paragraph, libHouseSign);
                     paragraph.Inlines.Add(new LineBreak());
                     paragraph.Inlines.Add(new LineBreak());
                 }

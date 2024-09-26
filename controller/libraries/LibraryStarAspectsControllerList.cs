@@ -11,28 +11,21 @@ using WpfApp1.View;
 
 namespace WpfApp1.controller
 {
-    public abstract class AbstractLibraryControllerList<M> : AbstractFormListController<M> where M : AbstractStarLibrary<M>, new()
+    public abstract class AbstractPointLibraryControllerList<M> : AbstractFormListController<M> where M : AbstractPointLibrary<M>, IAbstractPointLibrary, new() 
     {
         protected TransitType TransitType { get; set; } = null!;
-        public SourceOption StarOptions { get; private set; }
-        public AbstractLibraryControllerList() 
+        
+        public AbstractPointLibraryControllerList() 
         {
-            StarOptions = new SourceOption(new RecordSource<Star>(DatabaseManager.Find<Star>()!), "PointName", OrderBy.ASC, "PointId");
             AfterUpdate += OnAfterUpdate;
             WindowLoaded += OnWindowLoaded;
         }
 
-        private async void OnWindowLoaded(object? sender, System.Windows.RoutedEventArgs e) =>
-        await OnSearchPropertyRequeryAsync(this);
-
-        public AbstractLibraryControllerList(TransitType transitType) : this() =>
+        public AbstractPointLibraryControllerList(TransitType transitType) : this() =>
         TransitType = transitType;
 
-        public async override Task<IEnumerable<M>> SearchRecordAsync()
-        {
-            SearchQry.AddParameter("transitId", TransitType.TransitTypeId);
-            return await CreateFromAsyncList(SearchQry.Statement(), SearchQry.Params());
-        }
+        private async void OnWindowLoaded(object? sender, RoutedEventArgs e) =>
+        await OnSearchPropertyRequeryAsync(this);
 
         protected async void OnAfterUpdate(object? sender, AfterUpdateArgs e)
         {
@@ -48,16 +41,34 @@ namespace WpfApp1.controller
                 .Where()
                     .EqualsTo("TransitTypeId", "@transitId");
         }
+        public async override Task<IEnumerable<M>> SearchRecordAsync()
+        {
+            SearchQry.AddParameter("transitId", TransitType.TransitTypeId);
+            return await CreateFromAsyncList(SearchQry.Statement(), SearchQry.Params());
+        }
 
         public abstract void SetTitle();
     }
 
-    public class LibraryAspectsControllerList : AbstractLibraryControllerList<LibraryStarAspects>
+    public abstract class AbstractStarLibraryControllerList<M> : AbstractPointLibraryControllerList<M> where M : AbstractPointLibrary<M>, new()
+    {
+        public SourceOption StarOptions { get; private set; }
+        public AbstractStarLibraryControllerList() : base()
+        {
+            StarOptions = new SourceOption(new RecordSource<Star>(DatabaseManager.Find<Star>()!), "PointName", OrderBy.ASC, "PointId");
+        }
+
+        public AbstractStarLibraryControllerList(TransitType transitType) : this() =>
+        TransitType = transitType;
+
+    }
+
+    public class LibraryStarAspectsControllerList : AbstractStarLibraryControllerList<LibraryStarAspects>
     {
         public SourceOption StarOptions2 { get; private set; }
         public SourceOption EnergyOptions { get; private set; }
 
-        public LibraryAspectsControllerList(TransitType transitType) : base(transitType)
+        public LibraryStarAspectsControllerList(TransitType transitType) : base(transitType)
         {
             StarOptions2 = new SourceOption(new RecordSource<Star>(DatabaseManager.Find<Star>()!), "PointName", OrderBy.ASC, "PointId");
             EnergyOptions = new SourceOption(new RecordSource<Energy>(DatabaseManager.Find<Energy>()!), "EnergyName");
@@ -79,7 +90,7 @@ namespace WpfApp1.controller
                 model.TransitType = TransitType;
                 model.Clean();
             }
-            new LibraryAspectWindow(model).ShowDialog();
+            new LibraryStarAspectWindow(model).ShowDialog();
         }
 
         public override void SetTitle()
@@ -101,10 +112,10 @@ namespace WpfApp1.controller
         }
     }
 
-    public class LibraryHousesControllerList : AbstractLibraryControllerList<LibraryStarHouses> 
+    public class LibraryStarHousesControllerList : AbstractStarLibraryControllerList<LibraryStarHouses>
     {
         public SourceOption HouseOptions { get; private set; }
-        public LibraryHousesControllerList(TransitType transitType) : base(transitType)
+        public LibraryStarHousesControllerList(TransitType transitType) : base(transitType)
         {
             HouseOptions = new SourceOption(new RecordSource<House>(DatabaseManager.Find<House>()!), "PointName", OrderBy.ASC, "PointId");
         }
@@ -124,7 +135,7 @@ namespace WpfApp1.controller
                 model.TransitType = TransitType;
                 model.Clean();
             }
-            new LibraryHouseWindow(model).ShowDialog();
+            new LibraryStarHouseWindow(model).ShowDialog();
         }
 
         public override void SetTitle()
@@ -149,10 +160,10 @@ namespace WpfApp1.controller
         }
     }
 
-    public class LibrarySignsControllerList : AbstractLibraryControllerList<LibraryStarSigns>
+    public class LibraryStarSignsControllerList : AbstractStarLibraryControllerList<LibraryStarSigns>
     {
         public SourceOption SignOptions { get; private set; }
-        public LibrarySignsControllerList(TransitType transitType) : base(transitType)
+        public LibraryStarSignsControllerList(TransitType transitType) : base(transitType)
         {
             SignOptions = new SourceOption(new RecordSource<Sign>(DatabaseManager.Find<Sign>()!), "SignName", OrderBy.ASC, "SignId");
         }
@@ -172,7 +183,7 @@ namespace WpfApp1.controller
                 model.TransitType = TransitType;
                 model.Clean();
             }
-            new LibrarySignWindow(model).ShowDialog();
+            new LibraryStarSignWindow(model).ShowDialog();
         }
 
         public override void SetTitle()
@@ -195,22 +206,16 @@ namespace WpfApp1.controller
                     break;
             }
         }
-
-        public override AbstractClause InstantiateSearchQry()
-        {
-            return new LibraryStarSigns().
-                Select().All()
-                .From()
-                .Where()
-                    .EqualsTo("TransitTypeId", "@transitId");
-        }
     }
 
-    public class LibrarySignsHousesControllerList : LibrarySignsControllerList
+    public class LibraryHouseSignsControllerList : AbstractStarLibraryControllerList<LibraryHouseSigns>
     {
         public SourceOption HouseOptions { get; private set; }
-        public LibrarySignsHousesControllerList(TransitType transitType) : base(transitType)
+        public SourceOption SignOptions { get; private set; }
+
+        public LibraryHouseSignsControllerList(TransitType transitType) : base(transitType)
         {
+            SignOptions = new SourceOption(new RecordSource<Sign>(DatabaseManager.Find<Sign>()!), "SignName", OrderBy.ASC, "SignId");
             HouseOptions = new SourceOption(new RecordSource<House>(DatabaseManager.Find<House>()!), "PointName", OrderBy.ASC, "PointId");
         }
 
@@ -222,5 +227,35 @@ namespace WpfApp1.controller
             OnAfterUpdate(e, new(null, null, nameof(Search)));
         }
 
+        public override void SetTitle()
+        {
+            long transitID = TransitType.TransitTypeId;
+
+            switch (transitID)
+            {
+                case 1:
+                    ((Window?)UI).Title = "House in Sign";
+                    break;
+                case 2:
+                    ((Window?)UI).Title = "Transits in Houses";
+                    break;
+                case 3:
+                    ((Window?)UI).Title = "Sinastry Houses";
+                    break;
+                case 4:
+                    ((Window?)UI).Title = "Return Houses";
+                    break;
+            }
+        }
+
+        protected override void Open(LibraryHouseSigns model)
+        {
+            if (model.IsNewRecord())
+            {
+                model.TransitType = TransitType;
+                model.Clean();
+            }
+            new LibraryHouseSignWindow(model).ShowDialog();
+        }
     }
 }
