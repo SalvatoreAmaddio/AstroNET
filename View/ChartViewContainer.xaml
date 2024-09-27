@@ -93,6 +93,9 @@
             <MenuItem Header="_Settings">
                 <MenuItem Header="_Default Location" Click="OpenDefaultLocationSettings"/>
             </MenuItem>
+            <MenuItem Header="Export">
+                <MenuItem Header="Chart" Click="MenuItem_Click"/>
+            </MenuItem>
         </Menu>
         <ToolBarTray Grid.Row="1">
             <ToolBar ToolBarTray.IsLocked="True">

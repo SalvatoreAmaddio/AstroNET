@@ -1,5 +1,7 @@
 ﻿using Backend.Database;
+using FrontEnd.Dialogs;
 using FrontEnd.Utils;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -49,21 +51,21 @@ namespace WpfApp1.View
         public ZodiacChart()
         {
             Content = _canvas;
-            Loaded += ZodiacChart_Loaded;
+            Loaded += OnLoaded;
         }
 
-        private void ZodiacChart_Loaded(object sender, RoutedEventArgs e)
+        private void OnLoaded(object sender, RoutedEventArgs e)
         {
             Window? parentWindow = Helper.GetActiveWindow();
-            parentWindow.Closed += ParentWindow_Closed;
+            parentWindow.Closed += OnParentWindowClosed;
         }
 
-        private void ParentWindow_Closed(object? sender, EventArgs e)
+        private void OnParentWindowClosed(object? sender, EventArgs e)
         {
             Window? parentWindow = (Window?)sender;
             foreach(MouseStack stackHandler in _mouseUpHandlers) stackHandler.Unsubscribe();
-            parentWindow.Closed -= ParentWindow_Closed;
-            Loaded -= ZodiacChart_Loaded;
+            parentWindow.Closed -= OnParentWindowClosed;
+            Loaded -= OnLoaded;
         }
 
         private Point CalculateEndPoint(double lineDegree, double offset = 0, bool add = false)
@@ -345,6 +347,117 @@ namespace WpfApp1.View
             foreach (Sign sign in signs) 
                 Factory.PlaceImage(sign.URI, CalculateEndPoint(sign.Start + 15, less), _outerRadius, drawingContext);
         }
+
+        public void Screenshot(string filePath, double cropWidth = 650)
+        {
+            // Get the control's rendered size
+            double width = this.RenderSize.Width;
+            double height = this.RenderSize.Height + this.Margin.Top + this.Margin.Bottom + 60;
+
+            if (width <= 0 || height <= 0)
+            {
+                MessageBox.Show("The control's width or height is invalid for capturing the screenshot.");
+                return;
+            }
+
+            // Determine the central region width (make sure it's less than the total width)
+            double targetWidth = cropWidth > 0 && cropWidth < width ? cropWidth : width;
+
+            // Create a RenderTargetBitmap to render the control's content
+            RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
+                (int)width, (int)height, 96d, 96d, PixelFormats.Pbgra32);
+
+            // Render the control's current visual tree directly into the bitmap
+            renderBitmap.Render(this);
+
+            // Calculate the horizontal offset to center the crop (if needed)
+            double horizontalOffset = (width - targetWidth) / 2;
+
+            // Now create a cropped version of the RenderTargetBitmap
+            CroppedBitmap croppedBitmap = new CroppedBitmap(renderBitmap,
+                new Int32Rect((int)horizontalOffset, 0, (int)targetWidth, (int)height));
+
+            // Now create a new RenderTargetBitmap with the cropped width but same height
+            RenderTargetBitmap finalBitmap = new RenderTargetBitmap(
+                (int)targetWidth, (int)height, 96d, 96d, PixelFormats.Pbgra32);
+
+            // Create a DrawingVisual to draw the white background and overlay the cropped control
+            DrawingVisual visual = new DrawingVisual();
+            using (DrawingContext context = visual.RenderOpen())
+            {
+                // Draw a white rectangle as the background
+                context.DrawRectangle(Brushes.White, null, new Rect(0, 0, targetWidth, height));
+
+                // Draw the cropped portion of the control
+                context.DrawImage(croppedBitmap, new Rect(0, 0, targetWidth, height));
+            }
+
+            // Render the visual (white background + cropped control's content) into the final bitmap
+            finalBitmap.Render(visual);
+
+            // Create a PNG encoder to save the image
+            PngBitmapEncoder encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(finalBitmap));
+
+            // Save the image to a file
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                encoder.Save(fileStream);
+            }
+
+            SuccessDialog.Display("Chart saved successfully!");
+        }
+
+        //public void Screenshot(string filePath)
+        //{
+        //    // Get the control's rendered size
+        //    double width = this.RenderSize.Width;
+        //    double height = this.RenderSize.Height + this.Margin.Top + this.Margin.Bottom + 30; // Correct margin handling
+
+        //    if (width <= 0 || height <= 0)
+        //    {
+        //        MessageBox.Show("The control's width or height is invalid for capturing the screenshot.");
+        //        return;
+        //    }
+
+        //    // Create a RenderTargetBitmap to render the control's content
+        //    RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
+        //        (int)width, (int)height, 96d, 96d, PixelFormats.Pbgra32);
+
+        //    // Render the control's current visual tree directly into the bitmap (this preserves the correct sizes)
+        //    renderBitmap.Render(this);
+
+        //    // Now create a new RenderTargetBitmap with the same size but including a white background
+        //    RenderTargetBitmap finalBitmap = new RenderTargetBitmap(
+        //        (int)width, (int)height, 96d, 96d, PixelFormats.Pbgra32);
+
+        //    // Create a DrawingVisual to draw the white background and overlay the rendered control
+        //    DrawingVisual visual = new DrawingVisual();
+            
+        //    using (DrawingContext context = visual.RenderOpen())
+        //    {
+        //        // Draw a white rectangle as the background (this won't affect the control's size)
+        //        context.DrawRectangle(Brushes.White, null, new Rect(0, 0, width, height));
+
+        //        // Draw the control's rendered bitmap on top of the white background
+        //        context.DrawImage(renderBitmap, new Rect(0, 0, width, height));
+        //    }
+
+        //    // Render the visual (white background + control's content) into the final bitmap
+        //    finalBitmap.Render(visual);
+
+        //    // Create a PNG encoder to save the image
+        //    PngBitmapEncoder encoder = new PngBitmapEncoder();
+        //    encoder.Frames.Add(BitmapFrame.Create(finalBitmap));
+
+        //    // Save the image to a file
+        //    using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
+        //    {
+        //        encoder.Save(fileStream);
+        //    }
+
+        //    MessageBox.Show("Screenshot with white background saved successfully.");
+        //}
 
         private class MouseStack
         {

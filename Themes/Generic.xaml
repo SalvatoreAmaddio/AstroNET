@@ -70,7 +70,7 @@
                                 
                                 <Border Padding="30" BorderThickness=".1" BorderBrush="Black">
                                     <StackPanel>
-                                        <local:ZodiacChart Sky="{TemplateBinding Sky}" Height="500" Margin="0,30,0,10"/>
+                                        <local:ZodiacChart x:Name="ZodiacChart" Sky="{TemplateBinding Sky}" Height="500" Margin="0,30,0,10"/>
 
                                         <Grid HorizontalAlignment="Center" Margin="0,60,0,0">
                                             <Grid.ColumnDefinitions>

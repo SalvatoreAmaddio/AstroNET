@@ -6,6 +6,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using WpfApp1.model;
 using System.ComponentModel;
+using System.IO;
+using Backend.Utils;
 
 namespace WpfApp1.View
 {
@@ -283,5 +285,12 @@ namespace WpfApp1.View
 
         private void OpenTransitCalcualtor(object sender, RoutedEventArgs e) =>
         new TransitCalculatorWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            string? winTitle  = Helper.GetActiveWindow()?.Title;
+            
+            NatalChartCanvas.Chart.Screenshot(Path.Combine(Sys.Desktop, $"{winTitle}_{Sky.Day}_{Sky.Month}_{Sky.Year}.png"));
+        }
     }
 }

@@ -192,6 +192,8 @@ namespace WpfApp1.View
             control?.SetBinding();
         }
 
+        public ZodiacChart Chart { get; private set; } = null!;
+
         static ChartView()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ChartView), new FrameworkPropertyMetadata(typeof(ChartView)));
@@ -199,6 +201,12 @@ namespace WpfApp1.View
 
         public ChartView() 
         {
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            Chart = (ZodiacChart)GetTemplateChild("ZodiacChart");
         }
 
         private void SetBinding()
