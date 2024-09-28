@@ -350,7 +350,6 @@ namespace WpfApp1.View
 
         public void Screenshot(string filePath, double cropWidth = 650)
         {
-            // Get the control's rendered size
             double width = this.RenderSize.Width;
             double height = this.RenderSize.Height + this.Margin.Top + this.Margin.Bottom + 60;
 
@@ -360,11 +359,9 @@ namespace WpfApp1.View
                 return;
             }
 
-            // Determine the central region width (make sure it's less than the total width)
             double targetWidth = cropWidth > 0 && cropWidth < width ? cropWidth : width;
 
-            // Create a RenderTargetBitmap to render the control's content
-            RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
+            RenderTargetBitmap renderBitmap = new(
                 (int)width, (int)height, 96d, 96d, PixelFormats.Pbgra32);
 
             // Render the control's current visual tree directly into the bitmap
@@ -374,15 +371,15 @@ namespace WpfApp1.View
             double horizontalOffset = (width - targetWidth) / 2;
 
             // Now create a cropped version of the RenderTargetBitmap
-            CroppedBitmap croppedBitmap = new CroppedBitmap(renderBitmap,
+            CroppedBitmap croppedBitmap = new(renderBitmap,
                 new Int32Rect((int)horizontalOffset, 0, (int)targetWidth, (int)height));
 
             // Now create a new RenderTargetBitmap with the cropped width but same height
-            RenderTargetBitmap finalBitmap = new RenderTargetBitmap(
+            RenderTargetBitmap finalBitmap = new(
                 (int)targetWidth, (int)height, 96d, 96d, PixelFormats.Pbgra32);
 
             // Create a DrawingVisual to draw the white background and overlay the cropped control
-            DrawingVisual visual = new DrawingVisual();
+            DrawingVisual visual = new();
             using (DrawingContext context = visual.RenderOpen())
             {
                 // Draw a white rectangle as the background
@@ -396,7 +393,7 @@ namespace WpfApp1.View
             finalBitmap.Render(visual);
 
             // Create a PNG encoder to save the image
-            PngBitmapEncoder encoder = new PngBitmapEncoder();
+            PngBitmapEncoder encoder = new();
             encoder.Frames.Add(BitmapFrame.Create(finalBitmap));
 
             // Save the image to a file
