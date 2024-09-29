@@ -1,13 +1,14 @@
-﻿using System.Windows;
+﻿using FrontEnd.Dialogs;
+using System.Windows;
 
 namespace WpfApp1.View
 {
     public partial class HoroscopeWindow : CommonHoroscopeDateWindow
     {
 
-        private TimeSpan _inputTime = DateTime.Now.TimeOfDay;
+        private TimeSpan? _inputTime = DateTime.Now.TimeOfDay;
 
-        public TimeSpan InputTime
+        public TimeSpan? InputTime
         {
             get => _inputTime;
             set
@@ -17,22 +18,29 @@ namespace WpfApp1.View
             }
         }
 
-        public HoroscopeWindow() : base() 
+        public HoroscopeWindow() : base()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
         }
 
         protected override void OnButtonClick(object sender, RoutedEventArgs e)
-        {
-            IsLoading = true;
-            SelectedCity?.Build();
+        {            
+            if (InputTime == null) 
+            {
+                Failure.Allert("Please provide a valid time");
+                return;
+            }
 
-            SubjectSky.CalculateHoroscope(InputDate, InputTime, SelectedCity);
+            base.OnButtonClick(sender, e);
+
+            if (StopRun) return;
+
+            SubjectSky.CalculateHoroscope(InputDate!.Value, InputTime.Value, SelectedCity!);
             
             IsLoading = false;
 
-            ChartOpener.OpenChart(SubjectSky.Person.ToString(), SubjectSky, SubjectSky.Horoscope.SkyType.ToString());
+            ChartOpener.OpenChart($"{SubjectSky?.Person?.ToString()}", SubjectSky!, $"{SubjectSky?.Horoscope?.SkyType.ToString()}");
         }
     }
 }

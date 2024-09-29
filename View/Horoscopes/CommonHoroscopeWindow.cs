@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using FrontEnd.Dialogs;
+using System.ComponentModel;
 using System.Windows;
 using WpfApp1.controller;
 using WpfApp1.model;
@@ -13,6 +14,7 @@ namespace WpfApp1.View
         private City? _selectedCity = new();
         private bool _isLoading = false;
         public SkyEvent SubjectSky => ((ChartViewContainer)Owner.Content).Sky;
+        protected virtual bool StopRun => SelectedCity == null;
         public bool IsLoading
         {
             get => _isLoading;
@@ -73,14 +75,26 @@ namespace WpfApp1.View
             PropertyChanged?.Invoke(this, new(propName));
         }
 
-        protected abstract void OnButtonClick(object sender, RoutedEventArgs e);
+        protected virtual void OnButtonClick(object sender, RoutedEventArgs e) 
+        {
+            if (SelectedCity == null)
+            {
+                Failure.Allert("Please select a City");
+                return;
+            }
+
+            IsLoading = true;
+
+            SelectedCity.Build();
+        }
     }
 
     public abstract class CommonHoroscopeDateWindow : CommonHoroscopeWindow
     {
-        private DateTime _inputDate = DateTime.Today;
+        private DateTime? _inputDate = DateTime.Today;
+        protected override bool StopRun => base.StopRun || InputDate == null;
 
-        public DateTime InputDate
+        public DateTime? InputDate
         {
             get => _inputDate;
             set
@@ -88,6 +102,16 @@ namespace WpfApp1.View
                 _inputDate = value;
                 OnPropertyChanged(nameof(InputDate));
             }
+        }
+
+        protected override void OnButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (InputDate == null) 
+            {
+                Failure.Allert("Please specify a valid date");
+                return;
+            }
+            base.OnButtonClick(sender, e);
         }
     }
 }

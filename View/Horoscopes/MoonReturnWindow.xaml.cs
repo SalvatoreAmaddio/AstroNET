@@ -13,16 +13,16 @@ namespace WpfApp1.View
 
         protected override async void OnButtonClick(object sender, RoutedEventArgs e)
         {
-            IsLoading = true;
+            base.OnButtonClick(sender, e);
 
-            SelectedCity?.Build();
+            if (StopRun) return;
 
             SkyEvent subjectSky = ((ChartViewContainer)Owner.Content).Sky;
-            PositionCalculator c = new(subjectSky);
+            PositionCalculator calculator = new(subjectSky);
 
-            (DateTime returnDate, TimeSpan returnTime) = await Task.Run(()=>c.MoonReturn(InputDate, SelectedCity));
+            (DateTime returnDate, TimeSpan returnTime) = await Task.Run(() => calculator.MoonReturn(InputDate!.Value, SelectedCity!));
 
-            SkyEvent returnSky = subjectSky.CalculateReturn(returnDate, returnTime, SelectedCity, SkyType.MoonReturn);
+            SkyEvent returnSky = subjectSky.CalculateReturn(returnDate, returnTime, SelectedCity!, SkyType.MoonReturn);
             IsLoading = false;
 
             ChartOpener.OpenComparedChart($"{subjectSky.Person}", subjectSky, returnSky, returnSky.SkyType);

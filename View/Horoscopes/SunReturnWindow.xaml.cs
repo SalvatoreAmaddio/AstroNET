@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using FrontEnd.Dialogs;
+using System.Windows;
 using WpfApp1.model;
 
 namespace WpfApp1.View
@@ -21,13 +22,20 @@ namespace WpfApp1.View
         public SunReturnWindow() : base()
         {
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
         }
 
         protected override async void OnButtonClick(object sender, RoutedEventArgs e)
         {
-            IsLoading = true;
-            SelectedCity?.Build();
+            if (InputYear <= SubjectSky.Year)
+            {
+                Failure.Allert("Input Year field must be greater than the Year of Birth.");
+                return;
+            }
+
+            base.OnButtonClick(sender, e);
+
+            if (StopRun) return;
 
             SkyEvent subjectSky = ((ChartViewContainer)Owner.Content).Sky;
 

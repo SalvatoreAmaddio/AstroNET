@@ -90,6 +90,7 @@ namespace WpfApp1.View
 
         private static void OnSelectedAspectChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            if (e.NewValue == null) return;
             Interpretation interpretation = new(LibrarySearch.SearchAspect((Aspect)e.NewValue));
             interpretation.Show();
         }
@@ -178,9 +179,11 @@ namespace WpfApp1.View
         private static void OnSelectedPointChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             Interpretation interpretation;
-
+            
+            int skyTypeId = ((ChartView)(d)).Sky.SkyTypeId;
+            
             if (e.NewValue is Star)
-                interpretation = new(LibrarySearch.SearchStar((Star)e.NewValue));
+                interpretation = new(LibrarySearch.SearchStar((Star)e.NewValue, skyTypeId));
             else
                 interpretation = new(LibrarySearch.SearchHouseSign((House)e.NewValue));
 

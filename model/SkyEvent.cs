@@ -10,10 +10,10 @@ namespace WpfApp1.model
     public enum SkyType 
     { 
         Sky = 1,
-        SunReturn = 2,
-        MoonReturn = 3,
-        Horoscope = 4,
-        Sinastry = 5,
+        Horoscope = 2,
+        Sinastry = 3,
+        SunReturn = 4,
+        MoonReturn = 5,
     }
 
     public class ElementGroupKey
@@ -79,6 +79,22 @@ namespace WpfApp1.model
         public bool ShowHouses { get; set; } = true;
         public IAbstractFormController? PersonController { get; private set; }
         public Person? Person { get; private set; }
+        public int SkyTypeId
+        {
+            get
+            {
+                if (Horoscope != null) return 2;
+
+                return SkyType switch
+                {
+                    SkyType.Sky => 1,
+                    SkyType.Horoscope => 2,
+                    SkyType.Sinastry => 3,
+                    SkyType.SunReturn or SkyType.MoonReturn => 4,
+                    _ => -1,
+                };
+            }
+        }
 
         public SkyEvent() { }
         public SkyEvent(DateTime? date)
@@ -251,6 +267,11 @@ namespace WpfApp1.model
 
             returnSky.RadixAspects.ReplaceRange(returnSky.RadixAspects.Where(s=>s.Orbit == 0 && s.PointB is IHouse && (s.OrbDiff >=-2.5 && s.OrbDiff <= 2.5)).ToList());
 
+            foreach (Aspect aspect in returnSky.RadixAspects) 
+            {
+                aspect.TransitType = new(4);
+            }
+
             House returnAsc = returnSky.Houses.First();
 
             returnAsc.PointName = $"R. {returnAsc.PointName}";
@@ -263,7 +284,7 @@ namespace WpfApp1.model
                 Aspect? calculatedAspect = PositionCalculator.IsValidAspect(conj, dist, 2.5);
                 if (calculatedAspect == null) continue;
                 radixHouse.PointName = $"Radix {radixHouse.PointName}";
-                calculatedAspect.TransitType = new(3);
+                calculatedAspect.TransitType = new(4);
                 calculatedAspect.DateOf = returnDate;
                 returnSky.AddRadixAspect(calculatedAspect, returnAsc, radixHouse);
             }
@@ -274,7 +295,7 @@ namespace WpfApp1.model
         public void CalculateHoroscope(DateTime date, TimeSpan time, City city)
         {
             IEnumerable<StarTransitOrbit> transitAspects = DatabaseManager.Find<StarTransitOrbit>()!.MasterSource.Cast<StarTransitOrbit>();
-
+            
             Horoscope = new(date, time, city, false) 
             {
                 SkyType = SkyType.Horoscope,
@@ -367,7 +388,12 @@ namespace WpfApp1.model
             }
         }
 
-        public void ClearHoroscope() => Horoscope = null;
+        public void ClearHoroscope() 
+        {
+            Horoscope?.RadixAspects.Clear();
+            Horoscope = null;
+        }
+
         public override string ToString()
         {
             return $"{Day:00}/{Month:00}/{Year} at {LocalTime.ToString(@"hh\:mm")} (Location: {City.CityName}, {City.Region.Country} - Lat: {City.Latitude}°, Long: {City.Longitude}°)";
