@@ -51,17 +51,24 @@ namespace WpfApp1.model
             }
 
             Star star1 = (Star)aspect.PointA;
-            var a = aspect.TransitType.TransitTypeId;
             StarInHouse(ref lib, star1, aspect.TransitType);
+            TransitType transitType;
 
-            TransitType transitType = new(1);
+            if (aspect.TransitType.TransitTypeId  == 4 || aspect.TransitType.TransitTypeId ==5) 
+            {
+                transitType = new(4);
+            }
+            else
+            {
+                transitType = new(1);
+            }
 
             if (aspect.PointB is House house) 
             {
                 StarAspectHouse(ref lib, aspect, star1, house, transitType);
                 StarCuspidHouse(ref lib, aspect, star1, transitType);
             }
-            else 
+            else
             {
                 Star star2 = (Star)aspect.PointB;
                 StarInHouse(ref lib, star2, transitType);
