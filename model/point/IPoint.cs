@@ -21,6 +21,7 @@
     public interface IStar : IPoint
     {
         IHouse House { get; }
+        Element Element { get; }
         bool IsRetrograde { get; }
         public string URI { get; }
         double TransitOrbit { get; }

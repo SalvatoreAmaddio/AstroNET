@@ -15,6 +15,7 @@ namespace WpfApp1.model
         private IHouse _radixHouse = null!;
         private double _transitOrbit;
         private Energy _energy = null!;
+        private Element _element = null!;
 
         [Field]
         public int CycleLength { get => _cycleLength; set => UpdateProperty(ref value, ref _cycleLength); }
@@ -28,6 +29,9 @@ namespace WpfApp1.model
         [FK]
         public Energy Energy { get => _energy; private set => UpdateProperty(ref value, ref _energy); }
 
+        [FK]
+        public Element Element { get => _element; private set => UpdateProperty(ref value, ref _element); }
+
         public bool IsRetrograde { get => _isRetrograde; private set => UpdateProperty(ref value, ref _isRetrograde); }
         public IHouse House { get => _radixHouse; private set => UpdateProperty(ref value, ref _radixHouse); }
         public Star() { }
@@ -37,10 +41,13 @@ namespace WpfApp1.model
             _cycleLength = reader.GetInt32(4);
             _transitOrbit = reader.GetDouble(5);
             _energy = new(reader.GetInt32(6));
+            _element = new(reader.GetInt64(7));
         }
+
         public Star(Int64 id) : base(id)
         {
         }
+
         public Star(int ID, ref double[] xx) : this(ID)
         {
             EclipticLongitude = xx[0];
@@ -83,6 +90,7 @@ namespace WpfApp1.model
             IStar star = (IStar)_fetchDbPoint!;
             _uri = star.URI;
             _transitOrbit = star.TransitOrbit;
+            _element = star.Element;
             House?.Build();
         }
 

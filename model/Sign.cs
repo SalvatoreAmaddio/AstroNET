@@ -44,6 +44,7 @@ namespace WpfApp1.model
         public string URI { get => _uri; set => UpdateProperty(ref value, ref _uri);}
         public string TimeExtension => $"({StartDay.Day} {StartDay.ToString("MMMM")} - {EndDay.Day} {EndDay.ToString("MMMM")})";
         public string GradeExtension => $"({Start}° - {End}°)";
+
         public Sign() { }
 
         public Sign(Int64 id) 
