@@ -4,6 +4,7 @@ using MvvmHelpers;
 using NodaTime;
 using SwissEphNet;
 using System.ComponentModel;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WpfApp1.model
 {
@@ -203,6 +204,20 @@ namespace WpfApp1.model
             CalculateBirthAspects();
         }
 
+        private void CompleteAspect(ref Aspect? aspect, IPoint pointA, IPoint pointB)
+        {
+            if (aspect != null)
+            {
+                aspect.PointA = pointA;
+
+                pointB.Build();
+
+                aspect.PointB = pointB;
+
+                aspect.CalculateOrbDiff();
+            }
+        }
+
         private void AddRadixAspect(Aspect? aspect, IPoint pointA, IPoint pointB)
         {
             if (aspect != null)
@@ -336,6 +351,61 @@ namespace WpfApp1.model
                             calculatedAspect.TransitType = new(2);
                             calculatedAspect.DateOf = date;
                             Horoscope.AddRadixAspect(calculatedAspect, star, pointReceiver);
+                        }
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<Star>? StarsInPartnerHouses(SkyEvent match) 
+        {
+            if (match.Person.UnknownTime) return null;
+            PositionCalculator positionCalculator = new(this);
+           
+            List<Star> stars = [];
+
+            for (int i = 0; i < 10; i++)
+            {
+                stars.Add(positionCalculator.CalculatePlanet(i, !ShowHouses));
+                stars[i].Build();
+                stars[i].PlaceInHouse(match);
+            }
+
+            return stars;
+        }
+
+        public IEnumerable<Aspect> CalculateSinastry(SkyEvent match)
+        {
+            IEnumerable<StarTransitOrbit> transitAspects = DatabaseManager.Find<StarTransitOrbit>()!.MasterSource.Cast<StarTransitOrbit>();
+
+            foreach (IStar star in Stars)
+            {
+                foreach (IPoint pointReceiver in match.Aspectables)
+                {
+                    double distance = PositionCalculator.CalculateDistance(star.EclipticLongitude, pointReceiver.EclipticLongitude);
+
+                    foreach (Aspect aspect in Aspects)
+                    {
+                        double? tollerance = transitAspects.FirstOrDefault(s => s.Aspect.Equals(aspect) && s.Star.Equals(star))?.Tollerance;
+
+                        if (tollerance == null) continue;
+
+                        if (pointReceiver is IHouse house && !house.IsAngular && aspect.Orbit != 0)
+                            continue;
+
+                        Aspect? calculatedAspect = PositionCalculator.IsValidAspect(aspect, distance, tollerance.Value);
+
+                        if (calculatedAspect != null)
+                        {
+                            if (pointReceiver is IHouse house2 && !house2.IsAngular)
+                            {
+                                if (distance > 2.5 || distance < -2.5)
+                                    continue;
+                            }
+
+                            calculatedAspect.TransitType = new(3);
+                            CompleteAspect(ref calculatedAspect, star, pointReceiver);
+                            yield return calculatedAspect!;
                         }
                     }
                 }

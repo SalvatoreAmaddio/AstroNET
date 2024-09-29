@@ -85,37 +85,7 @@
                                                     <ListView ItemsSource="{TemplateBinding Stars}" SelectedItem="{Binding SelectedStar, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <ListView.ItemTemplate>
                                                             <DataTemplate>
-                                                                <Grid>
-                                                                    <Grid.Resources>
-                                                                        <Style TargetType="Label">
-                                                                            <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                                        </Style>
-                                                                    </Grid.Resources>
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="30"/>
-                                                                        <ColumnDefinition Width="60"/>
-                                                                        <ColumnDefinition Width="30"/>
-                                                                        <ColumnDefinition Width="65"/>
-                                                                        <ColumnDefinition Width="60"/>
-                                                                        <ColumnDefinition Width="20"/>
-                                                                        <ColumnDefinition Width="60"/>
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <Grid.RowDefinitions>
-                                                                        <RowDefinition Height="35"/>
-                                                                    </Grid.RowDefinitions>
-                                                                    <Border>
-                                                                        <Image Source="{Binding URI}" Width="20" Height="20"/>
-                                                                    </Border>
-                                                                    <Label Grid.Column="1" Content="{Binding}"/>
-                                                                    <Border Grid.Column="2">
-                                                                        <Image Source="{Binding RadixSign.URI}" Width="25" Height="25"/>
-                                                                    </Border>
-                                                                    <Label Grid.Column="3" Content="{Binding RadixSign}"/>
-                                                                    <Label Grid.Column="4" Content="{Binding Position}"/>
-                                                                    <Label Grid.Column="5" Content="{Binding IsRetrograde, Converter={StaticResource isRetrogradeConverter}}"/>
-                                                                    <Label Grid.Column="6" Content="{Binding House}"/>
-                                                                </Grid>
+                                                                <local:ZodiacTable/>
                                                             </DataTemplate>
                                                         </ListView.ItemTemplate>
                                                     </ListView>
@@ -233,7 +203,7 @@
                                             <Border Grid.Row="2" Grid.Column="0" Margin="0,10,0,0" Style="{StaticResource TableBorderStyle}">
                                                 <StackPanel>
                                                     <Label Content="Stelliums" Style="{StaticResource TableHeaderStyle}"/>
-                                                    <ListView ItemsSource="{TemplateBinding Stelliums}">
+                                                    <ListView ItemsSource="{TemplateBinding Stelliums}" SelectedItem="{Binding SelectedStellium, RelativeSource={RelativeSource TemplatedParent}}">
                                                         <ListView.ItemTemplate>
                                                             <DataTemplate>
                                                                 <Grid>
@@ -278,56 +248,7 @@
                                                 <ListView ItemsSource="{TemplateBinding Aspects}" SelectedItem="{Binding SelectedAspect, RelativeSource={RelativeSource TemplatedParent}}">
                                                     <ListView.ItemTemplate>
                                                         <DataTemplate>
-                                                            <Grid>
-                                                                <Grid.Resources>
-                                                                    <Style TargetType="Label">
-                                                                        <Setter Property="VerticalContentAlignment" Value="Center"/>
-                                                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                                                    </Style>
-                                                                </Grid.Resources>
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="20"/>
-                                                                    <ColumnDefinition Width="20"/>
-                                                                    <ColumnDefinition Width="65"/>
-                                                                    <ColumnDefinition Width="26"/>
-                                                                    <ColumnDefinition Width="35"/>
-                                                                    <ColumnDefinition Width="20"/>
-                                                                    <ColumnDefinition Width="95"/>
-                                                                    <ColumnDefinition Width="20"/>
-                                                                    <ColumnDefinition Width="20"/>
-                                                                    <ColumnDefinition Width="65"/>
-                                                                    <ColumnDefinition Width="26"/>
-                                                                    <ColumnDefinition Width="35"/>
-                                                                    <ColumnDefinition Width="40"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <Grid.RowDefinitions>
-                                                                    <RowDefinition Height="35"/>
-                                                                </Grid.RowDefinitions>
-
-                                                                <Border x:Name="Start1Img">
-                                                                    <Image Source="{Binding PointA.URI, Converter={StaticResource imgageLoaderConverter}}" Width="20" Height="20"/>
-                                                                </Border>
-                                                                <Label x:Name="Start1R" Grid.Column="1" Content="{Binding PointA, Converter={StaticResource isRetrogradeConverter}}"/>
-                                                                <Label x:Name="Start1" Grid.Column="2" Content="{Binding PointA}"/>
-                                                                <Border x:Name="Start1SignImg" Grid.Column="3">
-                                                                    <Image Source="{Binding PointA.RadixSign.URI, Converter={StaticResource imgageLoaderConverter}}" Width="25" Height="25"/>
-                                                                </Border>
-                                                                <Label x:Name="Start1House" Grid.Column="4" Content="{Binding PointA.House}"/>
-                                                                <Border x:Name="AspectImg" Grid.Column="5">
-                                                                    <Image Source="{Binding URI, Converter={StaticResource imgageLoaderConverter}}" Width="20" Height="20"/>
-                                                                </Border>
-                                                                <Label x:Name="AspectName" Grid.Column="6" Content="{Binding}"/>
-                                                                <Border x:Name="Start2Img" Grid.Column="7">
-                                                                    <Image Source="{Binding PointB.URI, Converter={StaticResource imgageLoaderConverter}}" Width="20" Height="20"/>
-                                                                </Border>
-                                                                <Label x:Name="Start2Retrograde" Grid.Column="8" Content="{Binding PointB, Converter={StaticResource isRetrogradeConverter}}"/>
-                                                                <Label x:Name="Start2" Grid.Column="9" Content="{Binding PointB}"/>
-                                                                <Border x:Name="Start2SignImg" Grid.Column="10">
-                                                                    <Image Source="{Binding PointB.RadixSign.URI, Converter={StaticResource imgageLoaderConverter}}" Width="25" Height="25"/>
-                                                                </Border>
-                                                                <Label x:Name="Start2House" Grid.Column="11" Content="{Binding PointB.House}"/>
-                                                                <Label x:Name="Orbit" Grid.Column="12" Content="{Binding OrbDiffInDegree}"/>
-                                                            </Grid>
+                                                            <local:AspectsGrid/>
                                                         </DataTemplate>
                                                     </ListView.ItemTemplate>
                                                 </ListView>

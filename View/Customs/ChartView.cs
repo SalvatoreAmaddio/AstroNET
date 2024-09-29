@@ -1,4 +1,5 @@
-﻿using MvvmHelpers;
+﻿using Backend.Database;
+using MvvmHelpers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -43,6 +44,34 @@ namespace WpfApp1.View
             set => SetValue(StelliumsProperty, value);
         }
         #endregion
+
+        #region SelectedStellium
+        public static readonly DependencyProperty SelectedStelliumProperty =
+        DependencyProperty.Register(nameof(SelectedStellium), typeof(ElementGroupKey),
+        typeof(ChartView), new PropertyMetadata(OnSelectedStelliumChanged));
+
+        private static void OnSelectedStelliumChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            int skyTypeId = ((ChartView)(d)).Sky.SkyTypeId;
+
+            if (e.NewValue != null && (skyTypeId == 4 || skyTypeId == 5)) 
+            {
+                House? house = DatabaseManager.Find<House>()?.MasterSource.Cast<House>()?.FirstOrDefault(s=>s.PointName.Trim().Equals(((ElementGroupKey)e.NewValue).Name.ToString()?.Trim()));
+                if (house == null) return;
+                Star star = new(house.PointId-1);
+                star.Build();
+                Interpretation interpretation = new(LibrarySearch.SearchStar(star));
+                interpretation.Show();
+            }
+        }
+
+        public ElementGroupKey SelectedStellium
+        {
+            get => (ElementGroupKey)GetValue(SelectedStelliumProperty);
+            set => SetValue(SelectedStelliumProperty, value);
+        }
+        #endregion
+
 
         #region Triplicities
         public static readonly DependencyProperty TriplicitiesProperty =

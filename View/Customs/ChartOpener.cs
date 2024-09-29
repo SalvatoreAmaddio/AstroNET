@@ -82,6 +82,54 @@ namespace WpfApp1.View
             return grid;
         }
         
+        private static void WriteSinastria(ref StackPanel infoStackPanel, SkyEvent sky1, SkyEvent sky2) 
+        {
+
+            IEnumerable<Aspect> aspects = sky1.CalculateSinastry(sky2);
+            IEnumerable<Aspect> aspects2 = sky2.CalculateSinastry(sky1);
+
+            IEnumerable<Star>? stars1 = sky1.StarsInPartnerHouses(sky2);
+            IEnumerable<Star>? stars2 = sky2.StarsInPartnerHouses(sky1);
+
+            SinastryAspects sinastryAspects = new();
+            sinastryAspects.Person1.Content = sky1.Person;
+            sinastryAspects.Person2.Content = sky2.Person;
+
+            sinastryAspects.Person10.Content = sky2.Person;
+            sinastryAspects.Person20.Content = sky1.Person;
+
+            sinastryAspects.Lista.ItemsSource = aspects;
+            sinastryAspects.Lista2.ItemsSource = aspects2;
+
+            sinastryAspects.Person1Zodiac.Content = $"{sky1.Person} Stars in {sky2.Person} Houses";
+            sinastryAspects.Person2Zodiac.Content = $"{sky2.Person} Stars in {sky1.Person} Houses";
+
+            sinastryAspects.Lista3.ItemsSource = stars1;
+            sinastryAspects.Lista4.ItemsSource = stars2;
+
+            if (!sky2.Person.UnknownTime) 
+            {
+                IEnumerable<ElementGroupKey>? occupiedHouses1 = stars1?.GroupBy(s => s.House)
+                                            .Select(s => new ElementGroupKey(s.Key.PointName, s.Count()))
+                                            .OrderByDescending(s => s.Count).ToList();
+
+                sinastryAspects.OccupiedHouses1.ItemsSource = occupiedHouses1;
+                sinastryAspects.Stelliums1.ItemsSource = occupiedHouses1?.Where(s => s.Count >= 3).ToList();
+            }
+
+            if (!sky1.Person.UnknownTime)
+            {
+                IEnumerable<ElementGroupKey>? occupiedHouses2 = stars2?.GroupBy(s => s.House)
+                                            .Select(s => new ElementGroupKey(s.Key.PointName, s.Count()))
+                                            .OrderByDescending(s => s.Count).ToList();
+
+                sinastryAspects.OccupiedHouses2.ItemsSource = occupiedHouses2;
+                sinastryAspects.Stelliums2.ItemsSource = occupiedHouses2?.Where(s => s.Count >= 3).ToList();
+            }
+
+            infoStackPanel.Children.Add(sinastryAspects);
+        }
+
         public static void OpenComparedChart(string? title, SkyEvent sky1, SkyEvent sky2, SkyType skyType)
         {
             Window? currentWindow = Helper.GetActiveWindow();
@@ -100,6 +148,11 @@ namespace WpfApp1.View
 
             backgroundWindow.Children.Add(chartGrid);
             backgroundWindow.Children.Add(infoStackPanel);
+
+            if (skyType == SkyType.Sinastry)
+            {
+                WriteSinastria(ref infoStackPanel, sky1, sky2);
+            }
 
             Window chartWindow = new()
             {
