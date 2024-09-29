@@ -4,7 +4,7 @@ namespace WpfApp1.View
 {
     public class PencilCase
     {
-        public Pen RedPen = new(Brushes.Red, .2);
+        public Pen RedPen = new(Brushes.Red, .6);
         public Pen BluePen1 = new(Brushes.Blue, 1);
         public Pen BlackPen2 = new(Brushes.Black, 2);
         public Pen BlackPen1 = new(Brushes.Black, 1);

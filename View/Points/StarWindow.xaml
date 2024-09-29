@@ -12,7 +12,7 @@
         WindowStartupLocation="CenterScreen"
         Icon="{Binding CurrentRecord.URI}"
         ResizeMode="NoResize"
-        Title="Star" Height="450" Width="800">
+        Title="Star" Height="450" Width="810">
 
     <Window.Resources>
         <converter:PowerConverters x:Key="powers"/>
