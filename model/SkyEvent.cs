@@ -491,23 +491,27 @@ namespace WpfApp1.model
         public SkyEvent Sky2 { get; } = sky2;
         public Person Person1 => Sky1.Person!;
         public Person Person2 => Sky2.Person!;
-        public IEnumerable<Aspect> Aspects { get; } = aspects;
-        public IEnumerable<Aspect> Aspects2 { get; } = aspects2;
-        public IEnumerable<Star>? Stars { get; } = stars;
-        public IEnumerable<Star>? Stars2 { get; } = stars2;
+        public IEnumerable<Aspect> Chart1Aspects { get; } = aspects;
+        public IEnumerable<Aspect> Chart2Aspects { get; } = aspects2;
+        public IEnumerable<Star>? Chart1Zodiac { get; } = stars;
+
+        public string Chart1ZodiacTile => $"{Person1}'s Stars in {Person2}'s Houses";
+        public IEnumerable<Star>? Chart2Zodiac { get; } = stars2;
+        public string Chart2ZodiacTile => $"{Person2}'s Stars in {Person1}'s Houses";
+
         public string Title => $"{Person1} AND {Person2}";
 
-        public IEnumerable<ElementGroupKey>? OccupiedHouses1 => Stars?.GroupBy(s => s.House)
+        public IEnumerable<ElementGroupKey>? Chart1OccupiedHouses => Chart1Zodiac?.GroupBy(s => s.House)
                             .Select(s => new ElementGroupKey(s.Key.PointName, s.Count()))
                             .OrderByDescending(s => s.Count).ToList();
 
-        public IEnumerable<ElementGroupKey>? Stelliums1 => OccupiedHouses1?.Where(s => s.Count >= 3).ToList();
+        public IEnumerable<ElementGroupKey>? Chart1Stelliums => Chart1OccupiedHouses?.Where(s => s.Count >= 3).ToList();
 
-        public IEnumerable<ElementGroupKey>? OccupiedHouses2 => Stars2?.GroupBy(s => s.House)
+        public IEnumerable<ElementGroupKey>? Chart2OccupiedHouses => Chart2Zodiac?.GroupBy(s => s.House)
                     .Select(s => new ElementGroupKey(s.Key.PointName, s.Count()))
                     .OrderByDescending(s => s.Count).ToList();
 
-        public IEnumerable<ElementGroupKey>? Stelliums2 => OccupiedHouses2?.Where(s => s.Count >= 3).ToList();
+        public IEnumerable<ElementGroupKey>? Chart2Stelliums => Chart2OccupiedHouses?.Where(s => s.Count >= 3).ToList();
 
     }
 }

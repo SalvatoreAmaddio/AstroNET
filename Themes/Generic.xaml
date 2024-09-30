@@ -253,4 +253,171 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style TargetType="{x:Type local:SinastryChart}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:SinastryChart}">
+                    <Border Margin="{TemplateBinding Margin}" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <StackPanel>
+                            <Label Content="Aspects" HorizontalContentAlignment="Center"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel x:Name="Chart1" Grid.Column="0">
+                                    <Grid HorizontalAlignment="Center" Width="500">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label x:Name="Chart1Person1" Grid.Column="0" Content="{TemplateBinding Person1}" Style="{StaticResource TableHeaderStyle}"/>
+                                        <Label x:Name="Chart1Person2" Grid.Column="1" Content="{TemplateBinding Person2}" Style="{StaticResource TableHeaderStyle}"/>
+                                    </Grid>
+                                    <ListView x:Name="Chart1AspectsList" ItemsSource="{TemplateBinding Chart1AspectsList}" HorizontalAlignment="Center">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <local:AspectsGrid/>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+
+                                    <StackPanel x:Name="ZodiacChart1" Margin="0,10,0,0" HorizontalAlignment="Center">
+                                        <Label x:Name="Person1Zodiac" Content="{TemplateBinding Chart1ZodiacListTitle}" Style="{StaticResource TableHeaderStyle}"/>
+                                        <ListView x:Name="ZodiacChart1List" ItemsSource="{TemplateBinding Chart1ZodiacList}">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <local:ZodiacTable/>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+
+                                        <Grid x:Name="Chart1HousesGrid" Margin="0,10,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel x:Name="Chart1OccupiedHouses" Grid.Column="0" HorizontalAlignment="Center">
+                                                <Label Content="Occupied Houses" Style="{StaticResource TableHeaderStyle}"/>
+                                                <ListView x:Name="Chart1OccupiedHousesList" ItemsSource="{TemplateBinding Chart1OccupiedHousesList}">
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="40"/>
+                                                                    <ColumnDefinition Width="30"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <Label Content="{Binding Name}"/>
+                                                                <Label Grid.Column="1" Content="{Binding Count}"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+                                            </StackPanel>
+
+                                            <StackPanel x:Name="Chart1Stelliums" Grid.Column="1" HorizontalAlignment="Center">
+                                                <Label Content="Stelliums" Style="{StaticResource TableHeaderStyle}"/>
+                                                <ListView x:Name="Chart1StelliumsList" ItemsSource="{TemplateBinding Chart1StelliumsList}">
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="40"/>
+                                                                    <ColumnDefinition Width="30"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <Label Content="{Binding Name}"/>
+                                                                <Label Grid.Column="1" Content="{Binding Count}"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <StackPanel x:Name="Chart2" Grid.Column="1">
+                                    <Grid HorizontalAlignment="Center" Width="500">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label x:Name="Chart2Person1" Content="{TemplateBinding Person2}" Style="{StaticResource TableHeaderStyle}"/>
+                                        <Label x:Name="Chart2Person2" Grid.Column="1" Content="{TemplateBinding Person1}" Style="{StaticResource TableHeaderStyle}"/>
+                                    </Grid>
+                                    <ListView x:Name="Chart2AspectsList" HorizontalAlignment="Center" ItemsSource="{TemplateBinding Chart2AspectsList}">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <local:AspectsGrid/>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+
+                                    <StackPanel x:Name="ZodiacChart2" Margin="0,10,0,0" HorizontalAlignment="Center">
+                                        <Label x:Name="Person2Zodiac" Content="{TemplateBinding Chart2ZodiacListTitle}" Style="{StaticResource TableHeaderStyle}"/>
+                                        <ListView x:Name="ZodiacChart2List" ItemsSource="{TemplateBinding Chart2ZodiacList}">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <local:ZodiacTable/>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+
+                                        <Grid x:Name="Chart2HousesGrid" Margin="0,10,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel x:Name="Chart2OccupiedHouses" Grid.Column="0" HorizontalAlignment="Center">
+                                                <Label Content="Occupied Houses" Style="{StaticResource TableHeaderStyle}"/>
+                                                <ListView x:Name="Chart2OccupiedHousesList" ItemsSource="{TemplateBinding Chart2OccupiedHousesList}">
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="40"/>
+                                                                    <ColumnDefinition Width="30"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <Label Content="{Binding Name}"/>
+                                                                <Label Grid.Column="1" Content="{Binding Count}"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+                                            </StackPanel>
+
+                                            <StackPanel x:Name="Chart2Stelliums" Grid.Column="1" HorizontalAlignment="Center">
+                                                <Label Content="Stelliums" Style="{StaticResource TableHeaderStyle}"/>
+                                                <ListView x:Name="Chart2StelliumsList" ItemsSource="{TemplateBinding Chart2StelliumsList}">
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="40"/>
+                                                                    <ColumnDefinition Width="30"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <Label Content="{Binding Name}"/>
+                                                                <Label Grid.Column="1" Content="{Binding Count}"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+                                            </StackPanel>
+                                        </Grid>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>    
+    </Style>
+    
 </ResourceDictionary>

@@ -2,7 +2,6 @@
 using MvvmHelpers;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using WpfApp1.model;
 
 namespace WpfApp1.View
@@ -71,7 +70,6 @@ namespace WpfApp1.View
             set => SetValue(SelectedStelliumProperty, value);
         }
         #endregion
-
 
         #region Triplicities
         public static readonly DependencyProperty TriplicitiesProperty =
