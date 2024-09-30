@@ -1,25 +1,20 @@
 ﻿using FrontEnd.Utils;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using WpfApp1.model;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace WpfApp1.View
 {
     public static class Extenstion 
     {
-        public static void ReplaceSky(this Window win, SkyEvent sky) 
-        {
-            ((ChartViewContainer)win.Content).Sky = sky;
-        }
-
-        public static SkyEvent GetSky(this Window win)
-        {
-            return ((ChartViewContainer)win.Content).Sky;
-        }
+        public static void ReplaceSky(this Window win, SkyEvent sky) =>
+        ((ChartViewContainer)win.Content).Sky = sky;
+        
+        public static SkyEvent GetSky(this Window win) =>
+        ((ChartViewContainer)win.Content).Sky;
     }
 
     public class ChartOpener
@@ -47,24 +42,41 @@ namespace WpfApp1.View
         {
             Window? win = (Window?)sender;
             win?.GetSky().ClearHoroscope();
-            win.Closed -= ChartWindowClosed;
+            win!.Closed -= ChartWindowClosed;
         }
 
-        private static void CalculateReturnAsc(StackPanel stack, SkyEvent subjectSky, SkyEvent returnSky)
+        private static void CalculateReturnAsc(StackPanel backgroundWindow, SkyEvent subjectSky, SkyEvent returnSky)
         {
             House returnAsc = returnSky.Houses.First();
             House inNatalHouse = returnAsc.PlaceInHouse(subjectSky);
 
             Label label = new()
             {
-                Content = $"R. ASC in {inNatalHouse}",
+                Content = $"Return ASC in {inNatalHouse}",
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
-                BorderBrush = System.Windows.Media.Brushes.Black,
-                BorderThickness = new(0, 0, 0, .5)
+                BorderBrush = Brushes.Black,
+                BorderThickness = new(0, 0, 0, .5),
+                Foreground = Brushes.Blue,
+                Cursor = Cursors.Hand
             };
 
-            stack.Children.Add(label);
+            label.MouseDown += OnLabelMouseDown;
+
+            backgroundWindow.Children.Insert(0, label);
+            backgroundWindow.Unloaded += OnBackgroundWindowUnloaded;
+        }
+
+        private static void OnBackgroundWindowUnloaded(object sender, RoutedEventArgs e)
+        {
+            StackPanel backgroundWindow = (StackPanel)sender;
+            backgroundWindow.Unloaded-= OnBackgroundWindowUnloaded;
+            ((Label)backgroundWindow.Children[0]).MouseDown -= OnLabelMouseDown;
+        }
+
+        private static void OnLabelMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("Clicked");
         }
 
         private static Grid CreateChartGrid(SkyEvent sky1, SkyEvent sky2) 
@@ -117,7 +129,7 @@ namespace WpfApp1.View
             if (sky2.SkyType == SkyType.SunReturn || sky2.SkyType == SkyType.MoonReturn)
                 CalculateReturnAsc(backgroundWindow, sky1, sky2);
 
-            OpenChartWindow(title, skyType, CreateBackgroundWindow(chartGrid, infoStackPanel));
+            OpenChartWindow(title, skyType, backgroundWindow);
         }
     
         private static StackPanel CreateBackgroundWindow(Grid chartGrid, StackPanel infoStackPanel) 

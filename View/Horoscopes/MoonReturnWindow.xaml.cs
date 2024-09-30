@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using FrontEnd.Dialogs;
+using System.Windows;
 using WpfApp1.model;
 
 namespace WpfApp1.View
@@ -18,6 +19,13 @@ namespace WpfApp1.View
             if (StopRun) return;
 
             SkyEvent subjectSky = ((ChartViewContainer)Owner.Content).Sky;
+
+            if (subjectSky!.Person!.UnknownTime)
+            {
+                Failure.Allert("Cannot calculate Return on Unknown Time Sky");
+                return;
+            }
+
             PositionCalculator calculator = new(subjectSky);
 
             (DateTime returnDate, TimeSpan returnTime) = await Task.Run(() => calculator.MoonReturn(InputDate!.Value, SelectedCity!));

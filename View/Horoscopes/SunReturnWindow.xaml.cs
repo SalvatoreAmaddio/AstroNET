@@ -39,14 +39,20 @@ namespace WpfApp1.View
 
             SkyEvent subjectSky = ((ChartViewContainer)Owner.Content).Sky;
 
+            if (subjectSky!.Person!.UnknownTime)
+            {
+                Failure.Allert("Cannot calculate Return on Unknown Time Sky");
+                return;
+            }
+
             PositionCalculator calculator = new(subjectSky);
 
             (DateTime returnDate, TimeSpan returnTime) = await Task.Run(() => 
             {
-                return calculator.CalculateSunReturn(InputYear, SelectedCity);
+                return calculator.CalculateSunReturn(InputYear, SelectedCity!);
             });
 
-            SkyEvent returnSky = subjectSky.CalculateReturn(returnDate, returnTime, SelectedCity);
+            SkyEvent returnSky = subjectSky.CalculateReturn(returnDate, returnTime, SelectedCity!);
 
             IsLoading = false;
             ChartOpener.OpenComparedChart($"{subjectSky.Person}", subjectSky, returnSky, returnSky.SkyType);

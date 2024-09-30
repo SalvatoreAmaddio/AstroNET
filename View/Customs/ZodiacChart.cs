@@ -57,14 +57,14 @@ namespace WpfApp1.View
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             Window? parentWindow = Helper.GetActiveWindow();
-            parentWindow.Closed += OnParentWindowClosed;
+            parentWindow!.Closed += OnParentWindowClosed;
         }
 
         private void OnParentWindowClosed(object? sender, EventArgs e)
         {
             Window? parentWindow = (Window?)sender;
             foreach(MouseStack stackHandler in _mouseUpHandlers) stackHandler.Unsubscribe();
-            parentWindow.Closed -= OnParentWindowClosed;
+            parentWindow!.Closed -= OnParentWindowClosed;
             Loaded -= OnLoaded;
         }
 
