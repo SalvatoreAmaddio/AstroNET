@@ -1,25 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using WpfApp1.model;
 
 namespace WpfApp1.View
 {
     public class SinastryChart : Control
     {
-        //IEnumerable<ElementGroupKey>? Stelliums1
-
         #region Chart1StelliumsList
         public static readonly DependencyProperty Chart1StelliumsListProperty =
         DependencyProperty.Register(nameof(Chart1StelliumsList), typeof(IEnumerable<ElementGroupKey>),
@@ -116,6 +102,42 @@ namespace WpfApp1.View
         }
         #endregion
 
+        #region Chart1SelectedAspect
+        public static readonly DependencyProperty Chart1SelectedAspectProperty =
+        DependencyProperty.Register(nameof(Chart1SelectedAspect), typeof(Aspect),
+        typeof(SinastryChart), new PropertyMetadata() { DefaultValue = null, PropertyChangedCallback = OnSelectionChanged });
+
+        public Aspect Chart1SelectedAspect
+        {
+            get => (Aspect)GetValue(Chart1SelectedAspectProperty);
+            set => SetValue(Chart1SelectedAspectProperty, value);
+        }
+        #endregion
+
+        #region Chart1SelectedStar
+        public static readonly DependencyProperty Chart1SelectedStarProperty =
+        DependencyProperty.Register(nameof(Chart1SelectedStar), typeof(Star),
+        typeof(SinastryChart), new PropertyMetadata() { DefaultValue = null, PropertyChangedCallback = OnSelectionChanged });
+
+        public Star Chart1SelectedStar
+        {
+            get => (Star)GetValue(Chart1SelectedStarProperty);
+            set => SetValue(Chart1SelectedStarProperty, value);
+        }
+        #endregion
+
+        #region Chart2SelectedStar
+        public static readonly DependencyProperty Chart2SelectedStarProperty =
+        DependencyProperty.Register(nameof(Chart2SelectedStar), typeof(Star),
+        typeof(SinastryChart), new PropertyMetadata() { DefaultValue = null, PropertyChangedCallback = OnSelectionChanged });
+
+        public Star Chart2SelectedStar
+        {
+            get => (Star)GetValue(Chart2SelectedStarProperty);
+            set => SetValue(Chart2SelectedStarProperty, value);
+        }
+        #endregion
+
         #region Chart1AspectsList
         public static readonly DependencyProperty Chart1AspectsListProperty =
         DependencyProperty.Register(nameof(Chart1AspectsList), typeof(IEnumerable<Aspect>),
@@ -125,6 +147,18 @@ namespace WpfApp1.View
         {
             get => (IEnumerable<Aspect>)GetValue(Chart1AspectsListProperty);
             set => SetValue(Chart1AspectsListProperty, value);
+        }
+        #endregion
+
+        #region Chart2SelectedAspect
+        public static readonly DependencyProperty Chart2SelectedAspectProperty =
+        DependencyProperty.Register(nameof(Chart2SelectedAspect), typeof(Aspect),
+        typeof(SinastryChart), new PropertyMetadata() { DefaultValue = null, PropertyChangedCallback = OnSelectionChanged });
+
+        public Aspect Chart2SelectedAspect
+        {
+            get => (Aspect)GetValue(Chart2SelectedAspectProperty);
+            set => SetValue(Chart2SelectedAspectProperty, value);
         }
         #endregion
 
@@ -180,6 +214,21 @@ namespace WpfApp1.View
             set => SetValue(SinastryBundleProperty, value);
         }
         #endregion
+
+        private static void OnSelectionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue == null) return;
+            Interpretation interpretation;
+
+            if (e.NewValue is Star)
+                interpretation = new(LibrarySearch.SearchStar((Star)e.NewValue, 3));
+            else if (e.NewValue is House)
+                interpretation = new(LibrarySearch.SearchHouseSign((House)e.NewValue));
+            else
+                interpretation = new(LibrarySearch.SearchAspect((Aspect)e.NewValue));
+
+            interpretation.Show();
+        }
 
         static SinastryChart()
         {

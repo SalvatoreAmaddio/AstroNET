@@ -279,7 +279,7 @@
                                         <Label x:Name="Chart1Person1" Grid.Column="0" Content="{TemplateBinding Person1}" Style="{StaticResource TableHeaderStyle}"/>
                                         <Label x:Name="Chart1Person2" Grid.Column="1" Content="{TemplateBinding Person2}" Style="{StaticResource TableHeaderStyle}"/>
                                     </Grid>
-                                    <ListView x:Name="Chart1AspectsList" ItemsSource="{TemplateBinding Chart1AspectsList}" HorizontalAlignment="Center">
+                                    <ListView x:Name="Chart1AspectsList" ItemsSource="{TemplateBinding Chart1AspectsList}" SelectedItem="{Binding Chart1SelectedAspect, RelativeSource={RelativeSource TemplatedParent}}" HorizontalAlignment="Center">
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
                                                 <local:AspectsGridTemplate/>
@@ -289,7 +289,7 @@
 
                                     <StackPanel x:Name="ZodiacChart1" Margin="0,10,0,0" HorizontalAlignment="Center">
                                         <Label x:Name="Person1Zodiac" Content="{TemplateBinding Chart1ZodiacListTitle}" Style="{StaticResource TableHeaderStyle}"/>
-                                        <ListView x:Name="ZodiacChart1List" ItemsSource="{TemplateBinding Chart1ZodiacList}">
+                                        <ListView x:Name="ZodiacChart1List" ItemsSource="{TemplateBinding Chart1ZodiacList}" SelectedItem="{Binding Chart1SelectedStar, RelativeSource={RelativeSource TemplatedParent}}">
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
                                                     <local:ZodiacTableTemplate/>
@@ -334,7 +334,7 @@
                                         <Label x:Name="Chart2Person1" Content="{TemplateBinding Person2}" Style="{StaticResource TableHeaderStyle}"/>
                                         <Label x:Name="Chart2Person2" Grid.Column="1" Content="{TemplateBinding Person1}" Style="{StaticResource TableHeaderStyle}"/>
                                     </Grid>
-                                    <ListView x:Name="Chart2AspectsList" HorizontalAlignment="Center" ItemsSource="{TemplateBinding Chart2AspectsList}">
+                                    <ListView x:Name="Chart2AspectsList" HorizontalAlignment="Center" ItemsSource="{TemplateBinding Chart2AspectsList}" SelectedItem="{Binding Chart2SelectedAspect, RelativeSource={RelativeSource TemplatedParent}}">
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
                                                 <local:AspectsGridTemplate/>
@@ -344,7 +344,7 @@
 
                                     <StackPanel x:Name="ZodiacChart2" Margin="0,10,0,0" HorizontalAlignment="Center">
                                         <Label x:Name="Person2Zodiac" Content="{TemplateBinding Chart2ZodiacListTitle}" Style="{StaticResource TableHeaderStyle}"/>
-                                        <ListView x:Name="ZodiacChart2List" ItemsSource="{TemplateBinding Chart2ZodiacList}">
+                                        <ListView x:Name="ZodiacChart2List" ItemsSource="{TemplateBinding Chart2ZodiacList}" SelectedItem="{Binding Chart2SelectedStar, RelativeSource={RelativeSource TemplatedParent}}">
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
                                                     <local:ZodiacTableTemplate/>

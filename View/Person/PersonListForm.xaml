@@ -56,10 +56,10 @@
                             <Label Grid.Column="4" Content="{Binding TOB, Converter={StaticResource TimeBox}}"/>
                             <CheckBox Grid.Column="5" IsChecked="{Binding UnknownTime}" VerticalAlignment="Center" IsEnabled="False" HorizontalAlignment="Center"/>
                             <Label Grid.Column="6" Content="{Binding City, Converter={StaticResource CityConverter}}"/>
-                            <Button Grid.Column="7" fr:Extension.IsWithinList="True" Command="{Binding CalculateChartCMD}">
+                            <Button Grid.Column="7" fr:Extension.IsWithinList="True" Command="{Binding CalculateChartCMD}" Width="50" Height="30">
                                 <Image Source="pack://application:,,,/assets/img/astrology.png"/>
                             </Button>
-                            <fr:DeleteButton Grid.Column="8" IsWithinList="True"/>
+                            <fr:DeleteButton Grid.Column="8" IsWithinList="True" Width="50"  Height="30"/>
                         </Grid>
                     </fr:FormRow>
                 </DataTemplate>

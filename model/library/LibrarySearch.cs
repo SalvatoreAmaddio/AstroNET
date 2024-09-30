@@ -30,7 +30,10 @@ namespace WpfApp1.model
         public static List<IStarLibrary?> SearchStar(Star star, int transitType = 1) 
         {
             List<IStarLibrary?> lib = [];
-            lib.Add(GetLibrary<LibraryStarSigns>(star, transitType)?.FirstOrDefault(s => s.Sign.Equals(star.RadixSign)));
+            if (transitType == 3)
+                lib.Add(GetLibrary<LibraryStarSigns>(star, 1)?.FirstOrDefault(s => s.Sign.Equals(star.RadixSign)));
+            else lib.Add(GetLibrary<LibraryStarSigns>(star, transitType)?.FirstOrDefault(s => s.Sign.Equals(star.RadixSign)));
+
             StarInHouse(ref lib, star, new(transitType));
             return lib;
         }
