@@ -1,5 +1,6 @@
 ﻿using FrontEnd.Utils;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
@@ -82,15 +83,8 @@ namespace WpfApp1.View
             return grid;
         }
         
-        private static void WriteSinastria(ref StackPanel infoStackPanel, SkyEvent sky1, SkyEvent sky2) 
+        private static void WriteSinastria(ref StackPanel infoStackPanel, SkyEvent sky1, SkyEvent sky2, IEnumerable<Aspect> aspects, IEnumerable<Aspect> aspects2, IEnumerable<Star>? stars, IEnumerable<Star>? stars2) 
         {
-
-            IEnumerable<Aspect> aspects = sky1.CalculateSinastry(sky2);
-            IEnumerable<Aspect> aspects2 = sky2.CalculateSinastry(sky1);
-
-            IEnumerable<Star>? stars1 = sky1.StarsInPartnerHouses(sky2);
-            IEnumerable<Star>? stars2 = sky2.StarsInPartnerHouses(sky1);
-
             SinastryAspects sinastryAspects = new();
             sinastryAspects.Person1.Content = sky1.Person;
             sinastryAspects.Person2.Content = sky2.Person;
@@ -104,12 +98,12 @@ namespace WpfApp1.View
             sinastryAspects.Person1Zodiac.Content = $"{sky1.Person} Stars in {sky2.Person} Houses";
             sinastryAspects.Person2Zodiac.Content = $"{sky2.Person} Stars in {sky1.Person} Houses";
 
-            sinastryAspects.Lista3.ItemsSource = stars1;
+            sinastryAspects.Lista3.ItemsSource = stars;
             sinastryAspects.Lista4.ItemsSource = stars2;
 
             if (!sky2.Person.UnknownTime) 
             {
-                IEnumerable<ElementGroupKey>? occupiedHouses1 = stars1?.GroupBy(s => s.House)
+                IEnumerable<ElementGroupKey>? occupiedHouses1 = stars?.GroupBy(s => s.House)
                                             .Select(s => new ElementGroupKey(s.Key.PointName, s.Count()))
                                             .OrderByDescending(s => s.Count).ToList();
 
@@ -130,37 +124,55 @@ namespace WpfApp1.View
             infoStackPanel.Children.Add(sinastryAspects);
         }
 
-        public static void OpenComparedChart(string? title, SkyEvent sky1, SkyEvent sky2, SkyType skyType)
+        public static void OpenComparedChart(string? title, SkyEvent sky1, SkyEvent sky2, IEnumerable<Aspect> aspects, IEnumerable<Aspect> aspects2, IEnumerable<Star>? stars, IEnumerable<Star>? stars2)
         {
-            Window? currentWindow = Helper.GetActiveWindow();
-            currentWindow?.Close();
-
-            StackPanel backgroundWindow = new();
 
             Grid chartGrid = CreateChartGrid(sky1, sky2);
 
             StackPanel infoStackPanel = new();
 
-            if (sky2.SkyType == SkyType.SunReturn || sky2.SkyType == SkyType.MoonReturn) 
-            {
-                CalculateReturnAsc(backgroundWindow, sky1, sky2);
-            }
+            WriteSinastria(ref infoStackPanel, sky1, sky2, aspects, aspects2, stars, stars2);
 
+            Window? currentWindow = Helper.GetActiveWindow();
+            currentWindow?.Close();
+
+            OpenChartWindow(title, SkyType.Sinastry, CreateBackgroundWindow(chartGrid, infoStackPanel));
+        }
+
+        public static void OpenComparedChart(string? title, SkyEvent sky1, SkyEvent sky2, SkyType skyType)
+        {
+            Window? currentWindow = Helper.GetActiveWindow();
+            currentWindow?.Close();
+
+            Grid chartGrid = CreateChartGrid(sky1, sky2);
+
+            StackPanel infoStackPanel = new();
+
+            StackPanel backgroundWindow = CreateBackgroundWindow(chartGrid, infoStackPanel);
+
+            if (sky2.SkyType == SkyType.SunReturn || sky2.SkyType == SkyType.MoonReturn)
+                CalculateReturnAsc(backgroundWindow, sky1, sky2);
+
+            OpenChartWindow(title, skyType, CreateBackgroundWindow(chartGrid, infoStackPanel));
+        }
+    
+        private static StackPanel CreateBackgroundWindow(Grid chartGrid, StackPanel infoStackPanel) 
+        {
+            StackPanel backgroundWindow = new();
             backgroundWindow.Children.Add(chartGrid);
             backgroundWindow.Children.Add(infoStackPanel);
+            return backgroundWindow;
+        }
 
-            if (skyType == SkyType.Sinastry)
-            {
-                WriteSinastria(ref infoStackPanel, sky1, sky2);
-            }
-
+        private static void OpenChartWindow(string? title, SkyType skyType, StackPanel backgroundWindow)
+        {
             Window chartWindow = new()
             {
                 Title = $"{title} - {skyType}",
                 Content = new ScrollViewer() { Content = backgroundWindow },
                 Icon = new BitmapImage(new Uri("pack://application:,,,/assets/img/astrology.png")),
             };
-            
+
             chartWindow.Show();
         }
     }

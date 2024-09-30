@@ -376,6 +376,7 @@ namespace WpfApp1.model
 
         public IEnumerable<Aspect> CalculateSinastry(SkyEvent match)
         {
+            List<Aspect> aspects = [];
             IEnumerable<StarTransitOrbit> transitAspects = DatabaseManager.Find<StarTransitOrbit>()!.MasterSource.Cast<StarTransitOrbit>();
 
             foreach (IStar star in Stars)
@@ -405,11 +406,13 @@ namespace WpfApp1.model
 
                             calculatedAspect.TransitType = new(3);
                             CompleteAspect(ref calculatedAspect, star, pointReceiver);
-                            yield return calculatedAspect!;
+                            aspects.Add(calculatedAspect);
                         }
                     }
                 }
             }
+
+            return aspects;
         }
 
         public IEnumerable<Aspect> CalculateStarAspects(Star star, DateTime date)
