@@ -1,5 +1,6 @@
 ﻿using FrontEnd.Dialogs;
 using System.Windows;
+using WpfApp1.model;
 
 namespace WpfApp1.View
 {
@@ -40,7 +41,7 @@ namespace WpfApp1.View
             
             IsLoading = false;
 
-            ChartOpener.OpenChart($"{SubjectSky?.Person?.ToString()}", SubjectSky!, $"{SubjectSky?.Horoscope?.SkyType.ToString()}");
+            ChartOpener.OpenChart($"{SubjectSky?.Person?.ToString()}", SubjectSky!, SkyType.Horoscope);
         }
     }
 }

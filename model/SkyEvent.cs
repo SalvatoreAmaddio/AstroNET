@@ -4,7 +4,6 @@ using MvvmHelpers;
 using NodaTime;
 using SwissEphNet;
 using System.ComponentModel;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WpfApp1.model
 {

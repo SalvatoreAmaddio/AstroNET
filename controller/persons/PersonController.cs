@@ -52,7 +52,7 @@ namespace WpfApp1.controller
             {
                 SkyEvent sky = new(CurrentRecord!, this);
 
-                ChartOpener.OpenChart($"{CurrentRecord}", sky, sky.SkyType.ToString());
+                ChartOpener.OpenChart($"{CurrentRecord}", sky, sky.SkyType);
             }
             else 
             {

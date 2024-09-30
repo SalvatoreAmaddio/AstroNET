@@ -34,7 +34,7 @@ namespace WpfApp1.controller
                 IsLoading = false;
                 ChartOpener.OpenComparedChart(sinastryBundle);
             }
-            else ChartOpener.OpenChart($"{CurrentRecord}", sky, sky.SkyType.ToString());
+            else ChartOpener.OpenChart($"{CurrentRecord}", sky, sky.SkyType);
         }
 
         private async void OnAfterUpdate(object? sender, AfterUpdateArgs e)
