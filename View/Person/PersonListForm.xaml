@@ -29,7 +29,7 @@
         </fr:FormList.Header>
         <fr:Lista ItemsSource="{Binding RecordSource}" SelectedItem="{Binding CurrentRecord}">
             <fr:Lista.Header>
-                <Grid fr:Definition.ColumnDefinitions="100,100,60,75,60,100,200,100">
+                <Grid fr:Definition.ColumnDefinitions="25,100,100,60,75,60,100,200,100">
                     <Label Grid.Column="1" Content="First Name"/>
                     <Label Grid.Column="2" Content="Last Name"/>
                     <Label Grid.Column="3" Content="Gender"/>

@@ -29,7 +29,7 @@
         </fr:FormList.Header>
         <fr:Lista ItemsSource="{Binding RecordSource}" SelectedItem="{Binding SelectedCity}">
             <fr:Lista.Header>
-                <Grid fr:Definition.ColumnDefinitions="150,150,100">
+                <Grid fr:Definition.ColumnDefinitions="25,150,150,100">
                     <Label Grid.Column="1" Content="Name"/>
                     <Label Grid.Column="2" Content="Region"/>
                     <Label Grid.Column="3" Content="Country"/>

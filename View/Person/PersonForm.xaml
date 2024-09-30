@@ -51,7 +51,7 @@
                         <fr:Text Placeholder="Search place..." Text="{Binding CityListController.Search}"/>
                         <fr:Lista Grid.Column="0" Height="235" VerticalAlignment="Stretch" ItemsSource="{Binding CityListController.RecordSource}" SelectedItem="{Binding CurrentRecord.City}">
                             <fr:Lista.Header>
-                                <Grid fr:Definition.ColumnDefinitions="150,150,100">
+                                <Grid fr:Definition.ColumnDefinitions="25,150,150,100">
                                     <Label Grid.Column="1" Content="City"/>
                                     <Label Grid.Column="2" Content="Region/State"/>
                                     <Label Grid.Column="3" Content="Country"/>

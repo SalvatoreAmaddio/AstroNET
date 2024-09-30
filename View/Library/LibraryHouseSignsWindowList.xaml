@@ -21,7 +21,7 @@
     <fr:FormList HeaderRow="0">
         <fr:Lista ItemsSource="{Binding RecordSource}" SelectedItem="{Binding CurrentRecord}">
             <fr:Lista.Header>
-                <Grid fr:Definition.ColumnDefinitions="100,100,100">
+                <Grid fr:Definition.ColumnDefinitions="25,100,100,100">
                     <fr:HeaderFilter Grid.Column="1" Text="HOUSE" IsWithinList="True" ItemsSource="{Binding HouseOptions}"/>
                     <fr:HeaderFilter Grid.Column="2" Text="SIGN" IsWithinList="True" ItemsSource="{Binding SignOptions}"/>
                     <Label Grid.Column="3" Content="COMMANDS"/>

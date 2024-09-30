@@ -13,6 +13,9 @@ namespace WpfApp1.View
 {
     public partial class ChartViewContainer : Grid
     {
+        private bool _sinastryView = false;
+        private SkyEvent _sky = null!;
+
         public static RoutedUICommand OpenStarsCMD = CreateUICMD(
         "Open Stars", nameof(OpenStarsCMD), Key.P);
 
@@ -43,9 +46,6 @@ namespace WpfApp1.View
         private static RoutedUICommand CreateUICMD(string text, string name, Key key) => 
         new(text, name, typeof(Window), [new KeyGesture(key, ModifierKeys.Control)]);
         
-        private bool _sinastryView = false;
-        private SkyEvent _sky = null!;
-
         public SkyEvent Sky
         {
             get => _sky;
@@ -59,6 +59,7 @@ namespace WpfApp1.View
         public ChartViewContainer()
         {
             InitializeComponent();
+            DataContext = this;
             Loaded += OnLoaded;
         }
 
@@ -74,7 +75,7 @@ namespace WpfApp1.View
                 SetWindowBindings();
                 return;
             }
-
+            
             Row1.Height = new(0);
             Row2.Height = new(0);
         }

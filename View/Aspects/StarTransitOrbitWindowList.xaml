@@ -20,7 +20,7 @@
     <fr:FormList>
         <fr:Lista ItemsSource="{Binding RecordSource}" SelectedItem="{Binding CurrentRecord}">
             <fr:Lista.Header>
-                <Grid fr:Definition.ColumnDefinitions="80,80">
+                <Grid fr:Definition.ColumnDefinitions="25,80,80">
                     <Label Grid.Column="1" Content="STAR"/>
                     <Label Grid.Column="2" Content="ORBIT"/>
                 </Grid>
