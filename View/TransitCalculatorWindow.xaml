@@ -31,7 +31,7 @@
                 <fr:Text Placeholder="Search..." Text="{Binding SearchLocation}"/>
                 <fr:Lista ItemsSource="{Binding CityListController.RecordSource}" SelectedItem="{Binding SelectedCity}" Height="200">
                     <fr:Lista.Header>
-                        <Grid fr:Definition.ColumnDefinitions="90,90,90">
+                        <Grid fr:Definition.ColumnDefinitions="25,90,90,90">
                             <Label Grid.Column="1" Content="CITY"/>
                             <Label Grid.Column="2" Content="REGION"/>
                             <Label Grid.Column="3" Content="COUNTRY"/>
