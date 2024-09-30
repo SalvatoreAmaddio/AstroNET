@@ -83,35 +83,6 @@ namespace WpfApp1.View
             return grid;
         }
         
-        private static void WriteSinastria(ref StackPanel infoStackPanel, SinastryBundle sinastryBundle) 
-        {
-            SinastryChart sinastryChart = new();
-            sinastryChart.SinastryBundle = sinastryBundle;
-            //SinastryAspects sinastryAspects = new();
-            //sinastryAspects.Person1.Content = sinastryBundle.Person1;
-            //sinastryAspects.Person2.Content = sinastryBundle.Person2;
-
-            //sinastryAspects.Person10.Content = sinastryBundle.Person2;
-            //sinastryAspects.Person20.Content = sinastryBundle.Person1;
-
-            //sinastryAspects.Lista.ItemsSource = sinastryBundle.Chart1Aspects;
-            //sinastryAspects.Lista2.ItemsSource = sinastryBundle.Chart2Aspects;
-
-            //sinastryAspects.Person1Zodiac.Content = $"{sinastryBundle.Person1} Stars in {sinastryBundle.Person2} Houses";
-            //sinastryAspects.Person2Zodiac.Content = $"{sinastryBundle.Person2} Stars in {sinastryBundle.Person1} Houses";
-
-            //sinastryAspects.Lista3.ItemsSource = sinastryBundle.Chart1Zodiac;
-            //sinastryAspects.Lista4.ItemsSource = sinastryBundle.Chart2Zodiac;
-
-            //sinastryAspects.OccupiedHouses1.ItemsSource = sinastryBundle.Chart1OccupiedHouses;
-            //sinastryAspects.Stelliums1.ItemsSource = sinastryBundle.Chart1Stelliums;
-
-            //sinastryAspects.OccupiedHouses2.ItemsSource = sinastryBundle.Chart2OccupiedHouses;
-            //sinastryAspects.Stelliums2.ItemsSource = sinastryBundle.Chart2Stelliums;
-
-            infoStackPanel.Children.Add(sinastryChart);
-        }
-
         public static void OpenComparedChart(SinastryBundle sinastryBundle)
         {
 
@@ -119,7 +90,12 @@ namespace WpfApp1.View
 
             StackPanel infoStackPanel = new();
 
-            WriteSinastria(ref infoStackPanel, sinastryBundle);
+            SinastryChart sinastryChart = new()
+            {
+                SinastryBundle = sinastryBundle
+            };
+
+            infoStackPanel.Children.Add(sinastryChart);
 
             Window? currentWindow = Helper.GetActiveWindow();
             currentWindow?.Close();
