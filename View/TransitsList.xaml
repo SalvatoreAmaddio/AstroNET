@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.View"
+        xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
@@ -27,11 +28,7 @@
                             <HierarchicalDataTemplate ItemsSource="{Binding SubAspects, Mode=TwoWay}">
                                 <!-- This TextBlock binds the header of SubAspects -->
                                 <Border Padding="5">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="20"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
+                                    <Grid fr:Definition.ColumnDefinitions="20,*">
                                         <Border x:Name="Start1Img">
                                             <Image Source="{Binding KeyGroup.Aspect.URI, Converter={StaticResource imgageLoaderConverter}}" Width="20" Height="20"/>
                                         </Border>
@@ -43,10 +40,7 @@
                                 <HierarchicalDataTemplate.ItemTemplate>
                                     <DataTemplate>
                                         <Border BorderBrush="Black" BorderThickness="0,0,0,1" Padding="3" HorizontalAlignment="Stretch">
-                                            <Grid HorizontalAlignment="Stretch">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
+                                            <Grid HorizontalAlignment="Stretch" fr:Definition.ColumnDefinitions="*">
                                                 <TextBlock Text="{Binding FullInfo}" HorizontalAlignment="Stretch"/>
                                             </Grid>
                                         </Border>

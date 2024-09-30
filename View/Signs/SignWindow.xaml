@@ -22,13 +22,7 @@
     </Window.Resources>
     
     <fr:Form Padding="10">
-        <Grid fr:Definition.ColumnDefinitions="70,100,50,480">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            
+        <Grid fr:Definition.ColumnDefinitions="70,100,50,480" fr:Definition.RowDefinitions="30,*,*">
             <Label Grid.Row="0" Grid.Column="0" Content="Name"/>
             <fr:Text Grid.Row="0" Grid.Column="1" Text="{Binding CurrentRecord.SignName}"/>
 

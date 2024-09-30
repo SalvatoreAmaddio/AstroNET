@@ -20,25 +20,7 @@
     </Window.Resources>
     
     <fr:Form Padding="10">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="100"/>
-            </Grid.ColumnDefinitions>
-
+        <Grid fr:Definition.RowDefinitions="30,30,30,30,30,30,30,*" fr:Definition.ColumnDefinitions="100,100,100,80,100">
             <Label Grid.Row="0" Grid.Column="0" Content="Name"/>
             <fr:Text Grid.Row="0" Grid.Column="1" Text="{Binding CurrentRecord.AspectName}"/>
 

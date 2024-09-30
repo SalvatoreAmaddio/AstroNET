@@ -21,22 +21,7 @@
     </Window.Resources>
     
     <fr:Form Padding="15">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="450"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
+        <Grid fr:Definition.ColumnDefinitions="80,100,450,*" fr:Definition.RowDefinitions="30,30,30,30,30,*">
             <Label Grid.Row="0" Content="Name"/>
             <fr:Text Grid.Row="0" Grid.Column="1" Text="{Binding CurrentRecord.PointName}"/>
 
@@ -50,23 +35,13 @@
             <fr:Text Grid.Row="5" Grid.ColumnSpan="3" AcceptsReturn="True" TextWrapping="Wrap" VerticalContentAlignment="Top" Text="{Binding CurrentRecord.Description}"/>
 
             <Border Grid.Column="2" Grid.RowSpan="5" Margin="50,0,0,10" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Background="#fcfcfa">
-                <Grid>
+                <Grid fr:Definition.ColumnDefinitions="100,100,100,100" fr:Definition.RowDefinitions="30,*">
                     <Grid.Resources>
                         <Style TargetType="{x:Type Label}">
                             <Setter Property="HorizontalContentAlignment" Value="Center"/>
                             <Setter Property="VerticalContentAlignment" Value="Center"/>
                         </Style>
                     </Grid.Resources>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="100"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
                     <Label Grid.Column="0" Content="DOMICILE↑" FontWeight="Bold" Foreground="LawnGreen"/>
                     <Label Grid.Column="1" Content="DETRIMENT↓" FontWeight="Bold" Foreground="Red"/>
                     <Label Grid.Column="2" Content="EXALTATION↑" FontWeight="Bold" Foreground="Blue"/>

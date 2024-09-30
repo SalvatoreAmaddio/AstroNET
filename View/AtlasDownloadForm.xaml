@@ -18,36 +18,17 @@
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
         </Style>
     </Window.Resources>
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="10"/>
-        </Grid.RowDefinitions>
-        
+
+    <Grid fr:Definition.RowDefinitions="50,30,*,10">
         <Grid Background="{StaticResource DefaultWhite}">
             <StackPanel VerticalAlignment="Center" Margin="5,0,5,0">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <Grid fr:Definition.ColumnDefinitions="*">
                     <fr:Text Placeholder="Search by city name and press enter..." Text="{Binding Search}" KeyDown="OnEnterRessed"/>
                 </Grid>
             </StackPanel>
         </Grid>
 
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="70"/>
-                <ColumnDefinition Width="70"/>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <Grid Grid.Row="1" fr:Definition.ColumnDefinitions="150,100,100,70,70,200,*">
             <Label Content="City"/>
             <Label Grid.Column="1" Content="Region"/>
             <Label Grid.Column="2" Content="Country"/>
@@ -59,16 +40,7 @@
         <ListView Grid.Row="2" ItemsSource="{Binding Locations}" SelectedItem="{Binding SelectedLocation}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="70"/>
-                            <ColumnDefinition Width="70"/>
-                            <ColumnDefinition Width="200"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                    <Grid fr:Definition.ColumnDefinitions="150,100,100,70,70,200,*">
                         <Label Content="{Binding CityName}"/>
                         <Label Grid.Column="1" Content="{Binding RegionName}"/>
                         <Label Grid.Column="2" Content="{Binding CountryName}"/>

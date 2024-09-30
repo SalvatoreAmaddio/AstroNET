@@ -12,19 +12,7 @@
         ResizeMode="NoResize"
         Title="House" Height="450" Width="500">
     <fr:Form Padding="15">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="80"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="150"/>
-                <ColumnDefinition Width="100"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
+        <Grid fr:Definition.ColumnDefinitions="80,100,150,100" fr:Definition.RowDefinitions="30,30,*">
             <Label Grid.Row="0" Content="Name"/>
             <fr:Text Grid.Row="0" Grid.Column="1" Text="{Binding CurrentRecord.PointName}"/>
 

@@ -23,21 +23,7 @@
     <fr:Form RecordTrackerRow="0" RecordStatusColumn="0" Padding="10">
         <StackPanel>
             <Border BorderBrush="Black" BorderThickness=".5" CornerRadius="5" Padding="5">
-                <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="70"/>
-                    <ColumnDefinition Width="130"/>
-                    <ColumnDefinition Width="20"/>
-                    <ColumnDefinition Width="35"/>
-                    <ColumnDefinition Width="160"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="33"/>
-                    <RowDefinition Height="33"/>
-                    <RowDefinition Height="33"/>
-                    <RowDefinition Height="55"/>
-                </Grid.RowDefinitions>
-
+                <Grid fr:Definition.ColumnDefinitions="70,130,20,35,160" fr:Definition.RowDefinitions="33,33,33,55">
                     <Label Grid.Row="0" Grid.Column="0" Content="First Name"/>
                     <fr:Text Grid.Row="0" Grid.Column="1" Text="{Binding CurrentRecord.FirstName}" VerticalAlignment="Center"/>
                     <Label Grid.Row="1" Grid.Column="0" Content="Last Name"/>
@@ -58,16 +44,8 @@
                     <fr:Text Grid.Row="3" Margin="0,5,0,0" Grid.Column="1" Grid.ColumnSpan="5" Text="{Binding CurrentRecord.Notes}" AcceptsReturn="True" VerticalAlignment="Stretch" VerticalContentAlignment="Top"/>
                 </Grid>
             </Border>
-            
-            <Grid Margin="0,20,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width=".8*"/>
-                    <ColumnDefinition Width=".2*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
 
+            <Grid Margin="0,20,0,0" fr:Definition.ColumnDefinitions=".8*,.2*" fr:Definition.RowDefinitions="*">
                 <Border Grid.Row="0" BorderBrush="Black" BorderThickness=".5" VerticalAlignment="Stretch" Padding="5" CornerRadius="5">
                     <StackPanel>
                         <fr:Text Placeholder="Search place..." Text="{Binding CityListController.Search}"/>

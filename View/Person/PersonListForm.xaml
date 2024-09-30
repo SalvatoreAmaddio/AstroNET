@@ -60,10 +60,10 @@
                                 <Image Source="pack://application:,,,/assets/img/astrology.png"/>
                             </Button>
                             <fr:DeleteButton Grid.Column="8" IsWithinList="True"/>
-                        </Grid>                        
+                        </Grid>
                     </fr:FormRow>
                 </DataTemplate>
-            </fr:Lista.ItemTemplate>            
+            </fr:Lista.ItemTemplate>
         </fr:Lista>
     </fr:FormList>
 </Window>

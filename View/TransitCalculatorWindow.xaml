@@ -16,54 +16,48 @@
         <converter:RegionConverter x:Key="regionConverter"/>
         <converter:CountryFromRegionConverter x:Key="countryConverter"/>
     </Window.Resources>
-    
-    <Border Padding="5">
-        <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width=".2*"/>
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
 
-        <fr:Lista ItemsSource="{Binding StarListController.RecordSource}" SelectedItem="{Binding SelectedStar}">
-            <fr:Lista.Header>
-                <Grid>
-                    <Label Grid.Column="1" Content="STARS"/>
-                </Grid>   
-            </fr:Lista.Header>
-        </fr:Lista>
-        
-        <StackPanel Grid.Column="2">
-            <fr:Text Placeholder="Search..." Text="{Binding SearchLocation}"/>
-            <fr:Lista ItemsSource="{Binding CityListController.RecordSource}" SelectedItem="{Binding SelectedCity}" Height="200">
+    <Border Padding="5">
+        <Grid fr:Definition.ColumnDefinitions=".2*,5,*">
+            <fr:Lista ItemsSource="{Binding StarListController.RecordSource}" SelectedItem="{Binding SelectedStar}">
                 <fr:Lista.Header>
-                    <Grid fr:Definition.ColumnDefinitions="90,90,90">
-                        <Label Grid.Column="1" Content="CITY"/>
-                        <Label Grid.Column="2" Content="REGION"/>
-                        <Label Grid.Column="3" Content="COUNTRY"/>
-                     </Grid>        
+                    <Grid>
+                        <Label Grid.Column="1" Content="STARS"/>
+                    </Grid>
                 </fr:Lista.Header>
-                <fr:Lista.ItemTemplate>
-                    <DataTemplate>
-                        <fr:FormRow>
-                            <Grid fr:Definition.ColumnDefinitions="90,90,90">
-                                <Label Content="{Binding CityName}"/>
-                                <Label Grid.Column="1" Content="{Binding Region, Converter={StaticResource regionConverter}}"/>
-                                <Label Grid.Column="2" Content="{Binding Region, Converter={StaticResource countryConverter}}"/>
-                            </Grid>        
-                        </fr:FormRow>        
-                    </DataTemplate>        
-                </fr:Lista.ItemTemplate>    
             </fr:Lista>
-            <Label Content="Location not found? Donwload it!" VerticalAlignment="Center" Foreground="Blue" Cursor="Hand" MouseDown="OnLabelClicked"/>
-            <Separator Height="5" Background="Transparent"/>
-            <fr:TextBoxDate Placeholder="Start Date" Date="{Binding SelectedDate}"/>
-            <Separator Height="5" Background="Transparent"/>
-            <fr:Text Placeholder="Steps in month" Text="{Binding Steps}"/>
-            <Separator Height="5" Background="Transparent"/>
+
+            <StackPanel Grid.Column="2">
+                <fr:Text Placeholder="Search..." Text="{Binding SearchLocation}"/>
+                <fr:Lista ItemsSource="{Binding CityListController.RecordSource}" SelectedItem="{Binding SelectedCity}" Height="200">
+                    <fr:Lista.Header>
+                        <Grid fr:Definition.ColumnDefinitions="90,90,90">
+                            <Label Grid.Column="1" Content="CITY"/>
+                            <Label Grid.Column="2" Content="REGION"/>
+                            <Label Grid.Column="3" Content="COUNTRY"/>
+                        </Grid>
+                    </fr:Lista.Header>
+                    <fr:Lista.ItemTemplate>
+                        <DataTemplate>
+                            <fr:FormRow>
+                                <Grid fr:Definition.ColumnDefinitions="90,90,90">
+                                    <Label Content="{Binding CityName}"/>
+                                    <Label Grid.Column="1" Content="{Binding Region, Converter={StaticResource regionConverter}}"/>
+                                    <Label Grid.Column="2" Content="{Binding Region, Converter={StaticResource countryConverter}}"/>
+                                </Grid>
+                            </fr:FormRow>
+                        </DataTemplate>
+                    </fr:Lista.ItemTemplate>
+                </fr:Lista>
+                <Label Content="Location not found? Donwload it!" VerticalAlignment="Center" Foreground="Blue" Cursor="Hand" MouseDown="OnLabelClicked"/>
+                <Separator Height="5" Background="Transparent"/>
+                <fr:TextBoxDate Placeholder="Start Date" Date="{Binding SelectedDate}"/>
+                <Separator Height="5" Background="Transparent"/>
+                <fr:Text Placeholder="Steps in month" Text="{Binding Steps}"/>
+                <Separator Height="5" Background="Transparent"/>
                 <Button Content="RUN" Click="OnRunClicked" Height="30" IsEnabled="{Binding IsLoading, Converter={StaticResource toggleBoolean}}"/>
-            <ProgressBar IsIndeterminate="{Binding IsLoading}" Height="20"/>
-        </StackPanel>
-    </Grid>
+                <ProgressBar IsIndeterminate="{Binding IsLoading}" Height="20"/>
+            </StackPanel>
+        </Grid>
     </Border>
 </Window>
