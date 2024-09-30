@@ -28,20 +28,11 @@ namespace WpfApp1.controller
             if (Sky1 != null) 
             {
                 IsLoading = true;
-                Task<IEnumerable<Aspect>> sinastryAspect1Task = Task.Run(() => Sky1.CalculateSinastry(sky));
-                Task<IEnumerable<Aspect>> sinastryAspect2Task = Task.Run(() => sky.CalculateSinastry(Sky1));
-                Task<IEnumerable<Star>?> sinastryStars1 = Task.Run(() => Sky1.StarsInPartnerHouses(sky));
-                Task<IEnumerable<Star>?> sinastryStars2 = Task.Run(() => sky.StarsInPartnerHouses(Sky1));
 
-                await Task.WhenAll(sinastryAspect1Task, sinastryAspect2Task, sinastryStars1, sinastryStars2);
-
-                IEnumerable<Aspect> aspects = sinastryAspect1Task.Result;
-                IEnumerable<Aspect> aspects2 = sinastryAspect2Task.Result;
-                IEnumerable<Star>? stars = sinastryStars1.Result;
-                IEnumerable<Star>? stars2 = sinastryStars2.Result;
+                SinastryBundle sinastryBundle = await Sky1.CalculateSinastryAsync(sky);
 
                 IsLoading = false;
-                ChartOpener.OpenComparedChart($"{Sky1.Person} AND {CurrentRecord}", Sky1, sky, aspects, aspects2, stars, stars2);
+                ChartOpener.OpenComparedChart(sinastryBundle);
             }
             else ChartOpener.OpenChart($"{CurrentRecord}", sky, sky.SkyType.ToString());
         }

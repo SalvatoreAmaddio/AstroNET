@@ -461,6 +461,18 @@ namespace WpfApp1.model
             }
         }
 
+        public async Task<SinastryBundle> CalculateSinastryAsync(SkyEvent match) 
+        {
+            Task<IEnumerable<Aspect>> sinastryAspect1Task = Task.Run(() => CalculateSinastry(match));
+            Task<IEnumerable<Aspect>> sinastryAspect2Task = Task.Run(() => match.CalculateSinastry(this));
+            Task<IEnumerable<Star>?> sinastryStars1 = Task.Run(() => StarsInPartnerHouses(match));
+            Task<IEnumerable<Star>?> sinastryStars2 = Task.Run(() => match.StarsInPartnerHouses(this));
+
+            await Task.WhenAll(sinastryAspect1Task, sinastryAspect2Task, sinastryStars1, sinastryStars2);
+
+            return new SinastryBundle(this, match, sinastryAspect1Task.Result, sinastryAspect2Task.Result, sinastryStars1.Result, sinastryStars2.Result);
+        }
+
         public void ClearHoroscope() 
         {
             Horoscope?.RadixAspects.Clear();
@@ -471,5 +483,31 @@ namespace WpfApp1.model
         {
             return $"{Day:00}/{Month:00}/{Year} at {LocalTime.ToString(@"hh\:mm")} (Location: {City.CityName}, {City.Region.Country} - Lat: {City.Latitude}°, Long: {City.Longitude}°)";
         }
+    }
+
+    public class SinastryBundle(SkyEvent sky1, SkyEvent sky2, IEnumerable<Aspect> aspects, IEnumerable<Aspect> aspects2, IEnumerable<Star>? stars, IEnumerable<Star>? stars2) 
+    {
+        public SkyEvent Sky1 { get; } = sky1;
+        public SkyEvent Sky2 { get; } = sky2;
+        public Person Person1 => Sky1.Person!;
+        public Person Person2 => Sky2.Person!;
+        public IEnumerable<Aspect> Aspects { get; } = aspects;
+        public IEnumerable<Aspect> Aspects2 { get; } = aspects2;
+        public IEnumerable<Star>? Stars { get; } = stars;
+        public IEnumerable<Star>? Stars2 { get; } = stars2;
+        public string Title => $"{Person1} AND {Person2}";
+
+        public IEnumerable<ElementGroupKey>? OccupiedHouses1 => Stars?.GroupBy(s => s.House)
+                            .Select(s => new ElementGroupKey(s.Key.PointName, s.Count()))
+                            .OrderByDescending(s => s.Count).ToList();
+
+        public IEnumerable<ElementGroupKey>? Stelliums1 => OccupiedHouses1?.Where(s => s.Count >= 3).ToList();
+
+        public IEnumerable<ElementGroupKey>? OccupiedHouses2 => Stars2?.GroupBy(s => s.House)
+                    .Select(s => new ElementGroupKey(s.Key.PointName, s.Count()))
+                    .OrderByDescending(s => s.Count).ToList();
+
+        public IEnumerable<ElementGroupKey>? Stelliums2 => OccupiedHouses2?.Where(s => s.Count >= 3).ToList();
+
     }
 }

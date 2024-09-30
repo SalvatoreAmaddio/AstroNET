@@ -7,14 +7,6 @@
              mc:Ignorable="d" 
              Margin="0,10,0,0"
              d:DesignHeight="450" d:DesignWidth="800">
-
-    <Border.Resources>
-        <Style TargetType="Label" x:Key="PersonLabel">
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="BorderBrush" Value="Black"/>
-            <Setter Property="BorderThickness" Value=".1"/>
-        </Style>
-    </Border.Resources>
         
     <StackPanel>
         <Label Content="Aspects" HorizontalContentAlignment="Center"/>
@@ -31,8 +23,8 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Label x:Name="Person1" Content="Person1" Style="{StaticResource PersonLabel}"/>
-                    <Label x:Name="Person2" Grid.Column="1" Content="Person2" Style="{StaticResource PersonLabel}"/>
+                    <Label x:Name="Person1" Content="Person1" Style="{StaticResource TableHeaderStyle}"/>
+                    <Label x:Name="Person2" Grid.Column="1" Content="Person2" Style="{StaticResource TableHeaderStyle}"/>
                 </Grid>
                 <ListView x:Name="Lista" HorizontalAlignment="Center">
                     <ListView.ItemTemplate>
@@ -43,7 +35,7 @@
                 </ListView>
 
                 <StackPanel Margin="0,10,0,0" HorizontalAlignment="Center">
-                    <Label x:Name="Person1Zodiac" Content="Person1 Zodiac" Style="{StaticResource PersonLabel}"/>
+                    <Label x:Name="Person1Zodiac" Content="Person1 Zodiac" Style="{StaticResource TableHeaderStyle}"/>
                     <ListView x:Name="Lista3">
                         <ListView.ItemTemplate>
                             <DataTemplate>
@@ -59,7 +51,7 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0" HorizontalAlignment="Center">
-                            <Label Content="Occupied Houses" Style="{StaticResource PersonLabel}"/>
+                            <Label Content="Occupied Houses" Style="{StaticResource TableHeaderStyle}"/>
                             <ListView x:Name="OccupiedHouses1">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
@@ -77,7 +69,7 @@
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" HorizontalAlignment="Center">
-                            <Label Content="Stelliums" Style="{StaticResource PersonLabel}"/>
+                            <Label Content="Stelliums" Style="{StaticResource TableHeaderStyle}"/>
                             <ListView x:Name="Stelliums1">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
@@ -104,8 +96,8 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Label x:Name="Person10" Content="Person1" Style="{StaticResource PersonLabel}"/>
-                    <Label x:Name="Person20" Grid.Column="1" Content="Person2" Style="{StaticResource PersonLabel}"/>
+                    <Label x:Name="Person10" Content="Person1" Style="{StaticResource TableHeaderStyle}"/>
+                    <Label x:Name="Person20" Grid.Column="1" Content="Person2" Style="{StaticResource TableHeaderStyle}"/>
                 </Grid>
                 <ListView x:Name="Lista2" HorizontalAlignment="Center">
                     <ListView.ItemTemplate>
@@ -116,7 +108,7 @@
                 </ListView>
 
                 <StackPanel Margin="0,10,0,0" HorizontalAlignment="Center">
-                    <Label x:Name="Person2Zodiac" Content="Person2 Zodiac" Style="{StaticResource PersonLabel}"/>
+                    <Label x:Name="Person2Zodiac" Content="Person2 Zodiac" Style="{StaticResource TableHeaderStyle}"/>
                     <ListView x:Name="Lista4">
                         <ListView.ItemTemplate>
                             <DataTemplate>
@@ -132,7 +124,7 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0" HorizontalAlignment="Center">
-                            <Label Content="Occupied Houses" Style="{StaticResource PersonLabel}"/>
+                            <Label Content="Occupied Houses" Style="{StaticResource TableHeaderStyle}"/>
                             <ListView x:Name="OccupiedHouses2">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
@@ -150,7 +142,7 @@
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" HorizontalAlignment="Center">
-                            <Label Content="Stelliums" Style="{StaticResource PersonLabel}"/>
+                            <Label Content="Stelliums" Style="{StaticResource TableHeaderStyle}"/>
                             <ListView x:Name="Stelliums2">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>

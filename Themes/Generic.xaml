@@ -4,20 +4,10 @@
     xmlns:local="clr-namespace:WpfApp1.View"
     xmlns:converter ="clr-namespace:WpfApp1.converter"
     >
-
-    <Style TargetType="Border" x:Key="TableBorderStyle">
-        <Setter Property="BorderBrush" Value="Black"/>
-        <Setter Property="BorderThickness" Value=".1"/>
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-    </Style>
-
-    <Style TargetType="Label" x:Key="TableHeaderStyle">
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="Background" Value="White"/>
-    </Style>
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Themes/Styles.xaml" />
+    </ResourceDictionary.MergedDictionaries>
     
     <converter:ImageLoaderConverter x:Key="imgageLoaderConverter"/>
     <converter:RetrogradeConverter x:Key="isRetrogradeConverter"/>
