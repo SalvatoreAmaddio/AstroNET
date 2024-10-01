@@ -30,7 +30,7 @@ namespace WpfApp1.View
 
             (DateTime returnDate, TimeSpan returnTime) = await Task.Run(() => calculator.MoonReturn(InputDate!.Value, SelectedCity!));
 
-            SkyEvent returnSky = subjectSky.CalculateReturn(returnDate, returnTime, SelectedCity!, SkyType.MoonReturn);
+            ReturnSkyEvent returnSky = subjectSky.CalculateReturn(returnDate, returnTime, SelectedCity!, SkyType.MoonReturn);
             IsLoading = false;
 
             ChartOpener.OpenComparedChart($"{subjectSky.Person}", subjectSky, returnSky, returnSky.SkyType);

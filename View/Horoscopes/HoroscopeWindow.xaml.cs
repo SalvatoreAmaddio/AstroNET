@@ -38,16 +38,16 @@ namespace WpfApp1.View
 
             if (StopRun) return;
 
+            //            SubjectSky.CalculateHoroscope(InputDate!.Value, InputTime.Value, SelectedCity!);
+            SkyEvent cloneSky = SubjectSky.CloneMe();
+
             await Task.Run(() =>
             {
-                SubjectSky.CalculateHoroscope(InputDate!.Value, InputTime.Value, SelectedCity!);
+                cloneSky.CalculateHoroscope(InputDate!.Value, InputTime.Value, SelectedCity!);
             });
 
             IsLoading = false;
-            //Application.Current.Dispatcher.Invoke(() => 
-            //{
-            //    ChartOpener.OpenChart($"{SubjectSky?.Person?.ToString()}", SubjectSky!, SkyType.Horoscope);
-            //});
+            ChartOpener.OpenChart($"{SubjectSky?.Person?.ToString()}", cloneSky!, SkyType.Horoscope);
         }
     }
 }

@@ -52,7 +52,7 @@ namespace WpfApp1.View
                 return calculator.CalculateSunReturn(InputYear, SelectedCity!);
             });
 
-            SkyEvent returnSky = subjectSky.CalculateReturn(returnDate, returnTime, SelectedCity!);
+            ReturnSkyEvent returnSky = subjectSky.CalculateReturn(returnDate, returnTime, SelectedCity!);
 
             IsLoading = false;
             ChartOpener.OpenComparedChart($"{subjectSky.Person}", subjectSky, returnSky, returnSky.SkyType);
