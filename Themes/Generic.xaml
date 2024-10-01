@@ -18,7 +18,7 @@
     <converter:GetPlaceCordFromSky x:Key="placeCordSky"/>
     <converter:GetTimeFromSky x:Key="timeSky"/>
     <converter:GetUTFromSky x:Key="utSky"/>
-    <converter:GetSideralSky x:Key="stSky"/>
+    <converter:GetSTFromSky x:Key="stSky"/>
 
     <Style TargetType="{x:Type local:ZodiacTableTemplate}">
         <Setter Property="Template">

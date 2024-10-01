@@ -188,7 +188,7 @@ namespace WpfApp1.converter
         {
             AbstractSkyEvent sky = (AbstractSkyEvent)value;
             ReplaceSky(ref sky);
-            return $"Long: {Math.Round(sky.SkyInfo.City.Longitude, 2)}, Lat: {Math.Round(sky.SkyInfo.City.Latitude, 2)}";
+            return sky.SkyInfo.City.Coords;
         }
     }
 
@@ -205,9 +205,7 @@ namespace WpfApp1.converter
             if (p != null && p.UnknownTime)
                 return "Unknown Time";
 
-            int totalHours = (int)sky.SkyInfo.LocalTime.TotalHours;
-            int minutes = sky.SkyInfo.LocalTime.Minutes;
-            return $"Time: {totalHours:D2}:{minutes:D2}";
+            return sky.SkyInfo.TimeString;
         }
     }
 
@@ -224,13 +222,11 @@ namespace WpfApp1.converter
             if (p != null && p.UnknownTime)
                 return "Unknown Time";
 
-            int totalHours = (int)sky.SkyInfo.UT.TotalHours;
-            int minutes = sky.SkyInfo.UT.Minutes;
-            return $"UT: {Math.Abs(totalHours):D2}:{Math.Abs(minutes):D2}";
+            return sky.SkyInfo.UTString;
         }
     }
 
-    public class GetSideralSky : GetFromSky
+    public class GetSTFromSky : GetFromSky
     {
         public override object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -241,12 +237,8 @@ namespace WpfApp1.converter
 
             if (p != null && p.UnknownTime)
                 return "Unknown Time";
-            TimeSpan timeSpan = TimeSpan.FromHours(sky.SkyInfo.SideralTime);
 
-            int totalHours = (int)timeSpan.TotalHours;
-            int minutes = timeSpan.Minutes;
-            int seconds = timeSpan.Seconds;
-            return $"ST: {totalHours:D2}:{minutes:D2}:{seconds:D2}";
+            return sky.SkyInfo.SideralTimeString;
         }
     }
 }

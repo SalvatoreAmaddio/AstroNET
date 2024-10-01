@@ -33,6 +33,8 @@ namespace WpfApp1.model
         [FK]
         public TimeZone TimeZone { get => _timeZone; set => UpdateProperty(ref value, ref _timeZone); }
 
+        public string Coords => $"Long: {Math.Round(Longitude, 2)}, Lat: {Math.Round(Latitude, 2)}";
+
         public City() { }
         public City(Int64 id) => _cityId = id;
         public City(DbDataReader reader)
@@ -46,7 +48,7 @@ namespace WpfApp1.model
         }
 
         public City(Location location) => ReadLocation(location);
-        public void Build() 
+        public void Build()
         {
             City tempCity = DatabaseManager.Find<City>()!.MasterSource.Cast<City>().First(s => s.Equals(this));
             _region = tempCity.Region;
