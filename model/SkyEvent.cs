@@ -478,31 +478,57 @@ namespace WpfApp1.model
             Horoscope = null;
         }
 
+        private bool IsNot(long id) 
+        {
+            switch (id)
+            {
+                case 1:
+                case 6:
+                case 12:
+                    return true;
+            }
+            return false;
+        }
+
         public bool WarnReturn(House inNatalHouse) 
         {
             if (SkyTypeId < 4) return false;
 
-            Star mars = Stars[5];
+            Star mars = Stars[4];
+            Star sun = Stars[0];
 
-            switch (mars.House.PointId)
-            {
-                case 1:
-                case 6:
-                case 12:
-                    return true;
-            }
+            if (IsNot(sun.House.PointId)) return true;
 
-            switch (inNatalHouse.PointId)
-            {
-                case 1:
-                case 6:
-                case 12:
-                    return true;
-            }
+            if (IsNot(mars.House.PointId)) return true;
+
+            if (IsNot(inNatalHouse.PointId)) return true;
 
             if (Stelliums != null)
                 if (Stelliums.Any(s => s.Name.Equals("VI") || s.Name.Equals("ASC") || s.Name.Equals("XII")))
                     return true;
+
+            foreach (Aspect aspect in RadixAspects) 
+            {
+                House conjHouse;
+
+                if (aspect.PointA is Star star && (star.PointId == 0 || star.PointId == 4)) 
+                {
+                    if (aspect.OrbDiff >= -2.5 && aspect.OrbDiff <= 2.5) 
+                    {
+                        conjHouse = (House)aspect.PointB;
+                        if (IsNot(conjHouse.PointId)) return true;
+                    }
+                }
+
+                if (aspect.PointA is House house) 
+                {
+                    if (aspect.OrbDiff >= -2.5 && aspect.OrbDiff <= 2.5)
+                    {
+                        conjHouse = (House)aspect.PointB;
+                        if (IsNot(House.SlidHouse(aspect.OrbDiff, conjHouse))) return true;
+                    }
+                }
+            }
 
             return false;
         }

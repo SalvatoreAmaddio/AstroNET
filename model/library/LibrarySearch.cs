@@ -13,12 +13,6 @@ namespace WpfApp1.model
         private static IEnumerable<LibraryHouseSigns>? GetHouseSignLibrary(House house) =>
         DatabaseManager.Find<LibraryHouseSigns>()?.MasterSource.Cast<LibraryHouseSigns>().Where(s => s.House!.Equals(house)).ToList();
 
-        private static long SlidHouse(double orbDiff, IHouse house) 
-        {
-            if (orbDiff < 0) return (house.PointId == 1) ? 12 : house.PointId - 1;
-            return (house.PointId == 12) ? 1 : house.PointId + 1;
-        }
-
         public static List<IHouseLibrary?> SearchHouseSign(House house) 
         {
             List<IHouseLibrary?> lib = [];
@@ -99,7 +93,7 @@ namespace WpfApp1.model
                 {
                     if (aspect.OrbDiff >= -2.5 && aspect.OrbDiff <= 2.5)
                     {
-                        House cuspHouse = new(SlidHouse(aspect.OrbDiff, star.House));
+                        House cuspHouse = new(House.SlidHouse(aspect.OrbDiff, star.House));
                         Lib.Add(houseLibrary?.FirstOrDefault(s => FindHouse(s, star, cuspHouse)));
                         return;
                     }
@@ -112,7 +106,7 @@ namespace WpfApp1.model
 
                 if (aspect.OrbDiff >= -2.5 && aspect.OrbDiff <= 2.5)
                 {
-                    House cuspHouse = new(SlidHouse(aspect.OrbDiff, prev.House));
+                    House cuspHouse = new(House.SlidHouse(aspect.OrbDiff, prev.House));
                     Lib.Add(houseLibrary?.FirstOrDefault(s => FindHouse(s, star, cuspHouse)));
                 }
             }

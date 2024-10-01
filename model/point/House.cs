@@ -43,5 +43,11 @@ namespace WpfApp1.model
             RadixSign = new(GetZodiacSign(EclipticLongitude, out _, out _, out _));
             RadixSign = DatabaseManager.Find<Sign>()?.MasterSource.Cast<Sign>().First(s => s.SignId == RadixSign.SignId)!;
         }
+
+        public static long SlidHouse(double orbDiff, IHouse house)
+        {
+            if (orbDiff < 0) return (house.PointId == 1) ? 12 : house.PointId - 1;
+            return (house.PointId == 12) ? 1 : house.PointId + 1;
+        }
     }
 }

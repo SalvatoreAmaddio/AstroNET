@@ -88,7 +88,7 @@ namespace WpfApp1.View
 
             Label label = new()
             {
-                Content = (warning) ? $"Return ASC in {inNatalHouse} (!)" : $"Return ASC in {inNatalHouse}",
+                Content = $"Return ASC in {inNatalHouse}",
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
                 BorderBrush = Brushes.Black,
@@ -99,11 +99,24 @@ namespace WpfApp1.View
             };
 
             label.MouseDown += OnLabelMouseDown;
-
+            
             backgroundWindow.Children.Insert(0, label);
+            
+            if (warning) 
+                backgroundWindow.Children.Insert(1, CreateWarningLabel());
+
             backgroundWindow.Unloaded += OnBackgroundWindowUnloaded;
         }
 
+        private static Label CreateWarningLabel() 
+        {
+            return new Label()
+            {
+                Content = "WARNING",
+                Foreground = Brushes.Red,
+                HorizontalAlignment = HorizontalAlignment.Center,
+            };
+        }
         private static void OnBackgroundWindowUnloaded(object sender, RoutedEventArgs e)
         {
             StackPanel backgroundWindow = (StackPanel)sender;
