@@ -98,7 +98,7 @@ namespace WpfApp1.View
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            SearchLocation = SubjectSky.City.CityName;
+            SearchLocation = SubjectSky.SkyInfo.City.CityName;
         }
 
         private void FilterList()

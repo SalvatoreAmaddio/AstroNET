@@ -67,8 +67,8 @@ namespace WpfApp1.View
 
             StackPanel backgroundWindow = CreateBackgroundWindow(chartGrid, infoStackPanel);
 
-            if (sky2.SkyType == SkyType.SunReturn || sky2.SkyType == SkyType.MoonReturn)
-                CalculateReturnAsc(backgroundWindow, (ReturnSkyEvent)sky2);
+            if (sky2 is ReturnSkyEvent returnSky)
+                CalculateReturnAsc(backgroundWindow, returnSky);
 
             OpenChartWindow(title, skyType, backgroundWindow);
         }

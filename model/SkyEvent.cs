@@ -37,11 +37,18 @@ namespace WpfApp1.model
         public override string? ToString() => $"{Name} - {Count}";
     }
 
-    public abstract class AbstractSkyEvent : INotifyPropertyChanged
+    public class SkyInfo 
     {
-        #region Properties
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public SkyType SkyType { get; protected set; } = SkyType.Sky;
+        public SkyType SkyType { get; set; } = SkyType.Sky;
+        public int SkyTypeId => SkyType switch
+        {
+            SkyType.Sky => 1,
+            SkyType.Horoscope => 2,
+            SkyType.Sinastry => 3,
+            SkyType.SunReturn or SkyType.MoonReturn => 4,
+            _ => -1,
+        };
+
         public double JulianDay { get; private set; }
         public double HourUT { get; private set; }
         public TimeSpan UT
@@ -61,48 +68,9 @@ namespace WpfApp1.model
         public int Month => LocalDateTime.Month;
         public int Day => LocalDateTime.Day;
         public double SideralTime { get; private set; }
-        public ObservableRangeCollection<Star> Stars { get; private set; } = [];
-        public IEnumerable<ElementGroupKey>? OccupiedHouses =>
-        (Houses.Count == 0) ? [] : Stars.GroupBy(s => s.House)
-                                        .Select(s => new ElementGroupKey(s.Key, s.Count()))
-                                        .OrderByDescending(s => s.Count).ToList();
 
-        public IEnumerable<ElementGroupKey>? Stelliums => OccupiedHouses?.Where(s => s.Count >= 3).ToList();
-        public ObservableRangeCollection<House> Houses { get; protected set; } = [];
-        public List<IPoint> Aspectables { get; } = [];
-        public ObservableRangeCollection<Aspect> RadixAspects { get; } = [];
-
-        protected List<Aspect> Aspects = new(DatabaseManager.Find<Aspect>()!.MasterSource.Cast<Aspect>());
-        public IAbstractFormController? PersonController { get; protected set; }
-        public Person? Person { get; protected set; }
-        public virtual int SkyTypeId => SkyType switch
-        {
-            SkyType.Sky => 1,
-            SkyType.Horoscope => 2,
-            SkyType.Sinastry => 3,
-            SkyType.SunReturn or SkyType.MoonReturn => 4,
-            _ => -1,
-        };
-        public int FireSigns => Stars.Count(s => s.RadixSign.Element.ElementId == 1);
-        public int WaterSigns => Stars.Count(s => s.RadixSign.Element.ElementId == 2);
-        public int AirSigns => Stars.Count(s => s.RadixSign.Element.ElementId == 3);
-        public int EarhSigns => Stars.Count(s => s.RadixSign.Element.ElementId == 4);
-        public int MaleSigns => Stars.Count(s => s.RadixSign.Gender.GenderId == 1);
-        public int FemaleSigns => Stars.Count(s => s.RadixSign.Gender.GenderId == 2);
-        public int CardinalSigns => Stars.Count(s => s.RadixSign.Triplicity.TriplicityId == 3);
-        public int FixedSigns => Stars.Count(s => s.RadixSign.Triplicity.TriplicityId == 1);
-        public int MobileSigns => Stars.Count(s => s.RadixSign.Triplicity.TriplicityId == 2);
-        #endregion
-
-        public AbstractSkyEvent() { }
-        public AbstractSkyEvent(DateTime date, TimeSpan time, City city)
-        {
-            Calculate(date, time, city);
-            CalculatePositions();
-        }
-
-        public void Calculate(DateTime date, TimeSpan time, City city) =>
-        Calculate(date.Year, date.Month, date.Day, time.Hours, time.Minutes, city);
+        public SkyInfo() { }
+        public SkyInfo(SkyType skyType) => SkyType = skyType;
 
         public void Calculate(int year, int month, int day, int hour, int minutes, City city)
         {
@@ -122,6 +90,8 @@ namespace WpfApp1.model
             HourUT = LocalHour - timeOffset.TotalHours;
             CalculateJulianDate();
         }
+        public void Calculate(DateTime date, TimeSpan time, City city) =>
+        Calculate(date.Year, date.Month, date.Day, time.Hours, time.Minutes, city);
 
         private static bool CheckDST(DateTime dateTime, string timeZoneId)
         {
@@ -144,6 +114,49 @@ namespace WpfApp1.model
             JulianDay = sw.swe_julday(Year, Month, Day, HourUT, SwissEph.SE_GREG_CAL);
             SideralTime = sw.swe_sidtime(JulianDay) + (City.Longitude / 15.0);
             if (SideralTime < 0) SideralTime += 24;
+        }
+
+        public override string ToString() =>
+        $"{Day:00}/{Month:00}/{Year} at {LocalTime.ToString(@"hh\:mm")} (Location: {City.CityName}, {City.Region.Country} - Lat: {City.Latitude}°, Long: {City.Longitude}°)";
+
+    }
+
+    public abstract class AbstractSkyEvent : INotifyPropertyChanged
+    {
+        #region Properties
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public SkyInfo SkyInfo { get; private set; } = new();
+        public ObservableRangeCollection<Star> Stars { get; private set; } = [];
+        public IEnumerable<ElementGroupKey>? OccupiedHouses =>
+        (Houses.Count == 0) ? [] : Stars.GroupBy(s => s.House)
+                                        .Select(s => new ElementGroupKey(s.Key, s.Count()))
+                                        .OrderByDescending(s => s.Count).ToList();
+
+        public IEnumerable<ElementGroupKey>? Stelliums => OccupiedHouses?.Where(s => s.Count >= 3).ToList();
+        public ObservableRangeCollection<House> Houses { get; protected set; } = [];
+        public IAbstractFormController? PersonController { get; protected set; }
+        public Person? Person { get; protected set; }
+        public int FireSigns => Stars.Count(s => s.RadixSign.Element.ElementId == 1);
+        public int WaterSigns => Stars.Count(s => s.RadixSign.Element.ElementId == 2);
+        public int AirSigns => Stars.Count(s => s.RadixSign.Element.ElementId == 3);
+        public int EarhSigns => Stars.Count(s => s.RadixSign.Element.ElementId == 4);
+        public int MaleSigns => Stars.Count(s => s.RadixSign.Gender.GenderId == 1);
+        public int FemaleSigns => Stars.Count(s => s.RadixSign.Gender.GenderId == 2);
+        public int CardinalSigns => Stars.Count(s => s.RadixSign.Triplicity.TriplicityId == 3);
+        public int FixedSigns => Stars.Count(s => s.RadixSign.Triplicity.TriplicityId == 1);
+        public int MobileSigns => Stars.Count(s => s.RadixSign.Triplicity.TriplicityId == 2);
+
+        public List<IPoint> Aspectables { get; } = [];
+        public ObservableRangeCollection<Aspect> RadixAspects { get; } = [];
+
+        protected List<Aspect> Aspects = new(DatabaseManager.Find<Aspect>()!.MasterSource.Cast<Aspect>());
+        #endregion
+
+        public AbstractSkyEvent() { }
+        public AbstractSkyEvent(DateTime date, TimeSpan time, City city)
+        {
+            SkyInfo.Calculate(date, time, city);
+            CalculatePositions();
         }
 
         protected virtual void CalculatePositions()
@@ -200,7 +213,7 @@ namespace WpfApp1.model
                                     continue;
                                 }
                             }
-                            calculatedAspect.DateOf = LocalDateTime;
+                            calculatedAspect.DateOf = SkyInfo.LocalDateTime;
                             AddRadixAspect(calculatedAspect, star, pointReceiver);
                         }
                     }
@@ -276,22 +289,22 @@ namespace WpfApp1.model
     {
         public bool ShowHouses { get; set; } = true;
         public SkyEvent? Horoscope { get; private set; }
-        public override int SkyTypeId
-        {
-            get
-            {
-                if (Horoscope != null) return 2;
+        //public override int SkyTypeId
+        //{
+        //    get
+        //    {
+        //        if (Horoscope != null) return 2;
 
-                return SkyType switch
-                {
-                    SkyType.Sky => 1,
-                    SkyType.Horoscope => 2,
-                    SkyType.Sinastry => 3,
-                    SkyType.SunReturn or SkyType.MoonReturn => 4,
-                    _ => -1,
-                };
-            }
-        }
+        //        return SkyType switch
+        //        {
+        //            SkyType.Sky => 1,
+        //            SkyType.Horoscope => 2,
+        //            SkyType.Sinastry => 3,
+        //            SkyType.SunReturn or SkyType.MoonReturn => 4,
+        //            _ => -1,
+        //        };
+        //    }
+        //}
 
         #region Constructors
         public SkyEvent() { }
@@ -319,7 +332,7 @@ namespace WpfApp1.model
         public SkyEvent(int year, int month, int day, int hour, int minutes, City city, bool showHouses = true) : this()
         {
             ShowHouses = showHouses;
-            Calculate(year, month, day, hour, minutes, city);
+            SkyInfo.Calculate(year, month, day, hour, minutes, city);
             CalculatePositions();
         }
         #endregion
@@ -360,7 +373,7 @@ namespace WpfApp1.model
         new(returnDate, returnTime, selectedCity, this, skyType);
 
         public SkyEvent CloneMe() =>
-        new(Year, Month, Day, LocalTime.Hours, LocalTime.Minutes, City, ShowHouses) { Person = this.Person };
+        new(SkyInfo.Year, SkyInfo.Month, SkyInfo.Day, SkyInfo.LocalTime.Hours, SkyInfo.LocalTime.Minutes, SkyInfo.City, ShowHouses) { Person = this.Person };
 
         private static void CompleteAspect(ref Aspect aspect, IPoint pointA, IPoint pointB)
         {
@@ -379,11 +392,11 @@ namespace WpfApp1.model
 
             Horoscope = new(date, time, city, false)
             {
-                SkyType = SkyType.Horoscope,
                 Person = Person,
                 Houses = this.Houses
             };
 
+            Horoscope.SkyInfo.SkyType = SkyType.Horoscope;
             Horoscope.RadixAspects.Clear();
 
             foreach (IStar star in Horoscope.Stars)
@@ -500,7 +513,7 @@ namespace WpfApp1.model
         }
 
         public override string ToString() =>
-        $"{Day:00}/{Month:00}/{Year} at {LocalTime.ToString(@"hh\:mm")} (Location: {City.CityName}, {City.Region.Country} - Lat: {City.Latitude}°, Long: {City.Longitude}°)";
+        $"{SkyInfo}";
 
     }
 
@@ -514,7 +527,7 @@ namespace WpfApp1.model
         {
             this._skyEvent = skyEvent;
             Person = this._skyEvent.Person;
-            SkyType = skyType;
+            SkyInfo.SkyType = skyType;
             CalculateReturnAsc();
         }
 
@@ -530,7 +543,7 @@ namespace WpfApp1.model
                 Aspect? calculatedAspect = PositionCalculator.IsValidAspect(_conj, dist, 2.5);
                 if (calculatedAspect == null) continue;
                 calculatedAspect.TransitType = new(4);
-                calculatedAspect.DateOf = LocalDateTime;
+                calculatedAspect.DateOf = SkyInfo.LocalDateTime;
                 AddRadixAspect(calculatedAspect, returnAsc, radixHouse);
             }
         }
@@ -556,7 +569,7 @@ namespace WpfApp1.model
                     if (calculatedAspect != null)
                     {
                         calculatedAspect.TransitType = new(4);
-                        calculatedAspect.DateOf = LocalDateTime;
+                        calculatedAspect.DateOf = SkyInfo.LocalDateTime;
                         AddRadixAspect(calculatedAspect, star, pointReceiver);
                     }
                 }
@@ -572,7 +585,7 @@ namespace WpfApp1.model
 
         public bool WarnReturn(House inNatalHouse)
         {
-            if (SkyTypeId < 4) return false;
+            if (SkyInfo.SkyTypeId < 4) return false;
 
             Star mars = Stars[4];
             Star sun = Stars[0];

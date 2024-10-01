@@ -27,7 +27,7 @@ namespace WpfApp1.View
 
         protected override async void OnButtonClick(object sender, RoutedEventArgs e)
         {
-            if (InputYear <= SubjectSky.Year)
+            if (InputYear <= SubjectSky.SkyInfo.Year)
             {
                 Failure.Allert("Input Year field must be greater than the Year of Birth.");
                 return;
@@ -55,7 +55,7 @@ namespace WpfApp1.View
             ReturnSkyEvent returnSky = subjectSky.CalculateReturn(returnDate, returnTime, SelectedCity!);
 
             IsLoading = false;
-            ChartOpener.OpenComparedChart($"{subjectSky.Person}", subjectSky, returnSky, returnSky.SkyType);
+            ChartOpener.OpenComparedChart($"{subjectSky.Person}", subjectSky, returnSky, returnSky.SkyInfo.SkyType);
         }
     }
 }

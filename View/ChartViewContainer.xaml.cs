@@ -237,7 +237,7 @@ namespace WpfApp1.View
         {
             string? winTitle  = Helper.GetActiveWindow()?.Title;
             
-            NatalChartCanvas.Chart.Screenshot(Path.Combine(Sys.Desktop, $"{winTitle}_{Sky.Day}_{Sky.Month}_{Sky.Year}.png"));
+            NatalChartCanvas.Chart.Screenshot(Path.Combine(Sys.Desktop, $"{winTitle}_{Sky.SkyInfo.Day}_{Sky.SkyInfo.Month}_{Sky.SkyInfo.Year}.png"));
         }
     }
 }

@@ -146,7 +146,7 @@ namespace WpfApp1.converter
 
             if (person == null || string.IsNullOrEmpty(person.ToString().Trim())) return "Today Sky";
 
-            switch (sky.SkyType)
+            switch (sky.SkyInfo.SkyType)
             {
                 case SkyType.Sky:
                     return $"Sky of {person?.ToString()}";
@@ -168,7 +168,7 @@ namespace WpfApp1.converter
         {
             AbstractSkyEvent sky = (AbstractSkyEvent)value;
             ReplaceSky(ref sky);
-            return $"Date: {sky.LocalDateTime.ToString("dd/MM/yyyy")}";
+            return $"Date: {sky.SkyInfo.LocalDateTime.ToString("dd/MM/yyyy")}";
         }
     }
 
@@ -178,7 +178,7 @@ namespace WpfApp1.converter
         {
             AbstractSkyEvent sky = (AbstractSkyEvent)value;
             ReplaceSky(ref sky);
-            return $"{sky.City.CityName}, {sky.City.Region.Country}";
+            return $"{sky.SkyInfo.City.CityName}, {sky.SkyInfo.City.Region.Country}";
         }
     }
 
@@ -188,7 +188,7 @@ namespace WpfApp1.converter
         {
             AbstractSkyEvent sky = (AbstractSkyEvent)value;
             ReplaceSky(ref sky);
-            return $"Long: {Math.Round(sky.City.Longitude, 2)}, Lat: {Math.Round(sky.City.Latitude, 2)}";
+            return $"Long: {Math.Round(sky.SkyInfo.City.Longitude, 2)}, Lat: {Math.Round(sky.SkyInfo.City.Latitude, 2)}";
         }
     }
 
@@ -205,8 +205,8 @@ namespace WpfApp1.converter
             if (p != null && p.UnknownTime)
                 return "Unknown Time";
 
-            int totalHours = (int)sky.LocalTime.TotalHours;
-            int minutes = sky.LocalTime.Minutes;
+            int totalHours = (int)sky.SkyInfo.LocalTime.TotalHours;
+            int minutes = sky.SkyInfo.LocalTime.Minutes;
             return $"Time: {totalHours:D2}:{minutes:D2}";
         }
     }
@@ -224,8 +224,8 @@ namespace WpfApp1.converter
             if (p != null && p.UnknownTime)
                 return "Unknown Time";
 
-            int totalHours = (int)sky.UT.TotalHours;
-            int minutes = sky.UT.Minutes;
+            int totalHours = (int)sky.SkyInfo.UT.TotalHours;
+            int minutes = sky.SkyInfo.UT.Minutes;
             return $"UT: {Math.Abs(totalHours):D2}:{Math.Abs(minutes):D2}";
         }
     }
@@ -241,7 +241,7 @@ namespace WpfApp1.converter
 
             if (p != null && p.UnknownTime)
                 return "Unknown Time";
-            TimeSpan timeSpan = TimeSpan.FromHours(sky.SideralTime);
+            TimeSpan timeSpan = TimeSpan.FromHours(sky.SkyInfo.SideralTime);
 
             int totalHours = (int)timeSpan.TotalHours;
             int minutes = timeSpan.Minutes;

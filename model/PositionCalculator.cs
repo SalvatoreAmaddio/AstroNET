@@ -202,7 +202,7 @@ namespace WpfApp1.model
             SkyEvent returnSky;
             Star sunReturn;
             
-            DateTimeAdjuster adjuster = new(new(year, _skyEvent.Month, _skyEvent.Day));
+            DateTimeAdjuster adjuster = new(new(year, _skyEvent.SkyInfo.Month, _skyEvent.SkyInfo.Day));
 
             Star sunRadix = _skyEvent.Stars[0];
 
@@ -304,8 +304,8 @@ namespace WpfApp1.model
         public IEnumerable<(DateTime date, TimeSpan time)> CalculateMoonReturns(int year)
         {
             List<(DateTime date, TimeSpan time)> returns = [];
-            (DateTime returnDate, TimeSpan returnTime) = CalculateSunReturn(year, _skyEvent.City);
-            (DateTime nextReturnDate, TimeSpan nextReturnTime) = CalculateSunReturn(year + 1, _skyEvent.City);
+            (DateTime returnDate, TimeSpan returnTime) = CalculateSunReturn(year, _skyEvent.SkyInfo.City);
+            (DateTime nextReturnDate, TimeSpan nextReturnTime) = CalculateSunReturn(year + 1, _skyEvent.SkyInfo.City);
             nextReturnDate = nextReturnDate.AddHours(nextReturnTime.Hours);
             nextReturnDate = nextReturnDate.AddMinutes(nextReturnTime.Minutes);
             Star moonReturn;
@@ -321,7 +321,7 @@ namespace WpfApp1.model
                     return returns;
                 }
 
-                returnSky.Calculate(returnDate, returnTime, _skyEvent.City);
+                returnSky.SkyInfo.Calculate(returnDate, returnTime, _skyEvent.SkyInfo.City);
 
                 PositionCalculator returnCalculator = new(returnSky);
                 moonReturn = returnCalculator.CalculatePlanet(1);
@@ -347,7 +347,7 @@ namespace WpfApp1.model
 
         public Star CalculatePlanet(int starID, bool ignoreHouse = false)
         {
-            int result = swe_calc_ut(_skyEvent.JulianDay, starID, iflag, xx, ref serr);
+            int result = swe_calc_ut(_skyEvent.SkyInfo.JulianDay, starID, iflag, xx, ref serr);
             if (result < 0)
                 throw new Exception("Error calculating the Sun's position: " + serr);
             Star star;
@@ -358,7 +358,7 @@ namespace WpfApp1.model
             }
             else
             {
-                swe_houses(_skyEvent.JulianDay, _skyEvent.City.Latitude, _skyEvent.City.Longitude, 'P', cusps, ascmc);
+                swe_houses(_skyEvent.SkyInfo.JulianDay, _skyEvent.SkyInfo.City.Latitude, _skyEvent.SkyInfo.City.Longitude, 'P', cusps, ascmc);
                 star = new(starID, ref xx, ref cusps);
             }
 
@@ -367,7 +367,7 @@ namespace WpfApp1.model
         
         public void CalculateHouses()
         {
-            swe_houses(_skyEvent.JulianDay, _skyEvent.City.Latitude, _skyEvent.City.Longitude, 'P', cusps, ascmc);
+            swe_houses(_skyEvent.SkyInfo.JulianDay, _skyEvent.SkyInfo.City.Latitude, _skyEvent.SkyInfo.City.Longitude, 'P', cusps, ascmc);
         }
 
         public House GetHouse(int houseId)

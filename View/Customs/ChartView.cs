@@ -51,7 +51,7 @@ namespace WpfApp1.View
 
         private static void OnSelectedStelliumChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            int skyTypeId = ((ChartView)(d)).Sky.SkyTypeId;
+            int skyTypeId = ((ChartView)(d)).Sky.SkyInfo.SkyTypeId;
 
             if (e.NewValue != null && (skyTypeId == 4 || skyTypeId == 5)) 
             {
@@ -215,7 +215,7 @@ namespace WpfApp1.View
         {
             Interpretation interpretation;
             
-            int skyTypeId = ((ChartView)(d)).Sky.SkyTypeId;
+            int skyTypeId = ((ChartView)(d)).Sky.SkyInfo.SkyTypeId;
             
             if (e.NewValue is Star)
                 interpretation = new(LibrarySearch.SearchStarDescription((Star)e.NewValue, skyTypeId));
