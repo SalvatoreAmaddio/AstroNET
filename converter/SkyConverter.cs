@@ -14,10 +14,11 @@ namespace WpfApp1.converter
         {
             bool isRetrograde;
             if (value is House) return string.Empty;
-            if (value is Star star) 
-            { 
+            if (value is Star star)
+            {
                 isRetrograde = star.IsRetrograde;
-            } else
+            }
+            else
             {
                 isRetrograde = (bool)value;
             }
@@ -35,7 +36,7 @@ namespace WpfApp1.converter
         private MasterSource genders => DatabaseManager.Find<Gender>()!.MasterSource;
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return genders.FirstOrDefault(s=>s.Equals(value))?.ToString();
+            return genders.FirstOrDefault(s => s.Equals(value))?.ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -83,7 +84,7 @@ namespace WpfApp1.converter
         protected IEnumerable<Region> _regions = DatabaseManager.Find<Region>()!.MasterSource.Cast<Region>();
         public virtual object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return _regions.FirstOrDefault(s=>s.Equals(value))?.RegionName;
+            return _regions.FirstOrDefault(s => s.Equals(value))?.RegionName;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -107,7 +108,7 @@ namespace WpfApp1.converter
     public class CityConverter : IValueConverter
     {
         protected IEnumerable<City> _city = DatabaseManager.Find<City>()!.MasterSource.Cast<City>();
-        
+
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return _city.FirstOrDefault(s => s.Equals(value))?.CityName;
@@ -119,14 +120,30 @@ namespace WpfApp1.converter
         }
     }
 
-    public class GetPersonFromSky : IValueConverter
+    public abstract class GetFromSky : IValueConverter
     {
-        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public abstract object? Convert(object value, Type targetType, object parameter, CultureInfo culture);
+
+        protected static void ReplaceSky(ref AbstractSkyEvent sky)
         {
-            SkyEvent sky = (SkyEvent)value;
+            if (sky is SkyEvent s && s.Horoscope != null) sky = s.Horoscope;
+        }
+
+        public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class GetPersonFromSky : GetFromSky
+    {
+        public override object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            AbstractSkyEvent sky = (AbstractSkyEvent)value;
             Person? person = sky.Person;
-            
-            if (sky.Horoscope != null) sky = sky.Horoscope;
+
+            ReplaceSky(ref sky);
+
             if (person == null || string.IsNullOrEmpty(person.ToString().Trim())) return "Today Sky";
 
             switch (sky.SkyType)
@@ -143,85 +160,65 @@ namespace WpfApp1.converter
             return $"Name: {person?.ToString()}";
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
     }
 
-    public class GetDateFromSky : IValueConverter
+    public class GetDateFromSky : GetFromSky
     {
-        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            SkyEvent sky = (SkyEvent)value;
-            if (sky.Horoscope != null) sky = sky.Horoscope;
+            AbstractSkyEvent sky = (AbstractSkyEvent)value;
+            ReplaceSky(ref sky);
             return $"Date: {sky.LocalDateTime.ToString("dd/MM/yyyy")}";
         }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
     }
 
-    public class GetPlaceFromSky : IValueConverter
+    public class GetPlaceFromSky : GetFromSky
     {
-        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            SkyEvent sky = (SkyEvent)value;
-            if (sky.Horoscope != null) sky = sky.Horoscope;
+            AbstractSkyEvent sky = (AbstractSkyEvent)value;
+            ReplaceSky(ref sky);
             return $"{sky.City.CityName}, {sky.City.Region.Country}";
         }
+    }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    public class GetPlaceCordFromSky : GetFromSky
+    {
+        public override object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            AbstractSkyEvent sky = (AbstractSkyEvent)value;
+            ReplaceSky(ref sky);
+            return $"Long: {Math.Round(sky.City.Longitude, 2)}, Lat: {Math.Round(sky.City.Latitude, 2)}";
         }
     }
 
-    public class GetPlaceCordFromSky : IValueConverter
+    public class GetTimeFromSky : GetFromSky
     {
-        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            SkyEvent sky = (SkyEvent)value;
-            if (sky.Horoscope != null) sky = sky.Horoscope;
-            return $"Long: {Math.Round(sky.City.Longitude,2)}, Lat: {Math.Round(sky.City.Latitude, 2)}";
-        }
+            AbstractSkyEvent sky = (AbstractSkyEvent)value;
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
+            ReplaceSky(ref sky);
 
-    public class GetTimeFromSky : IValueConverter
-    {
-        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            SkyEvent sky = (SkyEvent)value;
-            if (sky.Horoscope != null) sky = sky.Horoscope;
             Person? p = sky.Person;
 
-            if (p != null && p.UnknownTime) 
+            if (p != null && p.UnknownTime)
                 return "Unknown Time";
 
             int totalHours = (int)sky.LocalTime.TotalHours;
             int minutes = sky.LocalTime.Minutes;
             return $"Time: {totalHours:D2}:{minutes:D2}";
         }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
     }
 
-    public class GetUTFromSky : IValueConverter
+    public class GetUTFromSky : GetFromSky
     {
-        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            SkyEvent sky = (SkyEvent)value;
-            if (sky.Horoscope != null) sky = sky.Horoscope;
+            AbstractSkyEvent sky = (AbstractSkyEvent)value;
+
+            ReplaceSky(ref sky);
+
             Person? p = sky.Person;
 
             if (p != null && p.UnknownTime)
@@ -231,19 +228,15 @@ namespace WpfApp1.converter
             int minutes = sky.UT.Minutes;
             return $"UT: {Math.Abs(totalHours):D2}:{Math.Abs(minutes):D2}";
         }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
     }
 
-    public class GetSideralSky : IValueConverter
+    public class GetSideralSky : GetFromSky
     {
-        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public override object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            SkyEvent sky = (SkyEvent)value;
-            if (sky.Horoscope != null) sky = sky.Horoscope;
+            AbstractSkyEvent sky = (AbstractSkyEvent)value;
+            ReplaceSky(ref sky);
+
             Person? p = sky.Person;
 
             if (p != null && p.UnknownTime)
@@ -255,11 +248,5 @@ namespace WpfApp1.converter
             int seconds = timeSpan.Seconds;
             return $"ST: {totalHours:D2}:{minutes:D2}:{seconds:D2}";
         }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
     }
-
 }

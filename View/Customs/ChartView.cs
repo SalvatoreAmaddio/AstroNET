@@ -99,7 +99,7 @@ namespace WpfApp1.View
 
         public AbstractSkyEvent Sky
         {
-            get => (SkyEvent)GetValue(SkyProperty);
+            get => (AbstractSkyEvent)GetValue(SkyProperty);
             set => SetValue(SkyProperty, value);
         }
         #endregion

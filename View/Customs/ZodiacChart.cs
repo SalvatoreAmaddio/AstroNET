@@ -25,12 +25,12 @@ namespace WpfApp1.View
         private Canvas _canvas = new();
 
         public static readonly DependencyProperty SkyProperty =
-        DependencyProperty.Register(nameof(Sky), typeof(SkyEvent),
+        DependencyProperty.Register(nameof(Sky), typeof(AbstractSkyEvent),
         typeof(ZodiacChart), new PropertyMetadata(OnSkyChanged));
 
-        public SkyEvent Sky
+        public AbstractSkyEvent Sky
         {
-            get => (SkyEvent)GetValue(SkyProperty);
+            get => (AbstractSkyEvent)GetValue(SkyProperty);
             set => SetValue(SkyProperty, value);
         }
 
@@ -46,6 +46,7 @@ namespace WpfApp1.View
             set => _rotation = -Math.Abs(value) + 180; //(-120.45) + 180;
         }
 
+        private SkyEvent? SkyEvent => Sky as SkyEvent;
         public Point Center => new(ActualWidth / 2, ActualHeight / 2);
 
         public ZodiacChart()
@@ -104,14 +105,16 @@ namespace WpfApp1.View
 
             AddSigns(drawingContext);
 
-            if (Sky.ShowHouses)
+            if (SkyEvent != null && SkyEvent.Horoscope != null)
+                AddHouses(drawingContext);
+            else
                 AddHouses(drawingContext);
 
-            AddAspects(drawingContext, Sky.Horoscope != null);
+            AddAspects(drawingContext, SkyEvent != null && SkyEvent.Horoscope != null);
 
             AddPlanets(drawingContext);
 
-            if (Sky.Horoscope != null)
+            if (SkyEvent != null && SkyEvent.Horoscope != null)
                 AddPlanets(drawingContext, true);
         }
 
@@ -204,7 +207,7 @@ namespace WpfApp1.View
         {
             StackPanel stack =
                 Factory.CreateStackPanel(
-                    (!Sky.ShowHouses)
+                    (! (SkyEvent != null && SkyEvent.ShowHouses))
                     ? $"{star} at {star.Position.DegreeAndMinutes}° {(star.IsRetrograde ? " R" : "")}" 
                     : $"{star} at {star.Position.DegreeAndMinutes}° in {star.House} {(star.IsRetrograde ? " R" : "")}"
                     );
@@ -232,7 +235,7 @@ namespace WpfApp1.View
 
                 if (isHoroscope)
                 {
-                    aspects = Sky.Horoscope.RadixAspects.Where(s => s.PointA.PointId == star.PointId);
+                    aspects = SkyEvent?.Horoscope?.RadixAspects.Where(s => s.PointA.PointId == star.PointId)!;
                     title = "Transit Aspects";
                 }
 
@@ -281,7 +284,7 @@ namespace WpfApp1.View
             {
                 offset = _finalRadius / 3;
                 conjOffset = 1;
-                Aspects = Sky.Horoscope.RadixAspects;
+                Aspects = SkyEvent?.Horoscope?.RadixAspects!;
             }
             else 
             {
@@ -305,7 +308,7 @@ namespace WpfApp1.View
 
             List<IStar> prev_stars = [];
 
-            List<IStar> stars = (isHoroscope) ? new(Sky.Horoscope.Stars) : new(Sky.Stars);
+            List<IStar> stars = (isHoroscope) ? new(SkyEvent?.Horoscope?.Stars!) : new(Sky.Stars);
             
             for (int i = 0; i <= stars.Count - 1; i++) 
             {

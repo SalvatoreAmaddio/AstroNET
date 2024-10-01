@@ -83,8 +83,6 @@ namespace WpfApp1.model
             SkyType.SunReturn or SkyType.MoonReturn => 4,
             _ => -1,
         };
-        #endregion
-
         public int FireSigns => Stars.Count(s => s.RadixSign.Element.ElementId == 1);
         public int WaterSigns => Stars.Count(s => s.RadixSign.Element.ElementId == 2);
         public int AirSigns => Stars.Count(s => s.RadixSign.Element.ElementId == 3);
@@ -94,6 +92,7 @@ namespace WpfApp1.model
         public int CardinalSigns => Stars.Count(s => s.RadixSign.Triplicity.TriplicityId == 3);
         public int FixedSigns => Stars.Count(s => s.RadixSign.Triplicity.TriplicityId == 1);
         public int MobileSigns => Stars.Count(s => s.RadixSign.Triplicity.TriplicityId == 2);
+        #endregion
 
         public AbstractSkyEvent() { }
         public AbstractSkyEvent(DateTime date, TimeSpan time, City city)
@@ -104,20 +103,7 @@ namespace WpfApp1.model
 
         public void Calculate(DateTime date, TimeSpan time, City city) =>
         Calculate(date.Year, date.Month, date.Day, time.Hours, time.Minutes, city);
-        private static bool CheckDST(DateTime dateTime, string timeZoneId)
-        {
-            // Convert DateTime to NodaTime LocalDateTime
-            LocalDateTime localDateTime = new(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute);
 
-            // Get the time zone from the IANA Time Zone Database
-            DateTimeZone timeZone = DateTimeZoneProviders.Tzdb[timeZoneId];
-
-            // Convert LocalDateTime to ZonedDateTime
-            ZonedDateTime zonedDateTime = timeZone.AtLeniently(localDateTime);
-
-            // Check if the date is in DST
-            return zonedDateTime.IsDaylightSavingTime();
-        }
         public void Calculate(int year, int month, int day, int hour, int minutes, City city)
         {
             City = city;
@@ -136,6 +122,22 @@ namespace WpfApp1.model
             HourUT = LocalHour - timeOffset.TotalHours;
             CalculateJulianDate();
         }
+
+        private static bool CheckDST(DateTime dateTime, string timeZoneId)
+        {
+            // Convert DateTime to NodaTime LocalDateTime
+            LocalDateTime localDateTime = new(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute);
+
+            // Get the time zone from the IANA Time Zone Database
+            DateTimeZone timeZone = DateTimeZoneProviders.Tzdb[timeZoneId];
+
+            // Convert LocalDateTime to ZonedDateTime
+            ZonedDateTime zonedDateTime = timeZone.AtLeniently(localDateTime);
+
+            // Check if the date is in DST
+            return zonedDateTime.IsDaylightSavingTime();
+        }
+
         private void CalculateJulianDate()
         {
             SwissEph sw = new();
@@ -143,6 +145,7 @@ namespace WpfApp1.model
             SideralTime = sw.swe_sidtime(JulianDay) + (City.Longitude / 15.0);
             if (SideralTime < 0) SideralTime += 24;
         }
+
         protected virtual void CalculatePositions()
         {
             PositionCalculator positionCalculator = new(this);
@@ -167,6 +170,7 @@ namespace WpfApp1.model
 
             CalculateBirthAspects();
         }
+
         protected virtual void CalculateBirthAspects()
         {
             List<IPoint> aspectables = new(this.Aspectables);
@@ -205,19 +209,7 @@ namespace WpfApp1.model
                 aspectables.Remove(star);
             }
         }
-        protected void CompleteAspect(ref Aspect? aspect, IPoint pointA, IPoint pointB)
-        {
-            if (aspect != null)
-            {
-                aspect.PointA = pointA;
 
-                pointB.Build();
-
-                aspect.PointB = pointB;
-
-                aspect.CalculateOrbDiff();
-            }
-        }
         protected void AddRadixAspect(Aspect? aspect, IPoint pointA, IPoint pointB)
         {
             if (aspect != null)
@@ -232,6 +224,7 @@ namespace WpfApp1.model
                 RadixAspects.Add(aspect);
             }
         }
+
         public IEnumerable<Aspect> CalculateStarAspects(Star star, DateTime date)
         {
             IEnumerable<StarTransitOrbit> transitAspects = DatabaseManager.Find<StarTransitOrbit>()!.MasterSource.Cast<StarTransitOrbit>();
@@ -313,10 +306,9 @@ namespace WpfApp1.model
             Person = person;
         }
 
-        public SkyEvent(Person person, bool showHouses) : this(person.DOB, person.TOB, person.City, showHouses)
-        {
+        public SkyEvent(Person person, bool showHouses)
+            : this(person.DOB, person.TOB, person.City, showHouses) =>
             Person = person;
-        }
 
         public SkyEvent(DateTime date, TimeSpan time, City city, bool showHouses = true) : base(date, time, city)
         {
@@ -365,11 +357,20 @@ namespace WpfApp1.model
         }
 
         public ReturnSkyEvent CalculateReturn(DateTime returnDate, TimeSpan returnTime, City selectedCity, SkyType skyType = SkyType.SunReturn) =>
-        new ReturnSkyEvent(returnDate, returnTime, selectedCity, this, skyType);
+        new(returnDate, returnTime, selectedCity, this, skyType);
 
-        public SkyEvent CloneMe() 
+        public SkyEvent CloneMe() =>
+        new(Year, Month, Day, LocalTime.Hours, LocalTime.Minutes, City, ShowHouses) { Person = this.Person };
+
+        private static void CompleteAspect(ref Aspect aspect, IPoint pointA, IPoint pointB)
         {
-            return new SkyEvent(Year, Month, Day, LocalTime.Hours, LocalTime.Minutes, City, ShowHouses) { Person = this.Person };
+            aspect.PointA = pointA;
+
+            pointB.Build();
+
+            aspect.PointB = pointB;
+
+            aspect.CalculateOrbDiff();
         }
 
         public void CalculateHoroscope(DateTime date, TimeSpan time, City city)
@@ -400,7 +401,7 @@ namespace WpfApp1.model
 
                         if (tollerance == null) continue;
 
-                        if (pointReceiver is IHouse house && !house.IsAngular && aspect.Orbit != 0)
+                        if (pointReceiver is IHouse house && !house.IsAngular && !aspect.IsConjunction)
                             continue;
 
                         Aspect? calculatedAspect = PositionCalculator.IsValidAspect(aspect, distance, tollerance.Value);
@@ -456,7 +457,7 @@ namespace WpfApp1.model
 
                         if (tollerance == null) continue;
 
-                        if (pointReceiver is IHouse house && !house.IsAngular && aspect.Orbit != 0)
+                        if (pointReceiver is IHouse house && !house.IsAngular && !aspect.IsConjunction)
                             continue;
 
                         Aspect? calculatedAspect = PositionCalculator.IsValidAspect(aspect, distance, tollerance.Value);

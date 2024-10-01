@@ -38,7 +38,6 @@ namespace WpfApp1.View
 
             if (StopRun) return;
 
-            //            SubjectSky.CalculateHoroscope(InputDate!.Value, InputTime.Value, SelectedCity!);
             SkyEvent cloneSky = SubjectSky.CloneMe();
 
             await Task.Run(() =>

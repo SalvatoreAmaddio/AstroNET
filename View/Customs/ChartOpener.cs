@@ -30,9 +30,12 @@ namespace WpfApp1.View
     {
         public static void OpenChart(string title, SkyEvent sky, SkyType skyType)
         {
-            Window? currentWindow = Helper.GetActiveWindow();
-            currentWindow?.Close();
-            OpenChartWindow($"{title}", skyType, new ChartViewContainer() { Sky = sky }, false);
+            Helper.GetActiveWindow()?.Close();
+
+            if (sky.Horoscope != null)
+                OpenChartWindow($"{title}", skyType, new ChartView() { Sky = sky }, false);
+            else
+                OpenChartWindow($"{title}", skyType, new ChartViewContainer() { Sky = sky }, false);
         }
 
         public static void OpenComparedChart(SinastryBundle sinastryBundle)
@@ -49,16 +52,14 @@ namespace WpfApp1.View
 
             infoStackPanel.Children.Add(sinastryChart);
 
-            Window? currentWindow = Helper.GetActiveWindow();
-            currentWindow?.Close();
+            Helper.GetActiveWindow()?.Close();
 
             OpenChartWindow(sinastryBundle.Title, SkyType.Sinastry, CreateBackgroundWindow(chartGrid, infoStackPanel));
         }
 
         public static void OpenComparedChart(string? title, SkyEvent sky1, AbstractSkyEvent sky2, SkyType skyType)
         {
-            Window? currentWindow = Helper.GetActiveWindow();
-            currentWindow?.Close();
+            Helper.GetActiveWindow()?.Close();
 
             Grid chartGrid = CreateChartGrid(sky1, sky2);
 
@@ -67,7 +68,7 @@ namespace WpfApp1.View
             StackPanel backgroundWindow = CreateBackgroundWindow(chartGrid, infoStackPanel);
 
             if (sky2.SkyType == SkyType.SunReturn || sky2.SkyType == SkyType.MoonReturn)
-                CalculateReturnAsc(backgroundWindow, sky1, (ReturnSkyEvent)sky2);
+                CalculateReturnAsc(backgroundWindow, (ReturnSkyEvent)sky2);
 
             OpenChartWindow(title, skyType, backgroundWindow);
         }
@@ -84,7 +85,7 @@ namespace WpfApp1.View
             win!.Closed -= ChartWindowClosed;
         }
 
-        private static void CalculateReturnAsc(StackPanel backgroundWindow, SkyEvent subjectSky, ReturnSkyEvent returnSky)
+        private static void CalculateReturnAsc(StackPanel backgroundWindow, ReturnSkyEvent returnSky)
         {
             bool warning = returnSky.WarnReturn(returnSky.HouseHostingReturnAsc!);
 

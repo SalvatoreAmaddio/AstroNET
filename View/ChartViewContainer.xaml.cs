@@ -173,48 +173,17 @@ namespace WpfApp1.View
         private void OpenLocationDownloader(object sender, RoutedEventArgs e) =>
         new AtlasDownloadForm().ShowDialog();
         
-        private void OpenHoroscope(object sender, RoutedEventArgs e)
-        {
-            if (IsHoroscope)
-            {
-                Failure.Allert("Cannot calculate a Horoscope on a Horoscope","Action Denied");
-                return;
-            }
-            new HoroscopeWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
-        }
+        private void OpenHoroscope(object sender, RoutedEventArgs e) =>
+        new HoroscopeWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
 
-        private void OpenSinastry(object sender, RoutedEventArgs e)
-        {
-            if (IsHoroscope)
-            {
-                Failure.Allert("Cannot calculate a Sinastry on a Horoscope", "Action Denied");
-                return;
-            }
+        private void OpenSinastry(object sender, RoutedEventArgs e) =>
+        new PersonListForm() { Owner = Helper.GetActiveWindow() }.ShowDialog();
 
-            new PersonListForm() { Owner = Helper.GetActiveWindow() }.ShowDialog();
-        }
+        private void OpenSunReturn(object sender, RoutedEventArgs e) =>
+        new SunReturnWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
 
-        private void OpenSunReturn(object sender, RoutedEventArgs e)
-        {
-            if (IsHoroscope)
-            {
-                Failure.Allert("Cannot calculate a Return on a Horoscope", "Action Denied");
-                return;
-            }
-
-            new SunReturnWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
-        }
-
-        private void OpenMoonReturn(object sender, RoutedEventArgs e)
-        {
-            if (IsHoroscope)
-            {
-                Failure.Allert("Cannot calculate a Return on a Horoscope", "Action Denied");
-                return;
-            }
-
-            new MoonReturnWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
-        }
+        private void OpenMoonReturn(object sender, RoutedEventArgs e) =>
+        new MoonReturnWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
 
         private void OpenStars(object sender, RoutedEventArgs e) =>
         new PointListWindow(true).ShowDialog();
