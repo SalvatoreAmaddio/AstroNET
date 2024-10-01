@@ -57,7 +57,7 @@ namespace WpfApp1.View
             {
                 House? house = DatabaseManager.Find<House>()?.MasterSource.Cast<House>()?.FirstOrDefault(s=>s.PointName.Trim().Equals(((ElementGroupKey)e.NewValue).Name.ToString()?.Trim()));
                 if (house == null) return;
-                new Interpretation(LibrarySearch.SearchStar(new(house), 4)).Show();
+                new Interpretation(LibrarySearch.SearchStarDescription(new(house), 4)).Show();
             }
         }
 
@@ -207,11 +207,11 @@ namespace WpfApp1.View
             int skyTypeId = ((ChartView)(d)).Sky.SkyTypeId;
             
             if (e.NewValue is Star)
-                interpretation = new(LibrarySearch.SearchStar((Star)e.NewValue, skyTypeId));
+                interpretation = new(LibrarySearch.SearchStarDescription((Star)e.NewValue, skyTypeId));
             else
             {
                 if (skyTypeId == 4 || skyTypeId == 5) return;
-                interpretation = new(LibrarySearch.SearchHouseSign((House)e.NewValue));
+                interpretation = new(LibrarySearch.SearchHouseSignDescription((House)e.NewValue));
             }
 
             interpretation.Show();

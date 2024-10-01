@@ -144,6 +144,14 @@ namespace WpfApp1.model
         {
         }
 
+        public LibraryStarHouses(Aspect aspect, Star star, House house, string description)
+        {
+            Aspect = aspect;
+            Star = star;
+            House = house;
+            Description = description;
+        }
+
         public LibraryStarHouses(DbDataReader reader) : base(reader)
         {
             _house = new House(reader.GetInt64(4));

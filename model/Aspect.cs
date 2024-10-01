@@ -60,6 +60,8 @@ namespace WpfApp1.model
         public DateTime DateOf { get; set; }
         public int TransitBundle { get; set; }
         public TransitType TransitType { get; set; } = new(1);
+        public bool IsConjunction => Orbit == 0;
+        public bool IsInCuspid => OrbDiff >= -2.5 && OrbDiff <= 2.5;
         public Aspect() 
         {
             AfterUpdate += OnAfterUpdate;
@@ -84,7 +86,7 @@ namespace WpfApp1.model
         {
             return aspect != null && this.AspectId == aspect.AspectId
                 && this.PointA.PointName.Equals(aspect.PointA.PointName)
-                && this.PointAR() == aspect.PointAR()
+                && this.PointAIsRetrograde() == aspect.PointAIsRetrograde()
                 && this.PointB.PointName == aspect.PointB.PointName
                 && this.DateOf == aspect.DateOf
                 ;
@@ -97,7 +99,10 @@ namespace WpfApp1.model
                 BuildBrush();
             }
         }
-        public bool PointAR() 
+
+        public bool PointAIsStar() => PointA is Star;
+        public bool PointBIsHouse() => PointB is House;
+        public bool PointAIsRetrograde()
         {
             if (PointA is Star star) return star.IsRetrograde;
             return false;
@@ -105,7 +110,7 @@ namespace WpfApp1.model
 
         public string IsRetrograde()
         {
-            return PointAR() ? " R " : string.Empty; 
+            return PointAIsRetrograde() ? " R " : string.Empty; 
         }
 
         private static string TryFetchHouse(IPoint point) 

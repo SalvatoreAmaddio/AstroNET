@@ -221,9 +221,9 @@ namespace WpfApp1.View
             Interpretation interpretation;
 
             if (e.NewValue is Star)
-                interpretation = new(LibrarySearch.SearchStar((Star)e.NewValue, 3));
+                interpretation = new(LibrarySearch.SearchStarDescription((Star)e.NewValue, 3));
             else if (e.NewValue is House)
-                interpretation = new(LibrarySearch.SearchHouseSign((House)e.NewValue));
+                interpretation = new(LibrarySearch.SearchHouseSignDescription((House)e.NewValue));
             else
                 interpretation = new(LibrarySearch.SearchAspect((Aspect)e.NewValue));
 

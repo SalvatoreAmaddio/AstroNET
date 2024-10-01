@@ -60,7 +60,7 @@ namespace WpfApp1.model
 
             for (int c = 0; c <= aspects.Count; c++)
             {
-                var subChunkToFilter = Copy.TakeWhile(s => s.AspectId == aspects[c].AspectId && s.PointAR() == aspects[c].PointAR()).ToList();
+                var subChunkToFilter = Copy.TakeWhile(s => s.AspectId == aspects[c].AspectId && s.PointAIsRetrograde() == aspects[c].PointAIsRetrograde()).ToList();
                 c += subChunkToFilter.Count - 1;
                 var toAdd = Pick(subChunkToFilter);
                 filteredAspects.AddRange(toAdd);

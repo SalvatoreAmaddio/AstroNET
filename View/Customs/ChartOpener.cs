@@ -81,21 +81,18 @@ namespace WpfApp1.View
 
         private static void CalculateReturnAsc(StackPanel backgroundWindow, SkyEvent subjectSky, SkyEvent returnSky)
         {
-            House returnAsc = returnSky.Houses.First();
-            House inNatalHouse = returnAsc.PlaceInHouse(subjectSky);
-
-            bool warning = returnSky.WarnReturn(inNatalHouse);
+            bool warning = returnSky.WarnReturn(returnSky.HouseHostingReturnAsc!);
 
             Label label = new()
             {
-                Content = $"Return ASC in {inNatalHouse}",
+                Content = $"Return ASC in {returnSky.HouseHostingReturnAsc}",
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
                 BorderBrush = Brushes.Black,
                 BorderThickness = new(0, 0, 0, .5),
                 Foreground = Brushes.Blue,
                 Cursor = Cursors.Hand,
-                Tag = inNatalHouse
+                Tag = returnSky.HouseHostingReturnAsc
             };
 
             label.MouseDown += OnLabelMouseDown;
@@ -127,7 +124,7 @@ namespace WpfApp1.View
         private static void OnLabelMouseDown(object sender, MouseButtonEventArgs e)
         {
             House house = (House)((Label)sender).Tag;
-            new Interpretation(LibrarySearch.SearchStar(new Star(house), 4)).Show();            
+            new Interpretation(LibrarySearch.SearchStarDescription(new Star(house), 4)).Show();            
         }
         
         private static Grid CreateChartGrid(SkyEvent sky1, SkyEvent sky2)

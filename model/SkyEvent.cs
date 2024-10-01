@@ -7,8 +7,8 @@ using System.ComponentModel;
 
 namespace WpfApp1.model
 {
-    public enum SkyType 
-    { 
+    public enum SkyType
+    {
         Sky = 1,
         Horoscope = 2,
         Sinastry = 3,
@@ -55,7 +55,7 @@ namespace WpfApp1.model
         public int Day => LocalDateTime.Day;
         public double SideralTime { get; private set; }
         public ObservableRangeCollection<Star> Stars { get; private set; } = [];
-        public int FireSigns => Stars.Count(s=>s.RadixSign.Element.ElementId == 1);
+        public int FireSigns => Stars.Count(s => s.RadixSign.Element.ElementId == 1);
         public int WaterSigns => Stars.Count(s => s.RadixSign.Element.ElementId == 2);
         public int AirSigns => Stars.Count(s => s.RadixSign.Element.ElementId == 3);
         public int EarhSigns => Stars.Count(s => s.RadixSign.Element.ElementId == 4);
@@ -65,7 +65,7 @@ namespace WpfApp1.model
                                         .Select(s => new ElementGroupKey(s.Key.PointName, s.Count()))
                                         .OrderByDescending(s => s.Count).ToList();
 
-        public IEnumerable<ElementGroupKey>? Stelliums => OccupiedHouses?.Where(s=>s.Count >= 3).ToList();
+        public IEnumerable<ElementGroupKey>? Stelliums => OccupiedHouses?.Where(s => s.Count >= 3).ToList();
         public int FemaleSigns => Stars.Count(s => s.RadixSign.Gender.GenderId == 2);
         public int CardinalSigns => Stars.Count(s => s.RadixSign.Triplicity.TriplicityId == 3);
         public int FixedSigns => Stars.Count(s => s.RadixSign.Triplicity.TriplicityId == 1);
@@ -79,6 +79,7 @@ namespace WpfApp1.model
         public bool ShowHouses { get; set; } = true;
         public IAbstractFormController? PersonController { get; private set; }
         public Person? Person { get; private set; }
+        public House? HouseHostingReturnAsc { get; private set; }
         public int SkyTypeId
         {
             get
@@ -117,14 +118,14 @@ namespace WpfApp1.model
         }
 
         public SkyEvent(DateTime date, TimeSpan time, City city, bool showHouses = true) : this()
-        { 
+        {
             Calculate(date, time, city);
             ShowHouses = showHouses;
             CalculatePositions();
         }
 
         public SkyEvent(int year, int month, int day, int hour, int minutes, City city, bool showHouses = true) : this()
-        { 
+        {
             Calculate(year, month, day, hour, minutes, city);
             ShowHouses = showHouses;
             CalculatePositions();
@@ -136,7 +137,7 @@ namespace WpfApp1.model
         private static bool CheckDST(DateTime dateTime, string timeZoneId)
         {
             // Convert DateTime to NodaTime LocalDateTime
-            LocalDateTime localDateTime = new (dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute);
+            LocalDateTime localDateTime = new(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute);
 
             // Get the time zone from the IANA Time Zone Database
             DateTimeZone timeZone = DateTimeZoneProviders.Tzdb[timeZoneId];
@@ -145,7 +146,7 @@ namespace WpfApp1.model
             ZonedDateTime zonedDateTime = timeZone.AtLeniently(localDateTime);
 
             // Check if the date is in DST
-            return zonedDateTime.IsDaylightSavingTime();           
+            return zonedDateTime.IsDaylightSavingTime();
         }
 
         public void Calculate(int year, int month, int day, int hour, int minutes, City city)
@@ -156,7 +157,7 @@ namespace WpfApp1.model
             LocalTime = new(hour, minutes, 0);
             LocalDateTime = new DateTime(year, month, day, (int)LocalHour, (int)((LocalHour - (int)LocalHour) * 60), 0);
 
-            bool isDaylight = CheckDST(LocalDateTime,City.TimeZone.TimeZoneName);
+            bool isDaylight = CheckDST(LocalDateTime, City.TimeZone.TimeZoneName);
 
             TimeSpan timeOffset = City.TimeZone.Info.BaseUtcOffset;
 
@@ -181,7 +182,7 @@ namespace WpfApp1.model
 
             positionCalculator.CalculateHouses();
 
-            for (int i = 0; i < 10; i++) 
+            for (int i = 0; i < 10; i++)
             {
                 Stars.Add(positionCalculator.CalculatePlanet(i, !ShowHouses));
                 Stars[i].Build();
@@ -189,7 +190,7 @@ namespace WpfApp1.model
 
             Aspectables.AddRange(Stars);
 
-            if (ShowHouses) 
+            if (ShowHouses)
             {
                 for (int i = 1; i <= 12; i++)
                 {
@@ -222,9 +223,9 @@ namespace WpfApp1.model
             if (aspect != null)
             {
                 aspect.PointA = pointA;
-      
+
                 pointB.Build();
-                
+
                 aspect.PointB = pointB;
 
                 aspect.CalculateOrbDiff();
@@ -244,7 +245,7 @@ namespace WpfApp1.model
                     if (star.PointName.Equals(pointReceiver.PointName)) continue;
 
                     double distance = PositionCalculator.CalculateDistance(star.EclipticLongitude, pointReceiver.EclipticLongitude);
-                
+
                     foreach (Aspect aspect in Aspects)
                     {
                         if (pointReceiver is IHouse house && !house.IsAngular && aspect.Orbit != 0)
@@ -256,7 +257,7 @@ namespace WpfApp1.model
                         {
                             if (pointReceiver is IHouse house2 && !house2.IsAngular && calculatedAspect.Orbit == 0)
                             {
-                                if (distance > 2.5 || distance < -2.5) 
+                                if (distance > 2.5 || distance < -2.5)
                                 {
                                     continue;
                                 }
@@ -273,26 +274,27 @@ namespace WpfApp1.model
 
         public SkyEvent CalculateReturn(DateTime returnDate, TimeSpan returnTime, City selectedCity, SkyType skyType = SkyType.SunReturn)
         {
-            SkyEvent returnSky = new(returnDate, returnTime, selectedCity) 
+            SkyEvent returnSky = new(returnDate, returnTime, selectedCity)
             {
                 SkyType = skyType,
                 Person = Person,
             };
 
-            returnSky.RadixAspects.ReplaceRange(returnSky.RadixAspects.Where(s=>s.Orbit == 0 && s.PointB is IHouse && (s.OrbDiff >=-2.5 && s.OrbDiff <= 2.5)).ToList());
+            List<Aspect> conjunctions = returnSky.RadixAspects.Where(s => s.IsConjunction && s.PointB is IHouse && s.IsInCuspid).ToList();
+            returnSky.RadixAspects.ReplaceRange(conjunctions);
 
-            foreach (Aspect aspect in returnSky.RadixAspects) 
-            {
+            foreach (Aspect aspect in returnSky.RadixAspects)
                 aspect.TransitType = new(4);
-            }
+
 
             House returnAsc = returnSky.Houses.First();
-
             returnAsc.PointName = $"R. {returnAsc.PointName}";
 
-            Aspect conj = Aspects.First(s=>s.Orbit == 0);
+            returnSky.HouseHostingReturnAsc = returnAsc.PlaceInHouse(this);
 
-            foreach(House radixHouse in Houses) 
+            Aspect conj = Aspects.First(s => s.IsConjunction);
+
+            foreach (House radixHouse in Houses)
             {
                 double dist = PositionCalculator.CalculateDistance(returnAsc.EclipticLongitude, radixHouse.EclipticLongitude);
                 Aspect? calculatedAspect = PositionCalculator.IsValidAspect(conj, dist, 2.5);
@@ -302,15 +304,15 @@ namespace WpfApp1.model
                 calculatedAspect.DateOf = returnDate;
                 returnSky.AddRadixAspect(calculatedAspect, returnAsc, radixHouse);
             }
-            
+
             return returnSky;
         }
 
         public void CalculateHoroscope(DateTime date, TimeSpan time, City city)
         {
             IEnumerable<StarTransitOrbit> transitAspects = DatabaseManager.Find<StarTransitOrbit>()!.MasterSource.Cast<StarTransitOrbit>();
-            
-            Horoscope = new(date, time, city, false) 
+
+            Horoscope = new(date, time, city, false)
             {
                 SkyType = SkyType.Horoscope,
                 Person = Person,
@@ -318,12 +320,12 @@ namespace WpfApp1.model
             };
 
             Horoscope.RadixAspects.Clear();
-           
-            foreach (IStar star in Horoscope.Stars) 
-            { 
-                if (Person!=null && !Person.UnknownTime)
+
+            foreach (IStar star in Horoscope.Stars)
+            {
+                if (Person != null && !Person.UnknownTime)
                     star.PlaceInHouse(this);
-                   
+
                 foreach (IPoint pointReceiver in this.Aspectables)
                 {
                     double distance = PositionCalculator.CalculateDistance(star.EclipticLongitude, pointReceiver.EclipticLongitude);
@@ -333,13 +335,13 @@ namespace WpfApp1.model
                         double? tollerance = transitAspects.FirstOrDefault(s => s.Aspect.Equals(aspect) && s.Star.Equals(star))?.Tollerance;
 
                         if (tollerance == null) continue;
-                        
+
                         if (pointReceiver is IHouse house && !house.IsAngular && aspect.Orbit != 0)
                             continue;
 
                         Aspect? calculatedAspect = PositionCalculator.IsValidAspect(aspect, distance, tollerance.Value);
 
-                        if (calculatedAspect != null) 
+                        if (calculatedAspect != null)
                         {
                             if (pointReceiver is IHouse house2 && !house2.IsAngular)
                             {
@@ -356,11 +358,11 @@ namespace WpfApp1.model
             }
         }
 
-        public IEnumerable<Star>? StarsInPartnerHouses(SkyEvent match) 
+        public IEnumerable<Star>? StarsInPartnerHouses(SkyEvent match)
         {
             if (match.Person.UnknownTime) return null;
             PositionCalculator positionCalculator = new(this);
-           
+
             List<Star> stars = [];
 
             for (int i = 0; i < 10; i++)
@@ -460,7 +462,7 @@ namespace WpfApp1.model
             }
         }
 
-        public async Task<SinastryBundle> CalculateSinastryAsync(SkyEvent match) 
+        public async Task<SinastryBundle> CalculateSinastryAsync(SkyEvent match)
         {
             Task<IEnumerable<Aspect>> sinastryAspect1Task = Task.Run(() => CalculateSinastry(match));
             Task<IEnumerable<Aspect>> sinastryAspect2Task = Task.Run(() => match.CalculateSinastry(this));
@@ -472,13 +474,13 @@ namespace WpfApp1.model
             return new SinastryBundle(this, match, sinastryAspect1Task.Result, sinastryAspect2Task.Result, sinastryStars1.Result, sinastryStars2.Result);
         }
 
-        public void ClearHoroscope() 
+        public void ClearHoroscope()
         {
             Horoscope?.RadixAspects.Clear();
             Horoscope = null;
         }
 
-        private bool IsNot(long id) 
+        private bool IsNot(long id)
         {
             switch (id)
             {
@@ -490,7 +492,7 @@ namespace WpfApp1.model
             return false;
         }
 
-        public bool WarnReturn(House inNatalHouse) 
+        public bool WarnReturn(House inNatalHouse)
         {
             if (SkyTypeId < 4) return false;
 
@@ -507,20 +509,20 @@ namespace WpfApp1.model
                 if (Stelliums.Any(s => s.Name.Equals("VI") || s.Name.Equals("ASC") || s.Name.Equals("XII")))
                     return true;
 
-            foreach (Aspect aspect in RadixAspects) 
+            foreach (Aspect aspect in RadixAspects)
             {
                 House conjHouse;
 
-                if (aspect.PointA is Star star && (star.PointId == 0 || star.PointId == 4)) 
+                if (aspect.PointA is Star star && (star.PointId == 0 || star.PointId == 4))
                 {
-                    if (aspect.OrbDiff >= -2.5 && aspect.OrbDiff <= 2.5) 
+                    if (aspect.OrbDiff >= -2.5 && aspect.OrbDiff <= 2.5)
                     {
                         conjHouse = (House)aspect.PointB;
                         if (IsNot(conjHouse.PointId)) return true;
                     }
                 }
 
-                if (aspect.PointA is House house) 
+                if (aspect.PointA is House house)
                 {
                     if (aspect.OrbDiff >= -2.5 && aspect.OrbDiff <= 2.5)
                     {
@@ -539,7 +541,7 @@ namespace WpfApp1.model
         }
     }
 
-    public class SinastryBundle(SkyEvent sky1, SkyEvent sky2, IEnumerable<Aspect> aspects, IEnumerable<Aspect> aspects2, IEnumerable<Star>? stars, IEnumerable<Star>? stars2) 
+    public class SinastryBundle(SkyEvent sky1, SkyEvent sky2, IEnumerable<Aspect> aspects, IEnumerable<Aspect> aspects2, IEnumerable<Star>? stars, IEnumerable<Star>? stars2)
     {
         public SkyEvent Sky1 { get; } = sky1;
         public SkyEvent Sky2 { get; } = sky2;

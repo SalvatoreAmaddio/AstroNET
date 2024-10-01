@@ -24,7 +24,7 @@ namespace WpfApp1.model
             SetAngulars();
         }
 
-        private void SetAngulars() 
+        private void SetAngulars()
         {
             switch (PointId)
             {
@@ -33,6 +33,8 @@ namespace WpfApp1.model
                 case 7:
                 case 10:
                     _isAngular = true;
+                    break;
+                default:
                     break;
             }
         }
@@ -46,7 +48,11 @@ namespace WpfApp1.model
 
         public static long SlidHouse(double orbDiff, IHouse house)
         {
-            if (orbDiff < 0) return (house.PointId == 1) ? 12 : house.PointId - 1;
+            if (orbDiff < 0)
+            {
+                return (house.PointId == 1) ? 12 : house.PointId - 1;
+            }
+
             return (house.PointId == 12) ? 1 : house.PointId + 1;
         }
     }
