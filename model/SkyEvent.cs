@@ -513,7 +513,7 @@ namespace WpfApp1.model
     {
         public House? HouseHostingReturnAsc { get; private set; }
         private SkyEvent _skyEvent;
-        private Aspect conj => Aspects.First(s => s.IsConjunction);
+        private Aspect _conj => Aspects.First(s => s.IsConjunction);
 
         public ReturnSkyEvent(DateTime date, TimeSpan time, City city, SkyEvent skyEvent, SkyType skyType, bool showHouses = true) : base(date, time, city, showHouses)
         {
@@ -532,7 +532,7 @@ namespace WpfApp1.model
             foreach (House radixHouse in _skyEvent.Houses)
             {
                 double dist = PositionCalculator.CalculateDistance(returnAsc.EclipticLongitude, radixHouse.EclipticLongitude);
-                Aspect? calculatedAspect = PositionCalculator.IsValidAspect(conj, dist, 2.5);
+                Aspect? calculatedAspect = PositionCalculator.IsValidAspect(_conj, dist, 2.5);
                 if (calculatedAspect == null) continue;
                 calculatedAspect.TransitType = new(4);
                 calculatedAspect.DateOf = LocalDateTime;
@@ -556,7 +556,7 @@ namespace WpfApp1.model
                         continue;
                     }
 
-                    Aspect? calculatedAspect = PositionCalculator.IsValidAspect(conj, distance);
+                    Aspect? calculatedAspect = PositionCalculator.IsValidAspect(_conj, distance);
 
                     if (calculatedAspect != null)
                     {
