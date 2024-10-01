@@ -478,6 +478,35 @@ namespace WpfApp1.model
             Horoscope = null;
         }
 
+        public bool WarnReturn(House inNatalHouse) 
+        {
+            if (SkyTypeId < 4) return false;
+
+            Star mars = Stars[5];
+
+            switch (mars.House.PointId)
+            {
+                case 1:
+                case 6:
+                case 12:
+                    return true;
+            }
+
+            switch (inNatalHouse.PointId)
+            {
+                case 1:
+                case 6:
+                case 12:
+                    return true;
+            }
+
+            if (Stelliums != null)
+                if (Stelliums.Any(s => s.Name.Equals("VI") || s.Name.Equals("ASC") || s.Name.Equals("XII")))
+                    return true;
+
+            return false;
+        }
+
         public override string ToString()
         {
             return $"{Day:00}/{Month:00}/{Year} at {LocalTime.ToString(@"hh\:mm")} (Location: {City.CityName}, {City.Region.Country} - Lat: {City.Latitude}°, Long: {City.Longitude}°)";

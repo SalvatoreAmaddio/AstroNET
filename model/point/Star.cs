@@ -35,6 +35,7 @@ namespace WpfApp1.model
         public bool IsRetrograde { get => _isRetrograde; private set => UpdateProperty(ref value, ref _isRetrograde); }
         public IHouse House { get => _radixHouse; private set => UpdateProperty(ref value, ref _radixHouse); }
         public Star() { }
+
         public Star(DbDataReader reader) : base(reader)
         {
             _uri = reader.GetString(3);
@@ -46,6 +47,11 @@ namespace WpfApp1.model
 
         public Star(Int64 id) : base(id)
         {
+        }
+
+        public Star(House house) 
+        {
+            _radixHouse = house;
         }
 
         public Star(int ID, ref double[] xx) : this(ID)

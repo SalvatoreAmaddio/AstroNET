@@ -84,15 +84,18 @@ namespace WpfApp1.View
             House returnAsc = returnSky.Houses.First();
             House inNatalHouse = returnAsc.PlaceInHouse(subjectSky);
 
+            bool warning = returnSky.WarnReturn(inNatalHouse);
+
             Label label = new()
             {
-                Content = $"Return ASC in {inNatalHouse}",
+                Content = (warning) ? $"Return ASC in {inNatalHouse} (!)" : $"Return ASC in {inNatalHouse}",
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
                 BorderBrush = Brushes.Black,
                 BorderThickness = new(0, 0, 0, .5),
                 Foreground = Brushes.Blue,
-                Cursor = Cursors.Hand
+                Cursor = Cursors.Hand,
+                Tag = inNatalHouse
             };
 
             label.MouseDown += OnLabelMouseDown;
@@ -110,7 +113,8 @@ namespace WpfApp1.View
 
         private static void OnLabelMouseDown(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show("Clicked");
+            House house = (House)((Label)sender).Tag;
+            new Interpretation(LibrarySearch.SearchStar(new Star(house), 4)).Show();            
         }
         
         private static Grid CreateChartGrid(SkyEvent sky1, SkyEvent sky2)

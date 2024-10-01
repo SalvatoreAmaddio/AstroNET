@@ -53,8 +53,18 @@ namespace WpfApp1.model
                 }
             }
 
-            Star star1 = (Star)aspect.PointA;
-            StarInHouse(ref lib, star1, aspect.TransitType);
+            Star star1;
+
+            try
+            {
+                star1 = (Star)aspect.PointA;
+                StarInHouse(ref lib, star1, aspect.TransitType);
+            }
+            catch
+            {
+                star1 = new((House)aspect.PointB);
+            }
+
             TransitType transitType;
 
             if (aspect.TransitType.TransitTypeId  == 4 || aspect.TransitType.TransitTypeId ==5) 
@@ -66,7 +76,7 @@ namespace WpfApp1.model
                 transitType = new(1);
             }
 
-            if (aspect.PointB is House house) 
+            if (aspect.PointB is House house)
             {
                 StarAspectHouse(ref lib, aspect, star1, house, transitType);
                 StarCuspidHouse(ref lib, aspect, star1, transitType);
@@ -85,6 +95,16 @@ namespace WpfApp1.model
 
             if (aspect.Orbit == 0)
             {
+                if (transitType.TransitTypeId == 4) 
+                {
+                    if (aspect.OrbDiff >= -2.5 && aspect.OrbDiff <= 2.5)
+                    {
+                        House cuspHouse = new(SlidHouse(aspect.OrbDiff, star.House));
+                        Lib.Add(houseLibrary?.FirstOrDefault(s => FindHouse(s, star, cuspHouse)));
+                        return;
+                    }
+                }
+
                 LibraryStarHouses? prev = (LibraryStarHouses?)Lib[Lib.Count - 1];
                 if (prev == null) return;
                 prev = new LibraryStarHouses { Aspect = aspect, Star = prev.Star, House = prev.House, Description = prev.Description };
@@ -102,8 +122,9 @@ namespace WpfApp1.model
         {
             if (aspect.Orbit == 0)
             {
-                    return;
+                return;
             }
+
             IEnumerable<LibraryStarHouses>? houseLibrary = GetLibrary<LibraryStarHouses>(transitType);
             LibraryStarHouses? cuspidHouse = houseLibrary?.FirstOrDefault(s => FindHouse(s, star, house));
             if (cuspidHouse == null) return;
