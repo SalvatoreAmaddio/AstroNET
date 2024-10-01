@@ -55,8 +55,8 @@ namespace WpfApp1.model
         private double[] xx = new double[6];
         private string serr = string.Empty;
         private int iflag = SwissEph.SEFLG_SWIEPH | SwissEph.SEFLG_SPEED;
-        private SkyEvent _skyEvent;
-        public PositionCalculator(SkyEvent skyEvent) =>
+        private AbstractSkyEvent _skyEvent;
+        public PositionCalculator(AbstractSkyEvent skyEvent) =>
         _skyEvent = skyEvent;
 
         public IEnumerable<Aspect> TransitsCalculator(DateTime startDate, City city, int starId, int steps)

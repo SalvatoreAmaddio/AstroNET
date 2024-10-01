@@ -16,7 +16,7 @@ namespace WpfApp1.View
 
             Person newBorn = new(DateTime.Today, DateTime.Now.TimeOfDay, city);
 
-            NatalChartView.Sky = new(newBorn, false);
+            NatalChartView.Sky = new SkyEvent(newBorn, false);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace WpfApp1.View
 
             if (StopRun) return;
 
-            SkyEvent subjectSky = ((ChartViewContainer)Owner.Content).Sky;
+            SkyEvent subjectSky = (SkyEvent)((ChartViewContainer)Owner.Content).Sky;
 
             if (subjectSky!.Person!.UnknownTime)
             {

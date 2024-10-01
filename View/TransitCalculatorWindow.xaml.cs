@@ -79,7 +79,7 @@ namespace WpfApp1.View
 
         public StarListController StarListController { get; } = new();
         public CityListController CityListController { get; } = new();
-        public SkyEvent SubjectSky => ((ChartViewContainer)Owner.Content).Sky;
+        public SkyEvent SubjectSky => (SkyEvent)((ChartViewContainer)Owner.Content).Sky;
 
         public TransitCalculatorWindow()
         {
@@ -126,7 +126,7 @@ namespace WpfApp1.View
 
             IsLoading = true;
 
-            SkyEvent subjectSky = ((ChartViewContainer)Owner.Content).Sky;
+            SkyEvent subjectSky = (SkyEvent)((ChartViewContainer)Owner.Content).Sky;
             PositionCalculator calculator = new(subjectSky);
 
             IEnumerable<Aspect> results = await Task.Run(() =>

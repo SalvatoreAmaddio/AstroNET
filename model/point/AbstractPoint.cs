@@ -89,7 +89,7 @@ namespace WpfApp1.model
             return $"{PointName}";
         }
 
-        public virtual House PlaceInHouse(SkyEvent sky)
+        public virtual House PlaceInHouse(AbstractSkyEvent sky)
         {
             for (int i = 0; i < 12; i++)
             {

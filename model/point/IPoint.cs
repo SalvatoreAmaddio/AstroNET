@@ -9,7 +9,7 @@
         Position Position { get; }
         Sign RadixSign { get; }
         void Build();
-        House PlaceInHouse(SkyEvent sky);
+        House PlaceInHouse(AbstractSkyEvent sky);
     }
 
     public interface IHouse : IPoint

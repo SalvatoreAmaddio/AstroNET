@@ -13,7 +13,7 @@ namespace WpfApp1.View
         private string _search = string.Empty;
         private City? _selectedCity = new();
         private bool _isLoading = false;
-        public SkyEvent SubjectSky => ((ChartViewContainer)Owner.Content).Sky;
+        public SkyEvent SubjectSky => (SkyEvent)((ChartViewContainer)Owner.Content).Sky;
         protected virtual bool StopRun => SelectedCity == null;
         public bool IsLoading
         {
@@ -75,7 +75,7 @@ namespace WpfApp1.View
             PropertyChanged?.Invoke(this, new(propName));
         }
 
-        protected virtual void OnButtonClick(object sender, RoutedEventArgs e) 
+        protected virtual void OnButtonClick(object sender, RoutedEventArgs e)
         {
             if (SelectedCity == null)
             {
@@ -106,7 +106,7 @@ namespace WpfApp1.View
 
         protected override void OnButtonClick(object sender, RoutedEventArgs e)
         {
-            if (InputDate == null) 
+            if (InputDate == null)
             {
                 Failure.Allert("Please specify a valid date");
                 return;

@@ -1,6 +1,7 @@
 ﻿using FrontEnd.Dialogs;
 using System.Windows;
 using WpfApp1.model;
+using Xceed.Wpf.Toolkit;
 
 namespace WpfApp1.View
 {
@@ -25,9 +26,9 @@ namespace WpfApp1.View
             DataContext = this;
         }
 
-        protected override void OnButtonClick(object sender, RoutedEventArgs e)
-        {            
-            if (InputTime == null) 
+        protected override async void OnButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (InputTime == null)
             {
                 Failure.Allert("Please provide a valid time");
                 return;
@@ -37,11 +38,16 @@ namespace WpfApp1.View
 
             if (StopRun) return;
 
-            SubjectSky.CalculateHoroscope(InputDate!.Value, InputTime.Value, SelectedCity!);
-            
-            IsLoading = false;
+            await Task.Run(() =>
+            {
+                SubjectSky.CalculateHoroscope(InputDate!.Value, InputTime.Value, SelectedCity!);
+            });
 
-            ChartOpener.OpenChart($"{SubjectSky?.Person?.ToString()}", SubjectSky!, SkyType.Horoscope);
+            IsLoading = false;
+            //Application.Current.Dispatcher.Invoke(() => 
+            //{
+            //    ChartOpener.OpenChart($"{SubjectSky?.Person?.ToString()}", SubjectSky!, SkyType.Horoscope);
+            //});
         }
     }
 }

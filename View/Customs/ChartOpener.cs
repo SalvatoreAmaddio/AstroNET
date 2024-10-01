@@ -10,10 +10,10 @@ namespace WpfApp1.View
 {
     public static class Extenstion
     {
-        public static void ReplaceSky(this Window win, SkyEvent sky) =>
+        public static void ReplaceSky(this Window win, AbstractSkyEvent sky) =>
         ((ChartViewContainer)win.Content).Sky = sky;
 
-        public static SkyEvent? GetSky(this Window win) 
+        public static AbstractSkyEvent? GetSky(this Window win)
         {
             try
             {
@@ -28,11 +28,11 @@ namespace WpfApp1.View
 
     public class ChartOpener
     {
-        public static void OpenChart(string title, SkyEvent sky, SkyType skyType) 
+        public static void OpenChart(string title, SkyEvent sky, SkyType skyType)
         {
             Window? currentWindow = Helper.GetActiveWindow();
             currentWindow?.Close();
-            OpenChartWindow($"{title}", skyType, new ChartViewContainer() { Sky = sky }, false);    
+            OpenChartWindow($"{title}", skyType, new ChartViewContainer() { Sky = sky }, false);
         }
 
         public static void OpenComparedChart(SinastryBundle sinastryBundle)
@@ -55,7 +55,7 @@ namespace WpfApp1.View
             OpenChartWindow(sinastryBundle.Title, SkyType.Sinastry, CreateBackgroundWindow(chartGrid, infoStackPanel));
         }
 
-        public static void OpenComparedChart(string? title, SkyEvent sky1, SkyEvent sky2, SkyType skyType)
+        public static void OpenComparedChart(string? title, SkyEvent sky1, AbstractSkyEvent sky2, SkyType skyType)
         {
             Window? currentWindow = Helper.GetActiveWindow();
             currentWindow?.Close();
@@ -67,7 +67,7 @@ namespace WpfApp1.View
             StackPanel backgroundWindow = CreateBackgroundWindow(chartGrid, infoStackPanel);
 
             if (sky2.SkyType == SkyType.SunReturn || sky2.SkyType == SkyType.MoonReturn)
-                CalculateReturnAsc(backgroundWindow, sky1, sky2);
+                CalculateReturnAsc(backgroundWindow, sky1, (ReturnSkyEvent)sky2);
 
             OpenChartWindow(title, skyType, backgroundWindow);
         }
@@ -75,11 +75,16 @@ namespace WpfApp1.View
         private static void ChartWindowClosed(object? sender, EventArgs e)
         {
             Window? win = (Window?)sender;
-            win?.GetSky()?.ClearHoroscope();
+
+            AbstractSkyEvent? abstractSky = win?.GetSky();
+
+            if (abstractSky is SkyEvent skyEvent)
+                skyEvent.ClearHoroscope();
+
             win!.Closed -= ChartWindowClosed;
         }
 
-        private static void CalculateReturnAsc(StackPanel backgroundWindow, SkyEvent subjectSky, SkyEvent returnSky)
+        private static void CalculateReturnAsc(StackPanel backgroundWindow, SkyEvent subjectSky, ReturnSkyEvent returnSky)
         {
             bool warning = returnSky.WarnReturn(returnSky.HouseHostingReturnAsc!);
 
@@ -96,16 +101,16 @@ namespace WpfApp1.View
             };
 
             label.MouseDown += OnLabelMouseDown;
-            
+
             backgroundWindow.Children.Insert(0, label);
-            
-            if (warning) 
+
+            if (warning)
                 backgroundWindow.Children.Insert(1, CreateWarningLabel());
 
             backgroundWindow.Unloaded += OnBackgroundWindowUnloaded;
         }
 
-        private static Label CreateWarningLabel() 
+        private static Label CreateWarningLabel()
         {
             return new Label()
             {
@@ -117,17 +122,17 @@ namespace WpfApp1.View
         private static void OnBackgroundWindowUnloaded(object sender, RoutedEventArgs e)
         {
             StackPanel backgroundWindow = (StackPanel)sender;
-            backgroundWindow.Unloaded-= OnBackgroundWindowUnloaded;
+            backgroundWindow.Unloaded -= OnBackgroundWindowUnloaded;
             ((Label)backgroundWindow.Children[0]).MouseDown -= OnLabelMouseDown;
         }
 
         private static void OnLabelMouseDown(object sender, MouseButtonEventArgs e)
         {
             House house = (House)((Label)sender).Tag;
-            new Interpretation(LibrarySearch.SearchStarDescription(new Star(house), 4)).Show();            
+            new Interpretation(LibrarySearch.SearchStarDescription(new Star(house), 4)).Show();
         }
-        
-        private static Grid CreateChartGrid(SkyEvent sky1, SkyEvent sky2)
+
+        private static Grid CreateChartGrid(SkyEvent sky1, AbstractSkyEvent sky2)
         {
             Grid grid = new();
             grid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star) });
@@ -143,7 +148,7 @@ namespace WpfApp1.View
             return grid;
         }
 
-        private static StackPanel CreateBackgroundWindow(Grid chartGrid, StackPanel infoStackPanel) 
+        private static StackPanel CreateBackgroundWindow(Grid chartGrid, StackPanel infoStackPanel)
         {
             StackPanel backgroundWindow = new();
             backgroundWindow.Children.Add(chartGrid);

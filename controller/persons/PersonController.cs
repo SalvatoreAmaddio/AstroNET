@@ -16,7 +16,7 @@ namespace WpfApp1.controller
         public ICommand CalculateSkyCMD { get; }
         public bool IsNewSky = false;
 
-        public PersonController() 
+        public PersonController()
         {
             CalculateSkyCMD = new CMD(CalculateSky);
             CheckIsDirtyOnClose = false;
@@ -28,7 +28,7 @@ namespace WpfApp1.controller
             TimeSpan? time = CurrentRecord?.TOB;
             City? city = CurrentRecord?.City;
 
-            if (date == null) 
+            if (date == null)
             {
                 Failure.Allert("The Date field cannot be empty");
                 return;
@@ -54,13 +54,13 @@ namespace WpfApp1.controller
 
                 ChartOpener.OpenChart($"{CurrentRecord}", sky, sky.SkyType);
             }
-            else 
+            else
             {
                 Window? currentWindow = UI as Window;
                 Window? parentWindow = currentWindow?.Owner;
 
                 if (CurrentRecord != null)
-                    parentWindow?.ReplaceSky(new(CurrentRecord, this));
+                    parentWindow?.ReplaceSky(new SkyEvent(CurrentRecord, this));
 
                 currentWindow?.Close();
             }

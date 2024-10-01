@@ -94,10 +94,10 @@ namespace WpfApp1.View
 
         #region Sky
         public static readonly DependencyProperty SkyProperty =
-        DependencyProperty.Register(nameof(Sky), typeof(SkyEvent),
+        DependencyProperty.Register(nameof(Sky), typeof(AbstractSkyEvent),
         typeof(ChartView), new PropertyMetadata(OnSkyChanged) { DefaultValue = null});
 
-        public SkyEvent Sky
+        public AbstractSkyEvent Sky
         {
             get => (SkyEvent)GetValue(SkyProperty);
             set => SetValue(SkyProperty, value);
@@ -115,7 +115,18 @@ namespace WpfApp1.View
         private static void OnSelectedAspectChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue == null) return;
-            Interpretation interpretation = new(LibrarySearch.SearchAspect((Aspect)e.NewValue));
+            Interpretation interpretation;
+
+            ChartView control = (ChartView)d;
+
+            if (control.Sky is ReturnSkyEvent returnSky)
+            {
+                interpretation = new(LibrarySearch.SearchAspect((Aspect)e.NewValue, returnSky.HouseHostingReturnAsc));
+            }
+            else 
+            {
+                interpretation = new(LibrarySearch.SearchAspect((Aspect)e.NewValue));
+            }
             interpretation.Show();
         }
 
@@ -241,7 +252,16 @@ namespace WpfApp1.View
 
         private void SetBinding()
         {
-            SkyEvent toUse = (Sky.Horoscope == null) ? Sky : Sky.Horoscope;
+            AbstractSkyEvent toUse; 
+            
+            if (Sky is SkyEvent sky) 
+            {
+                toUse = (sky.Horoscope == null) ? Sky : sky.Horoscope;
+            }
+            else
+            {
+                toUse = Sky;
+            }
 
             Aspects = toUse.RadixAspects;
             Stars = toUse.Stars;

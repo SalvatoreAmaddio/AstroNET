@@ -100,7 +100,7 @@ namespace WpfApp1.model
             House?.Build();
         }
 
-        public override House PlaceInHouse(SkyEvent sky)
+        public override House PlaceInHouse(AbstractSkyEvent sky)
         {
             for (int i = 0; i < 12; i++)
             {

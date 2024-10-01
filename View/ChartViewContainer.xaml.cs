@@ -14,8 +14,10 @@ namespace WpfApp1.View
     public partial class ChartViewContainer : Grid
     {
         private bool _sinastryView = false;
-        private SkyEvent _sky = null!;
+        private AbstractSkyEvent _sky = null!;
+        private bool IsHoroscope => _sky is SkyEvent sky && sky.Horoscope != null;
 
+        #region RoutedUICommand
         public static RoutedUICommand OpenStarsCMD = CreateUICMD(
         "Open Stars", nameof(OpenStarsCMD), Key.P);
 
@@ -42,11 +44,12 @@ namespace WpfApp1.View
 
         public static RoutedUICommand OpenTransitCMD = CreateUICMD(
         "Open Transit Form", nameof(OpenTransitCMD), Key.T);
-        
+        #endregion
+
         private static RoutedUICommand CreateUICMD(string text, string name, Key key) => 
         new(text, name, typeof(Window), [new KeyGesture(key, ModifierKeys.Control)]);
         
-        public SkyEvent Sky
+        public AbstractSkyEvent Sky
         {
             get => _sky;
             set 
@@ -172,9 +175,7 @@ namespace WpfApp1.View
         
         private void OpenHoroscope(object sender, RoutedEventArgs e)
         {
-            Window? win = Helper.GetActiveWindow();
-
-            if (win!.Title.ToLower().Contains("horoscope"))
+            if (IsHoroscope)
             {
                 Failure.Allert("Cannot calculate a Horoscope on a Horoscope","Action Denied");
                 return;
@@ -184,15 +185,7 @@ namespace WpfApp1.View
 
         private void OpenSinastry(object sender, RoutedEventArgs e)
         {
-            Window? win = Helper.GetActiveWindow();
-
-            if (win!.Title.ToLower().Contains("return"))
-            {
-                Failure.Allert("Cannot calculate a Sinastry on a Return", "Action Denied");
-                return;
-            }
-
-            if (win.Title.ToLower().Contains("horoscope"))
+            if (IsHoroscope)
             {
                 Failure.Allert("Cannot calculate a Sinastry on a Horoscope", "Action Denied");
                 return;
@@ -203,15 +196,7 @@ namespace WpfApp1.View
 
         private void OpenSunReturn(object sender, RoutedEventArgs e)
         {
-            Window? win = Helper.GetActiveWindow();
-
-            if (win!.Title.ToLower().Contains("return"))
-            {
-                Failure.Allert("Cannot calculate a Return on a Return", "Action Denied");
-                return;
-            }
-
-            if (win.Title.ToLower().Contains("horoscope"))
+            if (IsHoroscope)
             {
                 Failure.Allert("Cannot calculate a Return on a Horoscope", "Action Denied");
                 return;
@@ -222,15 +207,7 @@ namespace WpfApp1.View
 
         private void OpenMoonReturn(object sender, RoutedEventArgs e)
         {
-            Window? win = Helper.GetActiveWindow();
-
-            if (win!.Title.ToLower().Contains("return"))
-            {
-                Failure.Allert("Cannot calculate a Return on a Return", "Action Denied");
-                return;
-            }
-
-            if (win.Title.ToLower().Contains("horoscope"))
+            if (IsHoroscope)
             {
                 Failure.Allert("Cannot calculate a Return on a Horoscope", "Action Denied");
                 return;

@@ -34,7 +34,7 @@ namespace WpfApp1.model
             return lib;
         }
 
-        public static List<IStarLibrary?> SearchAspect(Aspect aspect)
+        public static List<IStarLibrary?> SearchAspect(Aspect aspect, House? houseHostingRAsc = null)
         {
             List<IStarLibrary?> lib = [];
 
@@ -58,24 +58,22 @@ namespace WpfApp1.model
             }
             else
             {
-                star1 = new((House)aspect.PointB);
+                star1 = new(houseHostingRAsc);
             }
-
-            TransitType transitType = (aspect.TransitType.TransitTypeId == 4 || aspect.TransitType.TransitTypeId == 5) ? new(4) : new(1);
 
             if (aspect.PointBIsHouse())
             {
                 House house = (House)aspect.PointB;
 
                 if (aspect.IsConjunction)
-                    StarOnCuspidHouse(ref lib, aspect, star1, transitType);
+                    StarOnCuspidHouse(ref lib, aspect, star1, aspect.TransitType);
                 else
-                    StarAspectHouseDescription(ref lib, aspect, star1, house, transitType);
+                    StarAspectHouseDescription(ref lib, aspect, star1, house, aspect.TransitType);
             }
             else
             {
                 Star star2 = (Star)aspect.PointB;
-                StarInHouseDescription(ref lib, star2, transitType);
+                StarInHouseDescription(ref lib, star2, aspect.TransitType);
             }
 
             return lib;

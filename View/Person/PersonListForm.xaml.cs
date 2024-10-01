@@ -1,6 +1,7 @@
 ﻿using FrontEnd.ExtensionMethods;
 using System.Windows;
 using WpfApp1.controller;
+using WpfApp1.model;
 
 namespace WpfApp1.View
 {
@@ -22,7 +23,7 @@ namespace WpfApp1.View
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            this.GetController<PersonListController>()!.Sky1 = Owner?.GetSky();
+            this.GetController<PersonListController>()!.Sky1 = (SkyEvent?)(Owner?.GetSky());
         }
     }
 }
