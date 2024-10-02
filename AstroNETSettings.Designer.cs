@@ -25,7 +25,7 @@ namespace AstroNET {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Roma")]
+        [global::System.Configuration.DefaultSettingValueAttribute("London")]
         public string DefaultCity {
             get {
                 return ((string)(this["DefaultCity"]));
