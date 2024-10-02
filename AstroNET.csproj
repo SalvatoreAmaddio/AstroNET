@@ -15,44 +15,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="assets\aspects\conjuction.png" />
-		<None Remove="assets\aspects\opposition.png" />
-		<None Remove="assets\aspects\semisquare.png" />
-		<None Remove="assets\aspects\sesquisquare.png" />
-		<None Remove="assets\aspects\sextile.png" />
-		<None Remove="assets\aspects\square.png" />
-		<None Remove="assets\aspects\trine.png" />
-		<None Remove="assets\img\astrology.png" />
-		<None Remove="assets\img\download.png" />
-		<None Remove="assets\img\earth.png" />
-		<None Remove="assets\img\placeholder.jpg" />
-		<None Remove="assets\planets\jupiter.png" />
-		<None Remove="assets\planets\mars.png" />
-		<None Remove="assets\planets\mercury.png" />
-		<None Remove="assets\planets\moon.png" />
-		<None Remove="assets\planets\neptune.png" />
-		<None Remove="assets\planets\pluto.png" />
-		<None Remove="assets\planets\saturn.png" />
-		<None Remove="assets\planets\sun.png" />
-		<None Remove="assets\planets\uranus.png" />
-		<None Remove="assets\planets\venus.png" />
-		<None Remove="assets\sign\aquarius.png" />
-		<None Remove="assets\sign\aries.png" />
-		<None Remove="assets\sign\cancer.png" />
-		<None Remove="assets\sign\capricorn.png" />
-		<None Remove="assets\sign\gemini.png" />
-		<None Remove="assets\sign\leo.png" />
-		<None Remove="assets\sign\libra.png" />
-		<None Remove="assets\sign\pisces.png" />
-		<None Remove="assets\sign\sagittarius.png" />
-		<None Remove="assets\sign\scorpio.png" />
-		<None Remove="assets\sign\taurus.png" />
-		<None Remove="assets\sign\virgo.png" />
-		<None Remove="Data\mydb.db" />
-		<None Remove="Data\zodiac.db" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<Content Include="astrology.ico" />
 		<Content Include="Data\zodiac.db">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -140,5 +102,4 @@
 	<ItemGroup>
 		<Folder Include="personPictures\" />
 	</ItemGroup>
-
 </Project>
