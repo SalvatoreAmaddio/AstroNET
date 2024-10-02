@@ -11,7 +11,7 @@ namespace AstroNET
     {
         public App()
         {
-            //C:\\Users\\salva\\AppData\\Roaming\\WpfApp1\\mydb.db"
+            //C:\Users\salva\AppData\Roaming\AstroNET\"
             Sys.LoadAllEmbeddedDll(); //load some custom assemblies that could be used later on.
             DatabaseManager.DatabaseName = "zodiac.db";
             DatabaseManager.LoadInApplicationData();
