@@ -14,7 +14,9 @@
             <RowDefinition x:Name="Row2" Height="25"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <fr:Curtain x:Name="Curtain" Grid.RowSpan="3"/>
         <Menu VerticalAlignment="Center">
+            <fr:OpenCurtain Command="{Binding OpenCurtainCMD}"/>
             <MenuItem Header="_Charts">
                 <MenuItem Header="_New" Click="AddNew" InputGestureText="Ctrl+N">
                     <MenuItem.Icon>

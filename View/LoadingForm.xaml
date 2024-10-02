@@ -11,7 +11,7 @@
             Icon="pack://application:,,,/assets/img/astrology.png"
             Title="Welcome" Height="450" Width="450">
 
-    <fr:LoadingMask MainWindow="MainWindow" Padding="30">
+    <fr:LoadingMask MainWindow="MainWindow" Padding="30" FooterString="Developed by Salvatore Amaddio">
         <Image Stretch="Fill" Source="pack://application:,,,/assets/img/astrology.png"/>
     </fr:LoadingMask>
 </Window>

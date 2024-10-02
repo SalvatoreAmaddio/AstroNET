@@ -48,7 +48,8 @@ namespace AstroNET.View
 
         private static RoutedUICommand CreateUICMD(string text, string name, Key key) => 
         new(text, name, typeof(Window), [new KeyGesture(key, ModifierKeys.Control)]);
-        
+
+        public ICommand OpenCurtainCMD { get; }
         public AbstractSkyEvent Sky
         {
             get => _sky;
@@ -62,8 +63,10 @@ namespace AstroNET.View
         public ChartViewContainer()
         {
             InitializeComponent();
+            Curtain.SoftwareInfo = new SoftwareInfo("Salvatore Amaddio", "www.salvatoreamaddio.co.uk", "Mister J", "2024");
             DataContext = this;
             Loaded += OnLoaded;
+            OpenCurtainCMD = new CMD(OpenCurtain);
         }
 
         public ChartViewContainer(bool isSinastryView = false) : this()
@@ -138,7 +141,8 @@ namespace AstroNET.View
                     win.Closing -= WinOnClosing;
             }
         }
-        
+
+        private void OpenCurtain() => Curtain.Open();
         private void OpenArchive(object sender, RoutedEventArgs e) => new PersonListForm().ShowDialog();
 
         private void AddNew(object sender, RoutedEventArgs e) =>
