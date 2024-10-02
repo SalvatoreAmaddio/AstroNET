@@ -1,7 +1,10 @@
 ﻿using Backend.Database;
+using Backend.Utils;
 using FrontEnd.Controller;
 using FrontEnd.Dialogs;
+using FrontEnd.Forms;
 using FrontEnd.Source;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using WpfApp1.model;
@@ -15,11 +18,39 @@ namespace WpfApp1.controller
         public RecordSource<Gender> Genders { get; private set; } = new(DatabaseManager.Find<Gender>()!);
         public ICommand CalculateSkyCMD { get; }
         public bool IsNewSky = false;
+        public ICommand FilePickedCMD { get; }
 
         public PersonController()
         {
+            FilePickedCMD = new Command<FilePickerCatch>(PickPicture);
             CalculateSkyCMD = new CMD(CalculateSky);
             CheckIsDirtyOnClose = false;
+        }
+
+        private void PickPicture(FilePickerCatch? filePicked)
+        {
+            if (CurrentRecord == null || filePicked == null) return;
+            if (CurrentRecord.IsDirty)
+                if (!PerformUpdate()) return;
+
+            if (filePicked.FileRemoved)
+                return;
+
+            if (string.IsNullOrEmpty(filePicked.FilePath)) return;
+
+            string folderPath = Path.Combine(Sys.AppPath(), "personPictures");
+            Sys.CreateFolder(folderPath);
+
+            FileTransfer fileTransfer = new()
+            {
+                SourceFilePath = filePicked.FilePath,
+                DestinationFolder = folderPath,
+                NewFileName = $"{CurrentRecord.PersonId}_{CurrentRecord.FirstName}_{CurrentRecord.LastName}_PROFILE_PICTURE.{filePicked.Extension}"
+            };
+
+            fileTransfer.Copy();
+
+            CurrentRecord.PictureURL = fileTransfer.NewFileName;
         }
 
         private void CalculateSky()

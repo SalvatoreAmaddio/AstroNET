@@ -19,6 +19,7 @@
     <None Remove="assets\img\astrology.png" />
     <None Remove="assets\img\download.png" />
     <None Remove="assets\img\earth.png" />
+    <None Remove="assets\img\placeholder.jpg" />
     <None Remove="assets\planets\jupiter.png" />
     <None Remove="assets\planets\mars.png" />
     <None Remove="assets\planets\mercury.png" />
@@ -73,6 +74,7 @@
     <Resource Include="assets\aspects\trine.png" />
     <Resource Include="assets\img\download.png" />
     <Resource Include="assets\img\earth.png" />
+    <Resource Include="assets\img\placeholder.jpg" />
     <Resource Include="assets\planets\jupiter.png" />
     <Resource Include="assets\planets\mars.png" />
     <Resource Include="assets\planets\mercury.png" />
@@ -129,6 +131,10 @@
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>AstroNETSettings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="personPictures\" />
   </ItemGroup>
 
 </Project>

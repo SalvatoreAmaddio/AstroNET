@@ -23,7 +23,7 @@
     <fr:Form RecordTrackerRow="0" RecordStatusColumn="0" Padding="10">
         <StackPanel>
             <Border BorderBrush="Black" BorderThickness=".5" CornerRadius="5" Padding="5">
-                <Grid fr:Definition.ColumnDefinitions="70,130,20,35,160" fr:Definition.RowDefinitions="33,33,33,55">
+                <Grid fr:Definition.ColumnDefinitions="70,130,20,35,150,155" fr:Definition.RowDefinitions="33,33,33,55">
                     <Label Grid.Row="0" Grid.Column="0" Content="First Name"/>
                     <fr:Text Grid.Row="0" Grid.Column="1" Text="{Binding CurrentRecord.FirstName}" VerticalAlignment="Center"/>
                     <Label Grid.Row="1" Grid.Column="0" Content="Last Name"/>
@@ -41,7 +41,9 @@
                     </StackPanel>
                     
                     <Label Grid.Row="3" Grid.Column="0" Content="Notes"/>
-                    <fr:Text Grid.Row="3" Margin="0,5,0,0" Grid.Column="1" Grid.ColumnSpan="5" Text="{Binding CurrentRecord.Notes}" AcceptsReturn="True" VerticalAlignment="Stretch" VerticalContentAlignment="Top"/>
+                    <fr:Text Grid.Row="3" Margin="0,5,0,0" Grid.Column="1" Grid.ColumnSpan="4" Text="{Binding CurrentRecord.Notes}" AcceptsReturn="True" VerticalAlignment="Stretch" VerticalContentAlignment="Top"/>
+
+                    <fr:PhotoFrame Grid.Column="5" Grid.RowSpan="4" Margin="5,0,0,0" DefaultBannerPath="pack://application:,,,/assets/img/placeholder.jpg" Folder="personPictures" Source="{Binding CurrentRecord.PictureURL}"/>
                 </Grid>
             </Border>
 

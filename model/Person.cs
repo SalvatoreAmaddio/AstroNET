@@ -2,6 +2,7 @@
 using Backend.Model;
 using FrontEnd.Model;
 using System.Data.Common;
+using FrontEnd.Events;
 
 namespace WpfApp1.model
 {
@@ -19,6 +20,7 @@ namespace WpfApp1.model
         private bool _unknownTime = false;
         private City _city = null!;
         private bool _deceased = false;
+        private string _pictureURL = string.Empty;
 
         [PK]
         public Int64 PersonId { get => _personId; set => UpdateProperty(ref value, ref _personId); }
@@ -49,6 +51,9 @@ namespace WpfApp1.model
         [Field]
         public bool Deceased { get => _deceased; set => UpdateProperty(ref value, ref _deceased); }
 
+        [Field]
+        public string PictureURL { get => _pictureURL; set => UpdateProperty(ref value, ref _pictureURL); }
+
         public Person() 
         {
             AfterUpdate += OnAfterUpdate;
@@ -74,9 +79,10 @@ namespace WpfApp1.model
             _notes = reader.GetString(7);
             _unknownTime = reader.GetBoolean(8);
             _deceased = reader.GetBoolean(9);
+            _pictureURL = reader.GetString(10);
         }
 
-        private void OnAfterUpdate(object? sender, FrontEnd.Events.AfterUpdateArgs e)
+        private void OnAfterUpdate(object? sender, AfterUpdateArgs e)
         {
             if (e.Is(nameof(UnknownTime))) 
             { 
