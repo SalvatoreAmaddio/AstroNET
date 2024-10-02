@@ -39,7 +39,7 @@ namespace WpfApp1.model
 
         [FK]
         public Gender Gender { get => _gender; set => UpdateProperty(ref value, ref _gender); }
-        
+
         [Field]
         public string Notes { get => _notes; set => UpdateProperty(ref value, ref _notes); }
 
@@ -54,7 +54,7 @@ namespace WpfApp1.model
         [Field]
         public string PictureURL { get => _pictureURL; set => UpdateProperty(ref value, ref _pictureURL); }
 
-        public Person() 
+        public Person()
         {
             AfterUpdate += OnAfterUpdate;
             _gender = new(1);
@@ -68,13 +68,13 @@ namespace WpfApp1.model
         }
 
         public Person(DbDataReader reader) : this()
-        { 
+        {
             _personId = reader.GetInt64(0);
             _firstName = reader.GetString(1);
             _lastName = reader.GetString(2);
             _dob = reader.GetDateTime(3);
             _tob = TimeSpan.Parse(reader.GetString(4));
-            _city = new (reader.GetInt64(5));
+            _city = new(reader.GetInt64(5));
             _gender = new(reader.GetInt64(6));
             _notes = reader.GetString(7);
             _unknownTime = reader.GetBoolean(8);
@@ -84,11 +84,11 @@ namespace WpfApp1.model
 
         private void OnAfterUpdate(object? sender, AfterUpdateArgs e)
         {
-            if (e.Is(nameof(UnknownTime))) 
-            { 
-                if (UnknownTime) 
+            if (e.Is(nameof(UnknownTime)))
+            {
+                if (UnknownTime)
                 {
-                    TOB = new TimeSpan(12,0,0);
+                    TOB = new TimeSpan(12, 0, 0);
                     return;
                 }
             }

@@ -19,7 +19,7 @@
         <converter:RegionConverter x:Key="regionConverter"/>
         <converter:CountryFromRegionConverter x:Key="countryConverter"/>
     </Window.Resources>
-    
+
     <fr:Form RecordTrackerRow="0" RecordStatusColumn="0" Padding="10">
         <StackPanel>
             <Border BorderBrush="Black" BorderThickness=".5" CornerRadius="5" Padding="5">
@@ -39,7 +39,7 @@
                         <CheckBox IsChecked="{Binding CurrentRecord.UnknownTime}" Content="Unknown Time" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
                         <CheckBox IsChecked="{Binding CurrentRecord.Deceased}" Content="Deceased" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="10,0,0,0"/>
                     </StackPanel>
-                    
+
                     <Label Grid.Row="3" Grid.Column="0" Content="Notes"/>
                     <fr:Text Grid.Row="3" Margin="0,5,0,0" Grid.Column="1" Grid.ColumnSpan="4" Text="{Binding CurrentRecord.Notes}" AcceptsReturn="True" VerticalAlignment="Stretch" VerticalContentAlignment="Top"/>
 
@@ -71,7 +71,7 @@
                                 </DataTemplate>
                             </fr:Lista.ItemTemplate>
                         </fr:Lista>
-                    </StackPanel>                    
+                    </StackPanel>
                 </Border>
 
                 <Border Grid.Column="1" Padding="10">
