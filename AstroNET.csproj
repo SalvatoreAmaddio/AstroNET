@@ -5,6 +5,7 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	<Authors>Salvatore Amaddio</Authors>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
