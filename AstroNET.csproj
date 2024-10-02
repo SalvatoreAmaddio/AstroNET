@@ -11,6 +11,7 @@
 		<Copyright>Salvatore Amaddio</Copyright>
 		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
 		<SignAssembly>False</SignAssembly>
+		<ApplicationIcon>astrology.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -52,6 +53,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Content Include="astrology.ico" />
 		<Content Include="Data\zodiac.db">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
