@@ -13,7 +13,7 @@ AstroNet is a comprehensive astrology software developed in C# and WPF, designed
 
 - Planetary Movements and Aspects Forecast: Predict future planetary aspects by tracking the movements of planets in relation to an individual's birth chart, providing valuable insights for personal and professional planning.
 
-- Astrological Library System: Access an extensive library with detailed descriptions of stars, houses, and aspects, offering in-depth analysis and interpretation for both natal and predictive astrology.
+- Astrological Library System: Access an extensive editable library with detailed descriptions of stars, houses, and aspects, offering in-depth analysis and interpretation for both natal and predictive astrology.
 
 - Multi-User Data Management: Store and manage astrological data for multiple individuals, making it perfect for astrologers who work with different clients.
 
