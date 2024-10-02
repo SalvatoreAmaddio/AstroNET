@@ -1,138 +1,142 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-	<Authors>Salvatore Amaddio</Authors>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Authors>Salvatore Amaddio</Authors>
+		<UseWPF>true</UseWPF>
+		<Authors>Salvatore Amaddio</Authors>
+		<Copyright>Salvatore Amaddio</Copyright>
+		<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+		<SignAssembly>False</SignAssembly>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="assets\aspects\conjuction.png" />
-    <None Remove="assets\aspects\opposition.png" />
-    <None Remove="assets\aspects\semisquare.png" />
-    <None Remove="assets\aspects\sesquisquare.png" />
-    <None Remove="assets\aspects\sextile.png" />
-    <None Remove="assets\aspects\square.png" />
-    <None Remove="assets\aspects\trine.png" />
-    <None Remove="assets\img\astrology.png" />
-    <None Remove="assets\img\download.png" />
-    <None Remove="assets\img\earth.png" />
-    <None Remove="assets\img\placeholder.jpg" />
-    <None Remove="assets\planets\jupiter.png" />
-    <None Remove="assets\planets\mars.png" />
-    <None Remove="assets\planets\mercury.png" />
-    <None Remove="assets\planets\moon.png" />
-    <None Remove="assets\planets\neptune.png" />
-    <None Remove="assets\planets\pluto.png" />
-    <None Remove="assets\planets\saturn.png" />
-    <None Remove="assets\planets\sun.png" />
-    <None Remove="assets\planets\uranus.png" />
-    <None Remove="assets\planets\venus.png" />
-    <None Remove="assets\sign\aquarius.png" />
-    <None Remove="assets\sign\aries.png" />
-    <None Remove="assets\sign\cancer.png" />
-    <None Remove="assets\sign\capricorn.png" />
-    <None Remove="assets\sign\gemini.png" />
-    <None Remove="assets\sign\leo.png" />
-    <None Remove="assets\sign\libra.png" />
-    <None Remove="assets\sign\pisces.png" />
-    <None Remove="assets\sign\sagittarius.png" />
-    <None Remove="assets\sign\scorpio.png" />
-    <None Remove="assets\sign\taurus.png" />
-    <None Remove="assets\sign\virgo.png" />
-    <None Remove="Data\mydb.db" />
-    <None Remove="Data\zodiac.db" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="assets\aspects\conjuction.png" />
+		<None Remove="assets\aspects\opposition.png" />
+		<None Remove="assets\aspects\semisquare.png" />
+		<None Remove="assets\aspects\sesquisquare.png" />
+		<None Remove="assets\aspects\sextile.png" />
+		<None Remove="assets\aspects\square.png" />
+		<None Remove="assets\aspects\trine.png" />
+		<None Remove="assets\img\astrology.png" />
+		<None Remove="assets\img\download.png" />
+		<None Remove="assets\img\earth.png" />
+		<None Remove="assets\img\placeholder.jpg" />
+		<None Remove="assets\planets\jupiter.png" />
+		<None Remove="assets\planets\mars.png" />
+		<None Remove="assets\planets\mercury.png" />
+		<None Remove="assets\planets\moon.png" />
+		<None Remove="assets\planets\neptune.png" />
+		<None Remove="assets\planets\pluto.png" />
+		<None Remove="assets\planets\saturn.png" />
+		<None Remove="assets\planets\sun.png" />
+		<None Remove="assets\planets\uranus.png" />
+		<None Remove="assets\planets\venus.png" />
+		<None Remove="assets\sign\aquarius.png" />
+		<None Remove="assets\sign\aries.png" />
+		<None Remove="assets\sign\cancer.png" />
+		<None Remove="assets\sign\capricorn.png" />
+		<None Remove="assets\sign\gemini.png" />
+		<None Remove="assets\sign\leo.png" />
+		<None Remove="assets\sign\libra.png" />
+		<None Remove="assets\sign\pisces.png" />
+		<None Remove="assets\sign\sagittarius.png" />
+		<None Remove="assets\sign\scorpio.png" />
+		<None Remove="assets\sign\taurus.png" />
+		<None Remove="assets\sign\virgo.png" />
+		<None Remove="Data\mydb.db" />
+		<None Remove="Data\zodiac.db" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Include="Data\zodiac.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="Data\zodiac.db">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="DesktopBusinessAppSharpBuilder" Version="1.0.45" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="NodaTime" Version="3.1.12" />
-    <PackageReference Include="SwissEphNet" Version="2.8.0.2" />
-    <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="DesktopBusinessAppSharpBuilder" Version="1.0.45" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="NodaTime" Version="3.1.12" />
+		<PackageReference Include="SwissEphNet" Version="2.8.0.2" />
+		<PackageReference Include="System.Net.Http" Version="4.3.4" />
+		<PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="assets\aspects\conjuction.png" />
-    <Resource Include="assets\aspects\opposition.png" />
-    <Resource Include="assets\aspects\semisquare.png" />
-    <Resource Include="assets\aspects\sesquisquare.png" />
-    <Resource Include="assets\aspects\sextile.png" />
-    <Resource Include="assets\aspects\square.png" />
-    <Resource Include="assets\aspects\trine.png" />
-    <Resource Include="assets\img\download.png" />
-    <Resource Include="assets\img\earth.png" />
-    <Resource Include="assets\img\placeholder.jpg" />
-    <Resource Include="assets\planets\jupiter.png" />
-    <Resource Include="assets\planets\mars.png" />
-    <Resource Include="assets\planets\mercury.png" />
-    <Resource Include="assets\planets\moon.png" />
-    <Resource Include="assets\planets\neptune.png" />
-    <Resource Include="assets\planets\pluto.png" />
-    <Resource Include="assets\planets\saturn.png" />
-    <Resource Include="assets\planets\sun.png" />
-    <Resource Include="assets\planets\uranus.png" />
-    <Resource Include="assets\planets\venus.png" />
-    <Resource Include="assets\sign\aquarius.png" />
-    <Resource Include="assets\sign\aries.png" />
-    <Resource Include="assets\sign\cancer.png" />
-    <Resource Include="assets\sign\capricorn.png" />
-    <Resource Include="assets\sign\gemini.png" />
-    <Resource Include="assets\sign\leo.png" />
-    <Resource Include="assets\sign\libra.png" />
-    <Resource Include="assets\sign\pisces.png" />
-    <Resource Include="assets\sign\sagittarius.png" />
-    <Resource Include="assets\sign\scorpio.png" />
-    <Resource Include="assets\sign\taurus.png" />
-    <Resource Include="assets\sign\virgo.png" />
-  </ItemGroup>
+	<ItemGroup>
+		<Resource Include="assets\aspects\conjuction.png" />
+		<Resource Include="assets\aspects\opposition.png" />
+		<Resource Include="assets\aspects\semisquare.png" />
+		<Resource Include="assets\aspects\sesquisquare.png" />
+		<Resource Include="assets\aspects\sextile.png" />
+		<Resource Include="assets\aspects\square.png" />
+		<Resource Include="assets\aspects\trine.png" />
+		<Resource Include="assets\img\download.png" />
+		<Resource Include="assets\img\earth.png" />
+		<Resource Include="assets\img\placeholder.jpg" />
+		<Resource Include="assets\planets\jupiter.png" />
+		<Resource Include="assets\planets\mars.png" />
+		<Resource Include="assets\planets\mercury.png" />
+		<Resource Include="assets\planets\moon.png" />
+		<Resource Include="assets\planets\neptune.png" />
+		<Resource Include="assets\planets\pluto.png" />
+		<Resource Include="assets\planets\saturn.png" />
+		<Resource Include="assets\planets\sun.png" />
+		<Resource Include="assets\planets\uranus.png" />
+		<Resource Include="assets\planets\venus.png" />
+		<Resource Include="assets\sign\aquarius.png" />
+		<Resource Include="assets\sign\aries.png" />
+		<Resource Include="assets\sign\cancer.png" />
+		<Resource Include="assets\sign\capricorn.png" />
+		<Resource Include="assets\sign\gemini.png" />
+		<Resource Include="assets\sign\leo.png" />
+		<Resource Include="assets\sign\libra.png" />
+		<Resource Include="assets\sign\pisces.png" />
+		<Resource Include="assets\sign\sagittarius.png" />
+		<Resource Include="assets\sign\scorpio.png" />
+		<Resource Include="assets\sign\taurus.png" />
+		<Resource Include="assets\sign\virgo.png" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="assets\img\astrology.png" />
-  </ItemGroup>
+	<ItemGroup>
+		<Resource Include="assets\img\astrology.png" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="AstroNETSettings.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>AstroNETSettings.settings</DependentUpon>
-    </Compile>
-    <Compile Update="View\Horoscopes\MoonReturnWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="View\Library\LibraryStarHousesWindowList.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="View\Library\LibraryStarHouseWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="View\Library\LibraryHouseSignsWindowList.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="View\Library\LibraryHouseSignWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="AstroNETSettings.Designer.cs">
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>AstroNETSettings.settings</DependentUpon>
+		</Compile>
+		<Compile Update="View\Horoscopes\MoonReturnWindow.xaml.cs">
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Update="View\Library\LibraryStarHousesWindowList.xaml.cs">
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Update="View\Library\LibraryStarHouseWindow.xaml.cs">
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Update="View\Library\LibraryHouseSignsWindowList.xaml.cs">
+			<SubType>Code</SubType>
+		</Compile>
+		<Compile Update="View\Library\LibraryHouseSignWindow.xaml.cs">
+			<SubType>Code</SubType>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="AstroNETSettings.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>AstroNETSettings.Designer.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<None Update="AstroNETSettings.settings">
+			<Generator>PublicSettingsSingleFileGenerator</Generator>
+			<LastGenOutput>AstroNETSettings.Designer.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="personPictures\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="personPictures\" />
+	</ItemGroup>
 
 </Project>
