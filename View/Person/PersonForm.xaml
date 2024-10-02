@@ -43,7 +43,7 @@
                     <Label Grid.Row="3" Grid.Column="0" Content="Notes"/>
                     <fr:Text Grid.Row="3" Margin="0,5,0,0" Grid.Column="1" Grid.ColumnSpan="4" Text="{Binding CurrentRecord.Notes}" AcceptsReturn="True" VerticalAlignment="Stretch" VerticalContentAlignment="Top"/>
 
-                    <fr:PhotoFrame Grid.Column="5" Grid.RowSpan="4" Margin="5,0,0,0" DefaultBannerPath="pack://application:,,,/assets/img/placeholder.jpg" Folder="personPictures" Source="{Binding CurrentRecord.PictureURL}"/>
+                    <fr:PhotoFrame Grid.Column="5" Grid.RowSpan="4" Margin="5,0,0,0" DefaultBannerPath="pack://application:,,,/assets/img/placeholder.jpg" Folder="personPictures" Source="{Binding CurrentRecord.PictureURL}" FilePickedCommand="{Binding FilePickedCMD}"/>
                 </Grid>
             </Border>
 
