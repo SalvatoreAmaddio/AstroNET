@@ -17,7 +17,7 @@ AstroNet is a comprehensive astrology software developed in C# and WPF, designed
 
 - Multi-User Data Management: Store and manage astrological data for multiple individuals, making it perfect for astrologers who work with different clients.
 
-- Location's Data downladable on Demand through the api.geonames.
+- Location's Data downlodable on Demand through the api.geonames.
 
 - Astrology Calculations made through the use of the SwissEphNet Library ensuring high level of precision.
 
