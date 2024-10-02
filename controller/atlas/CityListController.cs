@@ -6,6 +6,7 @@ using Backend.ExtensionMethods;
 using System.Windows.Input;
 using FrontEnd.Dialogs;
 using System.Windows;
+using AstroNET;
 
 namespace WpfApp1.controller
 {

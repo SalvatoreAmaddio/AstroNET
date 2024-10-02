@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WpfApp1 {
+namespace AstroNET {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

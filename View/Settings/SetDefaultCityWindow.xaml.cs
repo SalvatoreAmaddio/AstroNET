@@ -1,4 +1,5 @@
-﻿using FrontEnd.ExtensionMethods;
+﻿using AstroNET;
+using FrontEnd.ExtensionMethods;
 using System.Windows;
 using WpfApp1.controller;
 

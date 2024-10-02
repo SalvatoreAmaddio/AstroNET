@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfApp1", "WpfApp1.csproj", "{03BFDD4B-EAE4-4225-91D0-06E235A0BA3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AstroNET", "AstroNET.csproj", "{03BFDD4B-EAE4-4225-91D0-06E235A0BA3C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend", "..\Backend_BusinessAppSharpBuilder\Backend.csproj", "{968D9E0E-2E4D-4168-B794-B562538FD6E2}"
 EndProject

@@ -1,4 +1,5 @@
-﻿using Backend.Database;
+﻿using AstroNET;
+using Backend.Database;
 using System.Windows;
 using WpfApp1.model;
 
