@@ -3,9 +3,9 @@ using Backend.Model;
 using FrontEnd.Controller;
 using FrontEnd.Events;
 using FrontEnd.Model;
-using WpfApp1.model;
+using AstroNET.model;
 
-namespace WpfApp1.controller
+namespace AstroNET.controller
 {
     public abstract class AbstractPointListController<M> : AbstractFormListController<M> where M : IAbstractModel, IPoint, new()
     {

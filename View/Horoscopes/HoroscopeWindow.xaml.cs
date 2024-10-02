@@ -1,9 +1,9 @@
 ﻿using FrontEnd.Dialogs;
 using System.Windows;
-using WpfApp1.model;
+using AstroNET.model;
 using Xceed.Wpf.Toolkit;
 
-namespace WpfApp1.View
+namespace AstroNET.View
 {
     public partial class HoroscopeWindow : CommonHoroscopeDateWindow
     {

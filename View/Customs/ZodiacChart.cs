@@ -9,9 +9,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WpfApp1.model;
+using AstroNET.model;
 
-namespace WpfApp1.View
+namespace AstroNET.View
 {
 
     public class ZodiacChart : UserControl

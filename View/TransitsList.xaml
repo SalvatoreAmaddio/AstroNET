@@ -1,14 +1,14 @@
-﻿<Window x:Class="WpfApp1.View.TransitsList"
+﻿<Window x:Class="AstroNET.View.TransitsList"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1.View"
+        xmlns:local="clr-namespace:AstroNET.View"
         xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         WindowState="Maximized"
-        xmlns:converter ="clr-namespace:WpfApp1.converter"    
+        xmlns:converter ="clr-namespace:AstroNET.converter"    
         Title="TransitsList">
 
     <Window.Resources>

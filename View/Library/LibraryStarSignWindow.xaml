@@ -1,13 +1,13 @@
-﻿<Window x:Class="WpfApp1.View.LibraryStarSignWindow"
+﻿<Window x:Class="AstroNET.View.LibraryStarSignWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1.View"
+        xmlns:local="clr-namespace:AstroNET.View"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
-        xmlns:controller="clr-namespace:WpfApp1.controller"
+        xmlns:controller="clr-namespace:AstroNET.controller"
         ResizeMode="NoResize"
         Title="LibrarySignWindow" Height="460" Width="400">
 

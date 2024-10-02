@@ -2,10 +2,10 @@
 using FrontEnd.Controller;
 using FrontEnd.Events;
 using Backend.ExtensionMethods;
-using WpfApp1.model;
-using WpfApp1.View;
+using AstroNET.model;
+using AstroNET.View;
 
-namespace WpfApp1.controller
+namespace AstroNET.controller
 {
     public class AspectListController : AbstractFormListController<Aspect>
     {

@@ -4,7 +4,7 @@ using FrontEnd.Model;
 using System.Data.Common;
 using FrontEnd.Events;
 
-namespace WpfApp1.model
+namespace AstroNET.model
 {
     [Table(nameof(Person))]
     public class Person : AbstractModel<Person>

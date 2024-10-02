@@ -4,12 +4,12 @@ using FrontEnd.Utils;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WpfApp1.model;
+using AstroNET.model;
 using System.ComponentModel;
 using System.IO;
 using Backend.Utils;
 
-namespace WpfApp1.View
+namespace AstroNET.View
 {
     public partial class ChartViewContainer : Grid
     {

@@ -2,7 +2,7 @@
 using FrontEnd.Model;
 using System.Data.Common;
 
-namespace WpfApp1.model
+namespace AstroNET.model
 {
     [Table(nameof(TransitType))]
     public class TransitType : AbstractModel<TransitType> 

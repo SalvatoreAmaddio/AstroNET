@@ -6,10 +6,10 @@ using FrontEnd.Events;
 using FrontEnd.FilterSource;
 using FrontEnd.Source;
 using System.Windows;
-using WpfApp1.model;
-using WpfApp1.View;
+using AstroNET.model;
+using AstroNET.View;
 
-namespace WpfApp1.controller
+namespace AstroNET.controller
 {
     public abstract class AbstractPointLibraryControllerList<M> : AbstractFormListController<M> where M : AbstractPointLibrary<M>, IAbstractPointLibrary, new() 
     {

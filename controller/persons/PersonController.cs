@@ -7,10 +7,10 @@ using FrontEnd.Source;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
-using WpfApp1.model;
-using WpfApp1.View;
+using AstroNET.model;
+using AstroNET.View;
 
-namespace WpfApp1.controller
+namespace AstroNET.controller
 {
     public class PersonController : AbstractFormController<Person>
     {

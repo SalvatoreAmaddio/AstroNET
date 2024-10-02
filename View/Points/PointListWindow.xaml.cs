@@ -1,8 +1,8 @@
 ﻿using System.Windows;
-using WpfApp1.controller;
+using AstroNET.controller;
 using FrontEnd.ExtensionMethods;
 
-namespace WpfApp1.View
+namespace AstroNET.View
 {
     public partial class PointListWindow : Window
     {

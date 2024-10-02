@@ -2,9 +2,9 @@
 using MvvmHelpers;
 using System.Windows;
 using System.Windows.Controls;
-using WpfApp1.model;
+using AstroNET.model;
 
-namespace WpfApp1.View
+namespace AstroNET.View
 {
     public class ChartView : Control
     {

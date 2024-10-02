@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace WpfApp1.View
+namespace AstroNET.View
 {
     public class AspectsGridTemplate : Control
     {

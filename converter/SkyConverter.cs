@@ -3,10 +3,10 @@ using Backend.Source;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
-using WpfApp1.model;
-using Region = WpfApp1.model.Region;
+using AstroNET.model;
+using Region = AstroNET.model.Region;
 
-namespace WpfApp1.converter
+namespace AstroNET.converter
 {
     public class RetrogradeConverter : IValueConverter
     {

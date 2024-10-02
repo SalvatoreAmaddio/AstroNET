@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace WpfApp1.View
+namespace AstroNET.View
 {
     public class PencilCase
     {

@@ -1,10 +1,10 @@
 ﻿using Backend.Database;
 using FrontEnd.ExtensionMethods;
 using System.Windows;
-using WpfApp1.model;
-using TimeZone = WpfApp1.model.TimeZone;
+using AstroNET.model;
+using TimeZone = AstroNET.model.TimeZone;
 
-namespace WpfApp1
+namespace AstroNET
 {
     public partial class App : Application
     {

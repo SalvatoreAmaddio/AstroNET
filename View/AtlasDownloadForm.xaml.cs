@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using WpfApp1.controller;
+using AstroNET.controller;
 
-namespace WpfApp1.View
+namespace AstroNET.View
 {
     public partial class AtlasDownloadForm : Window
     {

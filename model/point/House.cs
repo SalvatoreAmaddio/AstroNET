@@ -2,7 +2,7 @@
 using Backend.Model;
 using System.Data.Common;
 
-namespace WpfApp1.model
+namespace AstroNET.model
 {
     [Table(nameof(House))]
     public class House : AbstractPoint<House>, IHouse

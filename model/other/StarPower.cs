@@ -1,7 +1,7 @@
 ﻿using Backend.Model;
 using System.Data.Common;
 
-namespace WpfApp1.model
+namespace AstroNET.model
 {
     [Table(nameof(StarPower))]
     public class StarPower : AbstractPoint<StarPower>

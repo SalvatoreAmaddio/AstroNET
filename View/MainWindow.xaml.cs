@@ -1,9 +1,8 @@
-﻿using AstroNET;
-using Backend.Database;
+﻿using Backend.Database;
 using System.Windows;
-using WpfApp1.model;
+using AstroNET.model;
 
-namespace WpfApp1.View
+namespace AstroNET.View
 {
     public partial class MainWindow : Window
     {

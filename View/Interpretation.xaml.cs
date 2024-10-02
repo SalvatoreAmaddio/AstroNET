@@ -2,9 +2,9 @@
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
-using WpfApp1.model;
+using AstroNET.model;
 
-namespace WpfApp1.View
+namespace AstroNET.View
 {
     public partial class Interpretation : Window
     {

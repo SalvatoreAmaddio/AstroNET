@@ -1,10 +1,10 @@
 ﻿using FrontEnd.Dialogs;
 using System.ComponentModel;
 using System.Windows;
-using WpfApp1.controller;
-using WpfApp1.model;
+using AstroNET.controller;
+using AstroNET.model;
 
-namespace WpfApp1.View
+namespace AstroNET.View
 {
     public abstract class CommonHoroscopeWindow : Window, INotifyPropertyChanged
     {

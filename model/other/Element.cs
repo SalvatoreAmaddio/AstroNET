@@ -2,7 +2,7 @@
 using FrontEnd.Model;
 using System.Data.Common;
 
-namespace WpfApp1.model
+namespace AstroNET.model
 {
     [Table(nameof(Element))]
     public class Element : AbstractModel<Element>

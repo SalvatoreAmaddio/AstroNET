@@ -1,8 +1,8 @@
 ﻿using FrontEnd.Dialogs;
 using System.Windows;
-using WpfApp1.model;
+using AstroNET.model;
 
-namespace WpfApp1.View
+namespace AstroNET.View
 {
     public partial class SunReturnWindow : CommonHoroscopeWindow
     {

@@ -1,4 +1,4 @@
-﻿namespace WpfApp1.model
+﻿namespace AstroNET.model
 {
     public interface IPoint
     {

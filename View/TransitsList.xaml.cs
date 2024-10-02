@@ -1,9 +1,9 @@
 ﻿using MvvmHelpers;
 using System.ComponentModel;
 using System.Windows;
-using WpfApp1.model;
+using AstroNET.model;
 
-namespace WpfApp1.View
+namespace AstroNET.View
 {
     public partial class TransitsList : Window, INotifyPropertyChanged
     {

@@ -1,6 +1,6 @@
 ﻿using SwissEphNet;
 
-namespace WpfApp1.model
+namespace AstroNET.model
 {
     public class DateTimeAdjuster
     {

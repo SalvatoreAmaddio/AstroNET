@@ -3,10 +3,10 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using WpfApp1.controller;
-using WpfApp1.model;
+using AstroNET.controller;
+using AstroNET.model;
 
-namespace WpfApp1.View
+namespace AstroNET.View
 {
     public partial class StarTransitOrbitWindowList : Window
     {

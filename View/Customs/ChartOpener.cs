@@ -3,10 +3,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using WpfApp1.model;
+using AstroNET.model;
 using Brushes = System.Windows.Media.Brushes;
 
-namespace WpfApp1.View
+namespace AstroNET.View
 {
     public static class Extenstion
     {

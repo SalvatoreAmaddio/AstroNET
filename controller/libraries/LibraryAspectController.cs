@@ -2,11 +2,11 @@
 using Backend.Model;
 using FrontEnd.Controller;
 using FrontEnd.Source;
-using WpfApp1.model;
+using AstroNET.model;
 using Backend.ExtensionMethods;
 using System.Windows;
 
-namespace WpfApp1.controller
+namespace AstroNET.controller
 {
     public abstract class AbstractPointLibraryController<M> : AbstractFormController<M> where M : AbstractPointLibrary<M>, new()
     {

@@ -1,7 +1,7 @@
 ﻿using NodaTime;
 using SwissEphNet;
 
-namespace WpfApp1.model
+namespace AstroNET.model
 {
     public class SkyInfo
     {
@@ -54,9 +54,9 @@ namespace WpfApp1.model
             }
         }
 
-        public string SideralTimeString 
+        public string SideralTimeString
         {
-            get 
+            get
             {
                 TimeSpan timeSpan = TimeSpan.FromHours(SideralTime);
                 int totalHours = (int)timeSpan.TotalHours;

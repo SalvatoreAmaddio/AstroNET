@@ -1,10 +1,10 @@
 ﻿using FrontEnd.ExtensionMethods;
 using System.Windows;
 using System.Windows.Input;
-using WpfApp1.controller;
-using WpfApp1.model;
+using AstroNET.controller;
+using AstroNET.model;
 
-namespace WpfApp1.View
+namespace AstroNET.View
 {
     public partial class PersonForm : Window
     {

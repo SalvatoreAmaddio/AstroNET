@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace WpfApp1.model
+namespace AstroNET.model
 {
     public class Location
     {

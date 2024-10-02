@@ -1,19 +1,18 @@
 ﻿using Backend.Model;
 using FrontEnd.Controller;
 using FrontEnd.Events;
-using WpfApp1.model;
+using AstroNET.model;
 using Backend.ExtensionMethods;
 using System.Windows.Input;
 using FrontEnd.Dialogs;
 using System.Windows;
-using AstroNET;
 
-namespace WpfApp1.controller
+namespace AstroNET.controller
 {
     public class CityListController : AbstractFormListController<City>
     {
         public ICommand SetDefaultCityCMD { get; }
-        public CityListController() 
+        public CityListController()
         {
             AfterUpdate += OnAfterUpdate;
             AllowNewRecord = false;

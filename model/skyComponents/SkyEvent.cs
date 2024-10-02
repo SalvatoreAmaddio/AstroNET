@@ -3,7 +3,7 @@ using FrontEnd.Controller;
 using MvvmHelpers;
 using System.ComponentModel;
 
-namespace WpfApp1.model
+namespace AstroNET.model
 {
     public abstract class AbstractSkyEvent : INotifyPropertyChanged
     {

@@ -1,11 +1,11 @@
 ﻿using Backend.Database;
 using FrontEnd.Controller;
 using FrontEnd.Source;
-using WpfApp1.model;
+using AstroNET.model;
 using FrontEnd.Events;
-using WpfApp1.View;
+using AstroNET.View;
 
-namespace WpfApp1.controller
+namespace AstroNET.controller
 {
     public class SignController : AbstractFormController<Sign>
     {

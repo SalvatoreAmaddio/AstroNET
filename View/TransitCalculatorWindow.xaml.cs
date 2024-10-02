@@ -2,10 +2,10 @@
 using System.ComponentModel;
 using FrontEnd.ExtensionMethods;
 using System.Windows;
-using WpfApp1.controller;
-using WpfApp1.model;
+using AstroNET.controller;
+using AstroNET.model;
 
-namespace WpfApp1.View
+namespace AstroNET.View
 {
     public partial class TransitCalculatorWindow : Window, INotifyPropertyChanged
     {

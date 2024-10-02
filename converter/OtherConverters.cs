@@ -2,11 +2,11 @@
 using System.Globalization;
 using System.Text;
 using System.Windows.Data;
-using WpfApp1.model;
+using AstroNET.model;
 using System;
 using FrontEnd.Model;
 
-namespace WpfApp1.converter
+namespace AstroNET.converter
 {
     public class TogleBoolean : IValueConverter
     {

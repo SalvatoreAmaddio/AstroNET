@@ -1,8 +1,8 @@
 ﻿using FrontEnd.Controller;
-using WpfApp1.model;
-using TimeZone = WpfApp1.model.TimeZone;
+using AstroNET.model;
+using TimeZone = AstroNET.model.TimeZone;
 
-namespace WpfApp1.controller
+namespace AstroNET.controller
 {
     public class CountryController : AbstractFormController<Country>
     {

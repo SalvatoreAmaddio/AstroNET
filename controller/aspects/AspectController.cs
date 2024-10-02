@@ -1,7 +1,7 @@
 ﻿using FrontEnd.Controller;
-using WpfApp1.model;
+using AstroNET.model;
 
-namespace WpfApp1.controller
+namespace AstroNET.controller
 {
     public class AspectController : AbstractFormController<Aspect>
     {

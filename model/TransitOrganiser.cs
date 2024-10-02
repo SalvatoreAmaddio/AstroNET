@@ -1,5 +1,5 @@
 ﻿
-namespace WpfApp1.model
+namespace AstroNET.model
 {
     public class TransitGroupKey(int id, string name) 
     {

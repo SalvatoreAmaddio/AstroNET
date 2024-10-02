@@ -3,7 +3,7 @@ using FrontEnd.Model;
 using System.Data.Common;
 using System.Windows.Media;
 
-namespace WpfApp1.model
+namespace AstroNET.model
 {
     [Table(nameof(Aspect))]
     public class Aspect : AbstractModel<Aspect>

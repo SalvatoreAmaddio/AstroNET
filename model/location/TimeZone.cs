@@ -3,7 +3,7 @@ using Backend.Database;
 using Backend.Model;
 using FrontEnd.Model;
 
-namespace WpfApp1.model
+namespace AstroNET.model
 {
     [Table(nameof(TimeZone))]
     public class TimeZone : AbstractModel<TimeZone>, ILocation

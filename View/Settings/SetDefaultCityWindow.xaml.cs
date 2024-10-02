@@ -1,9 +1,9 @@
 ﻿using AstroNET;
 using FrontEnd.ExtensionMethods;
 using System.Windows;
-using WpfApp1.controller;
+using AstroNET.controller;
 
-namespace WpfApp1.View
+namespace AstroNET.View
 {
     public partial class SetDefaultCityWindow : Window
     {
