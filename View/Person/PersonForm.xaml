@@ -50,7 +50,7 @@
             <Grid Margin="0,20,0,0" fr:Definition.ColumnDefinitions=".8*,.2*" fr:Definition.RowDefinitions="*">
                 <Border Grid.Row="0" BorderBrush="Black" BorderThickness=".5" VerticalAlignment="Stretch" Padding="5" CornerRadius="5">
                     <StackPanel>
-                        <fr:Text Placeholder="Search place..." Text="{Binding CityListController.Search}"/>
+                        <fr:Text Placeholder="Search place..." Text="{Binding Search}"/>
                         <fr:Lista Grid.Column="0" Height="235" VerticalAlignment="Stretch" ItemsSource="{Binding CityListController.RecordSource}" SelectedItem="{Binding CurrentRecord.City}">
                             <fr:Lista.Header>
                                 <Grid fr:Definition.ColumnDefinitions="25,150,150,100">

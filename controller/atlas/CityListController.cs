@@ -27,11 +27,14 @@ namespace AstroNET.controller
             ((Window?)UI)?.Close();
         }
 
-        private async void OnAfterUpdate(object? sender, AfterUpdateArgs e)
+        protected async void OnAfterUpdate(object? sender, AfterUpdateArgs e)
         {
             if (!e.Is(nameof(Search))) return;
             await OnSearchPropertyRequeryAsync(sender);
         }
+
+        public async Task RunCitySearchAsync() =>
+        await OnSearchPropertyRequeryAsync(this);
 
         public override AbstractClause InstantiateSearchQry()
         {

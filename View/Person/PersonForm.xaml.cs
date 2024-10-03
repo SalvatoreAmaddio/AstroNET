@@ -26,7 +26,7 @@ namespace AstroNET.View
             {
                 this.GetController<PersonController>()!.GoAt(person);
             }
-            this.GetController<PersonController>()!.CityListController._search = person?.City?.CityName;
+            this.GetController<PersonController>()!._search = person?.City?.CityName;
         }
 
         private void OnLabelClikced(object sender, System.Windows.Input.MouseButtonEventArgs e)

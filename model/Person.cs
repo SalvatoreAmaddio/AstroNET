@@ -18,7 +18,7 @@ namespace AstroNET.model
         private string _notes = string.Empty;
         private SkyEvent _skyEvent = null!;
         private bool _unknownTime = false;
-        private City _city = null!;
+        private City _city = new();
         private bool _deceased = false;
         private string _pictureURL = string.Empty;
 

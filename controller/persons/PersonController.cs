@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Input;
 using AstroNET.model;
 using AstroNET.View;
+using FrontEnd.Events;
 
 namespace AstroNET.controller
 {
@@ -25,6 +26,31 @@ namespace AstroNET.controller
             FilePickedCMD = new Command<FilePickerCatch>(PickPicture);
             CalculateSkyCMD = new CMD(CalculateSky);
             CheckIsDirtyOnClose = false;
+            AfterUpdate += OnAfterUpdate;
+            WindowLoaded += OnWindowLoaded;
+        }
+
+        private async void OnAfterUpdate(object? sender, AfterUpdateArgs e)
+        {
+            if (e.Is(nameof(Search)))
+            {
+                await SetCityOnFilter();
+            }
+        }
+
+        private async void OnWindowLoaded(object? sender, RoutedEventArgs e)
+        {
+            await SetCityOnFilter();
+            CurrentRecord?.Clean();
+        }
+
+        private async Task SetCityOnFilter() 
+        {
+            CityListController._search = Search;
+            await CityListController.RunCitySearchAsync();
+            City? city = CityListController.CurrentRecord;
+            if (city != null && CurrentRecord != null)
+                CurrentRecord.City = city;
         }
 
         private void PickPicture(FilePickerCatch? filePicked)
