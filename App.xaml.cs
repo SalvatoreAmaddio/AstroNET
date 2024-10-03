@@ -40,6 +40,9 @@ namespace AstroNET
             DatabaseManager.Add(new SQLiteDatabase<LibraryStarHouses>());
             DatabaseManager.Add(new SQLiteDatabase<LibraryStarSigns>());
             DatabaseManager.Add(new SQLiteDatabase<LibraryHouseSigns>());
+
+            DatabaseManager.Add(new SQLiteDatabase<SavedCharts>());
+
             this.DisposeOnExit(); // ensure Databases are disposed on Application' shutdown.
         }
     }

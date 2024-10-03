@@ -36,9 +36,6 @@ namespace AstroNET.View
         public static RoutedUICommand OpenHoroscopeCMD = CreateUICMD(
        "Open Horoscope", nameof(OpenHoroscopeCMD), Key.H);
 
-        public static RoutedUICommand OpenEditCMD = CreateUICMD(
-       "Open Edit Form", nameof(OpenEditCMD), Key.E);
-
         public static RoutedUICommand OpenLocationDownloaderCMD = CreateUICMD(
         "Open Location Downloader Form", nameof(OpenLocationDownloaderCMD), Key.D);
 
@@ -74,21 +71,9 @@ namespace AstroNET.View
             _sinastryView = isSinastryView;
         }
 
-        private void CollapseUpperRows() 
-        {
-            if (!_sinastryView) 
-            {
-                SetWindowBindings();
-                return;
-            }
-            
-            Row1.Height = new(0);
-            Row2.Height = new(0);
-        }
-
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            CollapseUpperRows();
+            SetWindowBindings();
             Window? win = Helper.GetActiveWindow();
             if (win != null)
                 win.Closing += WinOnClosing;
@@ -101,8 +86,6 @@ namespace AstroNET.View
             activeWin?.CommandBindings.Add(new(OpenArchiveCMD, OpenArchive));
             activeWin?.CommandBindings.Add(new(OpenHoroscopeCMD, OpenHoroscope));
             activeWin?.CommandBindings.Add(new(OpenLocationDownloaderCMD, OpenLocationDownloader));
-            activeWin?.CommandBindings.Add(new(OpenEditCMD, OpenEdit));
-            activeWin?.CommandBindings.Add(new(ApplicationCommands.Save, SaveClicked));
             activeWin?.CommandBindings.Add(new(OpenSunReturnCMD, OpenSunReturn));
             activeWin?.CommandBindings.Add(new(OpenMoonReturnCMD, OpenMoonReturn));
             activeWin?.CommandBindings.Add(new(OpenSinastryCMD, OpenSinastry));
@@ -147,32 +130,6 @@ namespace AstroNET.View
 
         private void AddNew(object sender, RoutedEventArgs e) =>
         new PersonForm(new Person(), false, true) { Owner = Helper.GetActiveWindow() }.ShowDialog();
-
-        private void OpenEdit(object sender, RoutedEventArgs e)
-        {
-            Person? person = Sky.Person;
-           
-            if (person == null) return;
-
-            PersonForm personForm = new(person, person.IsNewRecord())
-            {
-                Owner = Helper.GetActiveWindow()
-            };
-
-            personForm.ShowDialog();
-        }
-
-        private void SaveClicked(object sender, RoutedEventArgs e)
-        {
-            IAbstractFormController? controller = Sky.PersonController;
-            controller?.SetCurrentRecord(Sky.Person);
-            bool? result = controller?.PerformUpdate();
-
-            if (result.HasValue && result.Value)
-            {
-                SuccessDialog.Display();
-            }
-        }
 
         private void OpenLocationDownloader(object sender, RoutedEventArgs e) =>
         new AtlasDownloadForm().ShowDialog();

@@ -7,6 +7,7 @@
     >
     
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/FrontEnd;component/Themes/FrontEndDictionary.xaml"/>
         <ResourceDictionary Source="Themes/Styles.xaml" />
     </ResourceDictionary.MergedDictionaries>
     
@@ -98,6 +99,15 @@
 
                         <ScrollViewer>
                             <StackPanel>
+                                <ToolBarTray Height="{TemplateBinding ToolBarHeight}">
+                                    <ToolBar ToolBarTray.IsLocked="True">
+                                        <Button Command="{TemplateBinding OpenEditCMD}" Content="{StaticResource editing}" ToolTip="Edit" Padding="6,1,6,20" Width="{TemplateBinding EditButtonWidth}"/>
+                                        <Button Command="{TemplateBinding SaveCMD}" Padding="6,1,6,20" ToolTip="Save">
+                                            <Image Source="{StaticResource save}" Width="20"/>
+                                        </Button>
+                                    </ToolBar>
+                                </ToolBarTray>
+                                
                                 <Border x:Name="SkyInfoBorder" Background="#fcfcfa" HorizontalAlignment="Stretch" Height="80" Padding="5">
                                     <Grid fr:Definition.ColumnDefinitions="*,*,*" fr:Definition.RowDefinitions="26,23,27" HorizontalAlignment="Left">
                                         <Grid.Resources>

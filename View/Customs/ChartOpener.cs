@@ -5,6 +5,8 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using AstroNET.model;
 using Brushes = System.Windows.Media.Brushes;
+using FrontEnd.Dialogs;
+using AstroNET.controller;
 
 namespace AstroNET.View
 {
@@ -32,8 +34,10 @@ namespace AstroNET.View
         {
             Helper.GetActiveWindow()?.Close();
 
-            if (sky.Horoscope != null)
-                OpenChartWindow($"{title}", skyType, new ChartView() { Sky = sky }, false);
+            if (sky.Horoscope != null) 
+            {
+                OpenChartWindow($"{title}", skyType, new ChartView() { Sky = sky, IsHoroscope = true }, false);
+            }
             else
                 OpenChartWindow($"{title}", skyType, new ChartViewContainer() { Sky = sky }, false);
         }
@@ -133,19 +137,83 @@ namespace AstroNET.View
             new Interpretation(LibrarySearch.SearchStarDescription(new Star(house), 4)).Show();
         }
 
+        private static Button CreateSaveButton(AbstractSkyEvent sky2) 
+        {
+            Button save = new()
+            {
+                Padding = new(6, 1, 6, 20),
+                ToolTip = "Save",
+                Content = new Image()
+                {
+                    Source = Helper.LoadFromImages("save"),
+                    Height = 20
+                }
+            };
+            save.Tag = sky2;
+            save.Click += OnSaveClicked;
+            save.Unloaded += OnSaveUnloaded;
+            return save;
+        }
+
+        private static void OnSaveUnloaded(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            button.Unloaded -= OnSaveUnloaded;
+            button.Click -= OnSaveClicked;
+        }
+
+        private static void OnSaveClicked(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            AbstractSkyEvent sky2 = (AbstractSkyEvent)button.Tag;
+
+            if (sky2 is ReturnSkyEvent returnSky)
+            {
+                SavedChartControllerList controller = new();
+                SavedCharts chart = new(sky2);
+                chart.IsDirty = true;
+                controller.SetCurrentRecord(chart);
+                controller.PerformUpdate();
+                SuccessDialog.Display();
+            }
+            else 
+            {
+                Failure.Allert("Cannot save Sinastry Chart");
+            }
+        }
+
+        private static ToolBarTray CreateToolBarTray(AbstractSkyEvent sky2)
+        {
+            ToolBarTray tray = new() { IsLocked = true };
+            ToolBar toolBar = new();
+            toolBar.Items.Add(CreateSaveButton(sky2));
+            tray.ToolBars.Add(toolBar);
+            return tray;
+        }
+
         private static Grid CreateChartGrid(SkyEvent sky1, AbstractSkyEvent sky2)
         {
             Grid grid = new();
-            grid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star) });
-            grid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star) });
+            grid.RowDefinitions.Add(new() { Height = new(25) });
             grid.RowDefinitions.Add(new() { Height = new(1, GridUnitType.Star) });
 
-            ChartViewContainer chart1 = new(true) { Sky = sky1 };
-            ChartViewContainer chart2 = new(true) { Sky = sky2 };
+            grid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star) });
 
+            ChartView chart1 = new() { Sky = sky1, ToolBarHeight = 0 };
+            ChartView chart2 = new() { Sky = sky2, ToolBarHeight = 0 };
+
+            ToolBarTray tray = CreateToolBarTray(sky2);
+
+            grid.Children.Add(tray);
             grid.Children.Add(chart1);
             grid.Children.Add(chart2);
+
+            Grid.SetColumnSpan(tray, 2);
+            Grid.SetRow(chart1, 1);
+            Grid.SetRow(chart2, 1);
             Grid.SetColumn(chart2, 1);
+
             return grid;
         }
 

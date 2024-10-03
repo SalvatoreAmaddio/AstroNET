@@ -3,6 +3,13 @@ using MvvmHelpers;
 using System.Windows;
 using System.Windows.Controls;
 using AstroNET.model;
+using FrontEnd.Utils;
+using System.Windows.Input;
+using FrontEnd.Controller;
+using FrontEnd.Dialogs;
+using AstroNET.controller;
+using Backend.Model;
+using FrontEnd.Model;
 
 namespace AstroNET.View
 {
@@ -53,9 +60,9 @@ namespace AstroNET.View
         {
             int skyTypeId = ((ChartView)(d)).Sky.SkyInfo.SkyTypeId;
 
-            if (e.NewValue != null && (skyTypeId == 4 || skyTypeId == 5)) 
+            if (e.NewValue != null && (skyTypeId == 4 || skyTypeId == 5))
             {
-                House? house = DatabaseManager.Find<House>()?.MasterSource.Cast<House>()?.FirstOrDefault(s=>s.PointName.Trim().Equals(((ElementGroupKey)e.NewValue).Name.ToString()?.Trim()));
+                House? house = DatabaseManager.Find<House>()?.MasterSource.Cast<House>()?.FirstOrDefault(s => s.PointName.Trim().Equals(((ElementGroupKey)e.NewValue).Name.ToString()?.Trim()));
                 if (house == null) return;
                 new Interpretation(LibrarySearch.SearchStarDescription(new(house), 4)).Show();
             }
@@ -95,7 +102,7 @@ namespace AstroNET.View
         #region Sky
         public static readonly DependencyProperty SkyProperty =
         DependencyProperty.Register(nameof(Sky), typeof(AbstractSkyEvent),
-        typeof(ChartView), new PropertyMetadata(OnSkyChanged) { DefaultValue = null});
+        typeof(ChartView), new PropertyMetadata(OnSkyChanged) { DefaultValue = null });
 
         public AbstractSkyEvent Sky
         {
@@ -123,7 +130,7 @@ namespace AstroNET.View
             {
                 interpretation = new(LibrarySearch.SearchAspect((Aspect)e.NewValue, returnSky.HouseHostingReturnAsc));
             }
-            else 
+            else
             {
                 interpretation = new(LibrarySearch.SearchAspect((Aspect)e.NewValue));
             }
@@ -211,12 +218,57 @@ namespace AstroNET.View
                 new PropertyMetadata(new ObservableRangeCollection<House>()));
         #endregion
 
+        #region OpenEditCMD
+        public ICommand OpenEditCMD
+        {
+            get => (ICommand)GetValue(OpenEditCMDProperty);
+            set => SetValue(OpenEditCMDProperty, value);
+        }
+
+        public static readonly DependencyProperty OpenEditCMDProperty =
+            DependencyProperty.Register(
+                nameof(OpenEditCMD),
+                typeof(ICommand),
+                typeof(ChartView),
+                new PropertyMetadata());
+        #endregion
+
+        #region SaveCMD
+        public ICommand SaveCMD
+        {
+            get => (ICommand)GetValue(SaveCMDProperty);
+            set => SetValue(SaveCMDProperty, value);
+        }
+
+        public static readonly DependencyProperty SaveCMDProperty =
+            DependencyProperty.Register(
+                nameof(SaveCMD),
+                typeof(ICommand),
+                typeof(ChartView),
+                new PropertyMetadata());
+        #endregion
+
+        #region ToolBarHeight
+        public double ToolBarHeight
+        {
+            get => (double)GetValue(ToolBarHeightProperty);
+            set => SetValue(ToolBarHeightProperty, value);
+        }
+
+        public static readonly DependencyProperty ToolBarHeightProperty =
+            DependencyProperty.Register(
+                nameof(ToolBarHeight),
+                typeof(double),
+                typeof(ChartView),
+                new PropertyMetadata(25.0));
+        #endregion
+
         private static void OnSelectedPointChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             Interpretation interpretation;
-            
+
             int skyTypeId = ((ChartView)(d)).Sky.SkyInfo.SkyTypeId;
-            
+
             if (e.NewValue is Star)
                 interpretation = new(LibrarySearch.SearchStarDescription((Star)e.NewValue, skyTypeId));
             else
@@ -235,13 +287,111 @@ namespace AstroNET.View
 
         public ZodiacChart Chart { get; private set; } = null!;
 
+        public static RoutedUICommand OpenEditUICMD = CreateUICMD(
+        "Open Edit Form", nameof(OpenEditCMD), Key.E);
+
+        private static RoutedUICommand CreateUICMD(string text, string name, Key key) =>
+        new(text, name, typeof(Window), [new KeyGesture(key, ModifierKeys.Control)]);
+
+        #region EditButtonWidth
+        public double EditButtonWidth
+        {
+            get => (double)GetValue(EditButtonWidthProperty);
+            set => SetValue(EditButtonWidthProperty, value);
+        }
+
+        public static readonly DependencyProperty EditButtonWidthProperty =
+            DependencyProperty.Register(
+                nameof(EditButtonWidth),
+                typeof(double),
+                typeof(ChartView),
+                new PropertyMetadata(30.0));
+        #endregion
+
+        private bool _isHoroscope = false;
+
+        public bool IsHoroscope 
+        {
+            get => _isHoroscope;
+            set 
+            {
+                _isHoroscope = value;
+                EditButtonWidth = (value) ? 0 : 20;
+            }
+        }
+
         static ChartView()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ChartView), new FrameworkPropertyMetadata(typeof(ChartView)));
         }
 
-        public ChartView() 
+        public ChartView()
         {
+            OpenEditCMD = new CMD(OpenEdit);
+            SaveCMD = new CMD(Save);
+            Loaded += OnLoaded;
+            Unloaded += OnUnloaded;
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            Loaded -= OnLoaded;
+            Unloaded -= OnUnloaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            Window? activeWin = Helper.GetActiveWindow();
+            activeWin?.CommandBindings.Add(new(OpenEditUICMD, (s, e) => OpenEditCMD.Execute(null)));
+            activeWin?.CommandBindings.Add(new(ApplicationCommands.Save, (s, e) => SaveCMD.Execute(null)));
+        }
+
+        private void Save()
+        {
+            if (ToolBarHeight == 0) return;
+
+            IAbstractFormController? controller;
+            IAbstractModel record;
+
+            if (Sky is SkyEvent skyEvent)
+            {
+                if (skyEvent.Horoscope != null)
+                {
+                    controller = new SavedChartControllerList();
+                    record = new SavedCharts(skyEvent.Horoscope);
+                    record.IsDirty = true;
+                }
+                else
+                {
+                    controller = Sky.PersonController;
+                    record = Sky.Person;
+                }
+
+                controller?.SetCurrentRecord(record);
+
+                bool? result = controller?.PerformUpdate();
+
+                if (result.HasValue && result.Value)
+                {
+                    SuccessDialog.Display();
+                }
+            }
+        }
+
+        private void OpenEdit()
+        {
+            if (ToolBarHeight == 0 || IsHoroscope) return;
+
+            Person? person = Sky.Person;
+
+            if (person == null) return;
+
+            PersonForm personForm = new(person, person.IsNewRecord())
+            {
+                Owner = Helper.GetActiveWindow()
+            };
+
+            personForm.ShowDialog();
         }
 
         public override void OnApplyTemplate()
@@ -252,9 +402,9 @@ namespace AstroNET.View
 
         private void SetBinding()
         {
-            AbstractSkyEvent toUse; 
-            
-            if (Sky is SkyEvent sky) 
+            AbstractSkyEvent toUse;
+
+            if (Sky is SkyEvent sky)
             {
                 toUse = (sky.Horoscope == null) ? Sky : sky.Horoscope;
             }

@@ -60,6 +60,11 @@ namespace AstroNET.model
             _gender = new(1);
         }
 
+        public Person(long id) : this() 
+        { 
+            _personId = id;
+        }
+
         public Person(DateTime date, TimeSpan tob, City city) : this()
         {
             _dob = date;

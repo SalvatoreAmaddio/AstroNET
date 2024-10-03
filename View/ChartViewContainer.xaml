@@ -7,13 +7,8 @@
              xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition x:Name="Row1" Height="18"/>
-            <RowDefinition x:Name="Row2" Height="25"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+
+    <Grid fr:Definition.RowDefinitions="18,*">
         <fr:Curtain x:Name="Curtain" Grid.RowSpan="3"/>
         <Menu VerticalAlignment="Center">
             <fr:OpenCurtain Command="{Binding OpenCurtainCMD}"/>
@@ -100,14 +95,6 @@
                 <MenuItem Header="Chart" Click="MenuItem_Click"/>
             </MenuItem>
         </Menu>
-        <ToolBarTray Grid.Row="1">
-            <ToolBar ToolBarTray.IsLocked="True">
-                <Button Click="OpenEdit" Content="{StaticResource editing}" ToolTip="Edit" Padding="6,1,6,20"/>
-                <Button Click="SaveClicked" Padding="6,1,6,20" ToolTip="Save">
-                    <Image Source="{StaticResource save}" Width="20"/>
-                </Button>
-            </ToolBar>
-        </ToolBarTray>
-        <local:ChartView Grid.Row="2" x:Name="NatalChartCanvas" Background="#FFFFF0"/>
+        <local:ChartView Grid.Row="1" x:Name="NatalChartCanvas" Background="#FFFFF0"/>
     </Grid>
 </Grid>
