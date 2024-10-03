@@ -481,6 +481,7 @@ namespace AstroNET.model
                 if (aspect.PointA is House house)
                 {
                     conjHouse = (House)aspect.PointB;
+                    if (IsEvilHouse(conjHouse.PointId)) return true;
                     if (IsEvilHouse(House.SlidHouse(aspect.OrbDiff, conjHouse))) return true;
                 }
             }
