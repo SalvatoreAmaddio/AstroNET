@@ -83,10 +83,10 @@ namespace AstroNET.model
                     _skyTypeId = 2;
                     break;
                 case SkyType.SunReturn:
-                    _skyTypeId = 3;
+                    _skyTypeId = 4;
                     break;
                 case SkyType.MoonReturn:
-                    _skyTypeId = 4;
+                    _skyTypeId = 5;
                     break;
             }
         }

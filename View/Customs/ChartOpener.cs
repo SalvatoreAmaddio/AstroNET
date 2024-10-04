@@ -30,11 +30,12 @@ namespace AstroNET.View
 
     public class ChartOpener
     {
+        private static Window? CurrentWindow => Helper.GetActiveWindow();
         public static void OpenChart(string title, SkyEvent sky, SkyType skyType)
         {
-            Helper.GetActiveWindow()?.Close();
+            CurrentWindow?.Close();
 
-            if (sky.Horoscope != null) 
+            if (sky.Horoscope != null)
             {
                 OpenChartWindow($"{title}", skyType, new ChartView() { Sky = sky, IsHoroscope = true }, false);
             }
@@ -45,7 +46,7 @@ namespace AstroNET.View
         public static void OpenComparedChart(SinastryBundle sinastryBundle)
         {
 
-            Grid chartGrid = CreateChartGrid(sinastryBundle.Sky1, sinastryBundle.Sky2);
+            Grid chartGrid = CreateChartGrid(sinastryBundle.Sky1, sinastryBundle.Sky2, true);
 
             StackPanel infoStackPanel = new();
 
@@ -56,14 +57,14 @@ namespace AstroNET.View
 
             infoStackPanel.Children.Add(sinastryChart);
 
-            Helper.GetActiveWindow()?.Close();
+            CurrentWindow?.Close();
 
             OpenChartWindow(sinastryBundle.Title, SkyType.Sinastry, CreateBackgroundWindow(chartGrid, infoStackPanel));
         }
 
         public static void OpenComparedChart(string? title, SkyEvent sky1, AbstractSkyEvent sky2, SkyType skyType)
         {
-            Helper.GetActiveWindow()?.Close();
+            CurrentWindow?.Close();
 
             Grid chartGrid = CreateChartGrid(sky1, sky2);
 
@@ -137,7 +138,7 @@ namespace AstroNET.View
             new Interpretation(LibrarySearch.SearchStarDescription(new Star(house), 4)).Show();
         }
 
-        private static Button CreateSaveButton(AbstractSkyEvent sky2) 
+        private static Button CreateSaveButton(AbstractSkyEvent sky2)
         {
             Button save = new()
             {
@@ -147,9 +148,9 @@ namespace AstroNET.View
                 {
                     Source = Helper.LoadFromImages("save"),
                     Height = 20
-                }
+                },
+                Tag = sky2
             };
-            save.Tag = sky2;
             save.Click += OnSaveClicked;
             save.Unloaded += OnSaveUnloaded;
             return save;
@@ -176,7 +177,7 @@ namespace AstroNET.View
                 controller.PerformUpdate();
                 SuccessDialog.Display();
             }
-            else 
+            else
             {
                 Failure.Allert("Cannot save Sinastry Chart");
             }
@@ -191,10 +192,20 @@ namespace AstroNET.View
             return tray;
         }
 
-        private static Grid CreateChartGrid(SkyEvent sky1, AbstractSkyEvent sky2)
+        private static Grid CreateChartGrid(SkyEvent sky1, AbstractSkyEvent sky2, bool isSinastry = false)
         {
             Grid grid = new();
-            grid.RowDefinitions.Add(new() { Height = new(25) });
+            int row = 0;
+
+            if (!isSinastry)
+            {
+                grid.RowDefinitions.Add(new() { Height = new(25) });
+                ToolBarTray tray = CreateToolBarTray(sky2);
+                grid.Children.Add(tray);
+                Grid.SetColumnSpan(tray, 2);
+                row = 1;
+            }
+
             grid.RowDefinitions.Add(new() { Height = new(1, GridUnitType.Star) });
 
             grid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star) });
@@ -203,15 +214,11 @@ namespace AstroNET.View
             ChartView chart1 = new() { Sky = sky1, ToolBarHeight = 0 };
             ChartView chart2 = new() { Sky = sky2, ToolBarHeight = 0 };
 
-            ToolBarTray tray = CreateToolBarTray(sky2);
-
-            grid.Children.Add(tray);
             grid.Children.Add(chart1);
             grid.Children.Add(chart2);
 
-            Grid.SetColumnSpan(tray, 2);
-            Grid.SetRow(chart1, 1);
-            Grid.SetRow(chart2, 1);
+            Grid.SetRow(chart1, row);
+            Grid.SetRow(chart2, row);
             Grid.SetColumn(chart2, 1);
 
             return grid;

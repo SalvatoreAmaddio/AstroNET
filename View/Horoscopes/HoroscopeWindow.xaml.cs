@@ -1,7 +1,6 @@
 ﻿using FrontEnd.Dialogs;
 using System.Windows;
 using AstroNET.model;
-using Xceed.Wpf.Toolkit;
 
 namespace AstroNET.View
 {

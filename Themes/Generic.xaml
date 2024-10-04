@@ -5,12 +5,12 @@
     xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
     xmlns:converter ="clr-namespace:AstroNET.converter"
     >
-    
+
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/FrontEnd;component/Themes/FrontEndDictionary.xaml"/>
         <ResourceDictionary Source="Themes/Styles.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    
+
     <converter:ImageLoaderConverter x:Key="imgageLoaderConverter"/>
     <converter:RetrogradeConverter x:Key="isRetrogradeConverter"/>
     <converter:GetPersonFromSky x:Key="personSky"/>
@@ -48,7 +48,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="{x:Type local:AspectsGridTemplate}">
         <Setter Property="Template">
             <Setter.Value>
@@ -88,7 +88,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="{x:Type local:ChartView}">
         <Setter Property="Template">
             <Setter.Value>
@@ -107,7 +107,7 @@
                                         </Button>
                                     </ToolBar>
                                 </ToolBarTray>
-                                
+
                                 <Border x:Name="SkyInfoBorder" Background="#fcfcfa" HorizontalAlignment="Stretch" Height="80" Padding="5">
                                     <Grid fr:Definition.ColumnDefinitions="*,*,*" fr:Definition.RowDefinitions="26,23,27" HorizontalAlignment="Left">
                                         <Grid.Resources>
@@ -126,7 +126,7 @@
                                         <Label Grid.Row="0" Grid.Column="2" Content="{TemplateBinding Sky, Converter={StaticResource stSky}}"/>
                                     </Grid>
                                 </Border>
-                                
+
                                 <Border Padding="30" BorderThickness=".1" BorderBrush="Black">
                                     <StackPanel>
                                         <local:ZodiacChart x:Name="ZodiacChart" Sky="{TemplateBinding Sky}" Height="500" Margin="0,30,0,10"/>
@@ -398,7 +398,7 @@
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
-        </Setter>    
+        </Setter>
     </Style>
-    
+
 </ResourceDictionary>

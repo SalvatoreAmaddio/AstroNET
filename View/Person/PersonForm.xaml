@@ -12,7 +12,7 @@
         xmlns:converter="clr-namespace:AstroNET.converter"
         d:DataContext="{d:DesignInstance Type=controller:PersonController, IsDesignTimeCreatable=False}"
         Icon="pack://application:,,,/assets/img/astrology.png"
-        Title="Sky" Height="550" SizeToContent="Width">
+        Title="Sky" Height="570" SizeToContent="Width">
 
     <Window.Resources>
         <converter:UnknownTimeConverter x:Key="unknownConverter"/>
@@ -20,7 +20,22 @@
         <converter:CountryFromRegionConverter x:Key="countryConverter"/>
     </Window.Resources>
 
-    <fr:Form RecordTrackerRow="0" RecordStatusColumn="0" Padding="10">
+    <fr:Form RecordTrackerRow="0" Padding="10">
+        <fr:Form.Menu>
+            <Menu>
+                <MenuItem Header="Sun Returns" Command="{Binding OpenSunReturnsCMD}">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/assets/planets/sun.png" Height="11"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Moon Returns" Command="{Binding OpenMoonReturnsCMD}">
+                    <MenuItem.Icon>
+                        <Image Source="pack://application:,,,/assets/planets/moon.png" Height="11"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Horoscope" Command="{Binding OpenHoroscopesCMD}"/>
+            </Menu>
+        </fr:Form.Menu>
         <StackPanel>
             <Border BorderBrush="Black" BorderThickness=".5" CornerRadius="5" Padding="5">
                 <Grid fr:Definition.ColumnDefinitions="70,130,20,35,150,155" fr:Definition.RowDefinitions="33,33,33,55">

@@ -18,40 +18,37 @@ namespace AstroNET.View
         private bool IsHoroscope => _sky is SkyEvent sky && sky.Horoscope != null;
 
         #region RoutedUICommand
-        public static RoutedUICommand OpenStarsCMD = CreateUICMD(
+        public static RoutedUICommand OpenStarsCMD = Helper.CreateRoutedUICMD(
         "Open Stars", nameof(OpenStarsCMD), Key.P);
 
-        public static RoutedUICommand OpenArchiveCMD = CreateUICMD(
+        public static RoutedUICommand OpenArchiveCMD = Helper.CreateRoutedUICMD(
         "Open Archive", nameof(OpenArchiveCMD), Key.A);
 
-        public static RoutedUICommand OpenSinastryCMD = CreateUICMD(
+        public static RoutedUICommand OpenSinastryCMD = Helper.CreateRoutedUICMD(
         "Open Sinastry", nameof(OpenSinastryCMD), Key.C);
 
-        public static RoutedUICommand OpenSunReturnCMD = CreateUICMD(
+        public static RoutedUICommand OpenSunReturnCMD = Helper.CreateRoutedUICMD(
         "Open Sun Return", nameof(OpenSunReturnCMD), Key.R);
 
-        public static RoutedUICommand OpenMoonReturnCMD = CreateUICMD(
+        public static RoutedUICommand OpenMoonReturnCMD = Helper.CreateRoutedUICMD(
         "Open Moon Return", nameof(OpenMoonReturnCMD), Key.M);
 
-        public static RoutedUICommand OpenHoroscopeCMD = CreateUICMD(
+        public static RoutedUICommand OpenHoroscopeCMD = Helper.CreateRoutedUICMD(
        "Open Horoscope", nameof(OpenHoroscopeCMD), Key.H);
 
-        public static RoutedUICommand OpenLocationDownloaderCMD = CreateUICMD(
+        public static RoutedUICommand OpenLocationDownloaderCMD = Helper.CreateRoutedUICMD(
         "Open Location Downloader Form", nameof(OpenLocationDownloaderCMD), Key.D);
 
-        public static RoutedUICommand OpenTransitCMD = CreateUICMD(
+        public static RoutedUICommand OpenTransitCMD = Helper.CreateRoutedUICMD(
         "Open Transit Form", nameof(OpenTransitCMD), Key.T);
         #endregion
-
-        private static RoutedUICommand CreateUICMD(string text, string name, Key key) => 
-        new(text, name, typeof(Window), [new KeyGesture(key, ModifierKeys.Control)]);
 
         public ICommand OpenCurtainCMD { get; }
         public AbstractSkyEvent Sky
         {
             get => _sky;
-            set 
-            { 
+            set
+            {
                 _sky = value;
                 NatalChartCanvas.Sky = value;
             }
@@ -79,7 +76,7 @@ namespace AstroNET.View
                 win.Closing += WinOnClosing;
         }
 
-        private void SetWindowBindings() 
+        private void SetWindowBindings()
         {
             Window? activeWin = Helper.GetActiveWindow();
             activeWin?.CommandBindings.Add(new(ApplicationCommands.New, AddNew));
@@ -116,7 +113,7 @@ namespace AstroNET.View
                 e.Cancel = !updateResult;
             }
 
-            if (!e.Cancel) 
+            if (!e.Cancel)
             {
                 Loaded -= OnLoaded;
                 Window? win = Helper.GetActiveWindow();
@@ -133,7 +130,7 @@ namespace AstroNET.View
 
         private void OpenLocationDownloader(object sender, RoutedEventArgs e) =>
         new AtlasDownloadForm().ShowDialog();
-        
+
         private void OpenHoroscope(object sender, RoutedEventArgs e) =>
         new HoroscopeWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
 
@@ -162,7 +159,7 @@ namespace AstroNET.View
         new SignListWindow().ShowDialog();
 
         private void OnRadixAspectsClicked(object sender, RoutedEventArgs e) =>
-        OpenLibraryAspects(1);    
+        OpenLibraryAspects(1);
 
         private void OnTransitAspectsClicked(object sender, RoutedEventArgs e) =>
         OpenLibraryAspects(2);
@@ -188,7 +185,7 @@ namespace AstroNET.View
         private void OnHouseInSignClicked(object sender, RoutedEventArgs e) =>
         new LibraryHouseSignsWindowList().ShowDialog();
 
-        private static void OpenLibraryHouses(int id)=> new LibraryStarHousesWindowList(new TransitType(id)).ShowDialog();
+        private static void OpenLibraryHouses(int id) => new LibraryStarHousesWindowList(new TransitType(id)).ShowDialog();
         private static void OpenLibraryAspects(int id) => new LibraryStarAspectsWindowList(new TransitType(id)).ShowDialog();
 
         private void OpenTransitCalcualtor(object sender, RoutedEventArgs e) =>
@@ -196,8 +193,8 @@ namespace AstroNET.View
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            string? winTitle  = Helper.GetActiveWindow()?.Title;
-            
+            string? winTitle = Helper.GetActiveWindow()?.Title;
+
             NatalChartCanvas.Chart.Screenshot(Path.Combine(Sys.Desktop, $"{winTitle}_{Sky.SkyInfo.Day}_{Sky.SkyInfo.Month}_{Sky.SkyInfo.Year}.png"));
         }
     }

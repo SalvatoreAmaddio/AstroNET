@@ -19,14 +19,47 @@ namespace AstroNET.controller
         public ICommand CalculateSkyCMD { get; }
         public bool IsNewSky = false;
         public ICommand FilePickedCMD { get; }
-
+        public ICommand OpenSunReturnsCMD { get; }
+        public ICommand OpenMoonReturnsCMD { get; }
+        public ICommand OpenHoroscopesCMD { get; }
         public PersonController()
         {
+            OpenSunReturnsCMD = new CMD(OpenSunReturns);
+            OpenMoonReturnsCMD = new CMD(OpenMoonReturns);
+            OpenHoroscopesCMD = new CMD(OpenHoroscopes);
             FilePickedCMD = new Command<FilePickerCatch>(PickPicture);
-            CalculateSkyCMD = new CMD(CalculateSky);
+            CalculateSkyCMD = new CMD(OpenSkyChart);
             CheckIsDirtyOnClose = false;
             AfterUpdate += OnAfterUpdate;
             WindowLoaded += OnWindowLoaded;
+        }
+
+        private void OpenSavedCharts(int skyTypeId, string title) 
+        {
+            if (CurrentRecord == null) return;
+            if (CurrentRecord.IsNewRecord()) 
+            {
+                Failure.Allert("The record must be saved before opening saved charts");
+                return;
+            }
+            SkyEvent? sky = CalculateSky();
+            if (sky == null) return;
+            new SavedChartsList(skyTypeId, sky) { Title = title}.ShowDialog();
+        }
+
+        private void OpenSunReturns() 
+        {
+            OpenSavedCharts(4, "Sun Returns");
+        }
+
+        private void OpenMoonReturns()
+        {
+            OpenSavedCharts(5, "Moon Returns");
+        }
+
+        private void OpenHoroscopes()
+        {
+            OpenSavedCharts(2, "Horoscopes");
         }
 
         private async void OnAfterUpdate(object? sender, AfterUpdateArgs e)
@@ -60,7 +93,7 @@ namespace AstroNET.controller
                 CurrentRecord.PictureURL = newFilePath;
         }
 
-        private void CalculateSky()
+        private SkyEvent? CalculateSky() 
         {
             DateTime? date = CurrentRecord?.DOB;
             TimeSpan? time = CurrentRecord?.TOB;
@@ -69,27 +102,34 @@ namespace AstroNET.controller
             if (date == null)
             {
                 Failure.Allert("The Date field cannot be empty");
-                return;
+                return null;
             }
 
             if (time == null)
             {
                 Failure.Allert("The Time field cannot be empty");
-                return;
+                return null;
             }
 
             if (city == null)
             {
                 Failure.Allert("The City field cannot be empty");
-                return;
+                return null;
             }
 
             CurrentRecord?.City.Build();
+            return new(CurrentRecord!, this);
+        }
+
+        private void OpenSkyChart()
+        {
+
+            SkyEvent? sky = CalculateSky();
+
+            if (sky == null) return;
 
             if (IsNewSky)
             {
-                SkyEvent sky = new(CurrentRecord!, this);
-
                 ChartOpener.OpenChart($"{CurrentRecord}", sky, sky.SkyInfo.SkyType);
             }
             else

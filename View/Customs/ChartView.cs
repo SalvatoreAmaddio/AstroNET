@@ -8,7 +8,6 @@ using System.Windows.Input;
 using FrontEnd.Controller;
 using FrontEnd.Dialogs;
 using AstroNET.controller;
-using Backend.Model;
 using FrontEnd.Model;
 
 namespace AstroNET.View
@@ -287,11 +286,8 @@ namespace AstroNET.View
 
         public ZodiacChart Chart { get; private set; } = null!;
 
-        public static RoutedUICommand OpenEditUICMD = CreateUICMD(
+        public static RoutedUICommand OpenEditUICMD = Helper.CreateRoutedUICMD(
         "Open Edit Form", nameof(OpenEditCMD), Key.E);
-
-        private static RoutedUICommand CreateUICMD(string text, string name, Key key) =>
-        new(text, name, typeof(Window), [new KeyGesture(key, ModifierKeys.Control)]);
 
         #region EditButtonWidth
         public double EditButtonWidth
@@ -310,13 +306,13 @@ namespace AstroNET.View
 
         private bool _isHoroscope = false;
 
-        public bool IsHoroscope 
+        public bool IsHoroscope
         {
             get => _isHoroscope;
-            set 
+            set
             {
                 _isHoroscope = value;
-                EditButtonWidth = (value) ? 0 : 20;
+                EditButtonWidth = value ? 0 : 20;
             }
         }
 
