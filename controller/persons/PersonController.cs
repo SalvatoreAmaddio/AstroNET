@@ -54,7 +54,7 @@ namespace AstroNET.controller
 
         private void PickPicture(FilePickerCatch? filePicked)
         {
-            string? newFilePath = Helper.PickPicture($"{CurrentRecord?.PersonId}_{CurrentRecord?.FirstName}_{CurrentRecord?.LastName}_PROFILE_PICTURE", this, filePicked);
+            string? newFilePath = Helper.PickPicture($"{CurrentRecord?.PersonId}_{CurrentRecord?.FirstName}_{CurrentRecord?.LastName}_PROFILE_PICTURE", "personPictures", this, filePicked);
 
             if (newFilePath != null && CurrentRecord != null)
                 CurrentRecord.PictureURL = newFilePath;
