@@ -1,0 +1,31 @@
+{
+  "TransitTypeInfo": [
+    {
+      "TransitTypeId": 1,
+      "StarId": 1,
+      "StarName": "Sun",
+      "TransitDescription": "blabla"
+    }
+
+    {
+      "TransitTypeId": 1,
+      "StarId": 2,
+      "StarName": "Moon",
+      "TransitDescription": "blabla"
+    }
+
+    {
+      "TransitTypeId": 1,
+      "StarId": 3,
+      "StarName": "Mercury",
+      "TransitDescription": "blabla"
+    }
+
+    {
+      "TransitTypeId": 1,
+      "StarId": 4,
+      "StarName": "Venus",
+      "TransitDescription": "blabla"
+    }
+  ]
+}

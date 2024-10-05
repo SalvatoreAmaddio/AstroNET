@@ -9,6 +9,7 @@ namespace AstroNET
 {
     public partial class App : Application
     {
+        public static TransitTypeRoot? TransitTypeDescriptions { get; private set; }
         public App()
         {
             //C:\Users\salva\AppData\Roaming\AstroNET\"
@@ -45,7 +46,7 @@ namespace AstroNET
 
             this.DisposeOnExit(); // ensure Databases are disposed on Application' shutdown.
 
-            var a = Sys.CreateFromJSON<TransitTypeInfo>("Data\\transitinfo.json");
+            TransitTypeDescriptions = Sys.CreateFromJSON<TransitTypeRoot>("Data\\transitinfo.json");
         }
     }
 }
