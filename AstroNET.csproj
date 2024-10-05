@@ -15,6 +15,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Data\transitinfo.json" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Content Include="astrology.ico" />
 		<Content Include="Data\zodiac.db">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

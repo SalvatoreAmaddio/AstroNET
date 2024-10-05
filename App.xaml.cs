@@ -44,6 +44,8 @@ namespace AstroNET
             DatabaseManager.Add(new SQLiteDatabase<SavedCharts>());
 
             this.DisposeOnExit(); // ensure Databases are disposed on Application' shutdown.
+
+            var a = Sys.CreateFromJSON<TransitTypeInfo>("Data\\transitinfo.json");
         }
     }
 }

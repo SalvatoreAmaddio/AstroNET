@@ -13,6 +13,20 @@ namespace AstroNET.model
 
         public TransitTypeInfo() { }
         public TransitTypeInfo(long transitTypeId) => this.TransitTypeId = transitTypeId;
+
+        public override string ToString() => $"{StarName}";
+
+        public override bool Equals(object? obj)
+        {
+            return obj is TransitTypeInfo info &&
+                   TransitTypeId == info.TransitTypeId &&
+                   StarId == info.StarId;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(TransitTypeId, StarId);
+        }
     }
 
     [Table(nameof(TransitType))]
