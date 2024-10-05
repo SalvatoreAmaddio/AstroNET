@@ -9,7 +9,7 @@
         xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
         xmlns:controller="clr-namespace:AstroNET.controller"
         ResizeMode="NoResize"
-        Title="LibrarySignWindow" Height="460" Width="400">
+        Title="LibrarySignWindow" Height="458" Width="400">
 
     <fr:Form Padding="10">
         <Grid fr:Definition.RowDefinitions="34,300,30" fr:Definition.ColumnDefinitions="150,150" HorizontalAlignment="Center">

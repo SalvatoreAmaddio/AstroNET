@@ -5,13 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AstroNET.View"
         mc:Ignorable="d"
+        Width="400"
+        Height="493"
+        ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
         xmlns:controller="clr-namespace:AstroNET.controller"
-        ResizeMode="NoResize"
-        Title="LibraryAspectWindow" Height="460" Width="400">
+        Title="LibraryAspectWindow">
 
     <fr:Form Padding="10">
+        <fr:Form.ToolBar>
+            <ToolBar ToolBarTray.IsLocked="True" Background="{StaticResource DefaultGrey}">
+                <Separator Background="Transparent" Width="17"/>
+                <Button ToolTip="Info" Command="{Binding OpenInfoWindowCMD}">
+                    <Image Source="{StaticResource question}"/>
+                </Button>
+            </ToolBar>
+        </fr:Form.ToolBar>
         <Grid fr:Definition.RowDefinitions="34,300,30" fr:Definition.ColumnDefinitions="100,100,100" HorizontalAlignment="Center">
             <fr:Combo Grid.Column="0" ItemsSource="{Binding Stars}" SelectedItem="{Binding CurrentRecord.Star}" Placeholder="Star..."/>
             <fr:Combo Grid.Column="1" ItemsSource="{Binding Energies}" SelectedItem="{Binding CurrentRecord.Energy}" Placeholder="Aspect..."/>

@@ -5,11 +5,13 @@ using FrontEnd.Source;
 using AstroNET.model;
 using Backend.ExtensionMethods;
 using System.Windows;
+using System.Windows.Input;
 
 namespace AstroNET.controller
 {
     public abstract class AbstractPointLibraryController<M> : AbstractFormController<M> where M : AbstractPointLibrary<M>, new()
     {
+        public ICommand OpenInfoWindowCMD { get; }
         private M? _libraryRecord;
         protected TransitType? TransitType { get; set; }
 
@@ -17,6 +19,7 @@ namespace AstroNET.controller
         {
             WindowLoaded += OnWindowLoaded;
             AfterRecordNavigation += OnAfterRecordNavigation;
+            OpenInfoWindowCMD = new CMD(OpenInfoWindow);
         }
 
         public AbstractPointLibraryController(M libraryRecord) : this()
@@ -24,6 +27,8 @@ namespace AstroNET.controller
             this.TransitType = libraryRecord.TransitType;
             _libraryRecord = libraryRecord;
         }
+
+        protected abstract void OpenInfoWindow();
 
         private void OnAfterRecordNavigation(object? sender, Backend.Events.AllowRecordMovementArgs e)
         {
@@ -54,7 +59,7 @@ namespace AstroNET.controller
         public abstract void SetTitle();
     }
 
-    public abstract class AbstractStarLibraryController<M> : AbstractPointLibraryController<M> where M : AbstractPointLibrary<M>, new()
+    public abstract class AbstractStarLibraryController<M> : AbstractPointLibraryController<M> where M : AbstractStarLibrary<M>, new()
     {
         public RecordSource<Star> Stars { get; private set; } = new(DatabaseManager.Find<Star>()!);
         public AbstractStarLibraryController() : base()
@@ -63,6 +68,11 @@ namespace AstroNET.controller
 
         public AbstractStarLibraryController(M libraryRecord) : base(libraryRecord)
         {
+        }
+
+        protected override void OpenInfoWindow()
+        {
+            MessageBox.Show($"{CurrentRecord.Star}");
         }
     }
 
@@ -94,7 +104,7 @@ namespace AstroNET.controller
         }
     }
 
-    public class LibraryStarHousesController : AbstractStarLibraryController<LibraryStarHouses> 
+    public class LibraryStarHousesController : AbstractStarLibraryController<LibraryStarHouses>
     {
         public RecordSource<House> Houses { get; private set; } = new(DatabaseManager.Find<House>()!);
 
@@ -161,6 +171,11 @@ namespace AstroNET.controller
 
         public LibraryHouseSignsController(LibraryHouseSigns libraryRecord) : base(libraryRecord)
         {
+        }
+
+        protected override void OpenInfoWindow()
+        {
+            MessageBox.Show("");
         }
 
         public override void SetTitle()

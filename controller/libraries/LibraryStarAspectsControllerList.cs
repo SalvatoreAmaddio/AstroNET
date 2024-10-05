@@ -11,11 +11,11 @@ using AstroNET.View;
 
 namespace AstroNET.controller
 {
-    public abstract class AbstractPointLibraryControllerList<M> : AbstractFormListController<M> where M : AbstractPointLibrary<M>, IAbstractPointLibrary, new() 
+    public abstract class AbstractPointLibraryControllerList<M> : AbstractFormListController<M> where M : AbstractPointLibrary<M>, IAbstractPointLibrary, new()
     {
         protected TransitType TransitType { get; set; } = null!;
-        
-        public AbstractPointLibraryControllerList() 
+
+        public AbstractPointLibraryControllerList()
         {
             AfterUpdate += OnAfterUpdate;
             WindowLoaded += OnWindowLoaded;
@@ -77,15 +77,15 @@ namespace AstroNET.controller
         public override void OnOptionFilterClicked(FilterEventArgs e)
         {
             ReloadSearchQry();
-            StarOptions.Conditions<WhereClause>(SearchQry,"PointId");
-            StarOptions2.Conditions<WhereClause>(SearchQry,"StarID");
+            StarOptions.Conditions<WhereClause>(SearchQry, "PointId");
+            StarOptions2.Conditions<WhereClause>(SearchQry, "StarID");
             EnergyOptions.Conditions<WhereClause>(SearchQry, "EnergyId");
             OnAfterUpdate(e, new(null, null, nameof(Search)));
         }
 
         protected override void Open(LibraryStarAspects model)
         {
-            if (model.IsNewRecord()) 
+            if (model.IsNewRecord())
             {
                 model.TransitType = TransitType;
                 model.Clean();

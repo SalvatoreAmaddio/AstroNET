@@ -37,7 +37,7 @@ namespace AstroNET.View
             paragraph.Inlines.Add(library.Description);
         }
 
-        private void WriteAspectBetweenStars(ref Paragraph paragraph, LibraryStarAspects library) 
+        private void WriteAspectBetweenStars(ref Paragraph paragraph, LibraryStarAspects library)
         {
             paragraph.Inlines.Add(Img(library.Star.URI, library.Star.ToString()));
             paragraph.Inlines.Add(" ");
@@ -58,13 +58,13 @@ namespace AstroNET.View
         {
             paragraph.Inlines.Add(Img(library.Star.URI, library.Star.ToString()));
 
-            if (library.Aspect != null) 
+            if (library.Aspect != null)
             {
                 paragraph.Inlines.Add(" ");
                 paragraph.Inlines.Add(Img(library.Aspect.URI, library.Aspect.ToString()));
                 paragraph.Inlines.Add(" ");
             }
-            else 
+            else
             {
                 paragraph.Inlines.Add(" in ");
             }
@@ -75,7 +75,7 @@ namespace AstroNET.View
             paragraph.Inlines.Add(library.Description);
         }
 
-        private InlineUIContainer Img(string uri, string toolTip = "") 
+        private InlineUIContainer Img(string uri, string toolTip = "")
         {
             Image image = new()
             {
@@ -88,16 +88,16 @@ namespace AstroNET.View
             return new InlineUIContainer(image);
         }
 
-        private void Write(IEnumerable<IAbstractPointLibrary?> library) 
+        private void Write(IEnumerable<IAbstractPointLibrary?> library)
         {
-            FlowDocument flowDoc = new FlowDocument();
-            Paragraph paragraph = new Paragraph();
+            FlowDocument flowDoc = new();
+            Paragraph paragraph = new();
 
-            foreach (IAbstractPointLibrary? lib in library) 
+            foreach (IAbstractPointLibrary? lib in library)
             {
                 lib?.Build();
 
-                if (lib is LibraryStarAspects libAsp) 
+                if (lib is LibraryStarAspects libAsp)
                 {
                     WriteAspectBetweenStars(ref paragraph, libAsp);
                     paragraph.Inlines.Add(new LineBreak());
@@ -111,7 +111,7 @@ namespace AstroNET.View
                     paragraph.Inlines.Add(new LineBreak());
                 }
 
-                if (lib is LibraryStarHouses libHouse) 
+                if (lib is LibraryStarHouses libHouse)
                 {
                     WriteStarInHouse(ref paragraph, libHouse);
                     paragraph.Inlines.Add(new LineBreak());
@@ -126,9 +126,14 @@ namespace AstroNET.View
                 }
 
             }
-            
+
             flowDoc.Blocks.Add(paragraph);
             documentViewer.Document = flowDoc;
+        }
+
+        private void OnQuestionMarkClicked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

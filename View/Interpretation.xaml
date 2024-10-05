@@ -7,5 +7,17 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="Interpretation" Height="450" Width="800">
-    <FlowDocumentScrollViewer x:Name="documentViewer"/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ToolBar ToolBarTray.IsLocked="True" Background="{StaticResource DefaultGrey}">
+            <Separator Background="Transparent" Width="17"/>
+            <Button ToolTip="Info" Click="OnQuestionMarkClicked">
+                <Image Source="{StaticResource question}"/>
+            </Button>
+        </ToolBar>
+        <FlowDocumentScrollViewer Grid.Row="1" x:Name="documentViewer"/>
+    </Grid>
 </Window>

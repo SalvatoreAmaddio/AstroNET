@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AstroNET.View"
         mc:Ignorable="d"
+        Height="450" Width="870"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         xmlns:converter="clr-namespace:AstroNET.converter"
@@ -12,7 +13,7 @@
         xmlns:controller="clr-namespace:AstroNET.controller"
         d:DataContext="{d:DesignInstance Type=controller:PersonListController, IsDesignTimeCreatable=False}"
         Icon="{StaticResource folder}"
-        Title="Person's List" Height="450" SizeToContent="Width">
+        Title="Person's List">
 
     <Window.Resources>
         <converter:GenderConvert x:Key="GenderConverter"/>

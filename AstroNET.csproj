@@ -80,13 +80,13 @@
 		<Compile Update="View\Horoscopes\MoonReturnWindow.xaml.cs">
 			<SubType>Code</SubType>
 		</Compile>
-		<Compile Update="View\Library\LibraryStarHousesWindowList.xaml.cs">
+		<Compile Update="View\Library\LibraryWindowList\LibraryStarHousesWindowList.xaml.cs">
 			<SubType>Code</SubType>
 		</Compile>
 		<Compile Update="View\Library\LibraryStarHouseWindow.xaml.cs">
 			<SubType>Code</SubType>
 		</Compile>
-		<Compile Update="View\Library\LibraryHouseSignsWindowList.xaml.cs">
+		<Compile Update="View\Library\LibraryWindowList\LibraryHouseSignsWindowList.xaml.cs">
 			<SubType>Code</SubType>
 		</Compile>
 		<Compile Update="View\Library\LibraryHouseSignWindow.xaml.cs">

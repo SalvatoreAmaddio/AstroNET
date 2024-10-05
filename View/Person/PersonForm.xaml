@@ -5,14 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AstroNET.View"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen"
+        Height="570"
+        Width="630"
         ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
         xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
         xmlns:controller="clr-namespace:AstroNET.controller"
         xmlns:converter="clr-namespace:AstroNET.converter"
         d:DataContext="{d:DesignInstance Type=controller:PersonController, IsDesignTimeCreatable=False}"
         Icon="pack://application:,,,/assets/img/astrology.png"
-        Title="Sky" Height="570" SizeToContent="Width">
+        Title="Sky"  
+        >
 
     <Window.Resources>
         <converter:UnknownTimeConverter x:Key="unknownConverter"/>
