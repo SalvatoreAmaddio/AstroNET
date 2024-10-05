@@ -1,31 +1,11 @@
 {
   "TransitTypeInfo": [
     {
-      "TransitTypeId": 1,
+      "IsHouse": true,
       "StarId": 1,
       "StarName": "Sun",
-      "TransitDescription": "blabla"
-    }
-
-    {
-      "TransitTypeId": 1,
-      "StarId": 2,
-      "StarName": "Moon",
-      "TransitDescription": "blabla"
-    }
-
-    {
-      "TransitTypeId": 1,
-      "StarId": 3,
-      "StarName": "Mercury",
-      "TransitDescription": "blabla"
-    }
-
-    {
-      "TransitTypeId": 1,
-      "StarId": 4,
-      "StarName": "Venus",
-      "TransitDescription": "blabla"
+      "TransitDescription": "È un riferimento importantissimo nell’oroscopo in quanto indica in che direzione è rivolta l’energia di fondo (la libido) di un soggetto. A seconda dell’affinità tra Case e segno possono essere ribaltati o accentuati alcuni fondamentali tratti psichici. Il settore ospitante il primo luminare indica, per lo più, qual è la parte di esistenza del soggetto che raccoglie più energie nel corso della vita dello stesso. Da ciò risulta che osservando tale posizione è possibile definire subito con buona approssimazione, tranne il caso in cui vi siano nel tema stesso forti valori contrastanti, l’inclinazione di fondo di un soggetto. Così diremo di un uomo che ha il Sole in 6ª che è un lavoratore e di un altro, con lo stesso astro in VIIª, che è un individuo teso innanzitutto a realizzare relazioni con il prossimo. Il Campo contenente il Sole aiuta spesso a chiarire dubbi sul caso in esame. Per esempio se si sta studiando un Pesci e non si è riusciti a comprendere se è del tipo mistico o, all’opposto, del tipo sensuale, allora può essere senz’altro d’aiuto l’esame del Sole nella Casa: se si trova in 9ª sarà più probabilmente del primo tipo, mentre la previsione è da ribaltare nel caso in cui è ospite, per esempio, della 5ª Casa. Naturalmente una risposta conclusiva al riguardo potrà aversi soltanto attraverso l’esame completo del tema. Il Sole in Casa prima. Il Sole in Casa prima è un fattore di forza, di determinazione, di carattere. Risulta particolarmente favorevole ai segni d’aria e d’acqua costituendo per gli stessi una direzione ben precisa nella vita. Quando vi sono forti valori di terra e di fuoco (soprattutto Toro e Leone) può dar luogo a presunzione e sentimenti di disprezzo verso il prossimo. Quasi sempre presenta una natura egocentrica. Al positivo si riscontra forza decisionale, volontà realizzativa ed ampiezza di vedute. Il soggetto così segnato si comporta come un Ariete, qualunque sia il suo segno solare: impulsivamente, dinamicamente, prevalentemente all’attacco, sorretto da decisioni precise e forti. Valgono inoltre gli attributi descritti nel paragrafo dedicato al Sole.",
+      "TransitTypeId": 1
     }
   ]
 }

@@ -108,4 +108,6 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\DesktopBusinessAppSharpBuilder\FrontEnd.csproj" />
 	</ItemGroup>
+
+	<ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 </Project>

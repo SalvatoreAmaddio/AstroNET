@@ -15,9 +15,8 @@ namespace AstroNET.model
         public int StarId { get; set; }
         public string StarName { get; set; } = string.Empty;
         public string TransitDescription { get; set; } = string.Empty;
-
+        public bool IsHouse { get; set; } = false;
         public TransitTypeInfo() { }
-        public TransitTypeInfo(long transitTypeId) => this.TransitTypeId = transitTypeId;
 
         public override string ToString() => $"{StarName}";
 
@@ -39,7 +38,6 @@ namespace AstroNET.model
         public Int64 TransitTypeId { get => _transitTypeId; set => UpdateProperty(ref value, ref _transitTypeId); }
         [Field]
         public string TransitTypeName { get => _transitTypeName; set => UpdateProperty(ref value, ref _transitTypeName); }
-        public TransitTypeInfo Info { get; set; } = new();
         public TransitType() { }
         public TransitType(Int64 id) => _transitTypeId = id;
         public TransitType(DbDataReader reader)
