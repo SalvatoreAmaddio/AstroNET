@@ -4,8 +4,16 @@ using System.Data.Common;
 
 namespace AstroNET.model
 {
+    public class TransitTypeInfo 
+    {
+        public int StarId { get; set; }
+        public string StarName { get; set; } = string.Empty;
+
+        public string TransitDescription { get; set; } = string.Empty;
+    }
+
     [Table(nameof(TransitType))]
-    public class TransitType : AbstractModel<TransitType> 
+    public class TransitType : AbstractModel<TransitType>
     {
         private Int64 _transitTypeId;
         private string _transitTypeName = string.Empty;
@@ -14,10 +22,10 @@ namespace AstroNET.model
         public Int64 TransitTypeId { get => _transitTypeId; set => UpdateProperty(ref value, ref _transitTypeId); }
         [Field]
         public string TransitTypeName { get => _transitTypeName; set => UpdateProperty(ref value, ref _transitTypeName); }
-    
+        public TransitTypeInfo Info { get; set; } = new();
         public TransitType() { }
         public TransitType(Int64 id) => _transitTypeId = id;
-        public TransitType(DbDataReader reader) 
+        public TransitType(DbDataReader reader)
         {
             _transitTypeId = reader.GetInt64(0);
             _transitTypeName = reader.GetString(1);
@@ -29,7 +37,7 @@ namespace AstroNET.model
         }
     }
 
-    public interface IAbstractPointLibrary 
+    public interface IAbstractPointLibrary
     {
         Int64 LibraryID { get; }
         string Description { get; }
@@ -85,10 +93,10 @@ namespace AstroNET.model
     {
         private Star _star = null!;
 
-        
+
         [FK]
         public Star Star { get => _star; set => UpdateProperty(ref value, ref _star); }
-    
+
         public AbstractStarLibrary() : base()
         {
         }
@@ -119,7 +127,7 @@ namespace AstroNET.model
         {
         }
 
-        public LibraryStarAspects(DbDataReader reader) : base(reader) 
+        public LibraryStarAspects(DbDataReader reader) : base(reader)
         {
             _energy = new(reader.GetInt64(4));
             _star2 = new Star(reader.GetInt64(5));
@@ -163,7 +171,7 @@ namespace AstroNET.model
             House.Build();
         }
     }
-    
+
     [Table(nameof(LibraryStarSigns))]
     public class LibraryStarSigns : AbstractStarLibrary<LibraryStarSigns>
     {
@@ -190,7 +198,7 @@ namespace AstroNET.model
     }
 
     [Table(nameof(LibraryHouseSigns))]
-    public class LibraryHouseSigns : AbstractPointLibrary<LibraryHouseSigns>, IHouseLibrary 
+    public class LibraryHouseSigns : AbstractPointLibrary<LibraryHouseSigns>, IHouseLibrary
     {
         private House _house = null!;
         protected Sign _sign = null!;
@@ -212,7 +220,7 @@ namespace AstroNET.model
             _sign = new Sign(reader.GetInt64(4));
         }
 
-        public override void Build() 
+        public override void Build()
         {
             House.Build();
             Sign.Build();
