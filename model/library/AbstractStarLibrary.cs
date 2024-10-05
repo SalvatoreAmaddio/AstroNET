@@ -6,10 +6,13 @@ namespace AstroNET.model
 {
     public class TransitTypeInfo 
     {
+        public long TransitTypeId { get; }
         public int StarId { get; set; }
         public string StarName { get; set; } = string.Empty;
-
         public string TransitDescription { get; set; } = string.Empty;
+
+        public TransitTypeInfo() { }
+        public TransitTypeInfo(long transitTypeId) => this.TransitTypeId = transitTypeId;
     }
 
     [Table(nameof(TransitType))]

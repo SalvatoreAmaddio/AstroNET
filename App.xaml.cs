@@ -43,7 +43,6 @@ namespace AstroNET
 
             DatabaseManager.Add(new SQLiteDatabase<SavedCharts>());
 
-            Sys.
             this.DisposeOnExit(); // ensure Databases are disposed on Application' shutdown.
         }
     }
