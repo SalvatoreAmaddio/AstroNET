@@ -1,7 +1,5 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Media.Imaging;
 using AstroNET.model;
 
 namespace AstroNET.View
@@ -31,50 +29,49 @@ namespace AstroNET.View
             this.skyTypeId = transitType;
         }
 
-        private void WriteHouseInSign(ref Paragraph paragraph, LibraryHouseSigns library)
+        private static void WriteHouseInSign(ref Paragraph paragraph, LibraryHouseSigns library)
         {
             paragraph.Inlines.Add($"{library.House.PointName} in ");
-            paragraph.Inlines.Add(Utils.Img(library.Sign.URI, library.Sign.ToString()));
+            paragraph.Inlines.Add(Utils.InLineImage(library.Sign.URI, library.Sign.ToString()));
             paragraph.Inlines.Add(new LineBreak());
             paragraph.Inlines.Add(new LineBreak());
             paragraph.Inlines.Add(library.Description);
         }
 
-        private void WriteStarInSign(ref Paragraph paragraph, LibraryStarSigns library)
+        private static void WriteStarInSign(ref Paragraph paragraph, LibraryStarSigns library)
         {
-            paragraph.Inlines.Add(Utils.Img(library.Star.URI, library.Star.ToString()));
+            paragraph.Inlines.Add(Utils.InLineImage(library.Star.URI, library.Star.ToString()));
             paragraph.Inlines.Add(" in ");
-            paragraph.Inlines.Add(Utils.Img(library.Sign.URI, library.Sign.ToString()));
+            paragraph.Inlines.Add(Utils.InLineImage(library.Sign.URI, library.Sign.ToString()));
             paragraph.Inlines.Add(new LineBreak());
             paragraph.Inlines.Add(new LineBreak());
             paragraph.Inlines.Add(library.Description);
         }
 
-        private void WriteAspectBetweenStars(ref Paragraph paragraph, LibraryStarAspects library)
+        private static void WriteAspectBetweenStars(ref Paragraph paragraph, LibraryStarAspects library)
         {
-            paragraph.Inlines.Add(Utils.Img(library.Star.URI, library.Star.ToString()));
+            paragraph.Inlines.Add(Utils.InLineImage(library.Star.URI, library.Star.ToString()));
             paragraph.Inlines.Add(" ");
-            paragraph.Inlines.Add(Utils.Img(library.Aspect.URI, library.Aspect.ToString()));
+            paragraph.Inlines.Add(Utils.InLineImage(library.Aspect.URI, library.Aspect.ToString()));
             paragraph.Inlines.Add(" ");
-            paragraph.Inlines.Add(Utils.Img(library.Star2.URI, library.Star.ToString()));
+            paragraph.Inlines.Add(Utils.InLineImage(library.Star2.URI, library.Star.ToString()));
 
             paragraph.Inlines.Add(new LineBreak());
             paragraph.Inlines.Add(new LineBreak());
-            paragraph.Inlines.Add(library.Energy.EnergyId == 1 ? "Positive" : "Negative");
-            paragraph.Inlines.Add(":");
+            paragraph.Inlines.Add(library.Energy.EnergyId == 1 ? "Positive:" : "Negative:");
             paragraph.Inlines.Add(new LineBreak());
             paragraph.Inlines.Add(new LineBreak());
             paragraph.Inlines.Add(library.Description);
         }
 
-        private void WriteStarInHouse(ref Paragraph paragraph, LibraryStarHouses library)
+        private static void WriteStarInHouse(ref Paragraph paragraph, LibraryStarHouses library)
         {
-            paragraph.Inlines.Add(Utils.Img(library.Star.URI, library.Star.ToString()));
+            paragraph.Inlines.Add(Utils.InLineImage(library.Star.URI, library.Star.ToString()));
 
             if (library.Aspect != null)
             {
                 paragraph.Inlines.Add(" ");
-                paragraph.Inlines.Add(Utils.Img(library.Aspect.URI, library.Aspect.ToString()));
+                paragraph.Inlines.Add(Utils.InLineImage(library.Aspect.URI, library.Aspect.ToString()));
                 paragraph.Inlines.Add(" ");
             }
             else

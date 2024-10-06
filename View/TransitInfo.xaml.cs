@@ -8,7 +8,6 @@ namespace AstroNET.View
 {
     public partial class TransitInfo : Window
     {
-        private readonly StringBuilder sb = new();
         private readonly Star? _star1 = null;
         private readonly House? _house1 = null;
         private readonly FlowDocument _flowDoc = new();
@@ -45,37 +44,24 @@ namespace AstroNET.View
                 house2 = Houses?.FirstOrDefault(s => s.PointId == house.PointId);
             }
 
-            AddImg(Utils.Img(_star1?.URI, _star1?.ToString()));
-            sb.Append(_star1?.Description);
-            sb.Append("\n\n");
-            sb.Append(info?.TransitDescription);
-
-            if (_house1 != null)
+            AddStar(_star1);
+            _flowDoc.Blocks.Add(Utils.DescriptionParagraph("Nelle Case:",FontWeights.Bold));
+            _flowDoc.Blocks.Add(Utils.DescriptionParagraph(info?.TransitDescription));
+            
+            if (_house1 != null) 
             {
-                sb.Append("\n\n");
-                sb.Append($"{_house1}:\n\n");
-                sb.Append(_house1.Description);
+                AddHouse(_house1);
             }
-
-            AddParagraph(sb.ToString());
-
-            sb.Clear();
 
             if (star2 != null)
             {
-                AddParagraph("\n\n");
-                AddImg(Utils.Img(star2?.URI, star2?.ToString()));
-                sb.Append(star2?.Description);
+                AddStar(star2);
             }
 
             if (house2 != null)
             {
-                sb.Append("\n\n");
-                sb.Append($"{house2}:\n\n");
-                sb.Append(house2.Description);
+                AddHouse(house2);
             }
-
-            AddParagraph(sb.ToString());
 
             documentViewer.Document = _flowDoc;
         }
@@ -88,34 +74,30 @@ namespace AstroNET.View
                 _house1 = Houses?.FirstOrDefault(s => s.PointId == star.House.PointId);
 
 
-            AddImg(Utils.Img(_star1?.URI, _star1?.ToString()));
-            sb.Append(_star1?.Description);
-            sb.Append("\n\n");
-            sb.Append(info?.TransitDescription);
+            AddStar(_star1);
+            _flowDoc.Blocks.Add(Utils.DoubleSpaceParagraph());
+            _flowDoc.Blocks.Add(Utils.DescriptionParagraph("Nelle Case:", FontWeights.Bold));
+            _flowDoc.Blocks.Add(Utils.DescriptionParagraph(info?.TransitDescription));
 
             if (_house1 != null)
             {
-                sb.Append("\n\n");
-                sb.Append($"{_house1}:\n\n");
-                sb.Append(_house1.Description);
+                _flowDoc.Blocks.Add(Utils.DoubleSpaceParagraph());
+                AddHouse(_house1);
             }
-
-            AddParagraph(sb.ToString());
 
             documentViewer.Document = _flowDoc;
         }
 
-        private void AddParagraph(string? text)
+        private void AddStar(Star? star) 
         {
-            _paragraph.Inlines.Add(new Run(text));
-            _flowDoc.Blocks.Add(_paragraph);
+            _flowDoc.Blocks.Add(Utils.ImageParagraph(star?.URI, star?.ToString()));
+            _flowDoc.Blocks.Add(Utils.DescriptionParagraph(star?.Description));
         }
-
-        private void AddImg(InlineUIContainer? image)
+        
+        private void AddHouse(House? house) 
         {
-            _paragraph.Inlines.Add(image);
-            _paragraph.Inlines.Add(" ");
+            _flowDoc.Blocks.Add(Utils.DescriptionParagraph($"{house}:", FontWeights.Bold));
+            _flowDoc.Blocks.Add(Utils.DescriptionParagraph($"{house?.Description}"));
         }
-
     }
 }
