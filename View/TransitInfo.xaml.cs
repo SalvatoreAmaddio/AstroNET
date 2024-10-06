@@ -8,11 +8,11 @@ namespace AstroNET.View
 {
     public partial class TransitInfo : Window
     {
-        private StringBuilder sb = new();
-        private Star? _star1 = null;
-        private House? _house1 = null;
-        private FlowDocument _flowDoc = new();
-        private Paragraph _paragraph = new();
+        private readonly StringBuilder sb = new();
+        private readonly Star? _star1 = null;
+        private readonly House? _house1 = null;
+        private readonly FlowDocument _flowDoc = new();
+        private readonly Paragraph _paragraph = new();
         private readonly List<Star>? Stars = DatabaseManager.Find<Star>()?.MasterSource.Cast<Star>().ToList();
         private readonly List<House>? Houses = DatabaseManager.Find<House>()?.MasterSource.Cast<House>().ToList();
         public TransitInfo()
