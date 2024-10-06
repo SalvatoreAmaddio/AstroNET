@@ -8,6 +8,7 @@ namespace AstroNET.View
 {
     public partial class Interpretation : Window
     {
+        private int skyTypeId = 1;
         private object _obj = null!;
         public Interpretation()
         {
@@ -25,10 +26,15 @@ namespace AstroNET.View
             Write(library);
         }
 
+        public Interpretation(IEnumerable<IAbstractPointLibrary?> library, object aspect, int transitType) : this(library, aspect)
+        {
+            this.skyTypeId = transitType;
+        }
+
         private void WriteHouseInSign(ref Paragraph paragraph, LibraryHouseSigns library)
         {
             paragraph.Inlines.Add($"{library.House.PointName} in ");
-            paragraph.Inlines.Add(Img(library.Sign.URI, library.Sign.ToString()));
+            paragraph.Inlines.Add(Utils.Img(library.Sign.URI, library.Sign.ToString()));
             paragraph.Inlines.Add(new LineBreak());
             paragraph.Inlines.Add(new LineBreak());
             paragraph.Inlines.Add(library.Description);
@@ -36,9 +42,9 @@ namespace AstroNET.View
 
         private void WriteStarInSign(ref Paragraph paragraph, LibraryStarSigns library)
         {
-            paragraph.Inlines.Add(Img(library.Star.URI, library.Star.ToString()));
+            paragraph.Inlines.Add(Utils.Img(library.Star.URI, library.Star.ToString()));
             paragraph.Inlines.Add(" in ");
-            paragraph.Inlines.Add(Img(library.Sign.URI, library.Sign.ToString()));
+            paragraph.Inlines.Add(Utils.Img(library.Sign.URI, library.Sign.ToString()));
             paragraph.Inlines.Add(new LineBreak());
             paragraph.Inlines.Add(new LineBreak());
             paragraph.Inlines.Add(library.Description);
@@ -46,11 +52,11 @@ namespace AstroNET.View
 
         private void WriteAspectBetweenStars(ref Paragraph paragraph, LibraryStarAspects library)
         {
-            paragraph.Inlines.Add(Img(library.Star.URI, library.Star.ToString()));
+            paragraph.Inlines.Add(Utils.Img(library.Star.URI, library.Star.ToString()));
             paragraph.Inlines.Add(" ");
-            paragraph.Inlines.Add(Img(library.Aspect.URI, library.Aspect.ToString()));
+            paragraph.Inlines.Add(Utils.Img(library.Aspect.URI, library.Aspect.ToString()));
             paragraph.Inlines.Add(" ");
-            paragraph.Inlines.Add(Img(library.Star2.URI, library.Star.ToString()));
+            paragraph.Inlines.Add(Utils.Img(library.Star2.URI, library.Star.ToString()));
 
             paragraph.Inlines.Add(new LineBreak());
             paragraph.Inlines.Add(new LineBreak());
@@ -63,12 +69,12 @@ namespace AstroNET.View
 
         private void WriteStarInHouse(ref Paragraph paragraph, LibraryStarHouses library)
         {
-            paragraph.Inlines.Add(Img(library.Star.URI, library.Star.ToString()));
+            paragraph.Inlines.Add(Utils.Img(library.Star.URI, library.Star.ToString()));
 
             if (library.Aspect != null)
             {
                 paragraph.Inlines.Add(" ");
-                paragraph.Inlines.Add(Img(library.Aspect.URI, library.Aspect.ToString()));
+                paragraph.Inlines.Add(Utils.Img(library.Aspect.URI, library.Aspect.ToString()));
                 paragraph.Inlines.Add(" ");
             }
             else
@@ -80,19 +86,6 @@ namespace AstroNET.View
             paragraph.Inlines.Add(new LineBreak());
             paragraph.Inlines.Add(new LineBreak());
             paragraph.Inlines.Add(library.Description);
-        }
-
-        private InlineUIContainer Img(string uri, string toolTip = "")
-        {
-            Image image = new()
-            {
-                Source = new BitmapImage(new Uri(uri)),
-                Width = 20, // Set image size
-                Height = 20,
-                VerticalAlignment = VerticalAlignment.Bottom,
-                ToolTip = toolTip
-            };
-            return new InlineUIContainer(image);
         }
 
         private void Write(IEnumerable<IAbstractPointLibrary?> library)
@@ -142,11 +135,11 @@ namespace AstroNET.View
         {
             if (_obj is Aspect aspect)
             {
-                new TransitInfo((int)aspect.TransitType.TransitTypeId, (int)aspect.PointA.PointId).ShowDialog();
+                new TransitInfo((int)aspect.TransitType.TransitTypeId, aspect).ShowDialog();
             }
             else if (_obj is Star star)
             {
-                new TransitInfo(1, (int)star.PointId).ShowDialog();
+                new TransitInfo(skyTypeId, star).ShowDialog();
             }
             else if (_obj is House house)
             {

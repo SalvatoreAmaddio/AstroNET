@@ -268,8 +268,8 @@ namespace AstroNET.View
 
             int skyTypeId = ((ChartView)d).Sky.SkyInfo.SkyTypeId;
 
-            if (e.NewValue is Star)
-                interpretation = new(LibrarySearch.SearchStarDescription((Star)e.NewValue, skyTypeId), e.NewValue);
+            if (e.NewValue is Star star)
+                interpretation = new(LibrarySearch.SearchStarDescription(star, skyTypeId), e.NewValue, skyTypeId);
             else
             {
                 if (skyTypeId == 4 || skyTypeId == 5) return;
