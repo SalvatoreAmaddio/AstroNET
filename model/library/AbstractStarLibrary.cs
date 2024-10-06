@@ -4,54 +4,6 @@ using System.Data.Common;
 
 namespace AstroNET.model
 {
-    public class TransitTypeRoot
-    {
-        public List<TransitTypeInfo> TransitTypeInfo { get; set; } = [];
-    }
-
-    public class TransitTypeInfo
-    {
-        public long TransitTypeId { get; set; }
-        public int StarId { get; set; }
-        public string StarName { get; set; } = string.Empty;
-        public string TransitDescription { get; set; } = string.Empty;
-        public bool IsHouse { get; set; } = false;
-        public TransitTypeInfo() { }
-
-        public override string ToString() => $"{StarName}";
-
-        public override bool Equals(object? obj) =>
-        obj is TransitTypeInfo info &&
-        TransitTypeId == info.TransitTypeId &&
-        StarId == info.StarId;
-
-        public override int GetHashCode() => HashCode.Combine(TransitTypeId, StarId);
-    }
-
-    [Table(nameof(TransitType))]
-    public class TransitType : AbstractModel<TransitType>
-    {
-        private Int64 _transitTypeId;
-        private string _transitTypeName = string.Empty;
-
-        [PK]
-        public Int64 TransitTypeId { get => _transitTypeId; set => UpdateProperty(ref value, ref _transitTypeId); }
-        [Field]
-        public string TransitTypeName { get => _transitTypeName; set => UpdateProperty(ref value, ref _transitTypeName); }
-        public TransitType() { }
-        public TransitType(Int64 id) => _transitTypeId = id;
-        public TransitType(DbDataReader reader)
-        {
-            _transitTypeId = reader.GetInt64(0);
-            _transitTypeName = reader.GetString(1);
-        }
-
-        public override string ToString()
-        {
-            return $"{TransitTypeName}";
-        }
-    }
-
     public interface IAbstractPointLibrary
     {
         Int64 LibraryID { get; }

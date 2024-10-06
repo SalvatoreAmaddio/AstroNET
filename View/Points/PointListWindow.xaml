@@ -10,7 +10,7 @@
         d:DataContext="{d:DesignInstance Type=controller:StarListController, IsDesignTimeCreatable=False}"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
-        Title="Stars" Height="530" Width="300">
+        Title="Stars" Height="530" Width="290">
     
     <fr:FormList>
         <fr:FormList.Header>

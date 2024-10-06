@@ -42,7 +42,7 @@ namespace AstroNET.model
 
             if (aspectsLibrary != null)
             {
-                foreach (var item in aspectsLibrary)
+                foreach (LibraryStarAspects item in aspectsLibrary)
                 {
                     item.Aspect = aspect;
                     lib.Add(item);

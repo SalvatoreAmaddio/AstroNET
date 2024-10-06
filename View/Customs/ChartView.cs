@@ -122,16 +122,16 @@ namespace AstroNET.View
         {
             if (e.NewValue == null) return;
             Interpretation interpretation;
-
+            Aspect aspect = (Aspect)e.NewValue;
             ChartView control = (ChartView)d;
 
             if (control.Sky is ReturnSkyEvent returnSky)
             {
-                interpretation = new(LibrarySearch.SearchAspect((Aspect)e.NewValue, returnSky.HouseHostingReturnAsc));
+                interpretation = new(LibrarySearch.SearchAspect(aspect, returnSky.HouseHostingReturnAsc), aspect);
             }
             else
             {
-                interpretation = new(LibrarySearch.SearchAspect((Aspect)e.NewValue));
+                interpretation = new(LibrarySearch.SearchAspect(aspect), aspect);
             }
             interpretation.Show();
         }
@@ -266,14 +266,14 @@ namespace AstroNET.View
         {
             Interpretation interpretation;
 
-            int skyTypeId = ((ChartView)(d)).Sky.SkyInfo.SkyTypeId;
+            int skyTypeId = ((ChartView)d).Sky.SkyInfo.SkyTypeId;
 
             if (e.NewValue is Star)
-                interpretation = new(LibrarySearch.SearchStarDescription((Star)e.NewValue, skyTypeId));
+                interpretation = new(LibrarySearch.SearchStarDescription((Star)e.NewValue, skyTypeId), e.NewValue);
             else
             {
                 if (skyTypeId == 4 || skyTypeId == 5) return;
-                interpretation = new(LibrarySearch.SearchHouseSignDescription((House)e.NewValue));
+                interpretation = new(LibrarySearch.SearchHouseSignDescription((House)e.NewValue), e.NewValue);
             }
 
             interpretation.Show();

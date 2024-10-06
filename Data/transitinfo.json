@@ -1,10 +1,63 @@
 {
   "TransitTypeInfo": [
     {
-      "IsHouse": true,
-      "StarId": 1,
+      "StarId": 0,
       "StarName": "Sun",
-      "TransitDescription": "È un riferimento importantissimo nell’oroscopo in quanto indica in che direzione è rivolta l’energia di fondo (la libido) di un soggetto. A seconda dell’affinità tra Case e segno possono essere ribaltati o accentuati alcuni fondamentali tratti psichici. Il settore ospitante il primo luminare indica, per lo più, qual è la parte di esistenza del soggetto che raccoglie più energie nel corso della vita dello stesso. Da ciò risulta che osservando tale posizione è possibile definire subito con buona approssimazione, tranne il caso in cui vi siano nel tema stesso forti valori contrastanti, l’inclinazione di fondo di un soggetto. Così diremo di un uomo che ha il Sole in 6ª che è un lavoratore e di un altro, con lo stesso astro in VIIª, che è un individuo teso innanzitutto a realizzare relazioni con il prossimo. Il Campo contenente il Sole aiuta spesso a chiarire dubbi sul caso in esame. Per esempio se si sta studiando un Pesci e non si è riusciti a comprendere se è del tipo mistico o, all’opposto, del tipo sensuale, allora può essere senz’altro d’aiuto l’esame del Sole nella Casa: se si trova in 9ª sarà più probabilmente del primo tipo, mentre la previsione è da ribaltare nel caso in cui è ospite, per esempio, della 5ª Casa. Naturalmente una risposta conclusiva al riguardo potrà aversi soltanto attraverso l’esame completo del tema. Il Sole in Casa prima. Il Sole in Casa prima è un fattore di forza, di determinazione, di carattere. Risulta particolarmente favorevole ai segni d’aria e d’acqua costituendo per gli stessi una direzione ben precisa nella vita. Quando vi sono forti valori di terra e di fuoco (soprattutto Toro e Leone) può dar luogo a presunzione e sentimenti di disprezzo verso il prossimo. Quasi sempre presenta una natura egocentrica. Al positivo si riscontra forza decisionale, volontà realizzativa ed ampiezza di vedute. Il soggetto così segnato si comporta come un Ariete, qualunque sia il suo segno solare: impulsivamente, dinamicamente, prevalentemente all’attacco, sorretto da decisioni precise e forti. Valgono inoltre gli attributi descritti nel paragrafo dedicato al Sole.",
+      "TransitDescription": "Il Sole e' un riferimento importantissimo nell’oroscopo in quanto indica in che direzione è rivolta l’energia di fondo (la libido) di un soggetto.\n\nA seconda dell’affinità tra Case e segno possono essere ribaltati o accentuati alcuni fondamentali tratti psichici.\n\nLa Casa ospitante il Sole indica, per lo più, qual è la parte di esistenza del soggetto che raccoglie più energie nel corso della vita dello stesso. Da ciò risulta che osservando tale posizione è possibile definire subito con buona approssimazione, tranne il caso in cui vi siano nel tema stesso forti valori contrastanti, l’inclinazione di fondo di un soggetto.\n\nCosì diremo di un uomo che ha il Sole in 6ª che è un lavoratore e di un altro, con lo stesso astro in VIIª, che è un individuo teso innanzitutto a realizzare relazioni con il prossimo. La Casa contenente il Sole aiuta spesso a chiarire dubbi sul caso in esame.\n\nPer esempio se si sta studiando un Pesci e non si è riusciti a comprendere se è del tipo mistico o, all’opposto, del tipo sensuale, allora può essere senz’altro d’aiuto l’esame del Sole nella Casa: se si trova in 9ª sarà più probabilmente del primo tipo, mentre la previsione è da ribaltare nel caso in cui è ospite, per esempio, della 5ª Casa.\n\nNaturalmente una risposta conclusiva al riguardo potrà aversi soltanto attraverso l’esame completo del tema.",
+      "TransitTypeId": 1
+    },
+    {
+      "StarId": 1,
+      "StarName": "Moon",
+      "TransitDescription": "La Luna indica ciò che faremmo se non vi fosse il controllo censorio del Sole.\n\nA differenza del Sole che spiega dov’è applicata la nostra energia, la Luna illumina su dove vorremmo posarla. È un elemento di primaria importanza nella valutazione dell’equilibrio energetico di un soggetto perché ci spiega, come già detto, qual è la sfera più frustrata della parte di noi che non si è realizzata.\n\nSe è armonica rappresenta il settore in cui viviamo più fanciullescamente.",
+      "TransitTypeId": 1
+    },
+    {
+      "StarId": 2,
+      "StarName": "Mercury",
+      "TransitDescription": "Stabilisce in che campo si manifestano gli interessi, le curiosità, gli scambi del soggetto. Indica verso quali obiettivi è finalizzata l’intelligenza o la furbizia.\n\nIllustra inoltre in quale settore esistenziale si possono avere i maggiori avvicendamenti.",
+      "TransitTypeId": 1
+    },
+    {
+      "StarId": 3,
+      "StarName": "Venus",
+      "TransitDescription": "Venere, chiamato dagli antichi «la piccola fortuna» ci mostra, a seconda della Casa che occupa, da quale settore dell’esistenza riceviamo alcune tra le maggiori soddisfazioni. Inoltre ci parla dell’amore, della salute e del denaro.\n\nSe dissonante fa temere eccessi relativi alla Casa e al segno occupati ed agli aspetti cui è collegato.",
+      "TransitTypeId": 1
+    },
+    {
+      "StarId": 4,
+      "StarName": "Mars",
+      "TransitDescription": "La Casa in cui si trova Marte al momento della nascita c’informa sulla direzione presa dalle energie (quelle di tipo più aggressivo e dirompente) del soggetto.\n\nSe la Casa è affine alla natura dell’astro e del segno in cui questo è, si può avere una cuspide di energia organizzata o, al contrario, se astro, segno e Campo differiscono tra loro, può indicare la zona della vita in cui si dovranno combattere più battaglie (non guerre, quest’ultime sono solitamente legate alla posizione di Saturno).",
+      "TransitTypeId": 1
+    },
+    {
+      "StarId": 5,
+      "StarName": "Jupiter",
+      "TransitDescription": "La Casa che ospita Giove al momento della nascita indica qual è la parte esistenziale più facilitata, dove l’individuo può ottenere maggiori gratificazioni nella vita. Al negativo può essere il segno di tendenze ipertrofiche espresse nel settore indicato dalla Casa.",
+      "TransitTypeId": 1
+    },
+    {
+      "StarId": 6,
+      "StarName": "Saturn",
+      "TransitDescription": "La posizione di Saturno e' spesso la più importante del tema perché può esprimere dove l’individuo è più perdente ed ha bisogno di concentrare le energie disponibili per superare il «fosso» che lo divide dalla serenità.\n\nTalvolta indica la grande prova dell’esistenza, la zona in cui il soggetto deve «portare la sua croce».\n\nNon è più accettata, oggi, la divisione degli astri in malefici e benefici (Saturno era per gli antichi il gran malefico), ma non si può negare che in gran parte delle disgrazie umane «c’entri» questo pianeta.\n\nD’altra parte bisogna anche dire che attraverso le prove che vengono da esso l’uomo cresce spiritualmente e raggiunge vette di maturità altrimenti irraggiungibili.",
+      "TransitTypeId": 1
+    },
+    {
+      "StarId": 7,
+      "StarName": "Uranus",
+      "TransitDescription": "La posizione in cui si trova Urano al momento della nascita mostra qual è il settore più «strano» nella vita del soggetto oppure quello destinato ai più radicali e sostanziali cambiamenti.",
+      "TransitTypeId": 1
+    },
+    {
+      "StarId": 8,
+      "StarName": "Neptune",
+      "TransitDescription": "La posizione di Nettuno nell’oroscopo indica dove siamo più sensibili o da dove riceviamo più confusione. Può illustrare anche in quale settore riusciamo ad integrarci maggiormente con il prossimo e in quale, al contrario, riceviamo il peggiore transfert dell’ambiente o il carico più grosso delle nostre angosce.",
+      "TransitTypeId": 1
+    },
+    {
+      "StarId": 9,
+      "StarName": "Pluto",
+      "TransitDescription": "Su Plutone non conosciamo molto data la sua relativamente recente scoperta, ma la gran parte degli astrologi è d’accordo nel ritenere che la sua posizione nell’oroscopo, rispetto alle Case, stabilisca qual è il settore esistenziale in cui l’individuo può toccare il fondo, ma anche trascendere, ossia superare i propri limiti umani per abbracciare una causa superiore.",
       "TransitTypeId": 1
     }
   ]

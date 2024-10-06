@@ -8,6 +8,7 @@ namespace AstroNET.View
 {
     public partial class Interpretation : Window
     {
+        private object _obj = null!;
         public Interpretation()
         {
             InitializeComponent();
@@ -15,6 +16,12 @@ namespace AstroNET.View
 
         public Interpretation(IEnumerable<IAbstractPointLibrary?> library) : this()
         {
+            Write(library);
+        }
+
+        public Interpretation(IEnumerable<IAbstractPointLibrary?> library, object aspect) : this(library)
+        {
+            _obj = aspect;
             Write(library);
         }
 
@@ -133,7 +140,18 @@ namespace AstroNET.View
 
         private void OnQuestionMarkClicked(object sender, RoutedEventArgs e)
         {
+            if (_obj is Aspect aspect)
+            {
+                new TransitInfo((int)aspect.TransitType.TransitTypeId, (int)aspect.PointA.PointId).ShowDialog();
+            }
+            else if (_obj is Star star)
+            {
+                new TransitInfo(1, (int)star.PointId).ShowDialog();
+            }
+            else if (_obj is House house)
+            {
 
+            }
         }
     }
 }

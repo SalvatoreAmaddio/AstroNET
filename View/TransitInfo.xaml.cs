@@ -11,9 +11,9 @@ namespace AstroNET.View
             InitializeComponent();
         }
 
-        public TransitInfo(int id, int pointId, bool isHouse = false) : this()
+        public TransitInfo(int transitId, int pointId) : this()
         {
-            TransitTypeInfo? info = App.TransitTypeDescriptions?.TransitTypeInfo.First(s=>s.TransitTypeId == id && s.StarId == pointId && s.IsHouse == isHouse);
+            TransitTypeInfo? info = App.TransitTypeDescriptions?.TransitTypeInfo.FirstOrDefault(s=>s.TransitTypeId == transitId && s.StarId == pointId);
             FlowDocument flowDoc = new();
             Paragraph paragraph = new();
             paragraph.Inlines.Add(info?.TransitDescription);
