@@ -75,13 +75,11 @@ namespace AstroNET.View
 
 
             AddStar(_star1);
-            _flowDoc.Blocks.Add(Utils.DoubleSpaceParagraph());
             _flowDoc.Blocks.Add(Utils.DescriptionParagraph("Nelle Case:", FontWeights.Bold));
             _flowDoc.Blocks.Add(Utils.DescriptionParagraph(info?.TransitDescription));
 
             if (_house1 != null)
             {
-                _flowDoc.Blocks.Add(Utils.DoubleSpaceParagraph());
                 AddHouse(_house1);
             }
 
