@@ -23,7 +23,7 @@ namespace AstroNET.model
         [PK]
         public Int64 SignId { get => _signId; private set => UpdateProperty(ref value, ref _signId); }
         [Field]
-        public string SignName { get => _signName; set => UpdateProperty(ref value, ref _description); }
+        public string SignName { get => _signName; set => UpdateProperty(ref value, ref _signName); }
         [Field]
         public string Description { get => _description; set => UpdateProperty(ref value, ref _description); }
         [FK]
