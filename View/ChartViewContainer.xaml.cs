@@ -197,5 +197,8 @@ namespace AstroNET.View
 
             NatalChartCanvas.Chart.Screenshot(Path.Combine(Sys.Desktop, $"{winTitle}_{Sky.SkyInfo.Day}_{Sky.SkyInfo.Month}_{Sky.SkyInfo.Year}.png"));
         }
+
+        private void OnReferencesClick(object sender, RoutedEventArgs e) =>
+        new References().ShowDialog();
     }
 }

@@ -94,6 +94,7 @@
             <MenuItem Header="Export">
                 <MenuItem Header="Chart" Click="MenuItem_Click"/>
             </MenuItem>
+            <MenuItem Header="References" Click="OnReferencesClick"/>
         </Menu>
         <local:ChartView Grid.Row="1" x:Name="NatalChartCanvas" Background="#FFFFF0"/>
     </Grid>

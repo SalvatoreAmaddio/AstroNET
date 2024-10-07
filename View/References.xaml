@@ -1,0 +1,21 @@
+﻿<Window x:Class="AstroNET.View.References"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AstroNET.View"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="References" Height="450" Width="450">
+
+    <FlowDocumentScrollViewer>
+        <FlowDocument ScrollViewer.VerticalScrollBarVisibility="Hidden">
+            <Paragraph>Most, if not all, of the library's material in this software comes from the work of the Astrologer Ciro Discepolo.</Paragraph>
+            <Paragraph>
+                <Hyperlink NavigateUri="https://www.amazon.co.uk/" RequestNavigate="OnHyperlinkRequestNavigate">
+                    <Run>Visit Ciro Discepolo's Amazon Book Store</Run>
+                </Hyperlink>
+            </Paragraph>
+        </FlowDocument>
+    </FlowDocumentScrollViewer>
+</Window>
