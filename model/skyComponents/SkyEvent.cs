@@ -1,14 +1,12 @@
 ﻿using Backend.Database;
 using FrontEnd.Controller;
 using MvvmHelpers;
-using System.ComponentModel;
 
 namespace AstroNET.model
 {
-    public abstract class AbstractSkyEvent : INotifyPropertyChanged
+    public abstract class AbstractSkyEvent
     {
         #region Properties
-        public event PropertyChangedEventHandler? PropertyChanged;
         public SkyInfo SkyInfo { get; private set; } = new();
         public ObservableRangeCollection<Star> Stars { get; private set; } = [];
         public IEnumerable<ElementGroupKey>? OccupiedHouses =>
@@ -124,7 +122,7 @@ namespace AstroNET.model
 
         public IEnumerable<Aspect> CalculateStarAspects(Star star, DateTime date)
         {
-            IEnumerable<StarTransitOrbit> transitAspects = DatabaseManager.Find<StarTransitOrbit>()!.MasterSource.Cast<StarTransitOrbit>();
+            IEnumerable<StarTransitOrbit> transitAspects = DatabaseManager.Find<StarTransitOrbit>()!.MasterSource.Cast<StarTransitOrbit>().ToList();
 
             if (Person != null && !Person.UnknownTime)
                 star.PlaceInHouse(this);
@@ -138,7 +136,7 @@ namespace AstroNET.model
                     double? tollerance = transitAspects.FirstOrDefault(s => s.Aspect.Equals(aspect) && s.Star.Equals(star))?.Tollerance;
                     if (tollerance == null) continue;
 
-                    if (pointReceiver is IHouse house && !house.IsAngular && aspect.Orbit != 0)
+                    if (pointReceiver is IHouse house && !house.IsAngular && !aspect.IsConjunction)
                         continue;
 
                     Aspect? calculatedAspect = PositionCalculator.IsValidAspect(aspect, distance, tollerance.Value);

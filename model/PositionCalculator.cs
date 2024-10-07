@@ -67,10 +67,10 @@ namespace AstroNET.model
             Star star;
             List<Aspect> aspects = [];
 
-            while (true) 
+            while (true)
             {
                 currentSky = new(startDateAdj.OutputDate, startDateAdj.OutputTime, city);
-                star = GetStarPosition(ref currentSky, starId);                
+                star = GetStarPosition(ref currentSky, starId);
                 aspects.AddRange(_skyEvent.CalculateStarAspects(star, startDateAdj.OutputDate));
                 startDateAdj.AddDays(1);
                 if (startDateAdj.OutputDate > endDate) return aspects;
@@ -88,7 +88,9 @@ namespace AstroNET.model
                 tasks.Add(task);
             }
 
-            foreach (List<Aspect>? monthlyAspect in await Task.WhenAll(tasks))
+            List<Aspect>[] results = await Task.WhenAll(tasks);
+
+            foreach (List<Aspect>? monthlyAspect in results)
             {
                 aspects.AddRange(monthlyAspect);
             }
@@ -96,7 +98,7 @@ namespace AstroNET.model
             return aspects;
         }
 
-        private static IEnumerable<DateTime> DateList(DateTime startDate, int steps) 
+        private static IEnumerable<DateTime> DateList(DateTime startDate, int steps)
         {
             int months = 0;
             do
@@ -107,7 +109,7 @@ namespace AstroNET.model
             } while (months < steps);
         }
 
-        private Task<List<Aspect>> CalculateMonthlyTransitAsync(DateTime startDate, int starId, City city) 
+        private Task<List<Aspect>> CalculateMonthlyTransitAsync(DateTime startDate, int starId, City city)
         {
             DateTimeAdjuster startDateAdj = new(startDate);
             DateTime endDate = startDate.AddMonths(1);
@@ -133,7 +135,7 @@ namespace AstroNET.model
             while (minutes < target)
             {
                 minutes++;
-                min+=3;
+                min += 3;
             }
 
             return min;
@@ -155,11 +157,11 @@ namespace AstroNET.model
 
                 if (moonReturn.RadixSign.SignId != moonRadix.RadixSign.SignId)
                 {
-                    if (Math.Abs(moonReturn.RadixSign.SignId - moonRadix.RadixSign.SignId) > 1) 
+                    if (Math.Abs(moonReturn.RadixSign.SignId - moonRadix.RadixSign.SignId) > 1)
                     {
                         adjuster.AddDays(2);
                     }
-                    else 
+                    else
                     {
                         adjuster.AddDays(1);
                     }
@@ -167,8 +169,8 @@ namespace AstroNET.model
                 }
 
                 var x = moonReturn.Position.Minutes;
-                
-                if (moonReturn.Position.Degrees < moonRadix.Position.Degrees) 
+
+                if (moonReturn.Position.Degrees < moonRadix.Position.Degrees)
                 {
                     adjuster.AddMinutes(CalculateMoonDegrees(x));
                     continue;
@@ -196,12 +198,12 @@ namespace AstroNET.model
 
             }
         }
-       
+
         public (DateTime date, TimeSpan time) CalculateSunReturn(int year, City city)
         {
             SkyEvent returnSky;
             Star sunReturn;
-            
+
             DateTimeAdjuster adjuster = new(new(year, _skyEvent.SkyInfo.Month, _skyEvent.SkyInfo.Day));
 
             Star sunRadix = _skyEvent.Stars[0];
@@ -234,7 +236,7 @@ namespace AstroNET.model
                     adjuster.RemoveMinutes(CalculateSunMinutes(sunReturn.Position.Minutes));
                     continue;
                 }
-                
+
                 if (sunReturn.Position.Seconds < sunRadix.Position.Seconds && sunReturn.Position.Minutes == sunRadix.Position.Minutes && sunReturn.Position.Degrees == sunRadix.Position.Degrees)
                 {
                     adjuster.AddSeconds(CalculateSecondsMatch(sunReturn.Position.Seconds, sunRadix.Position.Seconds));
@@ -250,7 +252,7 @@ namespace AstroNET.model
                     continue;
                 }
 
-                return (adjuster.OutputDate, adjuster.OutputTime);                
+                return (adjuster.OutputDate, adjuster.OutputTime);
             }
         }
 
@@ -262,7 +264,7 @@ namespace AstroNET.model
             while (seconds < target)
             {
                 seconds++;
-                sec+=10;
+                sec += 10;
             }
 
             return sec;
@@ -275,18 +277,18 @@ namespace AstroNET.model
             while (seconds < target)
             {
                 seconds++;
-                sec+=10;
+                sec += 10;
             }
 
             return sec;
         }
 
-        private static int CalculateSunMinutes(double seconds) 
+        private static int CalculateSunMinutes(double seconds)
         {
             double target = 60;
             int min = 0;
 
-            while (seconds < target) 
+            while (seconds < target)
             {
                 seconds += 3;
                 min++;
@@ -295,7 +297,7 @@ namespace AstroNET.model
             return min;
         }
 
-        private static Star GetStarPosition(ref SkyEvent returnSky, int star = 0) 
+        private static Star GetStarPosition(ref SkyEvent returnSky, int star = 0)
         {
             PositionCalculator returnCalculator = new(returnSky);
             return returnCalculator.CalculatePlanet(star);
@@ -364,7 +366,7 @@ namespace AstroNET.model
 
             return star;
         }
-        
+
         public void CalculateHouses()
         {
             swe_houses(_skyEvent.SkyInfo.JulianDay, _skyEvent.SkyInfo.City.Latitude, _skyEvent.SkyInfo.City.Longitude, 'P', cusps, ascmc);

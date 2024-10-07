@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:AstroNET.View"
         mc:Ignorable="d"
         Height="570"
-        Width="630"
+        Width="640"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
