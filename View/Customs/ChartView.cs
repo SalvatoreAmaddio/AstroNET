@@ -265,8 +265,14 @@ namespace AstroNET.View
         private static void OnSelectedPointChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             Interpretation interpretation;
+            ChartView control = (ChartView)d;
 
-            int skyTypeId = ((ChartView)d).Sky.SkyInfo.SkyTypeId;
+            int skyTypeId = control.Sky.SkyInfo.SkyTypeId;
+
+            if (control.Sky is SkyEvent sky && sky.Horoscope != null)
+            {
+                skyTypeId = 2;
+            }
 
             if (e.NewValue is Star star)
                 interpretation = new(LibrarySearch.SearchStarDescription(star, skyTypeId), e.NewValue, skyTypeId);
