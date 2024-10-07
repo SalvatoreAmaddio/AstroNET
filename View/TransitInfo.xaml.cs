@@ -1,6 +1,5 @@
 ﻿using AstroNET.model;
 using Backend.Database;
-using System.Text;
 using System.Windows;
 using System.Windows.Documents;
 
@@ -44,10 +43,20 @@ namespace AstroNET.View
             }
 
             AddStar(_star1);
-            _flowDoc.Blocks.Add(Utils.DescriptionParagraph("Nelle Case:",FontWeights.Bold));
-//            _flowDoc.Blocks.Add(Utils.DescriptionParagraph(info?.TransitDescription));
-            
-            if (_house1 != null) 
+
+            if (aspect.TransitType.TransitTypeId == 1)
+            {
+                _flowDoc.Blocks.Add(Utils.DescriptionParagraph("Nelle Case:", FontWeights.Bold));
+                _flowDoc.Blocks.Add(Utils.DescriptionParagraph(_star1?.InHouseDescription));
+            }
+            else if (aspect.TransitType.TransitTypeId == 2)
+            {
+                _flowDoc.Blocks.Add(Utils.DescriptionParagraph("I Transiti:", FontWeights.Bold));
+                _flowDoc.Blocks.Add(Utils.DescriptionParagraph(_star1?.TransitDescription));
+            }
+
+
+            if (_house1 != null)
             {
                 AddHouse(_house1);
             }
@@ -67,15 +76,23 @@ namespace AstroNET.View
 
         public TransitInfo(int transitId, Star star) : this()
         {
-  //          TransitTypeInfo? info = App.TransitTypeDescriptions?.TransitTypeInfo.FirstOrDefault(s => s.TransitTypeId == transitId && s.StarId == star.PointId);
             _star1 = Stars?.FirstOrDefault(s => s.PointId == star.PointId);
             if (star.House != null)
                 _house1 = Houses?.FirstOrDefault(s => s.PointId == star.House.PointId);
 
 
             AddStar(_star1);
-            _flowDoc.Blocks.Add(Utils.DescriptionParagraph("Nelle Case:", FontWeights.Bold));
-    //        _flowDoc.Blocks.Add(Utils.DescriptionParagraph(info?.TransitDescription));
+
+            if (transitId == 1)
+            {
+                _flowDoc.Blocks.Add(Utils.DescriptionParagraph("Nelle Case:", FontWeights.Bold));
+                _flowDoc.Blocks.Add(Utils.DescriptionParagraph(_star1?.InHouseDescription));
+            }
+            else if (transitId == 2) 
+            {
+                _flowDoc.Blocks.Add(Utils.DescriptionParagraph("I Transiti:", FontWeights.Bold));
+                _flowDoc.Blocks.Add(Utils.DescriptionParagraph(_star1?.TransitDescription));
+            }
 
             if (_house1 != null)
             {
@@ -85,13 +102,13 @@ namespace AstroNET.View
             documentViewer.Document = _flowDoc;
         }
 
-        private void AddStar(Star? star) 
+        private void AddStar(Star? star)
         {
             _flowDoc.Blocks.Add(Utils.ImageParagraph(star?.URI, star?.ToString()));
             _flowDoc.Blocks.Add(Utils.DescriptionParagraph(star?.Description));
         }
-        
-        private void AddHouse(House? house) 
+
+        private void AddHouse(House? house)
         {
             _flowDoc.Blocks.Add(Utils.DescriptionParagraph($"{house}:", FontWeights.Bold));
             _flowDoc.Blocks.Add(Utils.DescriptionParagraph($"{house?.Description}"));
