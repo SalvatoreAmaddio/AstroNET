@@ -129,7 +129,7 @@ namespace AstroNET.View
             SkyEvent subjectSky = (SkyEvent)((ChartViewContainer)Owner.Content).Sky;
             PositionCalculator calculator = new(subjectSky);
 
-            IEnumerable<Aspect> results = await Task.Run(() =>
+            IEnumerable<IAspect> results = await Task.Run(() =>
                 calculator.TransitsCalculatorAsync(SelectedDate, SelectedCity, (int)SelectedStar.PointId, Steps)
             );
 

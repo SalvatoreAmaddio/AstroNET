@@ -4,8 +4,13 @@ using System.Data.Common;
 
 namespace AstroNET.model
 {
+    public interface IAstrologyAttribute
+    {
+        public Int64 ID();
+    }
+
     [Table(nameof(Element))]
-    public class Element : AbstractModel<Element>
+    public class Element : AbstractModel<Element>, IAstrologyAttribute
     {
         private Int64 _elementId;
         private string _elementName = string.Empty;
@@ -31,6 +36,7 @@ namespace AstroNET.model
             _elementId = reader.GetInt64(0);
             _elementName = reader.GetString(1);
         }
+        public Int64 ID() => _elementId;
 
         public override string ToString() => ElementName;
     }

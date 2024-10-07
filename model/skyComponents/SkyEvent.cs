@@ -1,6 +1,5 @@
-﻿using Backend.Database;
-using FrontEnd.Controller;
-using MvvmHelpers;
+﻿using MvvmHelpers;
+using System.ComponentModel;
 
 namespace AstroNET.model
 {
@@ -8,34 +7,44 @@ namespace AstroNET.model
     {
         #region Properties
         public SkyInfo SkyInfo { get; private set; } = new();
-        public ObservableRangeCollection<Star> Stars { get; private set; } = [];
+        public ObservableRangeCollection<IStar> Stars { get; private set; } = [];
         public IEnumerable<ElementGroupKey>? OccupiedHouses =>
         (Houses.Count == 0) ? [] : Stars.GroupBy(s => s.House)
                                         .Select(s => new ElementGroupKey(s.Key, s.Count()))
                                         .OrderByDescending(s => s.Count).ToList();
 
         public IEnumerable<ElementGroupKey>? Stelliums => OccupiedHouses?.Where(s => s.Count >= 3).ToList();
-        public ObservableRangeCollection<House> Houses { get; protected set; } = [];
-        public IAbstractFormController? PersonController { get; protected set; }
-        public Person? Person { get; protected set; }
-        public int FireSigns => Stars.Count(s => s.RadixSign.Element.ElementId == 1);
-        public int WaterSigns => Stars.Count(s => s.RadixSign.Element.ElementId == 2);
-        public int AirSigns => Stars.Count(s => s.RadixSign.Element.ElementId == 3);
-        public int EarhSigns => Stars.Count(s => s.RadixSign.Element.ElementId == 4);
-        public int MaleSigns => Stars.Count(s => s.RadixSign.Gender.GenderId == 1);
-        public int FemaleSigns => Stars.Count(s => s.RadixSign.Gender.GenderId == 2);
-        public int CardinalSigns => Stars.Count(s => s.RadixSign.Triplicity.TriplicityId == 3);
-        public int FixedSigns => Stars.Count(s => s.RadixSign.Triplicity.TriplicityId == 1);
-        public int MobileSigns => Stars.Count(s => s.RadixSign.Triplicity.TriplicityId == 2);
+        public ObservableRangeCollection<IHouse> Houses { get; protected set; } = [];
+        public INotifyPropertyChanged? PersonController { get; protected set; }
+        public IPerson Person { get; protected set; } = null!;
+        public int FireSigns => Stars.Count(s => s.GetRadixSign().GetElement().ID() == 1);
+        public int WaterSigns => Stars.Count(s => s.GetRadixSign().GetElement().ID() == 2);
+        public int AirSigns => Stars.Count(s => s.GetRadixSign().GetElement().ID() == 3);
+        public int EarhSigns => Stars.Count(s => s.GetRadixSign().GetElement().ID() == 4);
+        public int MaleSigns => Stars.Count(s => s.GetRadixSign().GetGender().ID() == 1);
+        public int FemaleSigns => Stars.Count(s => s.GetRadixSign().GetGender().ID() == 2);
+        public int CardinalSigns => Stars.Count(s => s.GetRadixSign().GetTriplicity().ID() == 3);
+        public int FixedSigns => Stars.Count(s => s.GetRadixSign().GetTriplicity().ID() == 1);
+        public int MobileSigns => Stars.Count(s => s.GetRadixSign().GetTriplicity().ID() == 2);
 
         public List<IPoint> Aspectables { get; } = [];
-        public ObservableRangeCollection<Aspect> RadixAspects { get; } = [];
+        public ObservableRangeCollection<IAspect> RadixAspects { get; } = [];
 
-        protected List<Aspect> Aspects = new(DatabaseManager.Find<Aspect>()!.MasterSource.Cast<Aspect>());
+        public static Func<IEnumerable<IStarTransitOrbit>>? FetchTransitAspects;
+        public static Func<List<IAspect>>? FetchAspects;
+        protected List<IAspect> Aspects
+        {
+            get
+            {
+                if (FetchAspects == null) throw new NotImplementedException();
+                return FetchAspects();
+            }
+        }
+
         #endregion
 
         public AbstractSkyEvent() { }
-        public AbstractSkyEvent(DateTime date, TimeSpan time, City city)
+        public AbstractSkyEvent(DateTime date, TimeSpan time, ICity city)
         {
             SkyInfo.Calculate(date, time, city);
             CalculatePositions();
@@ -79,12 +88,12 @@ namespace AstroNET.model
 
                     double distance = PositionCalculator.CalculateDistance(star.EclipticLongitude, pointReceiver.EclipticLongitude);
 
-                    foreach (Aspect aspect in Aspects)
+                    foreach (IAspect aspect in Aspects)
                     {
                         if (pointReceiver is IHouse house && !house.IsAngular && aspect.Orbit != 0)
                             continue;
 
-                        Aspect? calculatedAspect = PositionCalculator.IsValidAspect(aspect, distance);
+                        IAspect? calculatedAspect = PositionCalculator.IsValidAspect(aspect, distance);
 
                         if (calculatedAspect != null)
                         {
@@ -105,7 +114,7 @@ namespace AstroNET.model
             }
         }
 
-        protected void AddRadixAspect(Aspect? aspect, IPoint pointA, IPoint pointB)
+        protected void AddRadixAspect(IAspect? aspect, IPoint pointA, IPoint pointB)
         {
             if (aspect != null)
             {
@@ -120,9 +129,10 @@ namespace AstroNET.model
             }
         }
 
-        public IEnumerable<Aspect> CalculateStarAspects(Star star, DateTime date)
+        public IEnumerable<IAspect> CalculateStarAspects(IStar star, DateTime date)
         {
-            IEnumerable<StarTransitOrbit> transitAspects = DatabaseManager.Find<StarTransitOrbit>()!.MasterSource.Cast<StarTransitOrbit>().ToList();
+            if (FetchTransitAspects == null) throw new NotImplementedException("");
+            IEnumerable<IStarTransitOrbit>? transitAspects = FetchTransitAspects().ToList();
 
             if (Person != null && !Person.UnknownTime)
                 star.PlaceInHouse(this);
@@ -131,15 +141,15 @@ namespace AstroNET.model
             {
                 double distance = PositionCalculator.CalculateDistance(star.EclipticLongitude, pointReceiver.EclipticLongitude);
 
-                foreach (Aspect aspect in Aspects)
+                foreach (IAspect aspect in Aspects)
                 {
-                    double? tollerance = transitAspects.FirstOrDefault(s => s.Aspect.Equals(aspect) && s.Star.Equals(star))?.Tollerance;
+                    double? tollerance = transitAspects.FirstOrDefault(s => s.GetAspect().Equals(aspect) && s.GetStar().Equals(star))?.Tollerance;
                     if (tollerance == null) continue;
 
                     if (pointReceiver is IHouse house && !house.IsAngular && !aspect.IsConjunction)
                         continue;
 
-                    Aspect? calculatedAspect = PositionCalculator.IsValidAspect(aspect, distance, tollerance.Value);
+                    IAspect? calculatedAspect = PositionCalculator.IsValidAspect(aspect, distance, tollerance.Value);
 
                     if (calculatedAspect != null)
                     {
@@ -149,7 +159,7 @@ namespace AstroNET.model
                                 continue;
                         }
 
-                        calculatedAspect.TransitType = new(2);
+                        calculatedAspect.SetTransitType(2);
 
                         calculatedAspect.DateOf = date;
 
@@ -175,27 +185,27 @@ namespace AstroNET.model
         #region Constructors
         public SkyEvent() { }
 
-        public SkyEvent(Person person, IAbstractFormController controller) : this(person)
+        public SkyEvent(IPerson person, INotifyPropertyChanged controller) : this(person)
         {
             PersonController = controller;
         }
 
-        public SkyEvent(Person person) : this(person.DOB, person.TOB, person.City, !person.UnknownTime)
+        public SkyEvent(IPerson person) : this(person.DOB, person.TOB, person.GetCity(), !person.UnknownTime)
         {
             Person = person;
         }
 
-        public SkyEvent(Person person, bool showHouses)
-            : this(person.DOB, person.TOB, person.City, showHouses) =>
+        public SkyEvent(IPerson person, bool showHouses)
+            : this(person.DOB, person.TOB, person.GetCity(), showHouses) =>
             Person = person;
 
-        public SkyEvent(DateTime date, TimeSpan time, City city, bool showHouses = true) : base(date, time, city)
+        public SkyEvent(DateTime date, TimeSpan time, ICity city, bool showHouses = true) : base(date, time, city)
         {
             ShowHouses = showHouses;
             CalculatePositions();
         }
 
-        public SkyEvent(int year, int month, int day, int hour, int minutes, City city, bool showHouses = true) : this()
+        public SkyEvent(int year, int month, int day, int hour, int minutes, ICity city, bool showHouses = true) : this()
         {
             ShowHouses = showHouses;
             SkyInfo.Calculate(year, month, day, hour, minutes, city);
@@ -235,13 +245,13 @@ namespace AstroNET.model
             CalculateBirthAspects();
         }
 
-        public ReturnSkyEvent CalculateReturn(DateTime returnDate, TimeSpan returnTime, City selectedCity, SkyType skyType = SkyType.SunReturn) =>
+        public ReturnSkyEvent CalculateReturn(DateTime returnDate, TimeSpan returnTime, ICity selectedCity, SkyType skyType = SkyType.SunReturn) =>
         new(returnDate, returnTime, selectedCity, this, skyType);
 
         public SkyEvent CloneMe() =>
         new(SkyInfo.Year, SkyInfo.Month, SkyInfo.Day, SkyInfo.LocalTime.Hours, SkyInfo.LocalTime.Minutes, SkyInfo.City, ShowHouses) { Person = this.Person };
 
-        private static void CompleteAspect(ref Aspect aspect, IPoint pointA, IPoint pointB)
+        private static void CompleteAspect(ref IAspect aspect, IPoint pointA, IPoint pointB)
         {
             aspect.PointA = pointA;
 
@@ -252,9 +262,10 @@ namespace AstroNET.model
             aspect.CalculateOrbDiff();
         }
 
-        public void CalculateHoroscope(DateTime date, TimeSpan time, City city)
+        public void CalculateHoroscope(DateTime date, TimeSpan time, ICity city)
         {
-            IEnumerable<StarTransitOrbit> transitAspects = DatabaseManager.Find<StarTransitOrbit>()!.MasterSource.Cast<StarTransitOrbit>();
+            if (FetchTransitAspects == null) throw new NotImplementedException("");
+            IEnumerable<IStarTransitOrbit>? transitAspects = FetchTransitAspects().ToList();
 
             Horoscope = new(date, time, city, false)
             {
@@ -274,16 +285,16 @@ namespace AstroNET.model
                 {
                     double distance = PositionCalculator.CalculateDistance(star.EclipticLongitude, pointReceiver.EclipticLongitude);
 
-                    foreach (Aspect aspect in Aspects)
+                    foreach (IAspect aspect in Aspects)
                     {
-                        double? tollerance = transitAspects.FirstOrDefault(s => s.Aspect.Equals(aspect) && s.Star.Equals(star))?.Tollerance;
+                        double? tollerance = transitAspects.FirstOrDefault(s => s.GetAspect().Equals(aspect) && s.GetStar().Equals(star))?.Tollerance;
 
                         if (tollerance == null) continue;
 
                         if (pointReceiver is IHouse house && !house.IsAngular && !aspect.IsConjunction)
                             continue;
 
-                        Aspect? calculatedAspect = PositionCalculator.IsValidAspect(aspect, distance, tollerance.Value);
+                        IAspect? calculatedAspect = PositionCalculator.IsValidAspect(aspect, distance, tollerance.Value);
 
                         if (calculatedAspect != null)
                         {
@@ -293,7 +304,7 @@ namespace AstroNET.model
                                     continue;
                             }
 
-                            calculatedAspect.TransitType = new(2);
+                            calculatedAspect.SetTransitType(2);
                             calculatedAspect.DateOf = date;
                             Horoscope.AddRadixAspect(calculatedAspect, star, pointReceiver);
                         }
@@ -302,12 +313,12 @@ namespace AstroNET.model
             }
         }
 
-        public IEnumerable<Star>? StarsInPartnerHouses(SkyEvent match)
+        public IEnumerable<IStar>? StarsInPartnerHouses(SkyEvent match)
         {
             if (match.Person.UnknownTime) return null;
             PositionCalculator positionCalculator = new(this);
 
-            List<Star> stars = [];
+            List<IStar> stars = [];
 
             for (int i = 0; i < 10; i++)
             {
@@ -319,10 +330,11 @@ namespace AstroNET.model
             return stars;
         }
 
-        public IEnumerable<Aspect> CalculateSinastry(SkyEvent match)
+        public IEnumerable<IAspect> CalculateSinastry(SkyEvent match)
         {
-            List<Aspect> aspects = [];
-            IEnumerable<StarTransitOrbit> transitAspects = DatabaseManager.Find<StarTransitOrbit>()!.MasterSource.Cast<StarTransitOrbit>();
+            List<IAspect> aspects = [];
+            if (FetchTransitAspects == null) throw new NotImplementedException("");
+            IEnumerable<IStarTransitOrbit>? transitAspects = FetchTransitAspects().ToList();
 
             foreach (IStar star in Stars)
             {
@@ -330,16 +342,16 @@ namespace AstroNET.model
                 {
                     double distance = PositionCalculator.CalculateDistance(star.EclipticLongitude, pointReceiver.EclipticLongitude);
 
-                    foreach (Aspect aspect in Aspects)
+                    foreach (IAspect aspect in Aspects)
                     {
-                        double? tollerance = transitAspects.FirstOrDefault(s => s.Aspect.Equals(aspect) && s.Star.Equals(star))?.Tollerance;
+                        double? tollerance = transitAspects.FirstOrDefault(s => s.GetAspect().Equals(aspect) && s.GetStar().Equals(star))?.Tollerance;
 
                         if (tollerance == null) continue;
 
                         if (pointReceiver is IHouse house && !house.IsAngular && !aspect.IsConjunction)
                             continue;
 
-                        Aspect? calculatedAspect = PositionCalculator.IsValidAspect(aspect, distance, tollerance.Value);
+                        IAspect? calculatedAspect = PositionCalculator.IsValidAspect(aspect, distance, tollerance.Value);
 
                         if (calculatedAspect != null)
                         {
@@ -349,7 +361,7 @@ namespace AstroNET.model
                                     continue;
                             }
 
-                            calculatedAspect.TransitType = new(3);
+                            calculatedAspect.SetTransitType(3);
                             CompleteAspect(ref calculatedAspect, star, pointReceiver);
                             aspects.Add(calculatedAspect);
                         }
@@ -362,10 +374,10 @@ namespace AstroNET.model
 
         public async Task<SinastryBundle> CalculateSinastryAsync(SkyEvent match)
         {
-            Task<IEnumerable<Aspect>> sinastryAspect1Task = Task.Run(() => CalculateSinastry(match));
-            Task<IEnumerable<Aspect>> sinastryAspect2Task = Task.Run(() => match.CalculateSinastry(this));
-            Task<IEnumerable<Star>?> sinastryStars1 = Task.Run(() => StarsInPartnerHouses(match));
-            Task<IEnumerable<Star>?> sinastryStars2 = Task.Run(() => match.StarsInPartnerHouses(this));
+            Task<IEnumerable<IAspect>> sinastryAspect1Task = Task.Run(() => CalculateSinastry(match));
+            Task<IEnumerable<IAspect>> sinastryAspect2Task = Task.Run(() => match.CalculateSinastry(this));
+            Task<IEnumerable<IStar>?> sinastryStars1 = Task.Run(() => StarsInPartnerHouses(match));
+            Task<IEnumerable<IStar>?> sinastryStars2 = Task.Run(() => match.StarsInPartnerHouses(this));
 
             await Task.WhenAll(sinastryAspect1Task, sinastryAspect2Task, sinastryStars1, sinastryStars2);
 
@@ -385,11 +397,11 @@ namespace AstroNET.model
 
     public class ReturnSkyEvent : AbstractSkyEvent
     {
-        public House? HouseHostingReturnAsc { get; private set; }
+        public IHouse? HouseHostingReturnAsc { get; private set; }
         private SkyEvent _skyEvent;
-        private Aspect _conj => Aspects.First(s => s.IsConjunction);
+        private IAspect _conj => Aspects.First(s => s.IsConjunction);
 
-        public ReturnSkyEvent(DateTime date, TimeSpan time, City city, SkyEvent skyEvent, SkyType skyType) : base(date, time, city)
+        public ReturnSkyEvent(DateTime date, TimeSpan time, ICity city, SkyEvent skyEvent, SkyType skyType) : base(date, time, city)
         {
             this._skyEvent = skyEvent;
             Person = this._skyEvent.Person;
@@ -400,15 +412,15 @@ namespace AstroNET.model
         public void CalculateReturnAsc()
         {
             Houses[0].PointName = $"R. {Houses[0].PointName}";
-            House returnAsc = Houses[0];
+            IHouse returnAsc = Houses[0];
             HouseHostingReturnAsc = returnAsc.PlaceInHouse(_skyEvent);
 
-            foreach (House radixHouse in _skyEvent.Houses)
+            foreach (IHouse radixHouse in _skyEvent.Houses)
             {
                 double dist = PositionCalculator.CalculateDistance(returnAsc.EclipticLongitude, radixHouse.EclipticLongitude);
-                Aspect? calculatedAspect = PositionCalculator.IsValidAspect(_conj, dist, 2.5);
+                IAspect? calculatedAspect = PositionCalculator.IsValidAspect(_conj, dist, 2.5);
                 if (calculatedAspect == null) continue;
-                calculatedAspect.TransitType = new(4);
+                calculatedAspect.SetTransitType(4);
                 calculatedAspect.DateOf = SkyInfo.LocalDateTime;
                 AddRadixAspect(calculatedAspect, returnAsc, radixHouse);
             }
@@ -420,7 +432,7 @@ namespace AstroNET.model
 
             foreach (IStar star in Stars)
             {
-                foreach (House pointReceiver in Houses)
+                foreach (IHouse pointReceiver in Houses)
                 {
 
                     double distance = PositionCalculator.CalculateDistance(star.EclipticLongitude, pointReceiver.EclipticLongitude);
@@ -430,11 +442,11 @@ namespace AstroNET.model
                         continue;
                     }
 
-                    Aspect? calculatedAspect = PositionCalculator.IsValidAspect(_conj, distance);
+                    IAspect? calculatedAspect = PositionCalculator.IsValidAspect(_conj, distance);
 
                     if (calculatedAspect != null)
                     {
-                        calculatedAspect.TransitType = new(4);
+                        calculatedAspect.SetTransitType(4);
                         calculatedAspect.DateOf = SkyInfo.LocalDateTime;
                         AddRadixAspect(calculatedAspect, star, pointReceiver);
                     }
@@ -449,12 +461,12 @@ namespace AstroNET.model
             _ => false,
         };
 
-        public bool WarnReturn(House inNatalHouse)
+        public bool WarnReturn(IHouse inNatalHouse)
         {
             if (SkyInfo.SkyTypeId < 4) return false;
 
-            Star mars = Stars[4];
-            Star sun = Stars[0];
+            IStar mars = Stars[4];
+            IStar sun = Stars[0];
 
             if (IsEvilHouse(sun.House.PointId)) return true;
 
@@ -466,21 +478,21 @@ namespace AstroNET.model
                 if (Stelliums.Any(s => IsEvilHouse(s.Point!.PointId)))
                     return true;
 
-            foreach (Aspect aspect in RadixAspects)
+            foreach (IAspect aspect in RadixAspects)
             {
-                House conjHouse;
+                IHouse conjHouse;
 
-                if (aspect.PointA is Star star && (star.PointId == 0 || star.PointId == 4))
+                if (aspect.PointA is IStar star && (star.PointId == 0 || star.PointId == 4))
                 {
-                    conjHouse = (House)aspect.PointB;
+                    conjHouse = (IHouse)aspect.PointB;
                     if (IsEvilHouse(conjHouse.PointId)) return true;
                 }
 
-                if (aspect.PointA is House house)
+                if (aspect.PointA is IHouse house)
                 {
-                    conjHouse = (House)aspect.PointB;
+                    conjHouse = (IHouse)aspect.PointB;
                     if (IsEvilHouse(conjHouse.PointId)) return true;
-                    if (IsEvilHouse(House.SlidHouse(aspect.OrbDiff, conjHouse))) return true;
+                    if (IsEvilHouse(IHouse.SlidHouse(aspect.OrbDiff, conjHouse))) return true;
                 }
             }
 
@@ -489,18 +501,17 @@ namespace AstroNET.model
 
     }
 
-    public class SinastryBundle(SkyEvent sky1, SkyEvent sky2, IEnumerable<Aspect> aspects, IEnumerable<Aspect> aspects2, IEnumerable<Star>? stars, IEnumerable<Star>? stars2)
+    public class SinastryBundle(SkyEvent sky1, SkyEvent sky2, IEnumerable<IAspect> aspects, IEnumerable<IAspect> aspects2, IEnumerable<IStar>? stars, IEnumerable<IStar>? stars2)
     {
         public SkyEvent Sky1 { get; } = sky1;
         public SkyEvent Sky2 { get; } = sky2;
-        public Person Person1 => Sky1.Person!;
-        public Person Person2 => Sky2.Person!;
-        public IEnumerable<Aspect> Chart1Aspects { get; } = aspects;
-        public IEnumerable<Aspect> Chart2Aspects { get; } = aspects2;
-        public IEnumerable<Star>? Chart1Zodiac { get; } = stars;
-
+        public IPerson Person1 => Sky1.Person!;
+        public IPerson Person2 => Sky2.Person!;
+        public IEnumerable<IAspect> Chart1Aspects { get; } = aspects;
+        public IEnumerable<IAspect> Chart2Aspects { get; } = aspects2;
+        public IEnumerable<IStar>? Chart1Zodiac { get; } = stars;
         public string Chart1ZodiacTile => $"{Person1}'s Stars in {Person2}'s Houses";
-        public IEnumerable<Star>? Chart2Zodiac { get; } = stars2;
+        public IEnumerable<IStar>? Chart2Zodiac { get; } = stars2;
         public string Chart2ZodiacTile => $"{Person2}'s Stars in {Person1}'s Houses";
 
         public string Title => $"{Person1} AND {Person2}";

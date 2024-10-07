@@ -19,10 +19,10 @@ namespace AstroNET.model
         }
     }
 
-    public class SubTransitGroupKey(int id, Aspect aspect) 
+    public class SubTransitGroupKey(int id, IAspect aspect) 
     {
         public int Id { get; set; } = id;
-        public Aspect Aspect { get; set; } = aspect;
+        public IAspect Aspect { get; set; } = aspect;
 
         public override bool Equals(object? obj)
         {
@@ -40,7 +40,7 @@ namespace AstroNET.model
     {
         public SubTransitGroupKey KeyGroup { get; set; } = null!;
         public string SubHeader => $"{KeyGroup.Aspect.AspectName} {KeyGroup.Aspect.IsRetrograde()}From {SubAspects.FirstOrDefault()?.DateOf.ToString("dd/MM/yyyy")} to {SubAspects.LastOrDefault()?.DateOf.ToString("dd/MM/yyyy")}";
-        public IEnumerable<Aspect?> SubAspects { get; set; } = null!;
+        public IEnumerable<IAspect?> SubAspects { get; set; } = null!;
     }
 
     public class TransitGroup
@@ -53,10 +53,10 @@ namespace AstroNET.model
     public class TransitOrganiser
     {
         private static int id = 0;
-        public static List<Aspect?> Filter(List<Aspect> aspects)
+        public static List<IAspect?> Filter(List<IAspect> aspects)
         {
-            List<Aspect?> filteredAspects = [];
-            LinkedList<Aspect> Copy = new(aspects);
+            List<IAspect?> filteredAspects = [];
+            LinkedList<IAspect> Copy = new(aspects);
 
             for (int c = 0; c <= aspects.Count; c++)
             {
@@ -75,13 +75,13 @@ namespace AstroNET.model
             return filteredAspects;
         }
 
-        private static List<Aspect?> Pick(List<Aspect> chunk)
+        private static List<IAspect?> Pick(List<IAspect> chunk)
         {
-            List<Aspect?> r = [];
-            Aspect? a;
-            Aspect? b;
-            Aspect? c;
-            Aspect? d;
+            List<IAspect?> r = [];
+            IAspect? a;
+            IAspect? b;
+            IAspect? c;
+            IAspect? d;
             id++;
 
             a = chunk.FirstOrDefault();

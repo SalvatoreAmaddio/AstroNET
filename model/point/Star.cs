@@ -64,7 +64,7 @@ namespace AstroNET.model
         {
         }
 
-        public Star(House house)
+        public Star(IHouse house)
         {
             _radixHouse = house;
         }
@@ -108,14 +108,14 @@ namespace AstroNET.model
         public override void Build()
         {
             base.Build();
-            IStar star = (IStar)_fetchDbPoint!;
+            Star star = (Star)_fetchDbPoint!;
             _uri = star.URI;
             _transitOrbit = star.TransitOrbit;
             _element = star.Element;
             House?.Build();
         }
 
-        public override House PlaceInHouse(AbstractSkyEvent sky)
+        public override IHouse PlaceInHouse(AbstractSkyEvent sky)
         {
             for (int i = 0; i < 12; i++)
             {
@@ -143,5 +143,8 @@ namespace AstroNET.model
         }
 
         public override bool IsNewRecord() => (long?)GetPrimaryKey()?.GetValue() == -1;
+
+        public IAstrologyAttribute GetElement() => _element;
+
     }
 }

@@ -231,7 +231,7 @@ namespace AstroNET.View
                 string title = "Radix Aspects";
                 StringBuilder sb = new();
 
-                IEnumerable<Aspect> aspects = Sky.RadixAspects.Where(s => s.PointA.PointId == star.PointId);
+                IEnumerable<IAspect> aspects = Sky.RadixAspects.Where(s => s.PointA.PointId == star.PointId);
 
                 if (isHoroscope)
                 {
@@ -278,7 +278,7 @@ namespace AstroNET.View
         {
             double offset = 0;
             double conjOffset = 0;
-            IEnumerable<Aspect> Aspects;
+            IEnumerable<IAspect> Aspects;
 
             if (isHoroscope) 
             {

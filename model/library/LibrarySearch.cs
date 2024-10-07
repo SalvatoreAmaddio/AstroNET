@@ -34,7 +34,7 @@ namespace AstroNET.model
             return lib;
         }
 
-        public static List<IStarLibrary?> SearchAspect(Aspect aspect, House? houseHostingRAsc = null)
+        public static List<IStarLibrary?> SearchAspect(Aspect aspect, IHouse? houseHostingRAsc = null)
         {
             List<IStarLibrary?> lib = [];
 
@@ -85,7 +85,7 @@ namespace AstroNET.model
 
             if (aspect.IsInCuspid)
             {
-                long houseId = House.SlidHouse(aspect.OrbDiff, star.House);
+                long houseId = IHouse.SlidHouse(aspect.OrbDiff, star.House);
                 House cuspHouse = new(houseId);
                 LibraryStarHouses? nextHouseRecord = houseLibrary?.FirstOrDefault(s => FindHouse(s, star, cuspHouse));
                 Lib.Add(nextHouseRecord);

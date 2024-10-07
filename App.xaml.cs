@@ -4,11 +4,40 @@ using System.Windows;
 using AstroNET.model;
 using TimeZone = AstroNET.model.TimeZone;
 using Backend.Utils;
+using AstroNET.model.point;
 
 namespace AstroNET
 {
     public partial class App : Application
     {
+        private void Settings() 
+        {
+            PointFactory.CreateHouse = (houseId, eclipticLongitude) =>
+            {
+                return new House(houseId, eclipticLongitude);
+            };
+
+            PointFactory.CreateStar = (starId, xx) =>
+            {
+                return new Star(starId, ref xx);
+            };
+
+            PointFactory.CreateStar2 = (starId, xx, cusps) =>
+            {
+                return new Star(starId, ref xx, ref cusps);
+            };
+
+            AbstractSkyEvent.FetchTransitAspects = () =>
+            {
+                return DatabaseManager.Find<StarTransitOrbit>()!.MasterSource.Cast<StarTransitOrbit>().ToList();
+            };
+
+            AbstractSkyEvent.FetchAspects = () =>
+            {
+                return new(DatabaseManager.Find<Aspect>()!.MasterSource.Cast<IAspect>());
+            };
+        }
+
         public App()
         {
             //C:\Users\salva\AppData\Roaming\AstroNET\"
@@ -43,6 +72,7 @@ namespace AstroNET
 
             DatabaseManager.Add(new SQLiteDatabase<SavedCharts>());
 
+            Settings();
             this.DisposeOnExit(); // ensure Databases are disposed on Application' shutdown.
         }
     }

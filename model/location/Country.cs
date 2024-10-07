@@ -5,8 +5,16 @@ using FrontEnd.Model;
 
 namespace AstroNET.model
 {
+    public interface ICountry : ILocation
+    {
+        Int64 CountryId { get; set; }
+        string CountryName { get; set; }
+        string CountryCode { get; set; }
+
+    }
+
     [Table(nameof(Country))]
-    public class Country : AbstractModel<Country>, ILocation
+    public class Country : AbstractModel<Country>, ICountry
     {
         private Int64 _countryId;
         private string _countryName = string.Empty;

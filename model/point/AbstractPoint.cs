@@ -89,7 +89,7 @@ namespace AstroNET.model
             return $"{PointName}";
         }
 
-        public virtual House PlaceInHouse(AbstractSkyEvent sky)
+        public virtual IHouse PlaceInHouse(AbstractSkyEvent sky)
         {
             for (int i = 0; i < 12; i++)
             {
@@ -125,5 +125,7 @@ namespace AstroNET.model
             Position = new(degreesInSign, minutesInSign, secondsInSign);
             return signIndex + 1;
         }
+
+        public ISign GetRadixSign() => _radixSign;
     }
 }

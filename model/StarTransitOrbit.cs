@@ -4,8 +4,16 @@ using System.Data.Common;
 
 namespace AstroNET.model
 {
+    public interface IStarTransitOrbit 
+    {
+        Int64 StarTransitOrbitId { get; set; }
+        IStar GetStar();
+        IAspect GetAspect();
+        double Tollerance { get; set; }
+    }
+
     [Table(nameof(StarTransitOrbit))]
-    public class StarTransitOrbit : AbstractModel<StarTransitOrbit>
+    public class StarTransitOrbit : AbstractModel<StarTransitOrbit>, IStarTransitOrbit
     {
         private Int64 _starTransitOrbitId;
         private Star _star = null!;
@@ -31,5 +39,9 @@ namespace AstroNET.model
             _aspect = new Aspect(reader.GetInt64(2));
             _tollerance = reader.GetDouble(3);
         }
+
+        public IStar GetStar() => _star;
+
+        public IAspect GetAspect() => _aspect;
     }
 }

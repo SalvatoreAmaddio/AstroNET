@@ -140,7 +140,7 @@ namespace AstroNET.converter
         public override object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             AbstractSkyEvent sky = (AbstractSkyEvent)value;
-            Person? person = sky.Person;
+            IPerson? person = sky.Person;
 
             ReplaceSky(ref sky);
 
@@ -178,7 +178,7 @@ namespace AstroNET.converter
         {
             AbstractSkyEvent sky = (AbstractSkyEvent)value;
             ReplaceSky(ref sky);
-            return $"{sky.SkyInfo.City.CityName}, {sky.SkyInfo.City.Region.Country}";
+            return $"{sky.SkyInfo.City.CityName}, {sky.SkyInfo.City.GetRegion().GetCountry()}";
         }
     }
 
@@ -200,7 +200,7 @@ namespace AstroNET.converter
 
             ReplaceSky(ref sky);
 
-            Person? p = sky.Person;
+            IPerson? p = sky.Person;
 
             if (p != null && p.UnknownTime)
                 return "Unknown Time";
@@ -217,7 +217,7 @@ namespace AstroNET.converter
 
             ReplaceSky(ref sky);
 
-            Person? p = sky.Person;
+            IPerson? p = sky.Person;
 
             if (p != null && p.UnknownTime)
                 return "Unknown Time";
@@ -233,7 +233,7 @@ namespace AstroNET.converter
             AbstractSkyEvent sky = (AbstractSkyEvent)value;
             ReplaceSky(ref sky);
 
-            Person? p = sky.Person;
+            IPerson? p = sky.Person;
 
             if (p != null && p.UnknownTime)
                 return "Unknown Time";

@@ -173,48 +173,48 @@ namespace AstroNET.View
         #endregion
 
         #region Aspects
-        public ObservableRangeCollection<Aspect> Aspects
+        public ObservableRangeCollection<IAspect> Aspects
         {
-            get => (ObservableRangeCollection<Aspect>)GetValue(AspectsProperty);
+            get => (ObservableRangeCollection<IAspect>)GetValue(AspectsProperty);
             set => SetValue(AspectsProperty, value);
         }
 
         public static readonly DependencyProperty AspectsProperty =
             DependencyProperty.Register(
                 nameof(Aspects),
-                typeof(ObservableRangeCollection<Aspect>),
+                typeof(ObservableRangeCollection<IAspect>),
                 typeof(ChartView),
                 new PropertyMetadata(null));
         #endregion
 
         #region Stars
-        public ObservableRangeCollection<Star> Stars
+        public ObservableRangeCollection<IStar> Stars
         {
-            get => (ObservableRangeCollection<Star>)GetValue(StarsProperty);
+            get => (ObservableRangeCollection<IStar>)GetValue(StarsProperty);
             set => SetValue(StarsProperty, value);
         }
 
         public static readonly DependencyProperty StarsProperty =
             DependencyProperty.Register(
                 nameof(Stars),
-                typeof(ObservableRangeCollection<Star>),
+                typeof(ObservableRangeCollection<IStar>),
                 typeof(ChartView),
-                new PropertyMetadata(new ObservableRangeCollection<Star>()));
+                new PropertyMetadata(new ObservableRangeCollection<IStar>()));
         #endregion
 
         #region Houses
-        public ObservableRangeCollection<House> Houses
+        public ObservableRangeCollection<IHouse> Houses
         {
-            get => (ObservableRangeCollection<House>)GetValue(HousesProperty);
+            get => (ObservableRangeCollection<IHouse>)GetValue(HousesProperty);
             set => SetValue(HousesProperty, value);
         }
 
         public static readonly DependencyProperty HousesProperty =
             DependencyProperty.Register(
                 nameof(Houses),
-                typeof(ObservableRangeCollection<House>),
+                typeof(ObservableRangeCollection<IHouse>),
                 typeof(ChartView),
-                new PropertyMetadata(new ObservableRangeCollection<House>()));
+                new PropertyMetadata(new ObservableRangeCollection<IHouse>()));
         #endregion
 
         #region OpenEditCMD
@@ -365,8 +365,8 @@ namespace AstroNET.View
                 }
                 else
                 {
-                    controller = Sky.PersonController;
-                    record = Sky.Person;
+                    controller = (IAbstractFormController?)Sky.PersonController;
+                    record = (IAbstractModel)Sky.Person;
                 }
 
                 controller?.SetCurrentRecord(record);
@@ -384,7 +384,7 @@ namespace AstroNET.View
         {
             if (ToolBarHeight == 0 || IsHoroscope) return;
 
-            Person? person = Sky.Person;
+            Person? person = (Person?)Sky.Person;
 
             if (person == null) return;
 

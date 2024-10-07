@@ -5,8 +5,16 @@ using FrontEnd.Model;
 
 namespace AstroNET.model
 {
+    public interface ITimeZone : ILocation
+    {
+        Int64 TimeZoneId { get; set; }
+        string TimeZoneName { get; set; }
+        TimeZoneInfo Info { get; }
+    }
+
+
     [Table(nameof(TimeZone))]
-    public class TimeZone : AbstractModel<TimeZone>, ILocation
+    public class TimeZone : AbstractModel<TimeZone>, ITimeZone
     {
         private Int64 _timeZoneId;
         private string _timeZoneName = string.Empty;

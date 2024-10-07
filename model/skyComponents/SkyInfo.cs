@@ -29,7 +29,7 @@ namespace AstroNET.model
         public TimeSpan LocalTime { get; private set; }
         public DateTime LocalDateTime { get; set; }
         public double LocalHour { get; private set; }
-        public City City { get; private set; } = null!;
+        public ICity City { get; private set; } = null!;
         public int Year => LocalDateTime.Year;
         public int Month => LocalDateTime.Month;
         public int Day => LocalDateTime.Day;
@@ -69,7 +69,7 @@ namespace AstroNET.model
         public SkyInfo() { }
         public SkyInfo(SkyType skyType) => SkyType = skyType;
 
-        public void Calculate(int year, int month, int day, int hour, int minutes, City city)
+        public void Calculate(int year, int month, int day, int hour, int minutes, ICity city)
         {
             City = city;
             City.Build();
@@ -77,9 +77,9 @@ namespace AstroNET.model
             LocalTime = new(hour, minutes, 0);
             LocalDateTime = new DateTime(year, month, day, (int)LocalHour, (int)((LocalHour - (int)LocalHour) * 60), 0);
 
-            bool isDaylight = CheckDST(LocalDateTime, City.TimeZone.TimeZoneName);
+            bool isDaylight = CheckDST(LocalDateTime, City.GetTimeZone().TimeZoneName);
 
-            TimeSpan timeOffset = City.TimeZone.Info.BaseUtcOffset;
+            TimeSpan timeOffset = City.GetTimeZone().Info.BaseUtcOffset;
 
             if (isDaylight)
                 timeOffset = timeOffset.Add(new TimeSpan(1, 0, 0));
@@ -87,7 +87,7 @@ namespace AstroNET.model
             HourUT = LocalHour - timeOffset.TotalHours;
             CalculateJulianDate();
         }
-        public void Calculate(DateTime date, TimeSpan time, City city) =>
+        public void Calculate(DateTime date, TimeSpan time, ICity city) =>
         Calculate(date.Year, date.Month, date.Day, time.Hours, time.Minutes, city);
 
         private static bool CheckDST(DateTime dateTime, string timeZoneId)
@@ -114,8 +114,7 @@ namespace AstroNET.model
         }
 
         public override string ToString() =>
-        $"{Day:00}/{Month:00}/{Year} at {LocalTime.ToString(@"hh\:mm")} (Location: {City.CityName}, {City.Region.Country} - Lat: {City.Latitude}°, Long: {City.Longitude}°)";
+        $"{Day:00}/{Month:00}/{Year} at {LocalTime.ToString(@"hh\:mm")} (Location: {City.CityName}, {City.GetRegion().GetCountry()} - Lat: {City.Latitude}°, Long: {City.Longitude}°)";
 
     }
-
 }

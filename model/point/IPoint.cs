@@ -7,21 +7,30 @@
         string Description { get; set; }
         double EclipticLongitude { get; }
         Position Position { get; }
-        Sign RadixSign { get; }
+        ISign GetRadixSign();
         void Build();
-        House PlaceInHouse(AbstractSkyEvent sky);
+        IHouse PlaceInHouse(AbstractSkyEvent sky);
     }
 
     public interface IHouse : IPoint
     {
-        Sign RullerSign { get; }
+        ISign GetRullerSig();
         bool IsAngular { get; }
+        public static long SlidHouse(double orbDiff, IHouse house)
+        {
+            if (orbDiff < 0)
+            {
+                return (house.PointId == 1) ? 12 : house.PointId - 1;
+            }
+
+            return (house.PointId == 12) ? 1 : house.PointId + 1;
+        }
     }
 
     public interface IStar : IPoint
     {
         IHouse House { get; }
-        Element Element { get; }
+        IAstrologyAttribute GetElement();
         bool IsRetrograde { get; }
         public string URI { get; }
         double TransitOrbit { get; }

@@ -92,7 +92,7 @@ namespace AstroNET.View
 
         private void WinOnClosing(object? sender, CancelEventArgs e)
         {
-            bool? isDirty = Sky?.Person?.IsDirty;
+            bool? isDirty = ((Person?)Sky?.Person)?.IsDirty;
 
             if (!isDirty.HasValue) return;
             if (!isDirty.Value) return;
@@ -100,15 +100,15 @@ namespace AstroNET.View
             DialogResult result = UnsavedDialog.Ask("Do you want to save your changes before closing?");
             if (result == DialogResult.No)
             {
-                Sky?.Person?.Undo();
+                ((Person?)Sky?.Person)?.Undo();
                 e.Cancel = false; // Allow closing the window.
             }
             else
             {
                 if (Sky == null) return;
-                IAbstractFormController? controller = Sky.PersonController;
+                IAbstractFormController? controller = (IAbstractFormController?)Sky.PersonController;
                 if (controller == null) return;
-                controller.SetCurrentRecord(Sky?.Person);
+                controller.SetCurrentRecord((Person?)Sky?.Person);
                 bool updateResult = controller.PerformUpdate();
                 e.Cancel = !updateResult;
             }
@@ -133,7 +133,7 @@ namespace AstroNET.View
 
         private void OpenHoroscope(object sender, RoutedEventArgs e)
         {
-            if (Sky!.Person!.IsNewRecord())
+            if (((Person)Sky!.Person!).IsNewRecord())
             {
                 Failure.Allert("Cannot calculate Horoscope on an unsaved Sky");
                 return;
@@ -143,7 +143,7 @@ namespace AstroNET.View
 
         private void OpenSinastry(object sender, RoutedEventArgs e)
         {
-            if (Sky!.Person!.IsNewRecord())
+            if (((Person)Sky!.Person!).IsNewRecord())
             {
                 Failure.Allert("Cannot calculate Sinastry on an unsaved Sky");
                 return;
@@ -154,7 +154,7 @@ namespace AstroNET.View
 
         private void OpenSunReturn(object sender, RoutedEventArgs e)
         {
-            if (Sky!.Person!.IsNewRecord())
+            if (((Person)Sky!.Person!).IsNewRecord())
             {
                 Failure.Allert("Cannot calculate Returns on an unsaved Sky");
                 return;
@@ -164,7 +164,7 @@ namespace AstroNET.View
 
         private void OpenMoonReturn(object sender, RoutedEventArgs e)
         {
-            if (Sky!.Person!.IsNewRecord())
+            if (((Person)Sky!.Person!).IsNewRecord())
             {
                 Failure.Allert("Cannot calculate Returns on an unsaved Sky");
                 return;
@@ -220,7 +220,7 @@ namespace AstroNET.View
 
         private void OpenTransitCalcualtor(object sender, RoutedEventArgs e) 
         {
-            if (Sky!.Person!.IsNewRecord())
+            if (((Person)Sky!.Person!).IsNewRecord())
             {
                 Failure.Allert("Cannot calculate Transits on an unsaved Sky");
                 return;

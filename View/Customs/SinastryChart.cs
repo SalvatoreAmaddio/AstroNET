@@ -68,12 +68,12 @@ namespace AstroNET.View
 
         #region Chart1ZodiacList
         public static readonly DependencyProperty Chart1ZodiacListProperty =
-        DependencyProperty.Register(nameof(Chart1ZodiacList), typeof(IEnumerable<Star>),
+        DependencyProperty.Register(nameof(Chart1ZodiacList), typeof(IEnumerable<IStar>),
         typeof(SinastryChart), new PropertyMetadata() { DefaultValue = null });
 
-        public IEnumerable<Star>? Chart1ZodiacList
+        public IEnumerable<IStar>? Chart1ZodiacList
         {
-            get => (IEnumerable<Star>?)GetValue(Chart1ZodiacListProperty);
+            get => (IEnumerable<IStar>?)GetValue(Chart1ZodiacListProperty);
             set => SetValue(Chart1ZodiacListProperty, value);
         }
         #endregion
@@ -92,12 +92,12 @@ namespace AstroNET.View
 
         #region Chart2ZodiacList
         public static readonly DependencyProperty Chart2ZodiacListProperty =
-        DependencyProperty.Register(nameof(Chart2ZodiacList), typeof(IEnumerable<Star>),
+        DependencyProperty.Register(nameof(Chart2ZodiacList), typeof(IEnumerable<IStar>),
         typeof(SinastryChart), new PropertyMetadata() { DefaultValue = null });
 
-        public IEnumerable<Star>? Chart2ZodiacList
+        public IEnumerable<IStar>? Chart2ZodiacList
         {
-            get => (IEnumerable<Star>?)GetValue(Chart2ZodiacListProperty);
+            get => (IEnumerable<IStar>?)GetValue(Chart2ZodiacListProperty);
             set => SetValue(Chart2ZodiacListProperty, value);
         }
         #endregion
@@ -128,24 +128,24 @@ namespace AstroNET.View
 
         #region Chart2SelectedStar
         public static readonly DependencyProperty Chart2SelectedStarProperty =
-        DependencyProperty.Register(nameof(Chart2SelectedStar), typeof(Star),
+        DependencyProperty.Register(nameof(Chart2SelectedStar), typeof(IStar),
         typeof(SinastryChart), new PropertyMetadata() { DefaultValue = null, PropertyChangedCallback = OnSelectionChanged });
 
-        public Star Chart2SelectedStar
+        public IStar Chart2SelectedStar
         {
-            get => (Star)GetValue(Chart2SelectedStarProperty);
+            get => (IStar)GetValue(Chart2SelectedStarProperty);
             set => SetValue(Chart2SelectedStarProperty, value);
         }
         #endregion
 
         #region Chart1AspectsList
         public static readonly DependencyProperty Chart1AspectsListProperty =
-        DependencyProperty.Register(nameof(Chart1AspectsList), typeof(IEnumerable<Aspect>),
+        DependencyProperty.Register(nameof(Chart1AspectsList), typeof(IEnumerable<IAspect>),
         typeof(SinastryChart), new PropertyMetadata() { DefaultValue = null });
 
-        public IEnumerable<Aspect> Chart1AspectsList
+        public IEnumerable<IAspect> Chart1AspectsList
         {
-            get => (IEnumerable<Aspect>)GetValue(Chart1AspectsListProperty);
+            get => (IEnumerable<IAspect>)GetValue(Chart1AspectsListProperty);
             set => SetValue(Chart1AspectsListProperty, value);
         }
         #endregion
@@ -164,36 +164,36 @@ namespace AstroNET.View
 
         #region Chart2AspectsList
         public static readonly DependencyProperty Chart2AspectsListProperty =
-        DependencyProperty.Register(nameof(Chart2AspectsList), typeof(IEnumerable<Aspect>),
+        DependencyProperty.Register(nameof(Chart2AspectsList), typeof(IEnumerable<IAspect>),
         typeof(SinastryChart), new PropertyMetadata() { DefaultValue = null });
 
-        public IEnumerable<Aspect> Chart2AspectsList
+        public IEnumerable<IAspect> Chart2AspectsList
         {
-            get => (IEnumerable<Aspect>)GetValue(Chart2AspectsListProperty);
+            get => (IEnumerable<IAspect>)GetValue(Chart2AspectsListProperty);
             set => SetValue(Chart2AspectsListProperty, value);
         }
         #endregion
 
         #region Person1
         public static readonly DependencyProperty Person1Property =
-        DependencyProperty.Register(nameof(Person1), typeof(Person),
+        DependencyProperty.Register(nameof(Person1), typeof(IPerson),
         typeof(SinastryChart), new PropertyMetadata() { DefaultValue = null });
 
-        public Person Person1
+        public IPerson Person1
         {
-            get => (Person)GetValue(Person1Property);
+            get => (IPerson)GetValue(Person1Property);
             set => SetValue(Person1Property, value);
         }
         #endregion
 
         #region Person2
         public static readonly DependencyProperty Person2Property =
-        DependencyProperty.Register(nameof(Person2), typeof(Person),
+        DependencyProperty.Register(nameof(Person2), typeof(IPerson),
         typeof(SinastryChart), new PropertyMetadata() { DefaultValue = null });
 
-        public Person Person2
+        public IPerson Person2
         {
-            get => (Person)GetValue(Person2Property);
+            get => (IPerson)GetValue(Person2Property);
             set => SetValue(Person2Property, value);
         }
         #endregion

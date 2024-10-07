@@ -6,8 +6,19 @@ using FrontEnd.Events;
 
 namespace AstroNET.model
 {
+    public interface IPerson 
+    {
+        Int64 PersonId { get; set; }
+        string FirstName { get; set; }
+        string LastName { get; set; }
+        DateTime DOB { get; set; }
+        TimeSpan TOB { get; set; }
+        bool UnknownTime { get; set; }
+        ICity GetCity();
+    }
+
     [Table(nameof(Person))]
-    public class Person : AbstractModel<Person>
+    public class Person : AbstractModel<Person>, IPerson
     {
         private Int64 _personId;
         private string _firstName = string.Empty;
@@ -119,6 +130,6 @@ namespace AstroNET.model
             return $"{FirstName} {LastName}";
         }
 
-
+        public ICity GetCity() => _city;
     }
 }

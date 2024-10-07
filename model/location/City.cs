@@ -5,8 +5,19 @@ using FrontEnd.Model;
 
 namespace AstroNET.model
 {
+    public interface ICity : ILocation
+    {
+        Int64 CityId { get; set; }
+        string CityName { get; set; }
+        double Latitude { get; set; }
+        double Longitude { get; set; }
+        string Coords { get; }
+        IRegion GetRegion();
+        ITimeZone GetTimeZone();
+    }
+
     [Table(nameof(City))]
-    public class City : AbstractModel<City>, ILocation
+    public class City : AbstractModel<City>, ICity
     {
         private Int64 _cityId;
         private string _cityName = string.Empty;
@@ -60,6 +71,8 @@ namespace AstroNET.model
             _longitude = tempCity.Longitude;
         }
 
+        public ITimeZone GetTimeZone() => _timeZone;
+        public IRegion GetRegion() => _region;
         public override string? ToString() => $"{CityName}";
 
         public void ReadLocation(Location location)
@@ -67,8 +80,8 @@ namespace AstroNET.model
             CityName = location.CityName;
             Latitude = location.Latitude;
             Longitude = location.Longitude;
-            Region = location.Region;
-            TimeZone = location.TimeZ;
+            Region = (Region)location.Region;
+            TimeZone = (TimeZone)location.TimeZ;
         }
     }
 }

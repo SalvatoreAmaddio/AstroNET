@@ -46,14 +46,11 @@ namespace AstroNET.model
             RadixSign = DatabaseManager.Find<Sign>()?.MasterSource.Cast<Sign>().First(s => s.SignId == RadixSign.SignId)!;
         }
 
-        public static long SlidHouse(double orbDiff, IHouse house)
+        public static IHouse CreateHouse(int houseId, double eclipticLongitude) 
         {
-            if (orbDiff < 0)
-            {
-                return (house.PointId == 1) ? 12 : house.PointId - 1;
-            }
-
-            return (house.PointId == 12) ? 1 : house.PointId + 1;
+            return new House(houseId, eclipticLongitude);
         }
+
+        public ISign GetRullerSig() => _rullerSign;
     }
 }

@@ -4,8 +4,13 @@ using System.Data.Common;
 
 namespace AstroNET.model
 {
+    public interface IGender
+    {
+        Int64 ID();
+    }
+
     [Table(nameof(Gender))]
-    public class Gender : AbstractModel<Gender>
+    public class Gender : AbstractModel<Gender>, IGender
     {
         private Int64 _genderId;
         private string _genderName = string.Empty;
@@ -33,5 +38,7 @@ namespace AstroNET.model
         }
 
         public override string ToString() => GenderName;
+
+        public long ID() => _genderId;
     }
 }

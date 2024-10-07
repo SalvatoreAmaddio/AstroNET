@@ -5,8 +5,15 @@ using FrontEnd.Model;
 
 namespace AstroNET.model
 {
+    public interface IRegion : ILocation
+    {
+        Int64 RegionId { get; set; }
+        string RegionName { get; set; }
+        ICountry GetCountry();
+    }
+
     [Table(nameof(Region))]
-    public class Region : AbstractModel<Region>, ILocation
+    public class Region : AbstractModel<Region>, IRegion
     {
         private Int64 _regionId;
         private string _regionName = string.Empty;
@@ -38,9 +45,10 @@ namespace AstroNET.model
         public void ReadLocation(Location location)
         {
             RegionName = location.RegionName;
-            Country = location.Country;
+            Country = (Country)location.Country;
         }
 
+        public ICountry GetCountry() => _country;
         public override string? ToString() => $"{RegionName}";
     }
 }

@@ -4,9 +4,9 @@ namespace AstroNET.model
 {
     public class Location
     {
-        public TimeZone TimeZ { get; set; } = null!;
-        public Country Country { get; set; } = null!;
-        public Region Region { get; set; } = null!;
+        public ITimeZone TimeZ { get; set; } = null!;
+        public ICountry Country { get; set; } = null!;
+        public IRegion Region { get; set; } = null!;
         public string CountryCode { get; private set; } = string.Empty;
         public string RegionName { get; private set; } = string.Empty;
         public string CityName { get; private set; } = string.Empty;
@@ -58,5 +58,4 @@ namespace AstroNET.model
             return $"{CityName} - {CountryName} - {RegionName} - {Latitude} - {Longitude} - {TimeZone}";
         }
     }
-
 }

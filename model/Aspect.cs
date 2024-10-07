@@ -5,8 +5,36 @@ using System.Windows.Media;
 
 namespace AstroNET.model
 {
+    public interface IAspect 
+    {
+        public Int64 AspectId { get; set; }
+        public string AspectName { get; set; }
+        public double Orbit { get; set; }
+        double NatalTollerance { get; set; }
+        string URI { get; set; }
+        double OrbDiff { get; }
+        string OrbDiffInDegree { get; }
+        string Info { get; }
+        string FullInfo { get; }
+        IPoint PointA { get; set; }
+        IPoint PointB { get; set; }
+        DateTime DateOf { get; set; }
+        int TransitBundle { get; set; }
+        ITransitType GetTransitType();
+        void SetTransitType(int id);
+        bool IsConjunction { get; }
+        bool IsInCuspid { get; }
+        bool IsSame(IAspect? aspect);
+        bool PointAIsStar();
+        bool PointBIsHouse();
+        bool PointAIsRetrograde();
+        string IsRetrograde();
+        void CalculateOrbDiff();
+        IAspect Clone(double diff);
+    }
+
     [Table(nameof(Aspect))]
-    public class Aspect : AbstractModel<Aspect>
+    public class Aspect : AbstractModel<Aspect>, IAspect
     {
         private Int64 _aspectId;
         private string _aspectName = string.Empty;
@@ -82,16 +110,6 @@ namespace AstroNET.model
             _energy = new(reader.GetInt32(9));
         }
 
-        public bool IsSame(Aspect? aspect)
-        {
-            return aspect != null && this.AspectId == aspect.AspectId
-                && this.PointA.PointName.Equals(aspect.PointA.PointName)
-                && this.PointAIsRetrograde() == aspect.PointAIsRetrograde()
-                && this.PointB.PointName == aspect.PointB.PointName
-                && this.DateOf == aspect.DateOf
-                ;
-        }
-
         private void OnAfterUpdate(object? sender, FrontEnd.Events.AfterUpdateArgs e)
         {
             if (e.Is(nameof(Color))) 
@@ -100,6 +118,26 @@ namespace AstroNET.model
             }
         }
 
+        private static string TryFetchHouse(IPoint point)
+        {
+            if (point is Star star && star.House != null) return $" in {star.House} ";
+            return " ";
+        }
+
+        public void BuildBrush()
+        {
+            Brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(_colorHex));
+        }
+
+        public bool IsSame(IAspect? aspect)
+        {
+            return aspect != null && this.AspectId == aspect.AspectId
+                && this.PointA.PointName.Equals(aspect.PointA.PointName)
+                && this.PointAIsRetrograde() == aspect.PointAIsRetrograde()
+                && this.PointB.PointName == aspect.PointB.PointName
+                && this.DateOf == aspect.DateOf
+                ;
+        }
         public bool PointAIsStar() => PointA is Star;
         public bool PointBIsHouse() => PointB is House;
         public bool PointAIsRetrograde()
@@ -111,16 +149,6 @@ namespace AstroNET.model
         public string IsRetrograde()
         {
             return PointAIsRetrograde() ? " R " : string.Empty; 
-        }
-
-        private static string TryFetchHouse(IPoint point) 
-        {
-            if (point is Star star && star.House != null) return $" in {star.House} ";
-            return " ";
-        }
-        public void BuildBrush() 
-        {
-            Brush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(_colorHex));
         }
 
         public void CalculateOrbDiff()
@@ -137,9 +165,9 @@ namespace AstroNET.model
             else OrbDiffInDegree = $"{degrees}°{minutes}'";            
         }
 
-        public Aspect Clone(double diff) 
+        public IAspect Clone(double diff) 
         {
-            return new()
+            return new Aspect()
             {
                 _aspectId = this.AspectId,
                 _aspectName = this.AspectName,
@@ -158,9 +186,13 @@ namespace AstroNET.model
             };
         }
 
-        public override string ToString()
+        public override string ToString() => AspectName;
+
+        public ITransitType GetTransitType() => TransitType;
+
+        public void SetTransitType(int id)
         {
-            return AspectName;
+            TransitType = new(id);
         }
     }
 }

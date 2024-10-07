@@ -5,7 +5,7 @@ using System.Data.Common;
 namespace AstroNET.model
 {
     [Table(nameof(Triplicity))]
-    public class Triplicity : AbstractModel<Triplicity>
+    public class Triplicity : AbstractModel<Triplicity>, IAstrologyAttribute
     {
         private Int64 _triplicityId;
         private string _triplicityName = string.Empty;
@@ -31,6 +31,7 @@ namespace AstroNET.model
             _triplicityName = reader.GetString(1);
         }
 
+        public Int64 ID() => _triplicityId;
         public override string ToString() => TriplicityName;        
     }
 }

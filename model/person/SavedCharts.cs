@@ -72,8 +72,8 @@ namespace AstroNET.model
 
         public SavedCharts(AbstractSkyEvent sky) 
         {
-            _person = sky.Person;
-            _city = sky.SkyInfo.City;
+            _person = (Person)sky.Person;
+            _city = (City)sky.SkyInfo.City;
             _dateof = sky.SkyInfo.LocalDateTime;
             _timeof = sky.SkyInfo.LocalTime;
 

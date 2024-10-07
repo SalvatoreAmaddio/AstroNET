@@ -1,4 +1,5 @@
-﻿using SwissEphNet;
+﻿using AstroNET.model.point;
+using SwissEphNet;
 
 namespace AstroNET.model
 {
@@ -48,6 +49,7 @@ namespace AstroNET.model
         public override string ToString() => OutputDate.ToString("yyyy-MM-dd HH:mm:ss");
 
     }
+
     public class PositionCalculator : SwissEph
     {
         private double[] cusps = new double[13];
@@ -59,13 +61,13 @@ namespace AstroNET.model
         public PositionCalculator(AbstractSkyEvent skyEvent) =>
         _skyEvent = skyEvent;
 
-        public IEnumerable<Aspect> TransitsCalculator(DateTime startDate, City city, int starId, int steps)
+        public IEnumerable<IAspect> TransitsCalculator(DateTime startDate, ICity city, int starId, int steps)
         {
             DateTime endDate = startDate.AddMonths(steps);
             DateTimeAdjuster startDateAdj = new(startDate);
             SkyEvent currentSky;
-            Star star;
-            List<Aspect> aspects = [];
+            IStar star;
+            List<IAspect> aspects = [];
 
             while (true)
             {
@@ -77,20 +79,20 @@ namespace AstroNET.model
             }
         }
 
-        public async Task<List<Aspect>> TransitsCalculatorAsync(DateTime startDate, City city, int starId, int steps)
+        public async Task<List<IAspect>> TransitsCalculatorAsync(DateTime startDate, ICity city, int starId, int steps)
         {
-            List<Task<List<Aspect>>> tasks = [];
-            List<Aspect> aspects = [];
+            List<Task<List<IAspect>>> tasks = [];
+            List<IAspect> aspects = [];
 
             foreach (DateTime date in DateList(startDate, steps))
             {
-                Task<List<Aspect>> task = Task.Run(() => CalculateMonthlyTransitAsync(date, starId, city));
+                Task<List<IAspect>> task = Task.Run(() => CalculateMonthlyTransitAsync(date, starId, city));
                 tasks.Add(task);
             }
 
-            List<Aspect>[] results = await Task.WhenAll(tasks);
+            List<IAspect>[] results = await Task.WhenAll(tasks);
 
-            foreach (List<Aspect>? monthlyAspect in results)
+            foreach (List<IAspect>? monthlyAspect in results)
             {
                 aspects.AddRange(monthlyAspect);
             }
@@ -109,13 +111,13 @@ namespace AstroNET.model
             } while (months < steps);
         }
 
-        private Task<List<Aspect>> CalculateMonthlyTransitAsync(DateTime startDate, int starId, City city)
+        private Task<List<IAspect>> CalculateMonthlyTransitAsync(DateTime startDate, int starId, ICity city)
         {
             DateTimeAdjuster startDateAdj = new(startDate);
             DateTime endDate = startDate.AddMonths(1);
             SkyEvent currentSky;
-            Star star;
-            List<Aspect> aspects = [];
+            IStar star;
+            List<IAspect> aspects = [];
 
             while (true)
             {
@@ -141,11 +143,11 @@ namespace AstroNET.model
             return min;
         }
 
-        public (DateTime date, TimeSpan time) MoonReturn(DateTime returnDate, City city)
+        public (DateTime date, TimeSpan time) MoonReturn(DateTime returnDate, ICity city)
         {
             SkyEvent returnSky;
-            Star moonReturn;
-            Star moonRadix = _skyEvent.Stars[1];
+            IStar moonReturn;
+            IStar moonRadix = _skyEvent.Stars[1];
 
             DateTimeAdjuster adjuster = new(returnDate);
 
@@ -155,9 +157,9 @@ namespace AstroNET.model
                 returnSky = new(adjuster.OutputDate, adjuster.OutputTime, city);
                 moonReturn = GetStarPosition(ref returnSky, 1);
 
-                if (moonReturn.RadixSign.SignId != moonRadix.RadixSign.SignId)
+                if (moonReturn.GetRadixSign().SignId != moonRadix.GetRadixSign().SignId)
                 {
-                    if (Math.Abs(moonReturn.RadixSign.SignId - moonRadix.RadixSign.SignId) > 1)
+                    if (Math.Abs(moonReturn.GetRadixSign().SignId - moonRadix.GetRadixSign().SignId) > 1)
                     {
                         adjuster.AddDays(2);
                     }
@@ -199,14 +201,14 @@ namespace AstroNET.model
             }
         }
 
-        public (DateTime date, TimeSpan time) CalculateSunReturn(int year, City city)
+        public (DateTime date, TimeSpan time) CalculateSunReturn(int year, ICity city)
         {
             SkyEvent returnSky;
-            Star sunReturn;
+            IStar sunReturn;
 
             DateTimeAdjuster adjuster = new(new(year, _skyEvent.SkyInfo.Month, _skyEvent.SkyInfo.Day));
 
-            Star sunRadix = _skyEvent.Stars[0];
+            IStar sunRadix = _skyEvent.Stars[0];
 
             while (true)
             {
@@ -297,7 +299,7 @@ namespace AstroNET.model
             return min;
         }
 
-        private static Star GetStarPosition(ref SkyEvent returnSky, int star = 0)
+        private static IStar GetStarPosition(ref SkyEvent returnSky, int star = 0)
         {
             PositionCalculator returnCalculator = new(returnSky);
             return returnCalculator.CalculatePlanet(star);
@@ -310,8 +312,8 @@ namespace AstroNET.model
             (DateTime nextReturnDate, TimeSpan nextReturnTime) = CalculateSunReturn(year + 1, _skyEvent.SkyInfo.City);
             nextReturnDate = nextReturnDate.AddHours(nextReturnTime.Hours);
             nextReturnDate = nextReturnDate.AddMinutes(nextReturnTime.Minutes);
-            Star moonReturn;
-            Star moonRadix = CalculatePlanet(1);
+            IStar moonReturn;
+            IStar moonRadix = CalculatePlanet(1);
             SkyEvent returnSky = new();
 
 
@@ -328,7 +330,7 @@ namespace AstroNET.model
                 PositionCalculator returnCalculator = new(returnSky);
                 moonReturn = returnCalculator.CalculatePlanet(1);
 
-                if (moonRadix.Position.Equals(moonReturn.Position) && moonRadix.RadixSign.SignId == moonReturn.RadixSign.SignId)
+                if (moonRadix.Position.Equals(moonReturn.Position) && moonRadix.GetRadixSign().SignId == moonReturn.GetRadixSign().SignId)
                 {
                     returns.Add((returnDate, returnTime));
                     returnDate = returnDate.AddDays(26);
@@ -347,21 +349,26 @@ namespace AstroNET.model
             }
         }
 
-        public Star CalculatePlanet(int starID, bool ignoreHouse = false)
+        public IStar CalculatePlanet(int starID, bool ignoreHouse = false)
         {
+            if (PointFactory.CreateStar == null && PointFactory.CreateStar2 == null) 
+            {
+                throw new Exception();
+            }
+
             int result = swe_calc_ut(_skyEvent.SkyInfo.JulianDay, starID, iflag, xx, ref serr);
             if (result < 0)
                 throw new Exception("Error calculating the Sun's position: " + serr);
-            Star star;
+            IStar star;
 
             if (ignoreHouse)
             {
-                star = new(starID, ref xx);
+                star = PointFactory.CreateStar(starID, xx);
             }
             else
             {
                 swe_houses(_skyEvent.SkyInfo.JulianDay, _skyEvent.SkyInfo.City.Latitude, _skyEvent.SkyInfo.City.Longitude, 'P', cusps, ascmc);
-                star = new(starID, ref xx, ref cusps);
+                star = PointFactory.CreateStar2(starID, xx, cusps);
             }
 
             return star;
@@ -372,12 +379,13 @@ namespace AstroNET.model
             swe_houses(_skyEvent.SkyInfo.JulianDay, _skyEvent.SkyInfo.City.Latitude, _skyEvent.SkyInfo.City.Longitude, 'P', cusps, ascmc);
         }
 
-        public House GetHouse(int houseId)
+        public IHouse GetHouse(int houseId)
         {
-            return new(houseId, cusps[houseId]);
+            if (PointFactory.CreateHouse == null) throw new NullReferenceException("To implement in App.xaml");
+            return PointFactory.CreateHouse(houseId, cusps[houseId]);
         }
 
-        public static Aspect? IsValidAspect(Aspect aspect, double distance, double tollerance = -1)
+        public static IAspect? IsValidAspect(IAspect aspect, double distance, double tollerance = -1)
         {
             if (tollerance == -1)
                 tollerance = aspect.NatalTollerance;
@@ -420,5 +428,4 @@ namespace AstroNET.model
             return shortestDistance;
         }
     }
-
 }

@@ -5,8 +5,26 @@ using System.Data.Common;
 
 namespace AstroNET.model
 {
+    public interface ISign 
+    {
+        Int64 SignId { get; }
+        string SignName { get; set; }
+        string Description { get; set; }
+        int Start { get; }
+        int End { get; }
+        DateTime StartDay { get; }
+        DateTime EndDay { get; }
+        string URI { get; set; }
+        string TimeExtension { get; }
+        string GradeExtension { get; }
+        void Build();
+        IAstrologyAttribute GetElement();
+        IAstrologyAttribute GetTriplicity();
+        IGender GetGender();
+    }
+
     [Table(nameof(Sign))]
-    public class Sign : AbstractModel<Sign>
+    public class Sign : AbstractModel<Sign>, ISign
     {
         private Int64 _signId;
         private string _signName = string.Empty;
@@ -32,6 +50,7 @@ namespace AstroNET.model
         public Triplicity Triplicity { get => _triplicity; private set => UpdateProperty(ref value, ref _triplicity); }
         [FK]
         public Gender Gender { get => _gender; private set => UpdateProperty(ref value, ref _gender); }
+
         [Field]
         public int Start { get => _start; private set => UpdateProperty(ref value, ref _start); }
         [Field]
@@ -98,9 +117,9 @@ namespace AstroNET.model
             _endDay = _sign._endDay;
         }
 
-        public override string ToString()
-        {
-            return $"{SignName}";
-        }
+        public override string ToString() => $"{SignName}";
+        public IAstrologyAttribute GetElement() => _element;
+        public IAstrologyAttribute GetTriplicity() => _triplicity;
+        public IGender GetGender() => _gender;
     }
 }
