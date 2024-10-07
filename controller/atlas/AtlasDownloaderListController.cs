@@ -18,10 +18,10 @@ namespace AstroNET.controller
         private bool _isLoading = false;
         private Location? _selectedLocation;
         private string _search = string.Empty;
-        private CountryController _countryController = new();
-        private RegionController _regionController = new();
-        private CityController _cityController = new();
-        private TimeZoneController _timeZoneController = new();
+        private readonly CountryController _countryController = new();
+        private readonly RegionController _regionController = new();
+        private readonly CityController _cityController = new();
+        private readonly TimeZoneController _timeZoneController = new();
         public ObservableRangeCollection<Location> Locations { get; private set; } = new();
         public Location? SelectedLocation
         {
