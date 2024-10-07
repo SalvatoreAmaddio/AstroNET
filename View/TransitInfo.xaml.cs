@@ -21,7 +21,6 @@ namespace AstroNET.View
 
         public TransitInfo(int transitId, Aspect aspect) : this()
         {
-            TransitTypeInfo? info = App.TransitTypeDescriptions?.TransitTypeInfo.FirstOrDefault(s => s.TransitTypeId == transitId && s.StarId == aspect.PointA.PointId);
             Star? star2 = null;
             House? house2 = null;
 
@@ -46,7 +45,7 @@ namespace AstroNET.View
 
             AddStar(_star1);
             _flowDoc.Blocks.Add(Utils.DescriptionParagraph("Nelle Case:",FontWeights.Bold));
-            _flowDoc.Blocks.Add(Utils.DescriptionParagraph(info?.TransitDescription));
+//            _flowDoc.Blocks.Add(Utils.DescriptionParagraph(info?.TransitDescription));
             
             if (_house1 != null) 
             {
@@ -68,7 +67,7 @@ namespace AstroNET.View
 
         public TransitInfo(int transitId, Star star) : this()
         {
-            TransitTypeInfo? info = App.TransitTypeDescriptions?.TransitTypeInfo.FirstOrDefault(s => s.TransitTypeId == transitId && s.StarId == star.PointId);
+  //          TransitTypeInfo? info = App.TransitTypeDescriptions?.TransitTypeInfo.FirstOrDefault(s => s.TransitTypeId == transitId && s.StarId == star.PointId);
             _star1 = Stars?.FirstOrDefault(s => s.PointId == star.PointId);
             if (star.House != null)
                 _house1 = Houses?.FirstOrDefault(s => s.PointId == star.House.PointId);
@@ -76,7 +75,7 @@ namespace AstroNET.View
 
             AddStar(_star1);
             _flowDoc.Blocks.Add(Utils.DescriptionParagraph("Nelle Case:", FontWeights.Bold));
-            _flowDoc.Blocks.Add(Utils.DescriptionParagraph(info?.TransitDescription));
+    //        _flowDoc.Blocks.Add(Utils.DescriptionParagraph(info?.TransitDescription));
 
             if (_house1 != null)
             {

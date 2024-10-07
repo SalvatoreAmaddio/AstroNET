@@ -11,7 +11,6 @@
         d:DataContext="{d:DesignInstance Type=controller:StarController, IsDesignTimeCreatable=False}"
         WindowStartupLocation="CenterScreen"
         Icon="{Binding CurrentRecord.URI}"
-        ResizeMode="NoResize"
         Title="Star" Height="450" Width="810">
 
     <Window.Resources>
@@ -21,20 +20,19 @@
     </Window.Resources>
     
     <fr:Form Padding="15">
-        <Grid fr:Definition.ColumnDefinitions="80,100,450,*" fr:Definition.RowDefinitions="30,30,30,30,30,*">
-            <Label Grid.Row="0" Content="Name"/>
-            <fr:Text Grid.Row="0" Grid.Column="1" Text="{Binding CurrentRecord.PointName}"/>
+        <Grid fr:Definition.ColumnDefinitions="320,320,320,320" fr:Definition.RowDefinitions="150,*">
 
-            <Label Grid.Row="1" Content="Cycle in days"/>
-            <fr:Text Grid.Row="1" Grid.Column="1" Text="{Binding CurrentRecord.CycleLength}"/>
+            <Border Grid.Row="0" Grid.Column="0" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Top" Padding="10" HorizontalAlignment="Left" CornerRadius="5">
+                <Grid fr:Definition.RowDefinitions="30,30,30,30" fr:Definition.ColumnDefinitions="45,100">
+                    <Label Grid.Row="0" Grid.Column="0" Content="Name"/>
+                    <fr:Text Grid.Row="0" Grid.Column="1" Text="{Binding CurrentRecord.PointName}"/>
+                    <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Content="{Binding CurrentRecord.CycleLength}" ContentStringFormat="Cycle in Days: {0}"/>
+                    <Label Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Content="{Binding CurrentRecord.Element.ElementId, Converter={StaticResource getElement}}" ContentStringFormat="Element: {0}"/>
+                    <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Content="{Binding CurrentRecord.Energy.EnergyId, Converter={StaticResource energy}}" ContentStringFormat="Energy: {0}"/>
+                </Grid>
+            </Border>
 
-            <Label Grid.Row="2" Grid.ColumnSpan="2" Content="{Binding CurrentRecord.Energy.EnergyId, Converter={StaticResource energy}}" ContentStringFormat="Energy: {0}"/>
-            <Label Grid.Row="3" Grid.ColumnSpan="2" Content="{Binding CurrentRecord.Element.ElementId, Converter={StaticResource getElement}}" ContentStringFormat="Element: {0}"/>
-
-            <Label Grid.Row="4" Grid.ColumnSpan="2" Content="Description"/>
-            <fr:Text Grid.Row="5" Grid.ColumnSpan="3" AcceptsReturn="True" TextWrapping="Wrap" VerticalContentAlignment="Top" Text="{Binding CurrentRecord.Description}"/>
-
-            <Border Grid.Column="2" Grid.RowSpan="5" Margin="50,0,0,10" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Background="#fcfcfa">
+            <Border Grid.Row="0" Grid.Column="0" Margin="200,0,0,0" Grid.ColumnSpan="3" VerticalAlignment="Top" HorizontalAlignment="Left" BorderBrush="Black" BorderThickness="1" CornerRadius="5" Background="#fcfcfa">
                 <Grid fr:Definition.ColumnDefinitions="100,100,100,100" fr:Definition.RowDefinitions="30,*">
                     <Grid.Resources>
                         <Style TargetType="{x:Type Label}">
@@ -54,7 +52,35 @@
                 </Grid>
             </Border>
 
-            <fr:SaveButton Grid.Column="3" Grid.Row="5" VerticalAlignment="Top" Height="30" Width="90"/>
+            <fr:SaveButton Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Margin="200,0,0,10" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="30" Width="90"/>
+            
+            <Border Grid.Row="1" Grid.Column="0" Padding="5">
+                <StackPanel>
+                    <Label Content="Description:" HorizontalAlignment="Center"/>
+                    <fr:Text AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding CurrentRecord.Description}"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="1" Grid.Column="1" Padding="5">
+                <StackPanel>
+                    <Label Content="In House:" HorizontalAlignment="Center"/>
+                    <fr:Text AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding CurrentRecord.InHouseDescription}"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="1" Grid.Column="2" Padding="5">
+                <StackPanel>
+                    <Label Content="Transit's Description:"  HorizontalAlignment="Center"/>
+                    <fr:Text AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding CurrentRecord.TransitDescription}"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="1" Grid.Column="3" Padding="5">
+                <StackPanel>
+                    <Label Content="Returns Description:" HorizontalAlignment="Center"/>
+                    <fr:Text AcceptsReturn="True" TextWrapping="Wrap" Text="{Binding CurrentRecord.ReturnDescription}"/>
+                </StackPanel>
+            </Border>
         </Grid>
     </fr:Form>
 </Window>

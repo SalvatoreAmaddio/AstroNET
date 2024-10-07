@@ -9,7 +9,6 @@ namespace AstroNET
 {
     public partial class App : Application
     {
-        public static TransitTypeRoot? TransitTypeDescriptions { get; private set; }
         public App()
         {
             //C:\Users\salva\AppData\Roaming\AstroNET\"
@@ -32,7 +31,7 @@ namespace AstroNET
             DatabaseManager.Add(new SQLiteDatabase<Region>());
             DatabaseManager.Add(new SQLiteDatabase<TimeZone>());
             DatabaseManager.Add(new SQLiteDatabase<City>());
-            
+
             DatabaseManager.Add(new SQLiteDatabase<StarTransitOrbit>());
             DatabaseManager.Add(new SQLiteDatabase<TransitType>());
             DatabaseManager.Add(new SQLiteDatabase<Energy>());
@@ -45,8 +44,6 @@ namespace AstroNET
             DatabaseManager.Add(new SQLiteDatabase<SavedCharts>());
 
             this.DisposeOnExit(); // ensure Databases are disposed on Application' shutdown.
-
-            TransitTypeDescriptions = Sys.CreateFromJSON<TransitTypeRoot>("Data\\transitinfo.json");
         }
     }
 }

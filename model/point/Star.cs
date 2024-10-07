@@ -6,7 +6,7 @@ namespace AstroNET.model
 {
 
     [Table(nameof(Star))]
-    
+
     public class Star : AbstractPoint<Star>, IStar
     {
         private int _cycleLength;
@@ -16,6 +16,9 @@ namespace AstroNET.model
         private double _transitOrbit;
         private Energy _energy = null!;
         private Element _element = null!;
+        private string _inHouseDescription = string.Empty;
+        private string _transitDescription = string.Empty;
+        private string _returnDescription = string.Empty;
 
         [Field]
         public int CycleLength { get => _cycleLength; set => UpdateProperty(ref value, ref _cycleLength); }
@@ -32,6 +35,15 @@ namespace AstroNET.model
         [FK]
         public Element Element { get => _element; private set => UpdateProperty(ref value, ref _element); }
 
+        [Field]
+        public string InHouseDescription { get => _inHouseDescription; set => UpdateProperty(ref value, ref _inHouseDescription); }
+
+        [Field]
+        public string TransitDescription { get => _transitDescription; set => UpdateProperty(ref value, ref _transitDescription); }
+
+        [Field]
+        public string ReturnDescription { get => _returnDescription; set => UpdateProperty(ref value, ref _returnDescription); }
+
         public bool IsRetrograde { get => _isRetrograde; private set => UpdateProperty(ref value, ref _isRetrograde); }
         public IHouse House { get => _radixHouse; private set => UpdateProperty(ref value, ref _radixHouse); }
         public Star() { }
@@ -43,13 +55,16 @@ namespace AstroNET.model
             _transitOrbit = reader.GetDouble(5);
             _energy = new(reader.GetInt32(6));
             _element = new(reader.GetInt64(7));
+            _inHouseDescription = reader.GetString(8);
+            _transitDescription = reader.GetString(9);
+            _returnDescription = reader.GetString(10);
         }
 
         public Star(Int64 id) : base(id)
         {
         }
 
-        public Star(House house) 
+        public Star(House house)
         {
             _radixHouse = house;
         }
@@ -58,7 +73,7 @@ namespace AstroNET.model
         {
             EclipticLongitude = xx[0];
             IsRetrograde = xx[3] < 0;
-            RadixSign = DatabaseManager.Find<Sign>()?.MasterSource.Cast<Sign>().First(s => s.SignId == GetZodiacSign(EclipticLongitude, out _, out _, out _))!;         
+            RadixSign = DatabaseManager.Find<Sign>()?.MasterSource.Cast<Sign>().First(s => s.SignId == GetZodiacSign(EclipticLongitude, out _, out _, out _))!;
         }
         public Star(int ID, ref double[] xx, ref double[] cusps) : this(ID, ref xx)
         {
