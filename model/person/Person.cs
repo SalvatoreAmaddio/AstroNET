@@ -72,6 +72,11 @@ namespace AstroNET.model
             _city = city;
         }
 
+        public Person(DateTime date, TimeSpan tob, City city, Gender gender) : this(date, tob, city)
+        {
+            _gender = gender;
+        }
+
         public Person(DbDataReader reader) : this()
         {
             _personId = reader.GetInt64(0);

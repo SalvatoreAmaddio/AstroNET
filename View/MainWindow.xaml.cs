@@ -14,7 +14,7 @@ namespace AstroNET.View
             City city = DatabaseManager.Find<City>()!.MasterSource.Cast<City>().First(s => s.CityName.ToLower().Equals(defaultCity));
             city.Build();
 
-            Person newBorn = new(DateTime.Today, DateTime.Now.TimeOfDay, city);
+            Person newBorn = new(DateTime.Today, DateTime.Now.TimeOfDay, city, new Gender(3));
 
             NatalChartView.Sky = new SkyEvent(newBorn, false);
         }

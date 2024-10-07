@@ -131,17 +131,47 @@ namespace AstroNET.View
         private void OpenLocationDownloader(object sender, RoutedEventArgs e) =>
         new AtlasDownloadForm().ShowDialog();
 
-        private void OpenHoroscope(object sender, RoutedEventArgs e) =>
-        new HoroscopeWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
+        private void OpenHoroscope(object sender, RoutedEventArgs e)
+        {
+            if (Sky!.Person!.IsNewRecord())
+            {
+                Failure.Allert("Cannot calculate Horoscope on an unsaved Sky");
+                return;
+            }
+            new HoroscopeWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
+        }
 
-        private void OpenSinastry(object sender, RoutedEventArgs e) =>
-        new PersonListForm() { Owner = Helper.GetActiveWindow() }.ShowDialog();
+        private void OpenSinastry(object sender, RoutedEventArgs e)
+        {
+            if (Sky!.Person!.IsNewRecord())
+            {
+                Failure.Allert("Cannot calculate Sinastry on an unsaved Sky");
+                return;
+            }
 
-        private void OpenSunReturn(object sender, RoutedEventArgs e) =>
-        new SunReturnWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
+            new PersonListForm() { Owner = Helper.GetActiveWindow() }.ShowDialog();
+        }
 
-        private void OpenMoonReturn(object sender, RoutedEventArgs e) =>
-        new MoonReturnWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
+        private void OpenSunReturn(object sender, RoutedEventArgs e)
+        {
+            if (Sky!.Person!.IsNewRecord())
+            {
+                Failure.Allert("Cannot calculate Returns on an unsaved Sky");
+                return;
+            }
+            new SunReturnWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
+        }
+
+        private void OpenMoonReturn(object sender, RoutedEventArgs e)
+        {
+            if (Sky!.Person!.IsNewRecord())
+            {
+                Failure.Allert("Cannot calculate Returns on an unsaved Sky");
+                return;
+            }
+
+            new MoonReturnWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
+        }
 
         private void OpenStars(object sender, RoutedEventArgs e) =>
         new PointListWindow(true).ShowDialog();
@@ -188,8 +218,15 @@ namespace AstroNET.View
         private static void OpenLibraryHouses(int id) => new LibraryStarHousesWindowList(new TransitType(id)).ShowDialog();
         private static void OpenLibraryAspects(int id) => new LibraryStarAspectsWindowList(new TransitType(id)).ShowDialog();
 
-        private void OpenTransitCalcualtor(object sender, RoutedEventArgs e) =>
-        new TransitCalculatorWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
+        private void OpenTransitCalcualtor(object sender, RoutedEventArgs e) 
+        {
+            if (Sky!.Person!.IsNewRecord())
+            {
+                Failure.Allert("Cannot calculate Transits on an unsaved Sky");
+                return;
+            }
+            new TransitCalculatorWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
+        }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
