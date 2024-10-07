@@ -29,7 +29,7 @@ namespace AstroNET.model
         [FK]
         public Element Element { get => _element; private set => UpdateProperty(ref value, ref _element); }
         [FK]
-        public Triplicity Triplicity {  get => _triplicity; private set => UpdateProperty(ref value, ref _triplicity); }
+        public Triplicity Triplicity { get => _triplicity; private set => UpdateProperty(ref value, ref _triplicity); }
         [FK]
         public Gender Gender { get => _gender; private set => UpdateProperty(ref value, ref _gender); }
         [Field]
@@ -41,18 +41,18 @@ namespace AstroNET.model
         [Field]
         public DateTime EndDay { get => _endDay; private set => UpdateProperty(ref value, ref _endDay); }
         [Field]
-        public string URI { get => _uri; set => UpdateProperty(ref value, ref _uri);}
+        public string URI { get => _uri; set => UpdateProperty(ref value, ref _uri); }
         public string TimeExtension => $"({StartDay.Day} {StartDay.ToString("MMMM")} - {EndDay.Day} {EndDay.ToString("MMMM")})";
         public string GradeExtension => $"({Start}° - {End}°)";
 
         public Sign() { }
 
-        public Sign(Int64 id) 
+        public Sign(Int64 id)
         {
             _signId = id;
         }
-        
-        public void Compile() 
+
+        public void Compile()
         {
             Sign sign = DatabaseManager.Find<Sign>()!.MasterSource.Cast<Sign>().First(s => s.SignId == _signId)!;
             _signName = sign.SignName;
@@ -67,7 +67,7 @@ namespace AstroNET.model
             _description = sign.Description;
         }
 
-        public Sign(DbDataReader reader) 
+        public Sign(DbDataReader reader)
         {
             _signId = reader.GetInt64(0);
             _signName = reader.GetString(1);
@@ -82,7 +82,7 @@ namespace AstroNET.model
             _uri = reader.GetString(10);
         }
 
-        public void Build() 
+        public void Build()
         {
             Sign? _sign = DatabaseManager.Find<Sign>()?.MasterSource.Cast<Sign>().First(s => s.Equals(this));
             if (_sign == null) return;
