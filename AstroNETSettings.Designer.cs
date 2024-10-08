@@ -13,7 +13,7 @@ namespace AstroNET {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.11.0.0")]
-    public sealed partial class AstroNETSettings : global::System.Configuration.ApplicationSettingsBase {
+    internal sealed partial class AstroNETSettings : global::System.Configuration.ApplicationSettingsBase {
         
         private static AstroNETSettings defaultInstance = ((AstroNETSettings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new AstroNETSettings())));
         

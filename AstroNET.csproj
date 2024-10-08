@@ -70,9 +70,9 @@
 
 	<ItemGroup>
 		<Compile Update="AstroNETSettings.Designer.cs">
-			<DesignTimeSharedInput>True</DesignTimeSharedInput>
-			<AutoGen>True</AutoGen>
-			<DependentUpon>AstroNETSettings.settings</DependentUpon>
+		  <DesignTimeSharedInput>True</DesignTimeSharedInput>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>AstroNETSettings.settings</DependentUpon>
 		</Compile>
 		<Compile Update="View\Horoscopes\MoonReturnWindow.xaml.cs">
 			<SubType>Code</SubType>
@@ -92,19 +92,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Update="AstroNETSettings.settings">
-			<Generator>PublicSettingsSingleFileGenerator</Generator>
-			<LastGenOutput>AstroNETSettings.Designer.cs</LastGenOutput>
-		</None>
-	</ItemGroup>
-
-	<ItemGroup>
 		<Folder Include="personPictures\" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\AstroNETLibrary\AstroNETLibrary.csproj" />
 	  <ProjectReference Include="..\DesktopBusinessAppSharpBuilder\FrontEnd.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="AstroNETSettings.settings">
+	    <Generator>SettingsSingleFileGenerator</Generator>
+	    <LastGenOutput>AstroNETSettings.Designer.cs</LastGenOutput>
+	  </None>
 	</ItemGroup>
 
 	<ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
