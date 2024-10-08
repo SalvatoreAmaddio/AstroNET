@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Text;
 using System.Windows.Data;
 using AstroNET.model;
-using System;
 using FrontEnd.Model;
 
 namespace AstroNET.converter
@@ -26,7 +25,7 @@ namespace AstroNET.converter
 
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Records.FirstOrDefault(s=>(Int64?)s.GetPrimaryKey().GetValue() == (Int64)value);
+            return Records.FirstOrDefault(s=>(Int64?)s.GetPrimaryKey()?.GetValue() == (Int64)value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
