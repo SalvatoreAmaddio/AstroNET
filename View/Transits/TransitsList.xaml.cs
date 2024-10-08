@@ -1,7 +1,7 @@
 ﻿using MvvmHelpers;
 using System.ComponentModel;
 using System.Windows;
-using AstroNET.model;
+using AstroNETLibrary.Points;
 
 namespace AstroNET.View
 {
