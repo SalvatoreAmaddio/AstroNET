@@ -1,5 +1,4 @@
-﻿using AstroNET;
-using FrontEnd.ExtensionMethods;
+﻿using FrontEnd.ExtensionMethods;
 using System.Windows;
 using AstroNET.controller;
 

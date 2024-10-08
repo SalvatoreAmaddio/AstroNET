@@ -23,7 +23,7 @@ namespace AstroNET.controller
         private readonly RegionController _regionController = new();
         private readonly CityController _cityController = new();
         private readonly TimeZoneController _timeZoneController = new();
-        public ObservableRangeCollection<Location> Locations { get; private set; } = new();
+        public ObservableRangeCollection<Location> Locations { get; private set; } = [];
         public Location? SelectedLocation
         {
             get => _selectedLocation;
