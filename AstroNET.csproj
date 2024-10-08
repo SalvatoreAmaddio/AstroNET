@@ -103,6 +103,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\AstroNETLibrary\AstroNETLibrary.csproj" />
 	  <ProjectReference Include="..\DesktopBusinessAppSharpBuilder\FrontEnd.csproj" />
 	</ItemGroup>
 

@@ -4,6 +4,8 @@ using FrontEnd.ExtensionMethods;
 using System.Windows;
 using AstroNET.controller;
 using AstroNET.model;
+using AstroNETLibrary.Sky;
+using AstroNETLibrary.Points;
 
 namespace AstroNET.View
 {

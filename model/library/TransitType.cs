@@ -1,14 +1,10 @@
-﻿using Backend.Model;
+﻿using AstroNETLibrary.Points;
+using Backend.Model;
 using FrontEnd.Model;
 using System.Data.Common;
 
 namespace AstroNET.model
 {
-    public interface ITransitType
-    {
-        Int64 TransitTypeId { get; set; }
-        string TransitTypeName { get; set; }
-    }
 
     [Table(nameof(TransitType))]
     public class TransitType : AbstractModel<TransitType>, ITransitType

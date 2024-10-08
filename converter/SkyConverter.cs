@@ -5,6 +5,8 @@ using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using AstroNET.model;
 using Region = AstroNET.model.Region;
+using AstroNETLibrary.Sky;
+using AstroNETLibrary.Person;
 
 namespace AstroNET.converter
 {

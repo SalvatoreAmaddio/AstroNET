@@ -1,14 +1,10 @@
-﻿using Backend.Model;
+﻿using AstroNETLibrary.Person;
+using Backend.Model;
 using FrontEnd.Model;
 using System.Data.Common;
 
 namespace AstroNET.model
 {
-    public interface IGender
-    {
-        Int64 ID();
-    }
-
     [Table(nameof(Gender))]
     public class Gender : AbstractModel<Gender>, IGender
     {

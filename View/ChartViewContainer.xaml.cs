@@ -8,6 +8,7 @@ using AstroNET.model;
 using System.ComponentModel;
 using System.IO;
 using Backend.Utils;
+using AstroNETLibrary.Sky;
 
 namespace AstroNET.View
 {

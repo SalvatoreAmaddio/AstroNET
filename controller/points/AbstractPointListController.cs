@@ -3,7 +3,7 @@ using Backend.Model;
 using FrontEnd.Controller;
 using FrontEnd.Events;
 using FrontEnd.Model;
-using AstroNET.model;
+using AstroNETLibrary.Points;
 
 namespace AstroNET.controller
 {

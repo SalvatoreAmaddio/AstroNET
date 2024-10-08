@@ -1,6 +1,7 @@
 ﻿using Backend.Database;
 using System.Windows;
 using AstroNET.model;
+using AstroNETLibrary.Sky;
 
 namespace AstroNET.View
 {

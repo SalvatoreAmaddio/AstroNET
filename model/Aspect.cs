@@ -1,38 +1,11 @@
-﻿using Backend.Model;
+﻿using AstroNETLibrary.Points;
+using Backend.Model;
 using FrontEnd.Model;
 using System.Data.Common;
 using System.Windows.Media;
 
 namespace AstroNET.model
 {
-    public interface IAspect 
-    {
-        public Int64 AspectId { get; set; }
-        public string AspectName { get; set; }
-        public double Orbit { get; set; }
-        double NatalTollerance { get; set; }
-        string URI { get; set; }
-        double OrbDiff { get; }
-        string OrbDiffInDegree { get; }
-        string Info { get; }
-        string FullInfo { get; }
-        IPoint PointA { get; set; }
-        IPoint PointB { get; set; }
-        DateTime DateOf { get; set; }
-        int TransitBundle { get; set; }
-        ITransitType GetTransitType();
-        void SetTransitType(int id);
-        bool IsConjunction { get; }
-        bool IsInCuspid { get; }
-        bool IsSame(IAspect? aspect);
-        bool PointAIsStar();
-        bool PointBIsHouse();
-        bool PointAIsRetrograde();
-        string IsRetrograde();
-        void CalculateOrbDiff();
-        IAspect Clone(double diff);
-    }
-
     [Table(nameof(Aspect))]
     public class Aspect : AbstractModel<Aspect>, IAspect
     {

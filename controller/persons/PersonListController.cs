@@ -5,6 +5,7 @@ using FrontEnd.Events;
 using System.Windows.Input;
 using AstroNET.model;
 using AstroNET.View;
+using AstroNETLibrary.Sky;
 
 namespace AstroNET.controller
 {

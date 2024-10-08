@@ -1,45 +1,12 @@
-﻿using Backend.Database;
+﻿using AstroNETLibrary.Points;
+using AstroNETLibrary.Sky;
+using Backend.Database;
 using Backend.Model;
 using FrontEnd.Model;
 using System.Data.Common;
 
 namespace AstroNET.model
 {
-    public class Position 
-    { 
-        public double Degrees { get; set; } 
-        public double Minutes { get; set; } 
-        public double Seconds { get; set; }
-        
-        public Position(double degrees, double minutes, double seconds)
-        { 
-            this.Degrees = degrees;
-            this.Minutes = minutes;
-            this.Seconds = seconds;
-        }
-        
-        public string DegreeAndMinutes => $"{Degrees}°{Minutes}";
-        public override string ToString() => $"{Degrees}°{Minutes}'{Seconds}\"";
-
-        // Example input: "21°15'49\""
-        public double ConvertToDecimal()
-        {
-            string position = ToString();
-            string degreePart = position.Split('°')[0];
-            string minutePart = position.Split('°')[1].Split('\'')[0];
-            string secondPart = position.Split('\'')[1].Replace("\"", "");
-
-            // Convert the extracted parts to numerical values
-            double degrees = double.Parse(degreePart);
-            int minutes = int.Parse(minutePart);
-            int seconds = int.Parse(secondPart);
-
-            // Perform the conversion back to decimal
-            double decimalValue = degrees + (minutes / 60.0) + (seconds / 3600.0);
-            return decimalValue;
-        }
-    }
-
     public abstract class AbstractPoint<M> : AbstractModel<M>, IPoint where M : ISQLModel, IPoint, new()
     {
         protected Int64 _pointId;

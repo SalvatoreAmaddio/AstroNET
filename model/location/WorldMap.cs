@@ -1,4 +1,5 @@
-﻿using Backend.Database;
+﻿using AstroNETLibrary.Atlas;
+using Backend.Database;
 using FrontEnd.Dialogs;
 using MvvmHelpers;
 using Newtonsoft.Json.Linq;

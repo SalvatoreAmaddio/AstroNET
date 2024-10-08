@@ -10,6 +10,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using AstroNET.model;
+using AstroNETLibrary.Sky;
+using AstroNETLibrary.Points;
 
 namespace AstroNET.View
 {

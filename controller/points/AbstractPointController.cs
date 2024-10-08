@@ -1,6 +1,6 @@
 ﻿using FrontEnd.Controller;
 using FrontEnd.Model;
-using AstroNET.model;
+using AstroNETLibrary.Points;
 
 namespace AstroNET.controller
 {

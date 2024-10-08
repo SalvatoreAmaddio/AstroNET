@@ -9,6 +9,7 @@ using AstroNET.model;
 using AstroNET.View;
 using FrontEnd.Events;
 using FrontEnd.Utils;
+using AstroNETLibrary.Sky;
 
 namespace AstroNET.controller
 {

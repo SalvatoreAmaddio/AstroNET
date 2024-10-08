@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using AstroNET.controller;
 using AstroNET.model;
+using AstroNETLibrary.Sky;
 
 namespace AstroNET.View
 {

@@ -1,6 +1,6 @@
 ﻿using FrontEnd.Dialogs;
 using System.Windows;
-using AstroNET.model;
+using AstroNETLibrary.Sky;
 
 namespace AstroNET.View
 {

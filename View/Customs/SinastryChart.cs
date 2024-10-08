@@ -1,6 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using AstroNET.model;
+using AstroNETLibrary.Person;
+using AstroNETLibrary.Points;
+using AstroNETLibrary.Sky;
 
 namespace AstroNET.View
 {

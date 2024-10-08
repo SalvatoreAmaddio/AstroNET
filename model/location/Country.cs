@@ -1,17 +1,11 @@
 ﻿using System.Data.Common;
+using AstroNETLibrary.Atlas;
 using Backend.Database;
 using Backend.Model;
 using FrontEnd.Model;
 
 namespace AstroNET.model
 {
-    public interface ICountry : ILocation
-    {
-        Int64 CountryId { get; set; }
-        string CountryName { get; set; }
-        string CountryCode { get; set; }
-
-    }
 
     [Table(nameof(Country))]
     public class Country : AbstractModel<Country>, ICountry

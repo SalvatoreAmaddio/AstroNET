@@ -3,19 +3,12 @@ using Backend.Model;
 using FrontEnd.Model;
 using System.Data.Common;
 using FrontEnd.Events;
+using AstroNETLibrary.Person;
+using AstroNETLibrary.Sky;
+using AstroNETLibrary.Atlas;
 
 namespace AstroNET.model
 {
-    public interface IPerson 
-    {
-        Int64 PersonId { get; set; }
-        string FirstName { get; set; }
-        string LastName { get; set; }
-        DateTime DOB { get; set; }
-        TimeSpan TOB { get; set; }
-        bool UnknownTime { get; set; }
-        ICity GetCity();
-    }
 
     [Table(nameof(Person))]
     public class Person : AbstractModel<Person>, IPerson

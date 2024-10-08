@@ -7,6 +7,7 @@ using AstroNET.model;
 using Brushes = System.Windows.Media.Brushes;
 using FrontEnd.Dialogs;
 using AstroNET.controller;
+using AstroNETLibrary.Sky;
 
 namespace AstroNET.View
 {

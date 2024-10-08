@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Windows.Input;
 using AstroNET.model;
 using TimeZone = AstroNET.model.TimeZone;
+using AstroNETLibrary.Atlas;
 
 namespace AstroNET.controller
 {

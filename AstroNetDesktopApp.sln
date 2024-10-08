@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend", "..\Backend_Busin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrontEnd", "..\DesktopBusinessAppSharpBuilder\FrontEnd.csproj", "{6A2B6F06-D059-4431-BB9B-630B21023C4D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AstroNETLibrary", "..\AstroNETLibrary\AstroNETLibrary.csproj", "{993A29BC-8C29-452E-9D06-40ED5D32BFE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{6A2B6F06-D059-4431-BB9B-630B21023C4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A2B6F06-D059-4431-BB9B-630B21023C4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A2B6F06-D059-4431-BB9B-630B21023C4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{993A29BC-8C29-452E-9D06-40ED5D32BFE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{993A29BC-8C29-452E-9D06-40ED5D32BFE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{993A29BC-8C29-452E-9D06-40ED5D32BFE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{993A29BC-8C29-452E-9D06-40ED5D32BFE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,13 +1,10 @@
-﻿using Backend.Model;
+﻿using AstroNETLibrary.Points;
+using Backend.Model;
 using FrontEnd.Model;
 using System.Data.Common;
 
 namespace AstroNET.model
 {
-    public interface IAstrologyAttribute
-    {
-        public Int64 ID();
-    }
 
     [Table(nameof(Element))]
     public class Element : AbstractModel<Element>, IAstrologyAttribute

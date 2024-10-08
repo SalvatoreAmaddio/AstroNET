@@ -1,12 +1,11 @@
 ﻿using AstroNET.model;
 using AstroNET.View;
+using AstroNETLibrary.Sky;
 using Backend.ExtensionMethods;
 using Backend.Model;
 using FrontEnd.Controller;
 using FrontEnd.Events;
 using System.Windows;
-using System.Windows.Input;
-using Xceed.Wpf.Toolkit.Primitives;
 
 namespace AstroNET.controller
 {

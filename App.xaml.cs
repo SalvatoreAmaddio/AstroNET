@@ -4,7 +4,8 @@ using System.Windows;
 using AstroNET.model;
 using TimeZone = AstroNET.model.TimeZone;
 using Backend.Utils;
-using AstroNET.model.point;
+using AstroNETLibrary.Points;
+using AstroNETLibrary.Sky;
 
 namespace AstroNET
 {

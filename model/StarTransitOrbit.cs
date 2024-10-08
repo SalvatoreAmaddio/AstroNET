@@ -1,16 +1,10 @@
-﻿using Backend.Model;
+﻿using AstroNETLibrary.Points;
+using Backend.Model;
 using FrontEnd.Model;
 using System.Data.Common;
 
 namespace AstroNET.model
 {
-    public interface IStarTransitOrbit 
-    {
-        Int64 StarTransitOrbitId { get; set; }
-        IStar GetStar();
-        IAspect GetAspect();
-        double Tollerance { get; set; }
-    }
 
     [Table(nameof(StarTransitOrbit))]
     public class StarTransitOrbit : AbstractModel<StarTransitOrbit>, IStarTransitOrbit

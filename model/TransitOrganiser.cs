@@ -1,4 +1,6 @@
 ﻿
+using AstroNETLibrary.Points;
+
 namespace AstroNET.model
 {
     public class TransitGroupKey(int id, string name) 

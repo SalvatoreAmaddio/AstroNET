@@ -1,4 +1,5 @@
-﻿using Backend.Database;
+﻿using AstroNETLibrary.Points;
+using Backend.Database;
 
 namespace AstroNET.model
 {

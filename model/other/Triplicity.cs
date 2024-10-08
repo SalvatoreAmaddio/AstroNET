@@ -1,4 +1,5 @@
-﻿using Backend.Model;
+﻿using AstroNETLibrary.Points;
+using Backend.Model;
 using FrontEnd.Model;
 using System.Data.Common;
 

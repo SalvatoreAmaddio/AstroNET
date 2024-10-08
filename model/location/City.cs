@@ -1,21 +1,11 @@
 ﻿using System.Data.Common;
+using AstroNETLibrary.Atlas;
 using Backend.Database;
 using Backend.Model;
 using FrontEnd.Model;
 
 namespace AstroNET.model
 {
-    public interface ICity : ILocation
-    {
-        Int64 CityId { get; set; }
-        string CityName { get; set; }
-        double Latitude { get; set; }
-        double Longitude { get; set; }
-        string Coords { get; }
-        IRegion GetRegion();
-        ITimeZone GetTimeZone();
-    }
-
     [Table(nameof(City))]
     public class City : AbstractModel<City>, ICity
     {

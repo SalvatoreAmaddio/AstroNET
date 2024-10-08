@@ -1,5 +1,5 @@
 ﻿using AstroNET.controller;
-using AstroNET.model;
+using AstroNETLibrary.Sky;
 using FrontEnd.ExtensionMethods;
 using System.Windows;
 

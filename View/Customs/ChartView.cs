@@ -9,6 +9,8 @@ using FrontEnd.Controller;
 using FrontEnd.Dialogs;
 using AstroNET.controller;
 using FrontEnd.Model;
+using AstroNETLibrary.Sky;
+using AstroNETLibrary.Points;
 
 namespace AstroNET.View
 {
