@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AstroNET.View"
         mc:Ignorable="d"
-        Height="570"
+        Height="590"
         Width="640"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
