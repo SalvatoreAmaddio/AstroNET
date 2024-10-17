@@ -23,7 +23,7 @@ namespace AstroNET
                 return new Star(starId, ref xx);
             };
 
-            PointFactory.CreateStar2 = (starId, xx, cusps) =>
+            PointFactory.CreateStarWithHouse = (starId, xx, cusps) =>
             {
                 return new Star(starId, ref xx, ref cusps);
             };
