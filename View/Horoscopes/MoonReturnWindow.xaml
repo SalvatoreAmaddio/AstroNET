@@ -5,12 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AstroNET.View"
         xmlns:fr="clr-namespace:FrontEnd.Forms;assembly=FrontEnd"
+        xmlns:converter="clr-namespace:AstroNET.converter"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
-        Title="Moon Return" SizeToContent="WidthAndHeight"
+        Title="Moon Return"
         Icon="pack://application:,,,/assets/planets/moon.png"
-        xmlns:converter="clr-namespace:AstroNET.converter"
+        Width="490"
+        SizeToContent="Height"
         >
 
     <Window.Resources>
@@ -18,7 +20,7 @@
         <converter:CountryFromRegionConverter x:Key="countryConverter"/>
         <converter:TogleBoolean x:Key="toggleBoolean"/>
     </Window.Resources>
-    
+
     <Border Padding="5">
         <StackPanel>
             <fr:TextBoxDate x:Name="inputDate" Placeholder="Date" Date="{Binding InputDate}"/>
@@ -34,8 +36,9 @@
                             </Grid>
                         </fr:FormRow>
                     </DataTemplate>
-                </ListView.ItemTemplate>                
+                </ListView.ItemTemplate>
             </ListView>
+            <Label Content="Location not found? Donwload it!" VerticalAlignment="Center" Foreground="Blue" Cursor="Hand" MouseDown="OnLabelClicked"/>
             <Button Content="RUN" Click="OnButtonClick" Height="30" IsEnabled="{Binding IsLoading, Converter={StaticResource toggleBoolean}}"/>
             <ProgressBar IsIndeterminate="{Binding IsLoading}" Height="5"/>
         </StackPanel>

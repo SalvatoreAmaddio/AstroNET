@@ -47,14 +47,17 @@ namespace AstroNET.View
             }
         }
 
+        protected CancellationTokenSource cts;
         public CommonHoroscopeWindow()
         {
             Loaded += OnLoaded;
             Closed += OnClosed;
+            cts = new CancellationTokenSource();
         }
 
         private void OnClosed(object? sender, EventArgs e)
         {
+            cts.Cancel();
             Closed -= OnClosed;
             Loaded -= OnLoaded;
         }
@@ -74,6 +77,10 @@ namespace AstroNET.View
         protected void OnPropertyChanged(string propName)
         {
             PropertyChanged?.Invoke(this, new(propName));
+        }
+        protected void OnLabelClicked(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            new AtlasDownloadForm().ShowDialog();
         }
 
         protected virtual void OnButtonClick(object sender, RoutedEventArgs e)

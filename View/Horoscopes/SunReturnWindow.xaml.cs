@@ -1,6 +1,7 @@
 ﻿using FrontEnd.Dialogs;
 using System.Windows;
 using AstroNETLibrary.Sky;
+using AstroNET.View.Customs;
 
 namespace AstroNET.View
 {
@@ -8,14 +9,14 @@ namespace AstroNET.View
     {
 
         private int _inputYear = DateTime.Today.Year;
-        
-        public int InputYear 
+
+        public int InputYear
         {
             get => _inputYear;
-            set 
-            { 
+            set
+            {
                 _inputYear = value;
-                OnPropertyChanged(nameof(InputYear));     
+                OnPropertyChanged(nameof(InputYear));
             }
         }
 
@@ -47,15 +48,27 @@ namespace AstroNET.View
 
             PositionCalculator calculator = new(subjectSky);
 
-            (DateTime returnDate, TimeSpan returnTime) = await Task.Run(() => 
+
+            try
             {
-                return calculator.CalculateSunReturn(InputYear, SelectedCity!);
-            });
+                (DateTime returnDate, TimeSpan returnTime) = await Task.Run(() =>
+                {
+                    return calculator.CalculateSunReturnAsync(InputYear, SelectedCity!, cts.Token);
+                }, cts.Token);
 
-            ReturnSkyEvent returnSky = subjectSky.CalculateReturn(returnDate, returnTime, SelectedCity!);
+                ReturnSkyEvent returnSky = subjectSky.CalculateReturn(returnDate, returnTime, SelectedCity!);
 
-            IsLoading = false;
-            ChartOpener.OpenComparedChart($"{subjectSky.Person}", subjectSky, returnSky, returnSky.SkyInfo.SkyType);
+                IsLoading = false;
+                ChartOpener.OpenComparedChart($"{subjectSky.Person}", subjectSky, returnSky, returnSky.SkyInfo.SkyType);
+            }
+            catch (OperationCanceledException)
+            {
+                Helper.DisplayTaskCancelled();
+            }
+            finally
+            {
+                cts.Dispose();
+            }
         }
     }
 }

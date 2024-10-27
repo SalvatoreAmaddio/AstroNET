@@ -135,6 +135,7 @@ namespace AstroNET.View
             {
                 interpretation = new(LibrarySearch.SearchAspect(aspect), aspect);
             }
+            interpretation.Owner = Helper.GetActiveWindow();
             interpretation.Show();
         }
 
@@ -284,6 +285,7 @@ namespace AstroNET.View
                 interpretation = new(LibrarySearch.SearchHouseSignDescription((House)e.NewValue), e.NewValue);
             }
 
+            interpretation.Owner = Helper.GetActiveWindow();
             interpretation.Show();
         }
         private static void OnSkyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

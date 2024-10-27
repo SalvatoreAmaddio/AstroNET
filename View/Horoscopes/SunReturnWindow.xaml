@@ -37,6 +37,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <Label Content="Location not found? Donwload it!" VerticalAlignment="Center" Foreground="Blue" Cursor="Hand" MouseDown="OnLabelClicked"/>
             <Button Content="RUN" Click="OnButtonClick" Height="30" IsEnabled="{Binding IsLoading, Converter={StaticResource toggleBoolean}}"/>
             <ProgressBar IsIndeterminate="{Binding IsLoading}" Height="5"/>
         </StackPanel>

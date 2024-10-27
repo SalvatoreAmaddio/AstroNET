@@ -8,8 +8,9 @@
         xmlns:converter="clr-namespace:AstroNET.converter"
         mc:Ignorable="d"
         ResizeMode="NoResize"
+        SizeToContent="Height"
         WindowStartupLocation="CenterScreen"
-        Title="Transits Calculator" Height="420" Width="450">
+        Title="Transits Calculator" Width="450">
 
     <Window.Resources>
         <converter:TogleBoolean x:Key="toggleBoolean"/>
@@ -56,7 +57,7 @@
                 <fr:Text Placeholder="Steps in month" Text="{Binding Steps}"/>
                 <Separator Height="5" Background="Transparent"/>
                 <Button Content="RUN" Click="OnRunClicked" Height="30" IsEnabled="{Binding IsLoading, Converter={StaticResource toggleBoolean}}"/>
-                <ProgressBar IsIndeterminate="{Binding IsLoading}" Height="20"/>
+                <ProgressBar IsIndeterminate="{Binding IsLoading}" Height="5"/>
             </StackPanel>
         </Grid>
     </Border>

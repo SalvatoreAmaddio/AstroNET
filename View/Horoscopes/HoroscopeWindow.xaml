@@ -9,7 +9,9 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
-        Title="Horoscope" SizeToContent="WidthAndHeight"
+        Title="Horoscope" 
+        Width="490"
+        Height="320"
         >
 
     <Window.Resources>

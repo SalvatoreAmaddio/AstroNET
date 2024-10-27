@@ -17,7 +17,7 @@ namespace AstroNET.model
         [PK]
         public Int64 StarTransitOrbitId { get => _starTransitOrbitId; set => UpdateProperty(ref value, ref _starTransitOrbitId); }
 
-        [FK]
+        [FK("StarId")]
         public Star Star { get => _star; set => UpdateProperty(ref value, ref _star); }
 
         [FK]

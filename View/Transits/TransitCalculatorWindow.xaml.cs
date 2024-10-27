@@ -6,6 +6,7 @@ using AstroNET.controller;
 using AstroNET.model;
 using AstroNETLibrary.Sky;
 using AstroNETLibrary.Points;
+using AstroNET.View.Customs;
 
 namespace AstroNET.View
 {
@@ -28,10 +29,10 @@ namespace AstroNET.View
             }
         }
 
-        public Star SelectedStar 
+        public Star SelectedStar
         {
             get => _selectedStar;
-            set 
+            set
             {
                 _selectedStar = value;
                 OnPropertyChanged(nameof(SelectedStar));
@@ -48,11 +49,11 @@ namespace AstroNET.View
             }
         }
 
-        public string SearchLocation 
+        public string SearchLocation
         {
             get => _searchLocation;
-            set 
-            { 
+            set
+            {
                 _searchLocation = value;
                 OnPropertyChanged(nameof(SearchLocation));
                 FilterList();
@@ -83,6 +84,8 @@ namespace AstroNET.View
         public CityListController CityListController { get; } = new();
         public SkyEvent SubjectSky => (SkyEvent)((ChartViewContainer)Owner.Content).Sky;
 
+        private CancellationTokenSource cts;
+
         public TransitCalculatorWindow()
         {
             InitializeComponent();
@@ -90,10 +93,12 @@ namespace AstroNET.View
             Loaded += OnLoaded;
             Closed += OnClosed;
             SelectedStar = StarListController.RecordSource.First();
+            cts = new CancellationTokenSource();
         }
 
         private void OnClosed(object? sender, EventArgs e)
         {
+            cts.Cancel();
             Loaded -= OnLoaded;
             Closed -= OnClosed;
         }
@@ -110,11 +115,11 @@ namespace AstroNET.View
             SelectedCity = CityListController.RecordSource.FirstOrDefault();
         }
 
-        private void OnPropertyChanged(string propName) => PropertyChanged?.Invoke(this,new(propName));
+        private void OnPropertyChanged(string propName) => PropertyChanged?.Invoke(this, new(propName));
 
         private async void OnRunClicked(object sender, RoutedEventArgs e)
         {
-            if (SelectedCity == null) 
+            if (SelectedCity == null)
             {
                 Failure.Allert("Select a city");
                 return;
@@ -131,11 +136,11 @@ namespace AstroNET.View
             SkyEvent subjectSky = (SkyEvent)((ChartViewContainer)Owner.Content).Sky;
             PositionCalculator calculator = new(subjectSky);
 
-            IEnumerable<IAspect> results = await Task.Run(() =>
-                calculator.TransitsCalculatorAsync(SelectedDate, SelectedCity, (int)SelectedStar.PointId, Steps)
-            );
-
-            List<TransitGroup> g = new(
+            try
+            {
+                IEnumerable<IAspect> results = await Task.Run(() =>
+                calculator.TransitsCalculatorAsync(SelectedDate, SelectedCity, (int)SelectedStar.PointId, Steps, cts.Token), cts.Token);
+                List<TransitGroup> g = new(
                 results.GroupBy(s => new TransitGroupKey((int)s.PointB.PointId, s.PointB.PointName))
                .Select(s => new TransitGroup()
                {
@@ -146,9 +151,17 @@ namespace AstroNET.View
                                                 .Select(s => new TransitSubGroup() { KeyGroup = s.Key, SubAspects = s.ToList() })
                }).ToList());
 
-            IsLoading = false;
-            
-            this.GoToWindow(new TransitsList(g.OrderBy(s => s.Star1Id).ToList()) { Title = $"{SelectedStar} Transits" });
+                IsLoading = false;
+                this.GoToWindow(new TransitsList(g.OrderBy(s => s.Star1Id).ToList()) { Title = $"{SelectedStar} Transits" });
+            }
+            catch (OperationCanceledException)
+            {
+                Helper.DisplayTaskCancelled();
+            }
+            finally
+            {
+                cts.Dispose();
+            }
         }
 
         private void OnLabelClicked(object sender, System.Windows.Input.MouseButtonEventArgs e)
