@@ -137,6 +137,26 @@ namespace AstroNET.converter
         }
     }
 
+    public class GetSkyAge : GetFromSky 
+    {
+        public override object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            AbstractSkyEvent sky = (AbstractSkyEvent)value;
+
+            if (sky is ReturnSkyEvent)
+            {
+                DateTime currentDate = sky.SkyInfo.LocalDateTime;
+                DateTime birthDate = sky.Person.DOB;
+
+                int age = currentDate.Year - birthDate.Year;
+
+                return $"Age: {age}";
+
+            }
+            else return $"Age: {sky.Person.Age}";
+        }
+    }
+
     public class GetPersonFromSky : GetFromSky
     {
         public override object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -164,13 +184,23 @@ namespace AstroNET.converter
 
     }
 
+    public class GetJulianDateFromSky : GetFromSky
+    {
+        public override object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            AbstractSkyEvent sky = (AbstractSkyEvent)value;
+            ReplaceSky(ref sky);
+            return $"Julian Date: {sky.SkyInfo.JulianDay:F2}";
+        }
+    }
+
     public class GetDateFromSky : GetFromSky
     {
         public override object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             AbstractSkyEvent sky = (AbstractSkyEvent)value;
             ReplaceSky(ref sky);
-            return $"Date: {sky.SkyInfo.LocalDateTime.ToString("dd/MM/yyyy")}";
+            return $"On {sky.SkyInfo.LocalDateTime.ToString("dddd, dd/MM/yyyy")}";
         }
     }
 

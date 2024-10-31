@@ -433,14 +433,27 @@ namespace AstroNET.View
             Triplicities.Add(new("Fixed Signs", toUse.FixedSigns));
             Triplicities.Add(new("Cardinal Signs", toUse.CardinalSigns));
             Triplicities.Add(new("Mobile Signs", toUse.MobileSigns));
+            
+            ReorderElementGroupKeyList(Triplicities);
 
             Elements.Add(new("Water", toUse.WaterSigns));
             Elements.Add(new("Fire", toUse.FireSigns));
             Elements.Add(new("Air", toUse.AirSigns));
             Elements.Add(new("Earth", toUse.EarhSigns));
 
+            ReorderElementGroupKeyList(Elements);
+
             Genders.Add(new("Female Signs", toUse.FemaleSigns));
             Genders.Add(new("Male Signs", toUse.MaleSigns));
+
+            ReorderElementGroupKeyList(Genders);
+        }
+
+        private void ReorderElementGroupKeyList(List<ElementGroupKey> list) 
+        {
+            List<ElementGroupKey> temp = list.OrderByDescending(s => s.Count).ToList();
+            list.Clear();
+            list.AddRange(temp);
         }
     }
 }

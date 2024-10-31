@@ -58,6 +58,24 @@ namespace AstroNET.model
         [Field]
         public string PictureURL { get => _pictureURL; set => UpdateProperty(ref value, ref _pictureURL); }
 
+        public int Age 
+        { 
+            get 
+            {
+                DateTime currentDate = DateTime.Now;
+                DateTime birthDate = DOB;
+
+                int age = currentDate.Year - birthDate.Year;
+
+                if (currentDate < birthDate.AddYears(age))
+                {
+                    age--;
+                }
+
+                return age;
+            }
+        }
+
         public Person()
         {
             AfterUpdate += OnAfterUpdate;

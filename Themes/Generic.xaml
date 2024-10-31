@@ -20,6 +20,8 @@
     <converter:GetTimeFromSky x:Key="timeSky"/>
     <converter:GetUTFromSky x:Key="utSky"/>
     <converter:GetSTFromSky x:Key="stSky"/>
+    <converter:GetJulianDateFromSky x:Key="jdSky"/>
+    <converter:GetSkyAge x:Key="ageSky"/>
 
     <Style TargetType="{x:Type local:ZodiacTableTemplate}">
         <Setter Property="Template">
@@ -108,8 +110,8 @@
                                     </ToolBar>
                                 </ToolBarTray>
 
-                                <Border x:Name="SkyInfoBorder" Background="#fcfcfa" HorizontalAlignment="Stretch" Height="80" Padding="5">
-                                    <Grid fr:Definition.ColumnDefinitions="*,*,*" fr:Definition.RowDefinitions="26,23,27" HorizontalAlignment="Left">
+                                <Border x:Name="SkyInfoBorder" Background="#fcfcfa" HorizontalAlignment="Stretch" Padding="5">
+                                    <Grid fr:Definition.ColumnDefinitions="*,*,*" fr:Definition.RowDefinitions="26,26,27" HorizontalAlignment="Left">
                                         <Grid.Resources>
                                             <Style TargetType="Label">
                                                 <Setter Property="VerticalAlignment" Value="Center"/>
@@ -124,6 +126,8 @@
                                         <Label Grid.Row="2" Grid.Column="1" Content="{TemplateBinding Sky, Converter={StaticResource placeCordSky}}"/>
 
                                         <Label Grid.Row="0" Grid.Column="2" Content="{TemplateBinding Sky, Converter={StaticResource stSky}}"/>
+                                        <Label Grid.Row="1" Grid.Column="2" Content="{TemplateBinding Sky, Converter={StaticResource jdSky}}"/>
+                                        <Label Grid.Row="2" Grid.Column="2" Content="{TemplateBinding Sky, Converter={StaticResource ageSky}}"/>
                                     </Grid>
                                 </Border>
 
