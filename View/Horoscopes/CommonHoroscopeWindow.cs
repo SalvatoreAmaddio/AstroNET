@@ -47,17 +47,23 @@ namespace AstroNET.View
             }
         }
 
-        protected CancellationTokenSource cts;
+        protected CancellationTokenSource? cts;
         public CommonHoroscopeWindow()
         {
             Loaded += OnLoaded;
             Closed += OnClosed;
-            cts = new CancellationTokenSource();
         }
 
         private void OnClosed(object? sender, EventArgs e)
         {
-            cts.Cancel();
+            try 
+            {
+                cts?.Cancel();
+            }
+            catch 
+            { 
+            
+            }
             Closed -= OnClosed;
             Loaded -= OnLoaded;
         }

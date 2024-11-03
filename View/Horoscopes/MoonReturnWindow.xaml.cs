@@ -31,6 +31,7 @@ namespace AstroNET.View
 
             try
             {
+                cts = new CancellationTokenSource();
                 (DateTime returnDate, TimeSpan returnTime) = await Task.Run(() => calculator.CalculateMoonReturnAsync(InputDate!.Value, SelectedCity!, cts.Token), cts.Token);
                 ReturnSkyEvent returnSky = subjectSky.CalculateReturn(returnDate, returnTime, SelectedCity!, SkyType.MoonReturn);
                 IsLoading = false;

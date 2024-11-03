@@ -51,6 +51,8 @@ namespace AstroNET.View
 
             try
             {
+                cts = new CancellationTokenSource();
+
                 (DateTime returnDate, TimeSpan returnTime) = await Task.Run(() =>
                 {
                     return calculator.CalculateSunReturnAsync(InputYear, SelectedCity!, cts.Token);
