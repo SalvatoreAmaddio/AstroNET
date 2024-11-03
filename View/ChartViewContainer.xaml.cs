@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.IO;
 using Backend.Utils;
 using AstroNETLibrary.Sky;
+using AstroNET.View.Library;
 
 namespace AstroNET.View
 {
@@ -229,7 +230,7 @@ namespace AstroNET.View
             new TransitCalculatorWindow() { Owner = Helper.GetActiveWindow() }.ShowDialog();
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void OnExportClicked(object sender, RoutedEventArgs e)
         {
             string? winTitle = Helper.GetActiveWindow()?.Title;
 
@@ -238,5 +239,12 @@ namespace AstroNET.View
 
         private void OnReferencesClick(object sender, RoutedEventArgs e) =>
         new References().ShowDialog();
+
+        private void OnNatalChartRulesClicked(object sender, RoutedEventArgs e) =>
+        new NatalChartRules().Show();
+
+        private void OnSinastryRulesClicked(object sender, RoutedEventArgs e) =>
+        new SinastryRules().Show();
+
     }
 }

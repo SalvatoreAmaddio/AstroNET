@@ -86,6 +86,9 @@
 		<Compile Update="View\Library\LibraryWindow\LibraryHouseSignWindow.xaml.cs">
 			<SubType>Code</SubType>
 		</Compile>
+		<Compile Update="View\Library\SinastryRules.xaml.cs">
+		  <SubType>Code</SubType>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>

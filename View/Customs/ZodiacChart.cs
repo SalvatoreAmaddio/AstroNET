@@ -23,9 +23,14 @@ namespace AstroNET.View
         private double _rotation;
         private double _outerRadius => Math.Min(ActualWidth, ActualHeight) / 2;
         private double _innerRadius => _outerRadius - _outerRadius * 0.15;
+        private double _innerHouseRadius => _finalRadius + 100 * 0.15;
         private double _finalRadius => _innerRadius - _innerRadius * 0.5;
+
+        private double _midHouseRadius => (_finalRadius + _innerHouseRadius) / 2;
+
         private Canvas _canvas = new();
 
+        #region Sky
         public static readonly DependencyProperty SkyProperty =
         DependencyProperty.Register(nameof(Sky), typeof(AbstractSkyEvent),
         typeof(ZodiacChart), new PropertyMetadata(OnSkyChanged));
@@ -41,6 +46,7 @@ namespace AstroNET.View
             ((ZodiacChart)d).InvalidateVisual();
             ((ZodiacChart)d).UpdateLayout();
         }
+        #endregion
 
         public double Rotation
         {
@@ -66,8 +72,17 @@ namespace AstroNET.View
         private void OnParentWindowClosed(object? sender, EventArgs e)
         {
             Window? parentWindow = (Window?)sender;
-            foreach(MouseStack stackHandler in _mouseUpHandlers) stackHandler.Unsubscribe();
-            parentWindow!.Closed -= OnParentWindowClosed;
+
+            if (parentWindow == null) return;
+
+            foreach (MouseStack stackHandler in _mouseUpHandlers)
+            {
+                stackHandler.Unsubscribe();
+            }
+
+            _mouseUpHandlers.Clear();
+
+            parentWindow.Closed -= OnParentWindowClosed;
             Loaded -= OnLoaded;
         }
 
@@ -85,16 +100,16 @@ namespace AstroNET.View
         {
             base.OnRender(drawingContext);
             _canvas.Children.Clear();
-            
+
             if (Sky == null) return;
 
-            try 
+            try
             {
                 Rotation = Sky.Houses[0].EclipticLongitude;
             }
-            catch 
-            { 
-            
+            catch
+            {
+
             }
 
             drawingContext.DrawEllipse(Brushes.White, Factory.PencilCase.BlackPen2, Center, _outerRadius, _outerRadius);
@@ -107,17 +122,28 @@ namespace AstroNET.View
 
             AddSigns(drawingContext);
 
-            if (SkyEvent != null && SkyEvent.Horoscope != null)
-                AddHouses(drawingContext);
-            else
-                AddHouses(drawingContext);
-
-            AddAspects(drawingContext, SkyEvent != null && SkyEvent.Horoscope != null);
-
             AddPlanets(drawingContext);
 
-            if (SkyEvent != null && SkyEvent.Horoscope != null)
-                AddPlanets(drawingContext, true);
+            if (Sky != null)
+            {
+                if (!Sky.Person.UnknownTime)
+                {
+                    AddHouses(drawingContext);
+                }
+            }
+
+            if (SkyEvent != null)
+            {
+                if (SkyEvent.Horoscope != null)
+                {
+                    AddPlanets(drawingContext, true);
+                    AddAspects(drawingContext, true);
+                }
+                else
+                {
+                    AddAspects(drawingContext, false);
+                }
+            }
         }
 
         private void SplitCircle(DrawingContext drawingContext)
@@ -156,15 +182,15 @@ namespace AstroNET.View
         {
             var (startPoint, endPoint) = PrepareAspectDrawing(ref aspect, offset);
 
-            Pen pen = PencilCase.MakePen(aspect.Brush,5);
+            Pen pen = PencilCase.MakePen(aspect.Brush, 5);
 
-            PathFigure pathFigure = new ()
+            PathFigure pathFigure = new()
             {
                 StartPoint = startPoint,
                 IsClosed = false
             };
 
-            ArcSegment arcSegment = new ()
+            ArcSegment arcSegment = new()
             {
                 Point = endPoint,
                 Size = new Size(_innerRadius, _innerRadius), // Adjust the size to control the curvature
@@ -174,7 +200,7 @@ namespace AstroNET.View
 
             pathFigure.Segments.Add(arcSegment);
 
-            PathGeometry pathGeometry = new ();
+            PathGeometry pathGeometry = new();
             pathGeometry.Figures.Add(pathFigure);
 
             drawingContext.DrawGeometry(null, pen, pathGeometry);
@@ -186,7 +212,7 @@ namespace AstroNET.View
         private void DrawAspect(DrawingContext drawingContext, Aspect aspect, double offset)
         {
             var (startPoint, endPoint) = PrepareAspectDrawing(ref aspect, offset);
-            Pen pen = PencilCase.MakePen(aspect.Brush,1, aspect.IsDashed);
+            Pen pen = PencilCase.MakePen(aspect.Brush, 1, aspect.IsDashed);
 
             drawingContext.DrawLine(pen, startPoint, endPoint);
 
@@ -203,14 +229,25 @@ namespace AstroNET.View
                 drawingContext.DrawLine(Factory.PencilCase.BlackPenForHouse, Center, CalculateEndPoint(house.EclipticLongitude));
 
             Factory.PlaceHouse(_canvas, house, CalculateEndPoint(house.EclipticLongitude, _outerRadius / 12, true));
+
+            Factory.WriteHouse(_canvas, house, CalculateEndPoint2(house.MidPoint, _midHouseRadius));
+        }
+
+        private Point CalculateEndPoint2(double lineDegree, double radius)
+        {
+            lineDegree += Rotation;
+            double radians = lineDegree * Math.PI / 180; // Convert degrees to radians
+            double x = Center.X + radius * Math.Cos(radians);
+            double y = Center.Y - radius * Math.Sin(radians) + 7; // Subtract because the y-axis is inverted in screen coordinates
+            return new Point(x, y);
         }
 
         private void DrawPlanet(DrawingContext drawingContext, IStar star, Point endPoint, bool isHoroscope = false)
         {
             StackPanel stack =
                 Factory.CreateStackPanel(
-                    (! (SkyEvent != null && SkyEvent.ShowHouses))
-                    ? $"{star} at {star.Position.DegreeAndMinutes}° {(star.IsRetrograde ? " R" : "")}" 
+                    (!(SkyEvent != null && SkyEvent.ShowHouses))
+                    ? $"{star} at {star.Position.DegreeAndMinutes}° {(star.IsRetrograde ? " R" : "")}"
                     : $"{star} at {star.Position.DegreeAndMinutes}° in {star.House} {(star.IsRetrograde ? " R" : "")}"
                     );
 
@@ -222,11 +259,11 @@ namespace AstroNET.View
             Point adjustedEndPoint = new(endPoint.X, endPoint.Y + 10);
             Factory.PlaceStackPanel(_canvas, stack, adjustedEndPoint);
 
-            Point shortenPoint = ShortenLineFromCenter(Center, endPoint, (!isHoroscope) ? - 20 : 75);
+            Point shortenPoint = ShortenLineFromCenter(Center, endPoint, (!isHoroscope) ? -20 : 75);
             drawingContext.DrawLine(Factory.PencilCase.BlackPen05, shortenPoint, endPoint);
         }
 
-        private MouseButtonEventHandler MakeMouseButtonEventHandler(bool isHoroscope, IStar star) 
+        private MouseButtonEventHandler MakeMouseButtonEventHandler(bool isHoroscope, IStar star)
         {
             return (o, e) =>
             {
@@ -282,13 +319,13 @@ namespace AstroNET.View
             double conjOffset = 0;
             IEnumerable<IAspect> Aspects;
 
-            if (isHoroscope) 
+            if (isHoroscope)
             {
                 offset = _finalRadius / 3;
                 conjOffset = 1;
                 Aspects = SkyEvent?.Horoscope?.RadixAspects!;
             }
-            else 
+            else
             {
                 offset = _finalRadius / .74;
                 conjOffset = 3;
@@ -297,9 +334,9 @@ namespace AstroNET.View
 
             foreach (Aspect aspect in Aspects)
             {
-                if (aspect.Orbit == 0) 
+                if (aspect.Orbit == 0)
                     DrawCurvedAspect(drawingContext, aspect, offset - conjOffset);
-                else 
+                else
                     DrawAspect(drawingContext, aspect, offset);
             }
         }
@@ -311,23 +348,23 @@ namespace AstroNET.View
             List<IStar> prev_stars = [];
 
             List<IStar> stars = (isHoroscope) ? new(SkyEvent?.Horoscope?.Stars!) : new(Sky.Stars);
-            
-            for (int i = 0; i <= stars.Count - 1; i++) 
+
+            for (int i = 0; i <= stars.Count - 1; i++)
             {
                 offset = (isHoroscope) ? (_outerRadius / 1000) - 40 : _outerRadius / 4.5;
-                diff = 4.5;
+                diff = 5;
                 prev_stars.Add(stars[i]);
 
                 if (i > 0)
-                { 
+                {
                     foreach (IStar star in prev_stars)
                     {
                         if (stars[i].PointId == star.PointId) continue;
                         double distance = Math.Abs(PositionCalculator.CalculateDistance(stars[i].EclipticLongitude, star.EclipticLongitude));
-//                        IAspect? conj = PositionCalculator.IsConjunction(distance, 10);
-                        if (!isHoroscope) 
+                        //                        IAspect? conj = PositionCalculator.IsConjunction(distance, 10);
+                        if (!isHoroscope)
                         {
-                            if (distance <= 10)
+                            if (distance <= 5)
                             {
                                 diff = diff - .8;
                                 offset = _outerRadius / diff;
@@ -336,20 +373,32 @@ namespace AstroNET.View
                     }
                 }
 
+                if (offset > 100.0) 
+                {
+                    offset = 100.0;
+                }
+                var x = stars[i].PointName;
                 DrawPlanet(drawingContext, stars[i], CalculateEndPoint(stars[i].EclipticLongitude, offset), isHoroscope);
             }
         }
         private void AddHouses(DrawingContext drawingContext)
         {
+            if (Sky.Houses.Count == 0) return;
+
             foreach (House house in Sky.Houses)
+            {
                 DrawHouse(drawingContext, house);
+            }
+
+            drawingContext.DrawEllipse(Brushes.Transparent, Factory.PencilCase.BlackPen1, Center, _innerHouseRadius, _innerHouseRadius);
         }
+
         private void AddSigns(DrawingContext drawingContext)
         {
             double less = _outerRadius / 12.5;
             List<Sign> signs = DatabaseManager.Find<Sign>()!.MasterSource.Cast<Sign>().ToList();
 
-            foreach (Sign sign in signs) 
+            foreach (Sign sign in signs)
                 Factory.PlaceImage(sign.URI, CalculateEndPoint(sign.Start + 15, less), _outerRadius, drawingContext);
         }
 
@@ -435,7 +484,7 @@ namespace AstroNET.View
 
         //    // Create a DrawingVisual to draw the white background and overlay the rendered control
         //    DrawingVisual visual = new DrawingVisual();
-            
+
         //    using (DrawingContext context = visual.RenderOpen())
         //    {
         //        // Draw a white rectangle as the background (this won't affect the control's size)
@@ -473,7 +522,10 @@ namespace AstroNET.View
                 this._panel.MouseUp += this._handler;
             }
 
-            public void Unsubscribe() => _panel.MouseUp -= _handler;
+            public void Unsubscribe()
+            {
+                _panel.MouseUp -= _handler;
+            }
         }
     }
 }

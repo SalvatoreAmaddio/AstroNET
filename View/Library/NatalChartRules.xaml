@@ -1,0 +1,247 @@
+﻿<Window x:Class="AstroNET.View.Library.NatalChartRules"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AstroNET.View.Library"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Title="Natal Chart Rules" Width="600" Height="500">
+    <Grid>
+        <FlowDocumentScrollViewer Grid.Row="1" x:Name="documentViewer">
+            <FlowDocument>
+                <Paragraph FontSize="24">L'Interpretazione</Paragraph>
+                
+                <Paragraph>Rappresenta la parte più complessa dell'applicazione dell'astrologia: 
+                    da migliaia di simboli eterogenei combinati tra loro bisogna enucleare un ritratto 
+                    completo di individuo caratterizzato da una definita personalità, da una patologia 
+                    a caratteristiche determinate, da una sua vita affettivo-relazionale, da una specifica 
+                    situazione economico-professionale, etc.
+                </Paragraph>
+
+                <Paragraph>È un esercizio mentale difficilissimo (a meno che non si semplifichi generalizzando le risposte) 
+                    che richiede una grande capacità di sintesi. Per certi aspetti assomiglia al gioco degli scacchi: 
+                    occorre tenere conto di tutte le possibili variabili rappresentate oltre che dai pezzi stessi, 
+                    dalle combinazioni delle loro azioni e dal tempo in cui una o più di una di queste entreranno in gioco.
+                </Paragraph>
+
+                <Paragraph>
+                    Il quadro già di per sé stesso complesso è difficoltizzato dall'analisi della situazione storica, 
+                    sociale, economica, culturale, familiare, etc. del soggetto cui appartiene. 
+                    Qui di seguito sono riportate alcune regole-consigli di utilità generale nell'interpretazione di un tema di nascita.
+                </Paragraph>
+
+                <List MarkerStyle="Decimal">
+                    <List.Resources>
+                        <Style TargetType="Paragraph">
+                            <Setter Property="Margin" Value="0,15,0,15"/>
+                        </Style>
+                    </List.Resources>
+                    <ListItem>
+                        <Paragraph>Ogni tema è unico e irripetibile per cui ogni singola sua parte va sempre interpretata tenendo conto 
+                            che l'esperienza giova fino a un certo punto.
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Non esistono certezze, ma soltanto ipotesi da valutare.
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            L'interpretazione è tanto più esatta quanto più dati si conoscono del soggetto 
+                            (professione, studi fatti, situazione affettiva, etc.) nella stessa misura in cui una diagnosi medica 
+                            è tanto più riuscita quanto più il paziente guida il terapeuta sulla giusta strada esponendogli 
+                            la propria sintomatologia e l'anamnesi che ha preceduto la visita.
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Si considera, in primo luogo, la dominante o le dominanti se ve n'è più d'una.
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Si valuta la distribuzione degli astri nel cerchio zodiacale: gli accumuli sono sempre dannosi mentre 
+                            il contrario va interpretato positivamente perché vuol dire che il soggetto distribuisce più o meno 
+                            uniformemente i suoi interessi. Distinguiamo quattro casi:
+                        </Paragraph>
+                        
+                        <List>
+                            <ListItem>
+                                <Paragraph>
+                                    Se gli astri sono per lo più a sinistra (intorno all'As) si ha egocentrismo, individualità, volontà di affermare soprattutto la propria persona.
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>
+                                    Se gli astri sono per lo più a destra (intorno al Ds) si ha apertura verso l’esterno, desiderio di relazioni sociali, di scambi.
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>
+                                    Se gli astri sono per lo più in alto (intorno all’MC) si ha volontà di emancipazione, ambizione, desiderio di emergere.
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>
+                                    Se gli astri sono per lo più in basso (intorno all’FC) si ha interesse per la vita interiore, per i valori d’origine, per l’esistenza più contemplativa che fattiva.
+                                </Paragraph>
+                            </ListItem>
+                        </List>
+                        
+                    </ListItem>
+
+                    <ListItem>
+                        <Paragraph>
+                            Si nota se vi è preponderanza di valori maschili rispetto ai femminili o viceversa e si considera la cosa in base 
+                            al sesso del soggetto.
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Si esaminano quanti valori astrologici sono in segni cardinali e quanti nei rimanenti mobili e fissi al fine 
+                            di stabilire il grado d’iniziativa, instabilità e di costanza della persona in esame.
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Si contano i valori di Terra, quelli di Acqua, quelli di Aria e quelli di Fuoco e si notano eventuali forti 
+                            predominanze (per esempio se vi sono molti astri in segni d’Acqua si tratterà di individuo sensibile, emotivo 
+                            e portato alla poca attività fisica).
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Si osservano con particolare attenzione i tre segni occupati rispettivamente dal Sole, dalla Luna e dall’Ascendente 
+                            perché hanno quasi la stessa importanza nell’oroscopo.
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Si studia la Casa occupata dal Sole perché di solito è l’indice dei maggiori interessi del soggetto (la libido). 
+                            Questa Casa corrisponde al segno “intercettato”: per esempio un Sole in prima Casa vuol dire che il soggetto 
+                            è fortemente arietino, un Sole in seconda che egli si comporta soprattutto come un Toro e via dicendo. 
+                            Questo segno intercettato finisce per essere addirittura più importante di quello solare o ascendente o lunare. 
+                            Per esempio, Eduardo De Filippo, con il suo Sole in quinta, era molto più Leone che Gemelli ed il suo grandissimo 
+                            orgoglio lo dimostrava ampiamente.
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Si considera se le Case cardinali (I, IV, VII e X) sono più occupate delle altre. 
+                            In caso affermativo si tratta di individuo portato all’azione e a emergere.
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Si dà grande peso ai pianeti e alle Case cui giungono diversi aspetti. 
+                            Questi ultimi non vanno mai considerati esclusivamente al negativo o al positivo, 
+                            ma quali antenne ricetrasmettenti di stimolazioni. 
+                            Per esempio, un Mercurio segnato da numerose quadrature, opposizioni e trigoni indica un’intelligenza 
+                            assai sollecitata e quindi viva, tale da essere un punto di distinzione per il soggetto.
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Per avere informazioni sulle maggiori prove e sui più grossi ostacoli che il soggetto deve affrontare nel corso della vita, 
+                            si studiano soprattutto le posizioni di Saturno, di Marte, della 12ª Casa, del suo governatore e del suo dispositore.
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Per conoscere i «punti di forza» nella vita del soggetto, vanno esaminate in particolare le posizioni di Giove e di Venere.
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Si passa quindi all’analisi di ogni astro nelle Case, nei segni e nei vari aspetti con ogni punto dell’oroscopo, 
+                            tenendo in particolare evidenza i significati che si ripetono 
+                            (per esempio un trigono Sole-Luna, Venere in Bilancia e Giove in VII, annunciano tutti una promettente vita affettiva 
+                            e sentimentale).
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Lo studio dei dispositori può fare da supporto alle altre interpretazioni (per esempio Giove in 2ª promette buoni guadagni; 
+                            se nel contempo il dispositore della 2ª è in 3ª, si può supporre che questi guadagni vengano da scritti, 
+                            o da mezzi di trasporto o da qualcosa legata ai significati del terzo Settore).
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Quando una Casa è vuota si esamina la posizione del suo governatore, in che segno cade la Casa e gli aspetti tra gli astri 
+                            e la cuspide della Casa (per esempio se il signore della IVª è opposto a Saturno può far pensare ad orfelinato, 
+                            se la VIIª cade in Pesci può indicare che il soggetto fa da infermiere al proprio partner, 
+                            se Urano è quadrato all’inizio della 5ª Casa può annunciare brusche separazioni 
+                            affettive o gravidanze improvvise).
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Un astro isolato (senza aspetti) è particolarmente negativo (se lo stesso è congiunto all’As o a un altro angolo 
+                            non va considerato isolato).
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Un aspetto negativo e uno positivo sullo stesso punto non si annullano, ma vivono secondo la propria specificità, 
+                            a volte anche contemporaneamente.
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Non esistono «appuntamenti inesorabili con il destino» ma solo inclinazioni.
+                        </Paragraph>
+                    </ListItem>
+                </List>
+
+                <Paragraph FontSize="20">La Salute</Paragraph>
+
+                <Paragraph>
+                    Si esaminano innanzitutto i tre segni solari, lunari e ascendenti in rapporto alle malattie cui questi sono legati: 
+                    non è semplicistico dire che chi ha il Sole in Ariete soffre alla testa o chi ha la Luna nel Cancro accusa disturbi allo stomaco, 
+                    e così via, dato che ciò corrisponde generalmente a verità.
+                </Paragraph>
+
+                <Paragraph>
+                    In seconda analisi si osservano la sesta Casa, i pianeti in essa ospitati e il suo governatore. Una sesta in Pesci fa pensare 
+                    a disturbi ai piedi o a intossicazioni da alcol, fumo, droga, medicinali, cibi guasti, ecc.; 
+                    una sesta in Leone a problemi cardiaci, di vista, al cervello e alla spina dorsale; e così via. 
+                    Un Marte in sesta, nella Vergine, è un chiaro segno di appendicite o di colite, mentre Saturno nello stesso 
+                    Settore fa pensare a una patologia cronica.
+                </Paragraph>
+
+                <Paragraph>
+                    Anche gli aspetti tra i pianeti sono eloquenti al riguardo: per esempio Marte opposto a Giove 
+                    può indicare malattie dovute a eccessi di vario genere, meglio identificabili osservando le Case 
+                    e i segni che ospitano i due astri.
+                </Paragraph>
+
+                <Paragraph>
+                    Un’indicazione è tanto più valida quanto più richiamata dai vari elementi dell’oroscopo. Per esempio, per un soggetto che 
+                    ha l’As in Capricorno, Saturno in sesta e il dispositore della sesta in decima (Casa che corrisponde al segno del Capricorno), 
+                    si può senz’altro prevedere una patologia a carattere cronico in cui i denti e le ossa fanno da protagonisti. 
+                    Infine, ma non per importanza, le patologie principali del soggetto vengono anche indicate dal segno intercettato: 
+                    per esempio, se il Sole si trova in nona Casa, allora, assai facilmente, il soggetto soffrirà di patologie al 
+                    fegato ed alla cistifellea.
+                </Paragraph>
+
+                <Paragraph FontSize="20">L'Amore</Paragraph>
+
+                <Paragraph>
+                    Occorre valutare con attenzione la condizione della Luna, di Venere, della quinta e settima Casa e dei loro dispositori.
+                </Paragraph>
+
+                <Paragraph FontSize="20">Il lavoro e l’ascesa sociale</Paragraph>
+                
+                <Paragraph>
+                    Vanno considerate la sesta e la decima Casa con i loro dispositori. La popolarità è relativa invece alla quinta Casa nonché agli aspetti armonici dei luminari.
+                    Il denaro è in rapporto alla 2ª e 8ª Casa con i loro dispositori.
+                </Paragraph>                
+                
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+    </Grid>
+</Window>

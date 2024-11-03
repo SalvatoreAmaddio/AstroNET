@@ -10,7 +10,7 @@ namespace AstroNET.View
     public class Factory
     {
         public static PencilCase PencilCase = new();
-        public static Image MakePlanetImage(string uri) 
+        public static Image MakePlanetImage(string uri)
         {
             return new Image()
             {
@@ -37,6 +37,13 @@ namespace AstroNET.View
             Factory.PlaceStackPanel(canvas, stack, endPoint);
         }
 
+        public static void WriteHouse(Canvas canvas, House house, Point endPoint)
+        {
+            StackPanel stack = Factory.CreateStackPanel();
+            stack.Children.Add(Factory.CreateHouseLabel(house.PointId.ToString(), true));
+            Factory.PlaceStackPanel(canvas, stack, endPoint);
+        }
+
         private static Label InitLabel(string text) => new()
         {
             Content = text,
@@ -57,11 +64,11 @@ namespace AstroNET.View
             return label;
         }
 
-        public static Label CreateHouseLabel(string text)
+        public static Label CreateHouseLabel(string text, bool isBold = false)
         {
             Label label = InitLabel(text);
             label.VerticalContentAlignment = VerticalAlignment.Bottom;
-            //if (isAngle) label.FontWeight = FontWeights.Bold;
+            if (isBold) label.FontWeight = FontWeights.Bold;
             return label;
         }
         public static bool IsMultipleOfFive(double number) => number % 5 == 0;

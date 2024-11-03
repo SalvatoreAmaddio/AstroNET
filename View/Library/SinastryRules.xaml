@@ -1,0 +1,144 @@
+﻿<Window x:Class="AstroNET.View.Library.SinastryRules"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AstroNET.View.Library"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Title="Sinastry Rules" Width="600" Height="500">
+    <Grid>
+        <FlowDocumentScrollViewer Grid.Row="1" x:Name="documentViewer">
+            <FlowDocument>
+                <Paragraph FontSize="24">Affinità elettive</Paragraph>
+
+                <Paragraph>
+                    «Con quale segno posso trovare il miglior accordo?» è la domanda che con maggiore frequenza si sente rivolgere un astrologo 
+                    sia che chi interroga stia pensando a un partner affettivo e sia che aspiri invece a scegliere il socio giusto in una 
+                    qualsiasi impresa. Indubbiamente è questo un campo in cui l’astrologia può dare molto, soprattutto se chi formula 
+                    il quesito è realmente disposto a fare tesoro dei consigli ricevuti e non cerca invece soltanto una possibile 
+                    conferma ad una scelta già fatta e che non intende cambiare. Osservando due oroscopi a confronto è possibile 
+                    annunciare, con buona approssimazione, quante probabilità hanno due soggetti di vivere insieme superando 
+                    le crisi periodiche, o permanenti, che ogni menage a due comporta.
+                </Paragraph>
+
+                <Paragraph>
+                    Ritornando alla domanda iniziale bisogna osservare che la stessa è sbagliata in quanto richiede una risposta riduttiva 
+                    che l’astrologia non può dare. Infatti non ha alcun significato affermare che l’Ariete va bene con il Leone dal 
+                    momento che il primo potrebbe avere, per esempio, molti pianeti in Bilancia, e dunque essere un Ascendente Cancro 
+                    che ne altererebbe sensibilmente il profilo psicologico.
+                </Paragraph>
+
+                <Paragraph>
+                    Non esiste un Ariete «puro» così come non vi è alcun soggetto marcato da un solo segno. Al limite si può dire che un Toro, 
+                    veramente Toro, può legare ottimamente con uno Scorpione, veramente Scorpione, ma al limite e comunque questo modo di 
+                    affrontare il problema è superficiale e può essere definito «da salotto».
+                </Paragraph>
+
+
+                <Paragraph>
+                    Quali sono allora gli elementi oroscopici che incoraggiano l’unione tra due persone? Ecco i principali:
+                </Paragraph>
+                
+                <List MarkerStyle="Decimal">
+                    <List.Resources>
+                        <Style TargetType="Paragraph">
+                            <Setter Property="Margin" Value="0,15,0,15"/>
+                        </Style>
+                    </List.Resources>
+                    <ListItem>
+                        <Paragraph>
+                            Il Sole, la Luna, l’Ascendente o uno stellium planetario dell’uno nel campo opposto all’Ascendente dell’altro 
+                            (cioè nel settimo Campo del proverbiale partner).
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Aspetti armonici tra i luminari e gli Ascendenti (per esempio: Sole di lui su Luna di lei, Luna di lui trigona a 
+                            Luna di lei, As di lei sestile al Sole di lui ecc.).
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Marte di lui in buon aspetto a Venere di lei. Questa configurazione annuncia una buona intesa sessuale che 
+                            è senz’altro uno dei principali fattori di coesione in una coppia. 
+                            L’assenza, o addirittura la condizione contraria, della stessa pone seri dubbi sulla 
+                            riuscita del rapporto nel tempo, quando la passione iniziale avrà lasciato più spazio al senso critico.
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Buoni aspetti tra le due Veneri. Esprimono il grado di affinità nel modo di amare, sotto il profilo sentimentale.
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Buoni aspetti tra i due Mercurio o tra Mercurio di uno e Sole o As dell’altro. Indicano l’intesa sul piano intellettuale.
+                        </Paragraph>
+                    </ListItem>
+
+                    <ListItem>
+                        <Paragraph>
+                            Complementarietà tra i segni solari, luminari e ascendenti (Sole Cancro con Luna Capricorno, Luna Sagittario con Luna Gemelli, etc.).
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Appartenenza di Sole, Luna e As allo stesso elemento (Fuoco, Acqua, Aria o Terra). Per esempio: 
+                            Sole Vergine di lui con Luna Toro di lei, As Bilancia di lei con As Aquario di lui, etc.
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph>
+                            Molti aspetti armonici in generale.
+                        </Paragraph>
+                    </ListItem>
+                </List>
+
+                <Paragraph>
+                    Nella pratica non si osservano mai dei casi netti, cioè tutti al positivo o tutti al negativo, ma piuttosto delle 
+                    combinazioni tra fattori favorevoli e sfavorevoli che difficoltizzano la sintesi del giudizio. 
+                    In questi casi, per formularne uno, occorre tenere in ampia considerazione i due singoli temi e valutare anche 
+                    la realtà socio-economico-culturale di ciascun elemento.
+                </Paragraph>
+
+                <Paragraph>
+                    Per esempio se uno dei due ha un Urano dissonante in Casa settima ciò fa senz’altro pensare a una evoluzione distruttiva 
+                    del rapporto. Il contrario si può avere con Giove o Venere ben messi (sempre nel 7º Settore, o anche nel 5º).
+                </Paragraph>
+
+                <Paragraph>
+                    Volendo proporre un altro esempio possiamo ipotizzare il caso di due soggetti i cui oroscopi a confronto denotino 
+                    più o meno lo stesso numero di dissonanze e di convergenze elettive. 
+                    Trattandosi di un «lui» mal messo economicamente e di una «lei» con forti valori Leone sarà preferibile esprimersi 
+                    negativamente in quanto si può prevedere che la donna, prima o poi, rifiuterà lo stato di contingenza cui sarà sottoposta 
+                    dato che le sue aspirazioni vanno verso il «grandioso».
+                </Paragraph>
+
+                <Paragraph>
+                    Inoltre va ricordato che le unioni più negative sono quelle in cui il Marte di uno è in cattivo aspetto con il Sole, la Luna 
+                    o l’As dell’altro, dal momento che esso è un chiaro segno di aggressività.
+                </Paragraph>
+
+                <Paragraph>
+                    I segni a 90 gradi sono quelli che si attraggono maggiormente (per esempio Gemelli e Pesci o Leone e Toro), 
+                    pur nella diversità e nelle sollecitazioni un po’ aggressive, e si candidano a rappresentare la migliore base per una unione. 
+                    Seguono i segni in opposizione e quelli in congiunzione.
+                </Paragraph>
+
+                <Paragraph>
+                    I segni a 90 o a 180 o a 0 gradi, potrebbero chiamarsi “segni di destino” perché, nel bene e nel male, tendono a cambiarci 
+                    la vita e possono corrispondere ad un marito, un amante, un capo nel lavoro, una grande amica o una grande nemica, 
+                    una rivale, un genitore, un figlio, etc.
+                </Paragraph>
+
+                <Paragraph>
+                    Se, mettiamo, un Capricorno ha avuto una pessima esperienza matrimoniale con una Bilancia, dovendo scegliere nuovamente, 
+                    non deve affatto “cambiare segno”, ma – anzi – insistere rispetto allo stesso.
+                </Paragraph>
+                                
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+    </Grid>
+</Window>

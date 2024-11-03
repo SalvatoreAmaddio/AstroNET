@@ -11,7 +11,7 @@ namespace AstroNET
 {
     public partial class App : Application
     {
-        private void Settings() 
+        private static void FunctionBridge() 
         {
             PointFactory.CreateHouse = (houseId, eclipticLongitude) =>
             {
@@ -73,7 +73,8 @@ namespace AstroNET
 
             DatabaseManager.Add(new SQLiteDatabase<SavedCharts>());
 
-            Settings();
+            FunctionBridge();
+
             this.DisposeOnExit(); // ensure Databases are disposed on Application' shutdown.
         }
     }
